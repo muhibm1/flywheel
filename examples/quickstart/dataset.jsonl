@@ -1,0 +1,8 @@
+{"id":"10c80089cdc0","inputs":{"message":"I want a refund for last month"},"metadata":{"source":"seed"},"reference_outputs":{"team":"billing"}}
+{"id":"8154c8690cef","inputs":{"message":"I was charged twice for one order"},"metadata":{"source":"seed"},"reference_outputs":{"team":"billing"}}
+{"id":"9e83f7e1c5e7","inputs":{"message":"Where is my invoice?"},"metadata":{"source":"seed"},"reference_outputs":{"team":"billing"}}
+{"id":"0aa6824ba55d","inputs":{"message":"I forgot my password"},"metadata":{"source":"seed"},"reference_outputs":{"team":"account"}}
+{"id":"2b42cf335977","inputs":{"message":"I can't log in on my phone"},"metadata":{"source":"seed"},"reference_outputs":{"team":"account"}}
+{"id":"e4953593c7ec","inputs":{"message":"The app crashes when I open settings"},"metadata":{"source":"seed"},"reference_outputs":{"team":"engineering"}}
+{"id":"adc357a1e182","inputs":{"message":"I get an error on checkout"},"metadata":{"source":"seed"},"reference_outputs":{"team":"engineering"}}
+{"id":"bed1aa61a580","inputs":{"message":"Do you ship to Canada?"},"metadata":{"source":"seed"},"reference_outputs":{"team":"general"}}
