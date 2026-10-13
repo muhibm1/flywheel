@@ -48,6 +48,20 @@ live experiments. Flywheel passed it with one case wobbling inside the allowance
 check means a real change, not model noise. Reports and raw results:
 [docs/results/agentops-2026-10-13.md](docs/results/agentops-2026-10-13.md).
 
+## A second agent: the same result, a different kind of agent
+
+The [Studbook agent](https://github.com/muhibm1/studbook-agent) answers questions about my
+projects' design records, with citations, and refuses when the records do not say. It shares no
+code with AgentOps. Flywheel ran it unchanged, with three new checks: did it cite the right
+section, did it refuse exactly when it should, and did a model judge the answer correct.
+
+On 36 questions, 3 runs each, on Claude Haiku 4.5, the agent's weak spot was questions that need
+two records together. I added a prompt paragraph on comparing records. The averages barely
+moved: correct answers fell from 95 to 91 of 108 runs, which reads as noise. The per-case view
+did not: the paragraph fixed 3 questions and broke 5, and one of the broken ones was an
+unanswerable question the agent started answering with an invented fact. Flywheel blocked it.
+[Report](https://github.com/muhibm1/studbook-agent/blob/main/docs/results/comparison-prompt-2026-10-13.md).
+
 ## How it decides
 
 The question a reviewer asks is "which cases did this break?", not "did the average move?". An
@@ -86,7 +100,7 @@ function grades a run in CI, a LangSmith experiment, and a production trace.
 ## Use it
 
 ```bash
-pip install "langsmith-flywheel[langsmith] @ git+https://github.com/muhibm1/flywheel@v0.1.0"
+pip install "langsmith-flywheel[langsmith] @ git+https://github.com/muhibm1/flywheel@23f330a943ee8b124ca33c8d3391b4ad29c78531"
 ```
 
 Write `flywheel.toml` next to your agent:
@@ -132,7 +146,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - uses: muhibm1/flywheel@v0.1.0
+      - uses: muhibm1/flywheel@23f330a943ee8b124ca33c8d3391b4ad29c78531 # v0.1.0
         with:
           config: flywheel/flywheel.toml
           install: python -m pip install -e .
@@ -176,7 +190,7 @@ The core needs only the Python standard library; LangSmith is an optional extra.
 - Three repetitions tell a real break from noise only for large moves. A case that goes from
   3 of 3 to 2 of 3 is reported as a wobble, not blocked. Raise `repetitions` for cases where a
   single failure matters.
-- The AgentOps result is one change on one agent: 7 cases, 3 repetitions, one model. It shows
+- Each result above is one change on one agent: 7 or 36 cases, 3 repetitions, one model. It shows
   the mechanism working. It is not a benchmark.
 
 MIT licensed.
