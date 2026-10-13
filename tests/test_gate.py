@@ -1,0 +1,99 @@
+"""The gate's verdicts, its noise threshold, and its decision."""
+
+from conftest import FAIL, PASS, experiment
+
+from flywheel.config import GateSettings
+from flywheel.gate import compare, metric_verdict, sign_test
+
+SETTINGS = GateSettings(metrics=("ok",))
+
+
+def test_metric_verdicts():
+    """Moves of at least the threshold are broken or fixed; smaller moves are wobbles."""
+    assert metric_verdict(1.0, 0.0, 0.5) == "broken"
+    assert metric_verdict(1.0, 1 / 3, 0.5) == "broken"
+    assert metric_verdict(1.0, 2 / 3, 0.5) == "wobble"
+    assert metric_verdict(0.0, 1.0, 0.5) == "fixed"
+    assert metric_verdict(1.0, 1.0, 0.5) == "steady_pass"
+    assert metric_verdict(0.0, 0.0, 0.5) == "steady_fail"
+    assert metric_verdict(None, 0.0, 0.5) == "new"
+    assert metric_verdict(1.0, None, 0.5) == "removed"
+
+
+def test_one_flipped_run_in_three_does_not_block():
+    """Noise: one repetition in three failing is a wobble and the gate passes."""
+    base = experiment("base", {"a": [PASS, PASS, PASS]})
+    head = experiment("head", {"a": [PASS, FAIL, PASS]})
+    result = compare(base, head, SETTINGS)
+    assert result.passed
+    assert result.cases[0].verdict == "wobble"
+
+
+def test_broken_case_blocks_even_when_the_average_rises():
+    """A case that broke blocks, though two other cases were fixed and the total went up."""
+    base = experiment("base", {"a": [PASS] * 3, "b": [FAIL] * 3, "c": [FAIL] * 3})
+    head = experiment("head", {"a": [FAIL] * 3, "b": [PASS] * 3, "c": [PASS] * 3})
+    result = compare(base, head, SETTINGS)
+    assert not result.passed
+    assert [c.verdict for c in result.cases] == ["broken", "fixed", "fixed"]
+    total = result.totals[0]
+    assert (total.base_passed, total.head_passed) == (3, 6)
+    assert "1 case broke" in result.reasons[0]
+
+
+def test_allowance():
+    """`max_broken` tolerates that many broken cases."""
+    base = experiment("base", {"a": [PASS]})
+    head = experiment("head", {"a": [FAIL]})
+    assert compare(base, head, GateSettings(metrics=("ok",), max_broken=1)).passed
+
+
+def test_new_error_blocks_and_missing_score_fails():
+    """A case that starts raising blocks; a run with no score for the metric is a failure."""
+    base = experiment("base", {"a": [PASS], "b": [PASS]})
+    head = experiment("head", {"a": ["RuntimeError: boom"], "b": [{"other": 1.0}]})
+    result = compare(base, head, SETTINGS)
+    assert not result.passed
+    assert any("error it did not raise before" in reason for reason in result.reasons)
+    assert {c.example_id: c.verdict for c in result.cases} == {"a": "broken", "b": "broken"}
+
+
+def test_errors_on_both_sides_are_not_new():
+    """A case that already raised on the base branch is not a new error."""
+    base = experiment("base", {"a": ["ValueError: x"]})
+    head = experiment("head", {"a": ["ValueError: x"]})
+    result = compare(base, head, SETTINGS)
+    assert result.passed
+    assert result.cases[0].new_error is None
+
+
+def test_new_failing_case_does_not_block():
+    """A case added in the pull request that fails is reported as new, not blocked."""
+    base = experiment("base", {"a": [PASS]})
+    head = experiment("head", {"a": [PASS], "b": [FAIL]})
+    result = compare(base, head, SETTINGS)
+    assert result.passed
+    assert result.cases[0].verdict == "new"
+    assert result.totals[0].head_runs == 1  # totals compare shared cases only
+
+
+def test_metrics_default_to_binary_scores():
+    """Without configured metrics, only scores that are always 0 or 1 are gated."""
+    base = experiment("base", {"a": [{"ok": 1.0, "latency": 120.0}]})
+    head = experiment("head", {"a": [{"ok": 1.0, "latency": 90.0}]})
+    result = compare(base, head, GateSettings())
+    assert [t.metric for t in result.totals] == ["ok"]
+
+
+def test_empty_head_blocks():
+    """An experiment with no runs can never pass."""
+    result = compare(experiment("base", {"a": [PASS]}), experiment("head", {}), SETTINGS)
+    assert not result.passed
+
+
+def test_sign_test():
+    """No moves gives no p-value; a lopsided split gives a small one; an even split gives 1."""
+    assert sign_test(0, 0) is None
+    assert sign_test(3, 3) == 1.0
+    assert sign_test(0, 8) < 0.01
+    assert abs(sign_test(1, 0) - 1.0) < 1e-9
