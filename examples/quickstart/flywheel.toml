@@ -1,0 +1,13 @@
+[flywheel]
+target = "agent:target"
+evaluators = ["agent:correct_team", "agent:not_general_when_specific"]
+dataset = "dataset.jsonl"
+repetitions = 1
+langsmith_dataset = "flywheel-quickstart"
+
+[gate]
+max_broken = 0
+
+[mine]
+project = "flywheel-quickstart"
+rules = [{ key = "correct_team", below = 1 }]
