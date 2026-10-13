@@ -1,0 +1,133 @@
+name: Flywheel regression gate
+description: >-
+  Run your agent's test cases on the pull request and on its base branch, compare them case by
+  case, comment the result on the pull request, and fail the check when a case broke.
+branding:
+  icon: refresh-cw
+  color: green
+
+inputs:
+  config:
+    description: Path to flywheel.toml, relative to the repository root.
+    default: flywheel.toml
+  install:
+    description: >-
+      Command that installs the code under test. Run once in a checkout of the base branch and
+      once in the pull request's checkout.
+    default: python -m pip install -e .
+  backend:
+    description: "`local` (in the runner) or `langsmith` (needs LANGSMITH_API_KEY in env)."
+    default: local
+  repetitions:
+    description: Override the configured repetitions.
+    default: ""
+  comment:
+    description: Post or update one comment on the pull request with the report.
+    default: "true"
+  github-token:
+    description: "Token used to fetch the base branch and to comment. Needs `pull-requests: write` to comment."
+    default: ${{ github.token }}
+
+outputs:
+  passed:
+    description: "`true` when the gate passed."
+    value: ${{ steps.gate.outputs.passed }}
+  report:
+    description: Path to the Markdown report.
+    value: ${{ steps.gate.outputs.report }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install Flywheel
+      shell: bash
+      run: python -m pip install "${GITHUB_ACTION_PATH}[langsmith]"
+
+    - name: Check out the base branch
+      id: base
+      shell: bash
+      env:
+        BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        TOKEN: ${{ inputs.github-token }}
+      run: |
+        if [ -z "$BASE_SHA" ]; then
+          echo "Flywheel compares a pull request with its base; this event has no base." >&2
+          exit 1
+        fi
+        # Works with `persist-credentials: false` checkouts and private repositories.
+        auth=$(printf 'x-access-token:%s' "$TOKEN" | base64 | tr -d '\n')
+        git -c "http.extraheader=AUTHORIZATION: basic $auth" \
+          fetch --no-tags --depth=1 origin "$BASE_SHA"
+        git worktree add --detach "$RUNNER_TEMP/flywheel-base" "$BASE_SHA"
+        echo "dir=$RUNNER_TEMP/flywheel-base" >> "$GITHUB_OUTPUT"
+
+    # The base run uses the base branch's code with the pull request's test cases and adapter,
+    # so a case the pull request adds gets a "before" too: a fix that comes with its own
+    # regression test shows up as fixed.
+    - name: Run the base branch
+      shell: bash
+      env:
+        INSTALL: ${{ inputs.install }}
+        CONFIG: ${{ github.workspace }}/${{ inputs.config }}
+        BACKEND: ${{ inputs.backend }}
+        REPETITIONS: ${{ inputs.repetitions }}
+        FLYWHEEL_GIT_SHA: ${{ github.event.pull_request.base.sha }}
+      run: |
+        (cd "${{ steps.base.outputs.dir }}" && eval "$INSTALL")
+        cd "$(dirname "$CONFIG")"
+        flywheel --config "$CONFIG" run --label base --backend "$BACKEND" \
+          ${REPETITIONS:+--repetitions "$REPETITIONS"} --out "$RUNNER_TEMP/flywheel-base.json"
+
+    - name: Run the pull request
+      shell: bash
+      env:
+        INSTALL: ${{ inputs.install }}
+        CONFIG: ${{ github.workspace }}/${{ inputs.config }}
+        BACKEND: ${{ inputs.backend }}
+        REPETITIONS: ${{ inputs.repetitions }}
+        FLYWHEEL_GIT_SHA: ${{ github.event.pull_request.head.sha }}
+      run: |
+        eval "$INSTALL"
+        cd "$(dirname "$CONFIG")"
+        flywheel --config "$CONFIG" run --label head --backend "$BACKEND" \
+          ${REPETITIONS:+--repetitions "$REPETITIONS"} --out "$RUNNER_TEMP/flywheel-head.json"
+
+    - name: Compare
+      id: gate
+      shell: bash
+      env:
+        CONFIG: ${{ github.workspace }}/${{ inputs.config }}
+      run: |
+        set +e
+        flywheel --config "$CONFIG" gate --base "$RUNNER_TEMP/flywheel-base.json" \
+          --head "$RUNNER_TEMP/flywheel-head.json" --report "$RUNNER_TEMP/flywheel.md" > /dev/null
+        code=$?
+        set -e
+        echo "report=$RUNNER_TEMP/flywheel.md" >> "$GITHUB_OUTPUT"
+        if [ "$code" = 0 ]; then echo "passed=true" >> "$GITHUB_OUTPUT"; else echo "passed=false" >> "$GITHUB_OUTPUT"; fi
+        if [ "$code" -gt 1 ]; then exit "$code"; fi
+
+    - name: Comment on the pull request
+      if: inputs.comment == 'true'
+      shell: bash
+      continue-on-error: true
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        PR: ${{ github.event.pull_request.number }}
+        REPO: ${{ github.repository }}
+      run: |
+        existing=$(gh api "repos/$REPO/issues/$PR/comments" --paginate \
+          --jq '[.[] | select(.body | startswith("<!-- flywheel-report -->"))][0].id // empty')
+        if [ -n "$existing" ]; then
+          gh api -X PATCH "repos/$REPO/issues/comments/$existing" -F body=@"$RUNNER_TEMP/flywheel.md" > /dev/null
+        else
+          gh api -X POST "repos/$REPO/issues/$PR/comments" -F body=@"$RUNNER_TEMP/flywheel.md" > /dev/null
+        fi
+
+    - name: Decide
+      shell: bash
+      run: |
+        if [ "${{ steps.gate.outputs.passed }}" != "true" ]; then
+          echo "Flywheel blocked this change; the report is in the job summary." >&2
+          exit 1
+        fi
