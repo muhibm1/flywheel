@@ -13,6 +13,7 @@
 import warnings
 from collections.abc import Callable, Iterable
 from datetime import UTC, datetime
+from itertools import islice
 from typing import Any
 
 from flywheel.config import MineSettings
@@ -77,6 +78,14 @@ def node_steps(ls: Any, root: Any) -> list[NodeStep]:
     return ordered
 
 
+def root_runs(ls: Any, project: str, *, since: datetime | None, limit: int) -> list[Any]:
+    """Up to `limit` root runs of `project`, newest first.
+
+    The API caps one page at 100 runs, so the client pages and this stops after `limit`."""
+    pages = quietly(lambda: ls.list_runs(project_name=project, is_root=True, start_time=since))
+    return quietly(lambda: list(islice(pages, limit)))
+
+
 def fetch_traced_runs(
     ls: Any,
     project: str,
@@ -86,11 +95,7 @@ def fetch_traced_runs(
     limit: int = 200,
 ) -> list[TracedRun]:
     """The project's root runs, newest first, with nodes fetched for the failures only."""
-    roots = quietly(
-        lambda: list(
-            ls.list_runs(project_name=project, is_root=True, start_time=since, limit=limit)
-        )
-    )
+    roots = root_runs(ls, project, since=since, limit=limit)
     runs = []
     for root in roots:
         traced = TracedRun(
@@ -232,7 +237,15 @@ def queue_for_review(ls: Any, queue: str, run_ids: Iterable[str], rubric: str) -
     return str(queue_id)
 
 
-def write_feedback(ls: Any, run_id: str, scores: dict[str, float], comment: str | None) -> None:
+def write_feedback(ls: Any, run: Any, scores: dict[str, float], comment: str | None) -> None:
     """Attach each score to the run as feedback, marked as written by Flywheel."""
     for key, score in scores.items():
-        ls.create_feedback(run_id, key, score=score, comment=comment, source_info=FEEDBACK_SOURCE)
+        ls.create_feedback(
+            run.id,
+            key,
+            score=score,
+            comment=comment,
+            source_info=FEEDBACK_SOURCE,
+            trace_id=run.trace_id,
+            session_id=run.session_id,
+        )

@@ -263,7 +263,7 @@ def cmd_score(args: argparse.Namespace, cfg: Config) -> int:
             evaluators, inputs, dict(run.outputs), reference_of(inputs) or {}
         )
         comment = "; ".join(f"{name}: {error}" for name, error in errors.items()) or None
-        langsmith_backend.write_feedback(ls, str(run.id), scores, comment)
+        langsmith_backend.write_feedback(ls, run, scores, comment)
         scored += 1
     print(f"Scored {scored} of {len(runs)} root run(s) in {project}.")
     return 0
@@ -331,6 +331,12 @@ def main(argv: list[str] | None = None) -> int:
     except (ConfigError, dataset.DatasetError) as error:
         print(f"flywheel: {error}", file=sys.stderr)
         return 2
+    except Exception as error:
+        # A LangSmith API failure is reported in one line, not a traceback.
+        if type(error).__module__.startswith("langsmith"):
+            print(f"flywheel: LangSmith: {error}", file=sys.stderr)
+            return 1
+        raise
 
 
 if __name__ == "__main__":
