@@ -1,0 +1,41 @@
+{
+  "backend": "local",
+  "created_at": "2026-10-19T17:22:51+00:00",
+  "dataset_version": "a54c83f2bf7c",
+  "examples": {
+    "d7f5b1d40e05": "{\"email_input\":{\"author\":\"Community Pool <info@cityrecreation.org>\",\"email_thread\":\"Dear Lance,\\n\\nSummer swimming registration is now open! Based on your daug\u2026",
+    "d936c521e222": "{\"email_input\":{\"author\":\"GitHub <notifications@github.com>\",\"email_thread\":\"Hey there!\\n\\nalex-dev commented on your pull request #42 in langchain-ai/project:\u2026"
+  },
+  "git_sha": "0ff137884f8e12ce7223ca88373ffeace51526ec",
+  "label": "head-haiku-rest6b-d1",
+  "name": null,
+  "repetitions": 1,
+  "runs": [
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d7f5b1d40e05",
+      "latency_ms": 32481.6,
+      "repetition": 1,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d936c521e222",
+      "latency_ms": 36139.9,
+      "repetition": 1,
+      "scores": {
+        "triage": 0.0
+      },
+      "url": null
+    }
+  ],
+  "schema": 1,
+  "url": null
+}

@@ -5,7 +5,9 @@ A long subscription run can be cut short by a spent usage window. Every finished
 with the config's evaluators, and writes `runs/<label>.json`. It prints the cases still missing,
 for a `flywheel run --only` of the rest.
 
-Usage (from an agent folder): python ../assemble.py LABEL [--missing]
+Usage (from an agent folder): python ../assemble.py LABEL [--missing] [--repetitions N]
+
+With `--repetitions N` it keeps N answers per case and writes `runs/<label>-xN.json`.
 """
 
 import glob
@@ -21,6 +23,11 @@ from flywheel.scores import score_all
 
 label = sys.argv[1]
 cfg = config.load(Path("flywheel.toml"))
+reps = cfg.repetitions
+out = Path(f"runs/{label}.json")
+if "--repetitions" in sys.argv:
+    reps = int(sys.argv[sys.argv.index("--repetitions") + 1])
+    out = Path(f"runs/{label}-x{reps}.json")
 examples = dataset.load(cfg.dataset)
 answers = defaultdict(list)
 for path in sorted(glob.glob(f"runs/{label}.outputs.jsonl")) + sorted(
@@ -29,7 +36,7 @@ for path in sorted(glob.glob(f"runs/{label}.outputs.jsonl")) + sorted(
     for line in Path(path).read_text().splitlines():
         row = json.loads(line)
         answers[inputs_id(row["inputs"])].append(row["outputs"])
-missing = [e.id for e in examples if len(answers[e.id]) < cfg.repetitions]
+missing = [e.id for e in examples if len(answers[e.id]) < reps]
 if "--missing" in sys.argv:
     print(",".join(missing))
     sys.exit(0)
@@ -38,15 +45,15 @@ if missing:
 evaluators = cfg.evaluator_callables()
 runs = []
 for e in examples:
-    for rep, out in enumerate(answers[e.id][: cfg.repetitions], start=1):
-        scores, errors = score_all(evaluators, e.inputs, out, e.reference_outputs)
+    for rep, answer in enumerate(answers[e.id][:reps], start=1):
+        scores, errors = score_all(evaluators, e.inputs, answer, e.reference_outputs)
         runs.append(RunRecord(e.id, rep, scores, evaluator_errors=errors))
 Experiment(
     label=label,
     backend="local",
     dataset_version=dataset.version(examples),
-    repetitions=cfg.repetitions,
+    repetitions=reps,
     runs=runs,
     examples={e.id: summary(e.inputs) for e in examples},
-).save(Path(f"runs/{label}.json"))
+).save(out)
 print(f"{label}: {len(runs)} runs assembled")
