@@ -1,0 +1,89 @@
+{
+  "backend": "local",
+  "created_at": "2026-10-19T07:23:19+00:00",
+  "dataset_version": "a95dd70ae44e",
+  "examples": {
+    "18a03f4cb488": "{\"question\":\"Not counting the General Manager, which employee has the most people reporting to them, directly or through others? Give their full name.\"}",
+    "54b8bbc25c54": "{\"question\":\"Which playlist contains the most tracks from the 'Rock' genre, and how many Rock tracks does it contain? Count each track once.\"}"
+  },
+  "git_sha": "d83036f086469028e471f5f95dc0da08ac9e4a30",
+  "label": "base-retry",
+  "name": null,
+  "repetitions": 3,
+  "runs": [
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "18a03f4cb488",
+      "latency_ms": 116985.0,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "18a03f4cb488",
+      "latency_ms": 86346.7,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "18a03f4cb488",
+      "latency_ms": 102309.8,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "54b8bbc25c54",
+      "latency_ms": 93596.0,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "54b8bbc25c54",
+      "latency_ms": 112411.5,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "54b8bbc25c54",
+      "latency_ms": 103777.9,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    }
+  ],
+  "schema": 1,
+  "url": null
+}

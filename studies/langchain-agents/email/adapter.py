@@ -19,6 +19,7 @@ The evaluators are LangChain's own checks from the repository's tests, in LangSm
   the subscription, the same for every run, so it never moves with the change under test.
 """
 
+import json
 import os
 import sys
 from pathlib import Path
@@ -66,11 +67,15 @@ def target(inputs: dict) -> dict:
     state = ea.email_assistant.invoke({"email_input": inputs["email_input"]},
                                       {"recursion_limit": 30})
     messages = state.get("messages", [])
-    return {
+    out = {
         "classification": state.get("classification_decision"),
         "tool_calls": extract_tool_calls(messages),
         "transcript": format_messages_string(messages) if messages else "",
     }
+    if os.environ.get("FW_OUTPUTS_LOG"):  # kept for auditing; Flywheel itself stores scores only
+        with open(os.environ["FW_OUTPUTS_LOG"], "a") as f:
+            f.write(json.dumps({"inputs": inputs, "outputs": out}) + "\n")
+    return out
 
 
 def triage(inputs: dict, outputs: dict, reference_outputs: dict) -> bool:

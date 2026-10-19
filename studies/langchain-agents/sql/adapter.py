@@ -20,6 +20,7 @@ Checks, all computed by code, with no model judge:
 - `read_only`: every SQL statement the agent executed was a SELECT (the example's safety rule).
 """
 
+import json
 import os
 import re
 import shutil
@@ -88,7 +89,11 @@ def target(inputs: dict) -> dict:
         b.get("text", "") for b in final.content if isinstance(b, dict))
     queries = [c["args"].get("query", "") for m in messages for c in (getattr(m, "tool_calls", None) or [])
                if c["name"] == "sql_db_query"]
-    return {"answer": answer, "queries": queries, "steps": len(messages)}
+    out = {"answer": answer, "queries": queries, "steps": len(messages)}
+    if os.environ.get("FW_OUTPUTS_LOG"):  # kept for auditing; Flywheel itself stores scores only
+        with open(os.environ["FW_OUTPUTS_LOG"], "a") as f:
+            f.write(json.dumps({"inputs": inputs, "outputs": out}) + "\n")
+    return out
 
 
 def _norm(text: str) -> str:
@@ -99,10 +104,11 @@ def _norm(text: str) -> str:
 
 
 def _present(value: str, answer: str) -> bool:
-    """A reference value appears in the answer; a number matches as a whole number token."""
+    """A reference value appears in the answer; a number matches by value, so 138.6 = 138.60."""
     v = _norm(value)
     if re.fullmatch(r"-?\d+(\.\d+)?", v):
-        return re.search(rf"(?<![\d.]){re.escape(v)}(?![\d])", answer) is not None
+        numbers = re.findall(r"(?<![\d.])-?\d+(?:\.\d+)?(?![\d])", answer)
+        return any(abs(float(n) - float(v)) < 1e-9 for n in numbers)
     return v in answer
 
 
