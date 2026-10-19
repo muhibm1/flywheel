@@ -36,30 +36,39 @@ where nothing changed. The plan, cases and decision rules were written down befo
   checked against the database before any agent saw them. The agent still got almost all of
   them right: this agent on Claude is genuinely strong on this database.
 
-### Email assistant: 20 cases, 3 runs each
+### Email assistant: 20 cases, 6 runs each
 
 The 20 cases are LangChain's own 16 labelled emails plus 4 that Flywheel mined from traffic
-(below). They are scored by LangChain's own three checks from the repository's tests.
+(below). They are scored by LangChain's own three checks from the repository's tests. The plan
+said 3 runs per case; at 3 runs the control blocked (below), so every side was run 3 more times
+and both gates were run again at 6. Both rounds are reported.
 
 | | Sonnet 4.5 (main) | Sonnet 4.5 (control) | Haiku 4.5 (change) |
 |---|---|---|---|
-| Sorted into the right category | 51 / 60 (85%) | 49 / 60 (82%) | 53 / 60 (88%) |
-| Called every expected tool (reply emails) | 18 / 33 | 17 / 33 | 15 / 33 |
-| Reply met LangChain's criteria (model judge) | 17 / 33 | 18 / 33 | 14 / 33 |
+| Sorted into the right category | 99 / 120 (83%) | 101 / 120 (84%) | 105 / 120 (88%) |
+| Called every expected tool (reply emails) | 36 / 66 (55%) | 34 / 66 (52%) | 30 / 66 (45%) |
+| Reply met LangChain's criteria (model judge) | 32 / 66 (48%) | 33 / 66 (50%) | 27 / 66 (41%) |
 
-- **Flywheel's verdict on the move to Haiku: blocked**, on one case. A new colleague asks for a
-  30-minute chat; LangChain's criteria say the agent must check the calendar before proposing
-  times. Main did so in 2 of 3 runs, Haiku in 0 of 3: it wrote back with times it never checked.
-- **But the control blocked on the same case.** A second run of unchanged Sonnet also skipped the
-  calendar 3 times out of 3. So this block is not evidence against Haiku: the agent skips the
-  calendar check on this email often, whichever model runs it, and 3 runs per case is too few
-  to tell a change from that noise. An earlier control on this agent passed, so one control of
-  two false-blocked.
+- **Flywheel's verdict on the move to Haiku: blocked**, on one case, at 3 runs and again at 6. A
+  new colleague asks for a 30-minute chat; LangChain's criteria say the agent must check the
+  calendar before proposing times. Main did so in 4 of 6 runs, Haiku in 0 of 6: it wrote back
+  with times it never checked.
+- **But the control blocked on the same case, at 3 runs and at 6.** A second run of unchanged
+  Sonnet checked the calendar in 0 of 6 runs. Across both Sonnet runs it checked in 4 of 12, so
+  this email is a coin toss that lands badly about two times in three, whichever model runs it.
+  The main run happened to land well, and Flywheel compares each case against that one run. So
+  this block is not evidence against Haiku, and more runs alone did not cure it.
+- **What does point at Haiku is spread thin.** Haiku called the expected tools in 30 of 66 reply
+  runs against 34 to 36 for Sonnet, and met the criteria in 27 against 32 to 33. No single case
+  moved enough to count as broken. Haiku sorted emails slightly better (105 of 120).
 - **The real finding about the agent is the skipped calendar check.** On meeting requests it
   often proposes times without looking at the calendar, which a user would only notice when
   they are double-booked. Flywheel surfaced it from traffic, not from LangChain's own cases.
 - The email agent is hard for every model on reply quality: about half of the replies meet
   LangChain's written criteria. The criteria are strict (exact tools, exact content).
+- At 3 runs the numbers were: triage 51, 49 and 53 of 60; tools 18, 17 and 15 of 33; criteria
+  17, 18 and 14 of 33 (main, control, Haiku). Reports: `email/runs/gate-*.md` (3 runs) and
+  `email/runs/gate-*-x6.md` (6 runs).
 
 ### Mining: real failures become tests
 
@@ -108,12 +117,15 @@ broken run.
 - **LangSmith's free monthly trace limit was used up**, so the traffic traces were exported to a
   file and mined with `flywheel mine --from-file` rather than read from LangSmith.
 - Usage limits cut some runs short. `assemble.py` rebuilds a run from its saved answers and the
-  remaining cases were run separately; each case keeps its first 3 answers.
+  remaining cases were run separately; each case keeps its first 3 answers (or 6).
 
 ## Gaps
 
-- **3 runs per case is too few for the email agent.** Its control false-blocked. More runs per
-  case, or a looser broken-case threshold for agents this noisy, is the next step.
+- **The email control false-blocks, at 3 runs and at 6.** The cause is one case that passes
+  about a third of the time: compared against a single main run, two runs of the same model can
+  land 4 of 6 and 0 of 6. More runs did not fix it. The fix belongs in Flywheel: compare each
+  case against the main branch's pooled history, or use a per-case statistical test, instead of
+  a single main run. Until then, a block on a case like this one needs a person to read it.
 - **Native API parity is not yet checked.** A small paid run of the Haiku side on LangChain's own
   `ChatAnthropic` client would show whether the subscription route gives the same verdicts.
   It is ready (`apiguard.py` enforces a hard spending cap) but has not run.

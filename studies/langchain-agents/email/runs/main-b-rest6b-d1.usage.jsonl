@@ -1,0 +1,4 @@
+{"t": 1792430555.3254247, "model": "claude-sonnet-4-5", "input": 10, "cache_read": 0, "cache_write": 8690, "output": 569, "chars": 2803}
+{"t": 1792430581.9649832, "model": "claude-sonnet-4-5", "input": 18, "cache_read": 17547, "cache_write": 2766, "output": 1030, "chars": 6138}
+{"t": 1792430594.6701622, "model": "claude-sonnet-4-5", "input": 10, "cache_read": 7978, "cache_write": 1841, "output": 306, "chars": 7201}
+{"t": 1792430601.8311117, "model": "claude-sonnet-4-6", "input": 3, "cache_read": 6953, "cache_write": 1865, "output": 430, "chars": 4248}
