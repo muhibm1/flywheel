@@ -15,16 +15,18 @@ from collections import defaultdict
 from pathlib import Path
 
 from flywheel import config, dataset
-from flywheel.experiment import Experiment, RunRecord, summary
 from flywheel.dataset import inputs_id
+from flywheel.experiment import Experiment, RunRecord, summary
 from flywheel.scores import score_all
 
 label = sys.argv[1]
 cfg = config.load(Path("flywheel.toml"))
 examples = dataset.load(cfg.dataset)
 answers = defaultdict(list)
-for path in sorted(glob.glob(f"runs/{label}.outputs.jsonl")) + sorted(glob.glob(f"runs/{label}-rest*.outputs.jsonl")):
-    for line in open(path):
+for path in sorted(glob.glob(f"runs/{label}.outputs.jsonl")) + sorted(
+    glob.glob(f"runs/{label}-rest*.outputs.jsonl")
+):
+    for line in Path(path).read_text().splitlines():
         row = json.loads(line)
         answers[inputs_id(row["inputs"])].append(row["outputs"])
 missing = [e.id for e in examples if len(answers[e.id]) < cfg.repetitions]
@@ -40,7 +42,11 @@ for e in examples:
         scores, errors = score_all(evaluators, e.inputs, out, e.reference_outputs)
         runs.append(RunRecord(e.id, rep, scores, evaluator_errors=errors))
 Experiment(
-    label=label, backend="local", dataset_version=dataset.version(examples),
-    repetitions=cfg.repetitions, runs=runs, examples={e.id: summary(e.inputs) for e in examples},
+    label=label,
+    backend="local",
+    dataset_version=dataset.version(examples),
+    repetitions=cfg.repetitions,
+    runs=runs,
+    examples={e.id: summary(e.inputs) for e in examples},
 ).save(Path(f"runs/{label}.json"))
 print(f"{label}: {len(runs)} runs assembled")
