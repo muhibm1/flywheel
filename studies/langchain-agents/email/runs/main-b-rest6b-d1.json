@@ -1,0 +1,29 @@
+{
+  "backend": "local",
+  "created_at": "2026-10-19T17:23:21+00:00",
+  "dataset_version": "6f07dd80c2aa",
+  "examples": {
+    "f390e1681d84": "{\"email_input\":{\"author\":\"Sarah Johnson <sarah.j@partner.com>\",\"email_thread\":\"Lance,\\n\\nI've attached the final version of our proposal for the Henderson proj\u2026"
+  },
+  "git_sha": "6c3d3faf871a4ee7940adb3511d73eab2e60eee8",
+  "label": "main-b-rest6b-d1",
+  "name": null,
+  "repetitions": 1,
+  "runs": [
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "f390e1681d84",
+      "latency_ms": 61098.4,
+      "repetition": 1,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    }
+  ],
+  "schema": 1,
+  "url": null
+}

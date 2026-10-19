@@ -1,0 +1,425 @@
+{
+  "backend": "local",
+  "created_at": "2026-10-19T17:28:41+00:00",
+  "dataset_version": "4adbbb34051d",
+  "examples": {
+    "16e8090d3b20": "{\"email_input\":{\"author\":\"Lincoln Elementary <office@lincolnelementary.org>\",\"email_thread\":\"Dear Parent,\\n\\nYour daughter Emma's class is presenting at the sc\u2026",
+    "2368ed5bdcc6": "{\"email_input\":{\"author\":\"Marketing Team <marketing@openai.com>\",\"email_thread\":\"Hi Lance,\\n\\nWe're excited to announce that we've released a new model from Op\u2026",
+    "36cae117a337": "{\"email_input\":{\"author\":\"AWS Monitoring <no-reply@aws.amazon.com>\",\"email_thread\":\"ALERT: High CPU Utilization\\n\\nThe following EC2 instance has exceeded the \u2026",
+    "48793f4067db": "{\"email_input\":{\"author\":\"Rachel Kim <rachel.kim@company.com>\",\"email_thread\":\"Hi Lance,\\n\\nI just joined the applied AI team and would love to pick your brain\u2026",
+    "714903d07aba": "{\"email_input\":{\"author\":\"Dr. Roberts <droberts@medical.org>\",\"email_thread\":\"Hello Lance,\\n\\nThis is a reminder that it's time for your annual checkup. Our re\u2026",
+    "782e6b5fb339": "{\"email_input\":{\"author\":\"Social Media Platform <notifications@social.com>\",\"email_thread\":\"Hi Lance,\\n\\n5 people liked your recent post about \\\"Machine Learni\u2026",
+    "7ef49c4cebe7": "{\"email_input\":{\"author\":\"Client Success <success@vendor.com>\",\"email_thread\":\"Hello Lance,\\n\\nThis is a friendly reminder that your annual subscription to our\u2026",
+    "7fd34b3c68ac": "{\"email_input\":{\"author\":\"CI Bot <ci@company.com>\",\"email_thread\":\"Build #4821 on main FAILED.\\n\\nStage: integration-tests\\nFailed test: test_streaming_metadat\u2026",
+    "b04a1ebbfaa5": "{\"email_input\":{\"author\":\"Project Team <project@company.com>\",\"email_thread\":\"Hi Lance,\\n\\nThe leadership team has asked us to prepare a joint presentation on \u2026",
+    "b1391c55ef27": "{\"email_input\":{\"author\":\"Omar Haddad <omar@company.com>\",\"email_thread\":\"Lance,\\n\\nWe need one more interviewer for a staff engineer candidate on Friday. The \u2026",
+    "e9092291cb7c": "{\"email_input\":{\"author\":\"Team Lead <teamlead@company.com>\",\"email_thread\":\"Hi Lance,\\n\\nIt's time for our quarterly planning session. I'd like to schedule a 9\u2026"
+  },
+  "git_sha": "6c3d3faf871a4ee7940adb3511d73eab2e60eee8",
+  "label": "head-haiku-rest6b-d3",
+  "name": null,
+  "repetitions": 3,
+  "runs": [
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "e9092291cb7c",
+      "latency_ms": 60375.5,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "e9092291cb7c",
+      "latency_ms": 47354.2,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "e9092291cb7c",
+      "latency_ms": 50824.5,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "36cae117a337",
+      "latency_ms": 10062.7,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "36cae117a337",
+      "latency_ms": 8932.8,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "36cae117a337",
+      "latency_ms": 10111.3,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7ef49c4cebe7",
+      "latency_ms": 10318.4,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7ef49c4cebe7",
+      "latency_ms": 10355.1,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7ef49c4cebe7",
+      "latency_ms": 7580.4,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "714903d07aba",
+      "latency_ms": 21240.4,
+      "repetition": 1,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "714903d07aba",
+      "latency_ms": 25285.8,
+      "repetition": 2,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "714903d07aba",
+      "latency_ms": 29422.1,
+      "repetition": 3,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "782e6b5fb339",
+      "latency_ms": 10000.4,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "782e6b5fb339",
+      "latency_ms": 9759.7,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "782e6b5fb339",
+      "latency_ms": 10250.6,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b04a1ebbfaa5",
+      "latency_ms": 31162.6,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b04a1ebbfaa5",
+      "latency_ms": 36316.1,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b04a1ebbfaa5",
+      "latency_ms": 32474.2,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "2368ed5bdcc6",
+      "latency_ms": 6947.4,
+      "repetition": 1,
+      "scores": {
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "2368ed5bdcc6",
+      "latency_ms": 6192.6,
+      "repetition": 2,
+      "scores": {
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "2368ed5bdcc6",
+      "latency_ms": 6665.0,
+      "repetition": 3,
+      "scores": {
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "16e8090d3b20",
+      "latency_ms": 134419.3,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "16e8090d3b20",
+      "latency_ms": 28813.4,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "16e8090d3b20",
+      "latency_ms": 43796.6,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "48793f4067db",
+      "latency_ms": 34083.6,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "48793f4067db",
+      "latency_ms": 27526.0,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "48793f4067db",
+      "latency_ms": 31578.8,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b1391c55ef27",
+      "latency_ms": 39973.8,
+      "repetition": 1,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b1391c55ef27",
+      "latency_ms": 81823.6,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b1391c55ef27",
+      "latency_ms": 34609.6,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7fd34b3c68ac",
+      "latency_ms": 9894.4,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7fd34b3c68ac",
+      "latency_ms": 11910.9,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7fd34b3c68ac",
+      "latency_ms": 12378.8,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    }
+  ],
+  "schema": 1,
+  "url": null
+}
