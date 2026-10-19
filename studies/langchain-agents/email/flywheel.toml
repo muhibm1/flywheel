@@ -1,0 +1,13 @@
+[flywheel]
+target = "adapter:target"
+evaluators = ["adapter:triage", "adapter:tool_calls", "adapter:criteria"]
+dataset = "dataset.jsonl"
+repetitions = 3
+
+[gate]
+max_broken = 0
+min_change = 0.5
+
+[mine]
+rules = [{ key = "triage", below = 1 }, { key = "tool_calls", below = 1 }, { key = "criteria", below = 1 }]
+reference = "adapter:traffic_reference"
