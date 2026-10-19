@@ -1,0 +1,6 @@
+{"t": 1792394425.9214723, "model": "claude-sonnet-4-5", "input": 26, "cache_read": 36059, "cache_write": 2207, "output": 840, "chars": 17262}
+{"t": 1792394426.0650258, "model": "claude-sonnet-4-5", "input": 26, "cache_read": 35997, "cache_write": 2070, "output": 707, "chars": 17262}
+{"t": 1792394434.7477033, "model": "claude-sonnet-4-5", "input": 34, "cache_read": 49253, "cache_write": 2497, "output": 1156, "chars": 17252}
+{"t": 1792394435.0448499, "model": "claude-sonnet-4-5", "input": 42, "cache_read": 62416, "cache_write": 2769, "output": 1292, "chars": 17262}
+{"t": 1792394445.7573543, "model": "claude-sonnet-4-5", "input": 34, "cache_read": 49111, "cache_write": 2441, "output": 873, "chars": 17543}
+{"t": 1792394452.8690782, "model": "claude-sonnet-4-5", "input": 42, "cache_read": 62254, "cache_write": 2534, "output": 1075, "chars": 17533}
