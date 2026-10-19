@@ -1,0 +1,126 @@
+{
+  "backend": "local",
+  "created_at": "2026-10-19T07:35:24+00:00",
+  "dataset_version": "3d3eefdc5f6b",
+  "examples": {
+    "3e9c36acf413": "{\"question\":\"How many tracks are longer than 10 minutes?\"}",
+    "42c328847fd6": "{\"question\":\"How many employees report directly to the General Manager?\"}",
+    "8c2b9661e7c5": "{\"question\":\"What is the total of all invoices issued in 2011, rounded to two decimals?\"}"
+  },
+  "git_sha": "f9cf1212694e5f4c90accd257aed0c9a0fba1fd6",
+  "label": "audit-sonnet45",
+  "name": null,
+  "repetitions": 3,
+  "runs": [
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "3e9c36acf413",
+      "latency_ms": 32820.9,
+      "repetition": 1,
+      "scores": {
+        "correct": 0.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "3e9c36acf413",
+      "latency_ms": 69395.3,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "3e9c36acf413",
+      "latency_ms": 74303.2,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "42c328847fd6",
+      "latency_ms": 76337.7,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "42c328847fd6",
+      "latency_ms": 50774.5,
+      "repetition": 2,
+      "scores": {
+        "correct": 0.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "42c328847fd6",
+      "latency_ms": 68974.0,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "8c2b9661e7c5",
+      "latency_ms": 72141.0,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "8c2b9661e7c5",
+      "latency_ms": 96910.6,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "8c2b9661e7c5",
+      "latency_ms": 77634.9,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    }
+  ],
+  "schema": 1,
+  "url": null
+}

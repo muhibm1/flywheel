@@ -1,0 +1,89 @@
+{
+  "backend": "local",
+  "created_at": "2026-10-19T07:34:15+00:00",
+  "dataset_version": "37e340ec51c2",
+  "examples": {
+    "967bae3075b7": "{\"question\":\"Which artist has the most albums in the store, and how many albums do they have?\"}",
+    "bf6e91ff48f6": "{\"question\":\"How many artists have no albums in the store?\"}"
+  },
+  "git_sha": "f9cf1212694e5f4c90accd257aed0c9a0fba1fd6",
+  "label": "audit-haiku",
+  "name": null,
+  "repetitions": 3,
+  "runs": [
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "967bae3075b7",
+      "latency_ms": 33918.8,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "967bae3075b7",
+      "latency_ms": 35938.2,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "967bae3075b7",
+      "latency_ms": 35770.5,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "bf6e91ff48f6",
+      "latency_ms": 27135.6,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "bf6e91ff48f6",
+      "latency_ms": 47506.6,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "bf6e91ff48f6",
+      "latency_ms": 26325.8,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    }
+  ],
+  "schema": 1,
+  "url": null
+}
