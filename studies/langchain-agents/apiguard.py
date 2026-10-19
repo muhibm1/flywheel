@@ -75,9 +75,14 @@ class SpendGuard(BaseCallbackHandler):
         for gens in response.generations:
             for gen in gens:
                 usage = getattr(getattr(gen, "message", None), "usage_metadata", None) or {}
-                row = {"t": time.time(), "model": self.model, "usd": round(price(self.model, usage), 6),
-                       "input": usage.get("input_tokens"), "output": usage.get("output_tokens"),
-                       "cache": usage.get("input_token_details")}
+                row = {
+                    "t": time.time(),
+                    "model": self.model,
+                    "usd": round(price(self.model, usage), 6),
+                    "input": usage.get("input_tokens"),
+                    "output": usage.get("output_tokens"),
+                    "cache": usage.get("input_token_details"),
+                }
                 with ledger().open("a") as f:
                     fcntl.flock(f, fcntl.LOCK_EX)
                     f.write(json.dumps(row) + "\n")

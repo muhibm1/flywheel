@@ -24,8 +24,14 @@ def one(email: dict) -> dict:
     try:
         out = adapter.target(inputs)
     except Exception as error:
-        return {"id": str(uuid.uuid4()), "name": "email_assistant", "inputs": inputs,
-                "error": f"{type(error).__name__}: {error}"[:300], "nodes": [], "reference": ref}
+        return {
+            "id": str(uuid.uuid4()),
+            "name": "email_assistant",
+            "inputs": inputs,
+            "error": f"{type(error).__name__}: {error}"[:300],
+            "nodes": [],
+            "reference": ref,
+        }
     feedback = {"triage": float(adapter.triage(inputs, out, ref))}
     for ev in (adapter.tool_calls, adapter.criteria):
         score = ev(inputs, out, ref)["score"]
@@ -34,9 +40,18 @@ def one(email: dict) -> dict:
     nodes = [{"name": "triage_router", "error": None if feedback["triage"] else "wrong category"}]
     if out["classification"] == "respond":
         bad = feedback.get("tool_calls", 1) < 1 or feedback.get("criteria", 1) < 1
-        nodes.append({"name": "response_agent", "error": "reply misses the criteria" if bad else None})
-    return {"id": str(uuid.uuid4()), "name": "email_assistant", "inputs": inputs,
-            "outputs": out, "feedback": feedback, "nodes": nodes, "reference": ref}
+        nodes.append(
+            {"name": "response_agent", "error": "reply misses the criteria" if bad else None}
+        )
+    return {
+        "id": str(uuid.uuid4()),
+        "name": "email_assistant",
+        "inputs": inputs,
+        "outputs": out,
+        "feedback": feedback,
+        "nodes": nodes,
+        "reference": ref,
+    }
 
 
 if __name__ == "__main__":

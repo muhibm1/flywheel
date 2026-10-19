@@ -34,10 +34,11 @@ from deepagents import create_deep_agent  # noqa: E402
 from deepagents.backends import FilesystemBackend  # noqa: E402
 from langchain_community.agent_toolkits import SQLDatabaseToolkit  # noqa: E402
 from langchain_community.utilities import SQLDatabase  # noqa: E402
-
 from subchat import SubscriptionChat  # noqa: E402
 
-EXAMPLE = Path(os.environ.get("SQL_EXAMPLE_DIR", "/home/user/ext/deepagents/examples/text-to-sql-agent"))
+EXAMPLE = Path(
+    os.environ.get("SQL_EXAMPLE_DIR", "/home/user/ext/deepagents/examples/text-to-sql-agent")
+)
 DB_PATH = EXAMPLE / "chinook.db"
 
 
@@ -45,9 +46,8 @@ def make_model():
     """The chat model the agent runs on."""
     model_id = os.environ.get("FW_MODEL", "claude-sonnet-4-5")
     if os.environ.get("FW_TRANSPORT", "subscription") == "api":
-        from langchain_anthropic import ChatAnthropic
-
         from apiguard import SpendGuard
+        from langchain_anthropic import ChatAnthropic
 
         return ChatAnthropic(model=model_id, temperature=0, callbacks=[SpendGuard(model_id)])
     return SubscriptionChat(model_id=model_id)
@@ -57,7 +57,9 @@ def build(workdir: Path):
     """The example's agent, rooted in `workdir`."""
     shutil.copy(EXAMPLE / "AGENTS.md", workdir / "AGENTS.md")
     shutil.copytree(EXAMPLE / "skills", workdir / "skills")
-    db = SQLDatabase.from_uri(f"sqlite:///file:{DB_PATH}?mode=ro&uri=true", sample_rows_in_table_info=3)
+    db = SQLDatabase.from_uri(
+        f"sqlite:///file:{DB_PATH}?mode=ro&uri=true", sample_rows_in_table_info=3
+    )
     model = make_model()
     tools = SQLDatabaseToolkit(db=db, llm=model).get_tools()
     agent = create_deep_agent(
@@ -73,8 +75,9 @@ def build(workdir: Path):
 
 def _cwd_safe_invoke(agent, workdir: Path, question: str) -> dict:
     """Invoke the agent; the example resolves its relative paths against the backend root."""
-    return agent.invoke({"messages": [{"role": "user", "content": question}]},
-                        {"recursion_limit": 80})
+    return agent.invoke(
+        {"messages": [{"role": "user", "content": question}]}, {"recursion_limit": 80}
+    )
 
 
 def target(inputs: dict) -> dict:
@@ -85,10 +88,17 @@ def target(inputs: dict) -> dict:
         state = _cwd_safe_invoke(agent, workdir, inputs["question"])
     messages = state["messages"]
     final = messages[-1]
-    answer = final.content if isinstance(final.content, str) else " ".join(
-        b.get("text", "") for b in final.content if isinstance(b, dict))
-    queries = [c["args"].get("query", "") for m in messages for c in (getattr(m, "tool_calls", None) or [])
-               if c["name"] == "sql_db_query"]
+    answer = (
+        final.content
+        if isinstance(final.content, str)
+        else " ".join(b.get("text", "") for b in final.content if isinstance(b, dict))
+    )
+    queries = [
+        c["args"].get("query", "")
+        for m in messages
+        for c in (getattr(m, "tool_calls", None) or [])
+        if c["name"] == "sql_db_query"
+    ]
     out = {"answer": answer, "queries": queries, "steps": len(messages)}
     if os.environ.get("FW_OUTPUTS_LOG"):  # kept for auditing; Flywheel itself stores scores only
         with open(os.environ["FW_OUTPUTS_LOG"], "a") as f:
