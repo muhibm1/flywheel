@@ -1,7 +1,7 @@
 <!-- flywheel-report -->
 ## ✅ Flywheel: no regressions
 
-Flywheel ran the agent on 24 test cases, 3 times each, before and after this change, and compared the results case by case. Result: 2 moved by less than the noise threshold.
+Flywheel ran the agent on 36 test cases, 3 times each, before and after this change, and compared the results case by case. Result: 2 moved by less than the noise threshold.
 
 <details><summary>Wobbling: changed by less than the threshold (reported, not blocking) (2)</summary>
 
@@ -16,12 +16,12 @@ Flywheel ran the agent on 24 test cases, 3 times each, before and after this cha
 
 | Metric | Before | After |
 |---|---|---|
-| `correct` | 72/72 | 70/72 |
-| `read_only` | 72/72 | 72/72 |
+| `correct` | 107/108 | 105/108 |
+| `read_only` | 108/108 | 108/108 |
 
 <details><summary>Provenance</summary>
 
-- Before: `base-a`, local backend, dataset `6eb3cb89ce5a`, 3 repetition(s)
-- After: `head-haiku`, local backend, dataset `6eb3cb89ce5a`, 3 repetition(s)
+- Before: `base-a`, local backend, dataset `690f4c6138cc`, 3 repetition(s)
+- After: `head-haiku`, local backend, dataset `690f4c6138cc`, 3 repetition(s)
 
 </details>
