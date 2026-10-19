@@ -33,7 +33,6 @@ from email_assistant.eval.prompts import RESPONSE_CRITERIA_SYSTEM_PROMPT  # noqa
 from email_assistant.schemas import RouterSchema  # noqa: E402
 from email_assistant.utils import extract_tool_calls, format_messages_string  # noqa: E402
 from pydantic import BaseModel, Field  # noqa: E402
-
 from subchat import SubscriptionChat  # noqa: E402
 
 JUDGE_MODEL = "claude-sonnet-4-6"
@@ -42,19 +41,21 @@ JUDGE_MODEL = "claude-sonnet-4-6"
 def make_model(model_id: str, transport: str):
     """The chat model the agent runs on."""
     if transport == "api":
+        from apiguard import SpendGuard
         from langchain_anthropic import ChatAnthropic
 
-        from apiguard import SpendGuard
-
-        return ChatAnthropic(model=model_id, temperature=0, max_tokens=4096,
-                             callbacks=[SpendGuard(model_id)])
+        return ChatAnthropic(
+            model=model_id, temperature=0, max_tokens=4096, callbacks=[SpendGuard(model_id)]
+        )
     return SubscriptionChat(model_id=model_id)
 
 
 def _install() -> None:
     """Swap the agent's model objects for the configured Claude model."""
-    model = make_model(os.environ.get("FW_MODEL", "claude-sonnet-4-5"),
-                       os.environ.get("FW_TRANSPORT", "subscription"))
+    model = make_model(
+        os.environ.get("FW_MODEL", "claude-sonnet-4-5"),
+        os.environ.get("FW_TRANSPORT", "subscription"),
+    )
     ea.llm_router = model.with_structured_output(RouterSchema)
     ea.llm_with_tools = model.bind_tools(ea.tools, tool_choice="any")
 
@@ -64,8 +65,9 @@ _install()
 
 def target(inputs: dict) -> dict:
     """Run the email assistant on one email and return what the checks need."""
-    state = ea.email_assistant.invoke({"email_input": inputs["email_input"]},
-                                      {"recursion_limit": 30})
+    state = ea.email_assistant.invoke(
+        {"email_input": inputs["email_input"]}, {"recursion_limit": 30}
+    )
     messages = state.get("messages", [])
     out = {
         "classification": state.get("classification_decision"),
@@ -88,14 +90,22 @@ def tool_calls(inputs: dict, outputs: dict, reference_outputs: dict) -> dict:
     if reference_outputs["classification"] != "respond":
         return {"key": "tool_calls", "score": None}
     called = set(outputs.get("tool_calls") or [])
-    return {"key": "tool_calls", "score": all(c.lower() in called for c in reference_outputs["expected_calls"])}
+    return {
+        "key": "tool_calls",
+        "score": all(c.lower() in called for c in reference_outputs["expected_calls"]),
+    }
 
 
 class CriteriaGrade(BaseModel):
     """Score the response against specific criteria."""
 
     grade: bool = Field(description="Does the response meet the provided criteria?")
-    justification: str = Field(description="The justification for the grade and score, including specific examples from the response.")
+    justification: str = Field(
+        description=(
+            "The justification for the grade and score, including specific examples "
+            "from the response."
+        )
+    )
 
 
 _judge = SubscriptionChat(model_id=JUDGE_MODEL).with_structured_output(CriteriaGrade)
@@ -107,13 +117,21 @@ def criteria(inputs: dict, outputs: dict, reference_outputs: dict) -> dict:
         return {"key": "criteria", "score": None}
     if outputs.get("classification") != "respond":
         return {"key": "criteria", "score": False}
-    grade = _judge.invoke([
-        {"role": "system", "content": RESPONSE_CRITERIA_SYSTEM_PROMPT},
-        {"role": "user", "content": (
-            f"\n\n Response criteria: {reference_outputs['criteria']} \n\n Assistant's response: "
-            f"\n\n {outputs['transcript']} \n\n Evaluate whether the assistant's response meets "
-            "the criteria and provide justification for your evaluation.")},
-    ])
+    grade = _judge.invoke(
+        [
+            {"role": "system", "content": RESPONSE_CRITERIA_SYSTEM_PROMPT},
+            {
+                "role": "user",
+                "content": (
+                    f"\n\n Response criteria: {reference_outputs['criteria']} \n\n "
+                    "Assistant's response: "
+                    f"\n\n {outputs['transcript']} \n\n Evaluate whether the assistant's response "
+                    "meets "
+                    "the criteria and provide justification for your evaluation."
+                ),
+            },
+        ]
+    )
     return {"key": "criteria", "score": bool(grade.grade)}
 
 

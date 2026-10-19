@@ -70,13 +70,18 @@ def _run(args: list[str], prompt: str) -> dict:
 def _args(model: str, system: str, schema: dict | None) -> list[str]:
     """Flags for a lean call: no tools, settings, MCP servers or saved session."""
     args = [
-        "--output-format", "json",
-        "--model", model,
-        "--tools", "",
+        "--output-format",
+        "json",
+        "--model",
+        model,
+        "--tools",
+        "",
         "--strict-mcp-config",
-        "--setting-sources", "",
+        "--setting-sources",
+        "",
         "--no-session-persistence",
-        "--system-prompt", system or " ",
+        "--system-prompt",
+        system or " ",
     ]
     if schema is not None:
         args += ["--json-schema", json.dumps(schema)]
@@ -94,8 +99,15 @@ def _log(model: str, result: dict, chars: int) -> dict:
     read = u.get("cache_read_input_tokens") or 0
     write = u.get("cache_creation_input_tokens") or 0
     out = u.get("output_tokens") or 0
-    row = {"t": time.time(), "model": model, "input": plain, "cache_read": read,
-           "cache_write": write, "output": out, "chars": chars}
+    row = {
+        "t": time.time(),
+        "model": model,
+        "input": plain,
+        "cache_read": read,
+        "cache_write": write,
+        "output": out,
+        "chars": chars,
+    }
     with _log_lock, USAGE_LOG.open("a") as f:
         f.write(json.dumps(row) + "\n")
     total_in = plain + read + write
@@ -194,12 +206,14 @@ def tool_schema(tools: list, at_least_one: bool) -> tuple[dict, str]:
         names.append(spec["name"])
         params = inline(spec.get("parameters") or {"type": "object", "properties": {}})
         params["additionalProperties"] = False
-        shapes.append({
-            "type": "object",
-            "properties": {"tool": {"const": spec["name"]}, "args": params},
-            "required": ["tool", "args"],
-            "additionalProperties": False,
-        })
+        shapes.append(
+            {
+                "type": "object",
+                "properties": {"tool": {"const": spec["name"]}, "args": params},
+                "required": ["tool", "args"],
+                "additionalProperties": False,
+            }
+        )
     calls: dict = {"type": "array", "items": {"anyOf": shapes}}
     if at_least_one:
         calls["minItems"] = 1
@@ -218,9 +232,12 @@ def tool_schema(tools: list, at_least_one: bool) -> tuple[dict, str]:
         "of your JSON reply; the system runs it and returns its result in the next turn's "
         "transcript. So all of these tools ARE available: never tell the user they are not. "
         'Reply as {"text": words to the user, "calls": [{"tool": name, "args": {...}}]}.'
-        + (" You must request at least one tool." if at_least_one
-           else " When you are finished, reply with an empty list of calls and your final answer "
-                "to the user in text; text must not be empty then.")
+        + (
+            " You must request at least one tool."
+            if at_least_one
+            else " When you are finished, reply with an empty list of calls and your final answer "
+            "to the user in text; text must not be empty then."
+        )
     )
     return schema, guide
 
@@ -250,11 +267,17 @@ class SubscriptionChat(BaseChatModel):
             self.turns += 1
             out = result["structured_output"]
             calls = [
-                {"name": c["tool"], "args": c.get("args") or {},
-                 "id": f"sc{self.turns}-{i}", "type": "tool_call"}
+                {
+                    "name": c["tool"],
+                    "args": c.get("args") or {},
+                    "id": f"sc{self.turns}-{i}",
+                    "type": "tool_call",
+                }
                 for i, c in enumerate(out.get("calls", []))
             ]
-            message = AIMessage(content=out.get("text") or "", tool_calls=calls, usage_metadata=usage)
+            message = AIMessage(
+                content=out.get("text") or "", tool_calls=calls, usage_metadata=usage
+            )
         else:
             result, usage = _call(self.model_id, system, None, transcript or "Answer now.")
             message = AIMessage(content=str(result["result"]), usage_metadata=usage)
@@ -270,8 +293,12 @@ class SubscriptionChat(BaseChatModel):
         def run(messages: Any) -> BaseModel:
             msgs = self._convert_input(messages).to_messages()
             system, transcript = render(msgs)
-            result, _ = _call(self.model_id, system, inline(schema.model_json_schema()),
-                              transcript or "Answer now.")
+            result, _ = _call(
+                self.model_id,
+                system,
+                inline(schema.model_json_schema()),
+                transcript or "Answer now.",
+            )
             return schema.model_validate(result["structured_output"])
 
         return RunnableLambda(run)

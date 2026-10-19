@@ -6,11 +6,12 @@ Usage: python summarize.py EXPERIMENT.json [DATASET.jsonl]
 import json
 import sys
 from collections import defaultdict
+from pathlib import Path
 
-exp = json.load(open(sys.argv[1]))
+exp = json.loads(Path(sys.argv[1]).read_text())
 meta = {}
 if len(sys.argv) > 2:
-    for line in open(sys.argv[2]):
+    for line in Path(sys.argv[2]).read_text().splitlines():
         row = json.loads(line)
         meta[row["id"]] = row.get("metadata", {})
 totals = defaultdict(lambda: [0, 0])
