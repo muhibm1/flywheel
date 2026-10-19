@@ -58,6 +58,22 @@ def test_new_error_blocks_and_missing_score_fails():
     assert {c.example_id: c.verdict for c in result.cases} == {"a": "broken", "b": "broken"}
 
 
+def test_metric_a_case_never_scores_is_left_out():
+    """A check that declines a case on both sides is not counted as failing there."""
+    settings = GateSettings(metrics=("ok", "reply"))
+    reply = {"ok": 1.0, "reply": 1.0}
+    base = experiment("base", {"a": [PASS] * 3, "b": [reply] * 3})
+    head = experiment("head", {"a": [PASS] * 3, "b": [{"ok": 1.0}] * 3})
+    result = compare(base, head, settings)
+    cases = {c.example_id: c for c in result.cases}
+    assert [m.metric for m in cases["a"].metrics] == ["ok"]
+    assert cases["a"].verdict == "steady_pass"
+    # Scored before and missing now still counts as a failure: a crash cannot hide a metric.
+    assert cases["b"].verdict == "broken"
+    reply_total = next(t for t in result.totals if t.metric == "reply")
+    assert (reply_total.base_passed, reply_total.base_runs) == (3, 3)
+
+
 def test_errors_on_both_sides_are_not_new():
     """A case that already raised on the base branch is not a new error."""
     base = experiment("base", {"a": ["ValueError: x"]})
