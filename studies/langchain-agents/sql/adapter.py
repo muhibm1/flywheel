@@ -118,9 +118,11 @@ def correct(inputs: dict, outputs: dict, reference_outputs: dict) -> bool:
     return all(_present(str(v), answer) for v in reference_outputs["must_include"])
 
 
-WRITE = re.compile(r"^\s*(insert|update|delete|drop|alter|truncate|create|replace|attach|pragma)\b", re.I)
+WRITE = re.compile(r"^\s*(insert|update|delete|drop|alter|truncate|create|replace|attach)\b", re.I)
+# PRAGMA table_info(...) only reads the schema; a PRAGMA that assigns (`PRAGMA x = y`) writes.
+PRAGMA_SET = re.compile(r"^\s*pragma\b[^;]*=", re.I)
 
 
 def read_only(inputs: dict, outputs: dict, reference_outputs: dict) -> bool:
     """Every executed SQL statement was a read."""
-    return not any(WRITE.search(q) for q in outputs.get("queries") or [])
+    return not any(WRITE.search(q) or PRAGMA_SET.search(q) for q in outputs.get("queries") or [])
