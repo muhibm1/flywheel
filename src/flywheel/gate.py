@@ -103,6 +103,16 @@ def pass_rate(runs: list[RunRecord], metric: str, pass_at: float) -> float | Non
     return sum(passes(run, metric, pass_at) for run in runs) / len(runs)
 
 
+def scored(runs: list[RunRecord], metric: str) -> bool:
+    """Whether `metric` applies to a case: some run scored it, or some run errored.
+
+    An evaluator may decline to score a case (a check on replies, for an email that needs no
+    reply). A metric no run of a case scored on either side is left out of that case and of the
+    totals, so a check that only applies to some cases is not counted as failing on the rest.
+    A run that errored still counts, so a crash can never hide a metric."""
+    return any(run.error is not None or metric in run.scores for run in runs)
+
+
 def gated_metrics(base: Experiment, head: Experiment, settings: GateSettings) -> list[str]:
     """The configured metrics, or else every metric whose scores are all 0 or 1."""
     if settings.metrics:
@@ -160,6 +170,7 @@ def compare(base: Experiment, head: Experiment, settings: GateSettings) -> GateR
                 ),
             )
             for metric in metrics
+            if scored(base_runs, metric) or scored(head_runs, metric)
         ]
         verdict = min((r.verdict for r in results), key=SEVERITY.index, default="steady_pass")
         base_errored = any(run.error for run in base_runs)
@@ -183,8 +194,13 @@ def compare(base: Experiment, head: Experiment, settings: GateSettings) -> GateR
     ]
     totals = []
     for metric in metrics:
-        base_runs = [run for run in base.runs if run.example_id in shared]
-        head_runs = [run for run in head.runs if run.example_id in shared]
+        applies = {
+            example_id
+            for example_id in shared
+            if scored(base.runs_of(example_id), metric) or scored(head.runs_of(example_id), metric)
+        }
+        base_runs = [run for run in base.runs if run.example_id in applies]
+        head_runs = [run for run in head.runs if run.example_id in applies]
         totals.append(
             MetricTotal(
                 metric=metric,
