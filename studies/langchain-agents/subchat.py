@@ -206,15 +206,21 @@ def tool_schema(tools: list, at_least_one: bool) -> tuple[dict, str]:
     schema = {
         "type": "object",
         "properties": {"text": {"type": "string"}, "calls": calls},
-        "required": ["calls"],
+        "required": ["text", "calls"],
         "additionalProperties": False,
     }
+    # The headless session has no native tools except the one that returns this JSON, and the
+    # agent's prompts say "use the sql_db_query tool". Without this framing a model sometimes
+    # told the user the tools were unavailable instead of requesting them.
     guide = (
-        f"\n\nYou act by choosing tool calls ({', '.join(names)}). Reply with JSON "
-        '{"text": optional words to the user, "calls": [{"tool": name, "args": {...}}]}. '
-        "Tool results come back in the next turn's transcript."
-        + (" You must call at least one tool." if at_least_one
-           else " Use an empty list of calls when you are finished, and put your answer in text.")
+        "\n\nHOW ACTIONS WORK HERE: you have no native tools in this setup. Every tool named "
+        f"above or below ({', '.join(names)}) is requested by listing it in the `calls` field "
+        "of your JSON reply; the system runs it and returns its result in the next turn's "
+        "transcript. So all of these tools ARE available: never tell the user they are not. "
+        'Reply as {"text": words to the user, "calls": [{"tool": name, "args": {...}}]}.'
+        + (" You must request at least one tool." if at_least_one
+           else " When you are finished, reply with an empty list of calls and your final answer "
+                "to the user in text; text must not be empty then.")
     )
     return schema, guide
 
