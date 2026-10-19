@@ -1,9 +1,10 @@
 {
   "backend": "local",
-  "created_at": "2026-10-19T12:44:30+00:00",
-  "dataset_version": "6eb3cb89ce5a",
+  "created_at": "2026-10-19T14:47:29+00:00",
+  "dataset_version": "690f4c6138cc",
   "examples": {
     "0081ec18c11a": "{\"question\":\"What is the average length of a track in the 'Jazz' genre, in whole seconds (rounded down)?\"}",
+    "0a12f4882452": "{\"question\":\"Which country had the largest increase in invoice revenue from 2009 to 2013? Give the country and the increase rounded to two decimals.\"}",
     "0b3534677fd6": "{\"question\":\"How many customers have bought tracks from at least 10 different genres?\"}",
     "109826cfaa8d": "{\"question\":\"Which media type has sold the most units (invoice line quantities), and how many units?\"}",
     "18a03f4cb488": "{\"question\":\"Not counting the General Manager, which employee has the most people reporting to them, directly or through others? Give their full name.\"}",
@@ -14,19 +15,30 @@
     "54b8bbc25c54": "{\"question\":\"Which playlist contains the most tracks from the 'Rock' genre, and how many Rock tracks does it contain? Count each track once.\"}",
     "5f50d712399b": "{\"question\":\"How many tracks are in the playlist named 'Grunge'?\"}",
     "642175a62167": "{\"question\":\"Which customer has spent the most money in total? Give their full name and the total rounded to two decimals.\"}",
+    "65c43682a3d0": "{\"question\":\"Which sales support agent has customers in the most different countries, and how many countries is that?\"}",
+    "68425e44b7a2": "{\"question\":\"What percentage of tracks have no composer listed? Round to one decimal.\"}",
     "7435c781049a": "{\"question\":\"Which album has the highest number of distinct customers who bought at least one of its tracks? Give the album title and that number of customers.\u2026",
     "7ab000f5a063": "{\"question\":\"Which country's customers spent the most in total, and what was that total, rounded to two decimals?\"}",
     "81b8e52098ed": "{\"question\":\"Which genre has the most tracks, and how many tracks is that?\"}",
     "8950ecc51507": "{\"question\":\"In how many different countries do the store's customers live?\"}",
     "8c2b9661e7c5": "{\"question\":\"What is the total of all invoices issued in 2011, rounded to two decimals?\"}",
     "967bae3075b7": "{\"question\":\"Which artist has the most albums in the store, and how many albums do they have?\"}",
+    "9be7a8795f84": "{\"question\":\"What is the longest gap, in days, between two consecutive invoices of the same customer?\"}",
     "9d15b0a4640f": "{\"question\":\"What is the title of the album with AlbumId 100?\"}",
+    "ab4ddb8fd2a7": "{\"question\":\"How many customers bought at least one track from every one of the genres Rock, Jazz and Blues?\"}",
     "abebb4ae98a9": "{\"question\":\"What share of all invoice revenue came from customers in Germany, France and the United Kingdom combined? Give the percentage rounded to one decim\u2026",
+    "b54ca253fc00": "{\"question\":\"How many customers have no company listed and live in a country with at least 5 customers?\"}",
+    "b915eb03db58": "{\"question\":\"How many invoices contain tracks from more than one media type?\"}",
     "bf6e91ff48f6": "{\"question\":\"How many artists have no albums in the store?\"}",
     "c44fefab71a1": "{\"question\":\"How many customers are from Brazil?\"}",
     "c7eb287c86d4": "{\"question\":\"Which artist earned the most revenue from track sales, and how much, rounded to two decimals?\"}",
+    "cbf2904c8a3a": "{\"question\":\"For the customer with the most invoices, what is the average invoice total, rounded to two decimals? If several customers tie on invoice count, us\u2026",
     "d013ff596964": "{\"question\":\"In which month of 2012 was revenue highest? Give the month as YYYY-MM and the revenue rounded to two decimals.\"}",
-    "e5608cd625e5": "{\"question\":\"How many tracks have never been sold?\"}"
+    "d231c5c17ef7": "{\"question\":\"What share of the store's revenue comes from tracks priced above the most common track price? Give the percentage rounded to one decimal.\"}",
+    "d54a21dcbfb7": "{\"question\":\"Which employee was the youngest on the day they were hired? Give their full name and their age in whole years on that day.\"}",
+    "d9c9072ce9ac": "{\"question\":\"How many albums contain tracks from more than one genre?\"}",
+    "e5608cd625e5": "{\"question\":\"How many tracks have never been sold?\"}",
+    "efb4652e69bd": "{\"question\":\"Among artists with at least 3 albums, which has the highest average number of tracks per album? Give the artist and the average rounded to one dec\u2026"
   },
   "git_sha": null,
   "label": "head-haiku",
@@ -889,6 +901,438 @@
       "error": null,
       "evaluator_errors": {},
       "example_id": "54b8bbc25c54",
+      "latency_ms": null,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "68425e44b7a2",
+      "latency_ms": null,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "68425e44b7a2",
+      "latency_ms": null,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "68425e44b7a2",
+      "latency_ms": null,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b54ca253fc00",
+      "latency_ms": null,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b54ca253fc00",
+      "latency_ms": null,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b54ca253fc00",
+      "latency_ms": null,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d54a21dcbfb7",
+      "latency_ms": null,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d54a21dcbfb7",
+      "latency_ms": null,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d54a21dcbfb7",
+      "latency_ms": null,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "cbf2904c8a3a",
+      "latency_ms": null,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "cbf2904c8a3a",
+      "latency_ms": null,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "cbf2904c8a3a",
+      "latency_ms": null,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "9be7a8795f84",
+      "latency_ms": null,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "9be7a8795f84",
+      "latency_ms": null,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "9be7a8795f84",
+      "latency_ms": null,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d9c9072ce9ac",
+      "latency_ms": null,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d9c9072ce9ac",
+      "latency_ms": null,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d9c9072ce9ac",
+      "latency_ms": null,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "0a12f4882452",
+      "latency_ms": null,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "0a12f4882452",
+      "latency_ms": null,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "0a12f4882452",
+      "latency_ms": null,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "ab4ddb8fd2a7",
+      "latency_ms": null,
+      "repetition": 1,
+      "scores": {
+        "correct": 0.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "ab4ddb8fd2a7",
+      "latency_ms": null,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "ab4ddb8fd2a7",
+      "latency_ms": null,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "65c43682a3d0",
+      "latency_ms": null,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "65c43682a3d0",
+      "latency_ms": null,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "65c43682a3d0",
+      "latency_ms": null,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d231c5c17ef7",
+      "latency_ms": null,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d231c5c17ef7",
+      "latency_ms": null,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d231c5c17ef7",
+      "latency_ms": null,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "efb4652e69bd",
+      "latency_ms": null,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "efb4652e69bd",
+      "latency_ms": null,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "efb4652e69bd",
+      "latency_ms": null,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b915eb03db58",
+      "latency_ms": null,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b915eb03db58",
+      "latency_ms": null,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b915eb03db58",
       "latency_ms": null,
       "repetition": 3,
       "scores": {
