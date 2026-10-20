@@ -1,0 +1,7 @@
+{"t": 1792430549.3036463, "model": "claude-haiku-4-5", "input": 10, "cache_read": 0, "cache_write": 8727, "output": 856, "chars": 2923}
+{"t": 1792430552.752463, "model": "claude-haiku-4-5", "input": 9, "cache_read": 0, "cache_write": 8736, "output": 1052, "chars": 2946}
+{"t": 1792430560.3702838, "model": "claude-haiku-4-5", "input": 10, "cache_read": 7978, "cache_write": 1634, "output": 938, "chars": 6258}
+{"t": 1792430562.102687, "model": "claude-haiku-4-5", "input": 10, "cache_read": 7978, "cache_write": 1640, "output": 692, "chars": 6281}
+{"t": 1792430566.1025052, "model": "claude-haiku-4-5", "input": 10, "cache_read": 7978, "cache_write": 2061, "output": 328, "chars": 8096}
+{"t": 1792430569.794973, "model": "claude-haiku-4-5", "input": 10, "cache_read": 7978, "cache_write": 1926, "output": 635, "chars": 7510}
+{"t": 1792430571.8213193, "model": "claude-sonnet-4-6", "input": 3, "cache_read": 0, "cache_write": 8986, "output": 300, "chars": 4971}

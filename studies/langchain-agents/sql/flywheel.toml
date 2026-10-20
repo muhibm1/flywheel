@@ -1,0 +1,9 @@
+[flywheel]
+target = "adapter:target"
+evaluators = ["adapter:correct", "adapter:read_only"]
+dataset = "dataset.jsonl"
+repetitions = 3
+
+[gate]
+max_broken = 0
+min_change = 0.5

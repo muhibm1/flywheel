@@ -1,0 +1,761 @@
+{
+  "backend": "local",
+  "created_at": "2026-10-19T06:39:18+00:00",
+  "dataset_version": "7514c07d09a6",
+  "examples": {
+    "05205d635f9e": "{\"email_input\":{\"author\":\"Marketing Team <marketing@company.com>\",\"email_thread\":\"Hello Lance,\\n\\nThe latest edition of our company newsletter is now available\u2026",
+    "16e8090d3b20": "{\"email_input\":{\"author\":\"Lincoln Elementary <office@lincolnelementary.org>\",\"email_thread\":\"Dear Parent,\\n\\nYour daughter Emma's class is presenting at the sc\u2026",
+    "2368ed5bdcc6": "{\"email_input\":{\"author\":\"Marketing Team <marketing@openai.com>\",\"email_thread\":\"Hi Lance,\\n\\nWe're excited to announce that we've released a new model from Op\u2026",
+    "36cae117a337": "{\"email_input\":{\"author\":\"AWS Monitoring <no-reply@aws.amazon.com>\",\"email_thread\":\"ALERT: High CPU Utilization\\n\\nThe following EC2 instance has exceeded the \u2026",
+    "3f4c6b925e21": "{\"email_input\":{\"author\":\"System Admin <sysadmin@company.com>\",\"email_thread\":\"Hi Lance,\\n\\nThis is a reminder that we'll be performing scheduled maintenance o\u2026",
+    "48793f4067db": "{\"email_input\":{\"author\":\"Rachel Kim <rachel.kim@company.com>\",\"email_thread\":\"Hi Lance,\\n\\nI just joined the applied AI team and would love to pick your brain\u2026",
+    "714903d07aba": "{\"email_input\":{\"author\":\"Dr. Roberts <droberts@medical.org>\",\"email_thread\":\"Hello Lance,\\n\\nThis is a reminder that it's time for your annual checkup. Our re\u2026",
+    "7686fdceb450": "{\"email_input\":{\"author\":\"Conference Organizer <events@techconf.com>\",\"email_thread\":\"Hi Lance,\\n\\nWe're reaching out to invite you to TechConf 2025, happening\u2026",
+    "782e6b5fb339": "{\"email_input\":{\"author\":\"Social Media Platform <notifications@social.com>\",\"email_thread\":\"Hi Lance,\\n\\n5 people liked your recent post about \\\"Machine Learni\u2026",
+    "7ef49c4cebe7": "{\"email_input\":{\"author\":\"Client Success <success@vendor.com>\",\"email_thread\":\"Hello Lance,\\n\\nThis is a friendly reminder that your annual subscription to our\u2026",
+    "7fd34b3c68ac": "{\"email_input\":{\"author\":\"CI Bot <ci@company.com>\",\"email_thread\":\"Build #4821 on main FAILED.\\n\\nStage: integration-tests\\nFailed test: test_streaming_metadat\u2026",
+    "86cf60e538c6": "{\"email_input\":{\"author\":\"Alice Smith <alice.smith@company.com>\",\"email_thread\":\"Hi Lance,\\n\\nI was reviewing the API documentation for the new authentication \u2026",
+    "94630342d70f": "{\"email_input\":{\"author\":\"Project Manager <pm@client.com>\",\"email_thread\":\"Lance,\\n\\nIt's tax season again, and I wanted to schedule a call to discuss your tax\u2026",
+    "b04a1ebbfaa5": "{\"email_input\":{\"author\":\"Project Team <project@company.com>\",\"email_thread\":\"Hi Lance,\\n\\nThe leadership team has asked us to prepare a joint presentation on \u2026",
+    "b1391c55ef27": "{\"email_input\":{\"author\":\"Omar Haddad <omar@company.com>\",\"email_thread\":\"Lance,\\n\\nWe need one more interviewer for a staff engineer candidate on Friday. The \u2026",
+    "cfcf4580193e": "{\"email_input\":{\"author\":\"HR Department <hr@company.com>\",\"email_thread\":\"Hello Lance,\\n\\nThis is a friendly reminder that all expense reports for the previous\u2026",
+    "d7f5b1d40e05": "{\"email_input\":{\"author\":\"Community Pool <info@cityrecreation.org>\",\"email_thread\":\"Dear Lance,\\n\\nSummer swimming registration is now open! Based on your daug\u2026",
+    "d936c521e222": "{\"email_input\":{\"author\":\"GitHub <notifications@github.com>\",\"email_thread\":\"Hey there!\\n\\nalex-dev commented on your pull request #42 in langchain-ai/project:\u2026",
+    "e9092291cb7c": "{\"email_input\":{\"author\":\"Team Lead <teamlead@company.com>\",\"email_thread\":\"Hi Lance,\\n\\nIt's time for our quarterly planning session. I'd like to schedule a 9\u2026",
+    "f390e1681d84": "{\"email_input\":{\"author\":\"Sarah Johnson <sarah.j@partner.com>\",\"email_thread\":\"Lance,\\n\\nI've attached the final version of our proposal for the Henderson proj\u2026"
+  },
+  "git_sha": "161b9135d7947183c9a2961f962ad0ee7bbc0602",
+  "label": "main-a",
+  "name": null,
+  "repetitions": 3,
+  "runs": [
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "86cf60e538c6",
+      "latency_ms": 53074.3,
+      "repetition": 1,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "86cf60e538c6",
+      "latency_ms": 46521.6,
+      "repetition": 2,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "86cf60e538c6",
+      "latency_ms": 62746.9,
+      "repetition": 3,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "05205d635f9e",
+      "latency_ms": 33845.3,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "05205d635f9e",
+      "latency_ms": 20687.1,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "05205d635f9e",
+      "latency_ms": 26107.6,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "3f4c6b925e21",
+      "latency_ms": 17850.7,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "3f4c6b925e21",
+      "latency_ms": 16259.0,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "3f4c6b925e21",
+      "latency_ms": 21455.5,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "94630342d70f",
+      "latency_ms": 15691.7,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "94630342d70f",
+      "latency_ms": 18505.2,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "94630342d70f",
+      "latency_ms": 25342.8,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "cfcf4580193e",
+      "latency_ms": 15442.1,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "cfcf4580193e",
+      "latency_ms": 16766.6,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "cfcf4580193e",
+      "latency_ms": 15413.4,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7686fdceb450",
+      "latency_ms": 22900.4,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7686fdceb450",
+      "latency_ms": 22391.0,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7686fdceb450",
+      "latency_ms": 21770.4,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "f390e1681d84",
+      "latency_ms": 40376.1,
+      "repetition": 1,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "f390e1681d84",
+      "latency_ms": 54908.7,
+      "repetition": 2,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "f390e1681d84",
+      "latency_ms": 72316.4,
+      "repetition": 3,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d7f5b1d40e05",
+      "latency_ms": 95436.8,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d7f5b1d40e05",
+      "latency_ms": 54083.9,
+      "repetition": 2,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d7f5b1d40e05",
+      "latency_ms": 64927.9,
+      "repetition": 3,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d936c521e222",
+      "latency_ms": 39907.4,
+      "repetition": 1,
+      "scores": {
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d936c521e222",
+      "latency_ms": 65252.3,
+      "repetition": 2,
+      "scores": {
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d936c521e222",
+      "latency_ms": 21991.3,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "e9092291cb7c",
+      "latency_ms": 54398.9,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "e9092291cb7c",
+      "latency_ms": 89514.2,
+      "repetition": 2,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "e9092291cb7c",
+      "latency_ms": 64487.8,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "36cae117a337",
+      "latency_ms": 21151.5,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "36cae117a337",
+      "latency_ms": 27408.6,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "36cae117a337",
+      "latency_ms": 17553.0,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7ef49c4cebe7",
+      "latency_ms": 29671.0,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7ef49c4cebe7",
+      "latency_ms": 17927.0,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7ef49c4cebe7",
+      "latency_ms": 19612.6,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "714903d07aba",
+      "latency_ms": 41589.3,
+      "repetition": 1,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "714903d07aba",
+      "latency_ms": 51189.3,
+      "repetition": 2,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "714903d07aba",
+      "latency_ms": 68363.2,
+      "repetition": 3,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "782e6b5fb339",
+      "latency_ms": 17994.5,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "782e6b5fb339",
+      "latency_ms": 18665.2,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "782e6b5fb339",
+      "latency_ms": 19384.1,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b04a1ebbfaa5",
+      "latency_ms": 67640.2,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b04a1ebbfaa5",
+      "latency_ms": 64658.0,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b04a1ebbfaa5",
+      "latency_ms": 116404.2,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "2368ed5bdcc6",
+      "latency_ms": 26808.8,
+      "repetition": 1,
+      "scores": {
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "2368ed5bdcc6",
+      "latency_ms": 32505.9,
+      "repetition": 2,
+      "scores": {
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "2368ed5bdcc6",
+      "latency_ms": 23454.9,
+      "repetition": 3,
+      "scores": {
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "16e8090d3b20",
+      "latency_ms": 36765.4,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "16e8090d3b20",
+      "latency_ms": 147519.8,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "16e8090d3b20",
+      "latency_ms": 107572.7,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "48793f4067db",
+      "latency_ms": 73217.8,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "48793f4067db",
+      "latency_ms": 62175.7,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "48793f4067db",
+      "latency_ms": 82163.2,
+      "repetition": 3,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b1391c55ef27",
+      "latency_ms": 82390.1,
+      "repetition": 1,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b1391c55ef27",
+      "latency_ms": 51132.0,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b1391c55ef27",
+      "latency_ms": 48213.4,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7fd34b3c68ac",
+      "latency_ms": 27185.6,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7fd34b3c68ac",
+      "latency_ms": 26896.0,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7fd34b3c68ac",
+      "latency_ms": 29012.9,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    }
+  ],
+  "schema": 1,
+  "url": null
+}

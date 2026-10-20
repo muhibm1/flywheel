@@ -1,0 +1,459 @@
+{
+  "backend": "local",
+  "created_at": "2026-10-19T12:43:52+00:00",
+  "dataset_version": "ca4af00c44b4",
+  "examples": {
+    "0081ec18c11a": "{\"question\":\"What is the average length of a track in the 'Jazz' genre, in whole seconds (rounded down)?\"}",
+    "0b3534677fd6": "{\"question\":\"How many customers have bought tracks from at least 10 different genres?\"}",
+    "109826cfaa8d": "{\"question\":\"Which media type has sold the most units (invoice line quantities), and how many units?\"}",
+    "18a03f4cb488": "{\"question\":\"Not counting the General Manager, which employee has the most people reporting to them, directly or through others? Give their full name.\"}",
+    "324f987018ca": "{\"question\":\"Which genre brought in the most revenue from customers in the USA, and how much, rounded to two decimals?\"}",
+    "54b8bbc25c54": "{\"question\":\"Which playlist contains the most tracks from the 'Rock' genre, and how many Rock tracks does it contain? Count each track once.\"}",
+    "7435c781049a": "{\"question\":\"Which album has the highest number of distinct customers who bought at least one of its tracks? Give the album title and that number of customers.\u2026",
+    "abebb4ae98a9": "{\"question\":\"What share of all invoice revenue came from customers in Germany, France and the United Kingdom combined? Give the percentage rounded to one decim\u2026",
+    "bf6e91ff48f6": "{\"question\":\"How many artists have no albums in the store?\"}",
+    "c7eb287c86d4": "{\"question\":\"Which artist earned the most revenue from track sales, and how much, rounded to two decimals?\"}",
+    "d013ff596964": "{\"question\":\"In which month of 2012 was revenue highest? Give the month as YYYY-MM and the revenue rounded to two decimals.\"}",
+    "e5608cd625e5": "{\"question\":\"How many tracks have never been sold?\"}"
+  },
+  "git_sha": "75ec385bfa1bdbfb2aee8440e075a93c37db3cce",
+  "label": "base-a-rest",
+  "name": null,
+  "repetitions": 3,
+  "runs": [
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "0081ec18c11a",
+      "latency_ms": 137274.3,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "0081ec18c11a",
+      "latency_ms": 71817.8,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "0081ec18c11a",
+      "latency_ms": 62007.2,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "109826cfaa8d",
+      "latency_ms": 77820.5,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "109826cfaa8d",
+      "latency_ms": 96210.8,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "109826cfaa8d",
+      "latency_ms": 75128.8,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c7eb287c86d4",
+      "latency_ms": 78171.4,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c7eb287c86d4",
+      "latency_ms": 82113.4,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c7eb287c86d4",
+      "latency_ms": 89217.8,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "324f987018ca",
+      "latency_ms": 88669.8,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "324f987018ca",
+      "latency_ms": 93210.3,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "324f987018ca",
+      "latency_ms": 90587.8,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "e5608cd625e5",
+      "latency_ms": 114298.3,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "e5608cd625e5",
+      "latency_ms": 92224.0,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "e5608cd625e5",
+      "latency_ms": 88124.8,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "bf6e91ff48f6",
+      "latency_ms": 70407.0,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "bf6e91ff48f6",
+      "latency_ms": 71528.0,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "bf6e91ff48f6",
+      "latency_ms": 62393.1,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d013ff596964",
+      "latency_ms": 70814.7,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d013ff596964",
+      "latency_ms": 69902.6,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d013ff596964",
+      "latency_ms": 68731.6,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7435c781049a",
+      "latency_ms": 65053.9,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7435c781049a",
+      "latency_ms": 68560.8,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7435c781049a",
+      "latency_ms": 85686.1,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "0b3534677fd6",
+      "latency_ms": 91147.1,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "0b3534677fd6",
+      "latency_ms": 91320.9,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "0b3534677fd6",
+      "latency_ms": 96034.3,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "abebb4ae98a9",
+      "latency_ms": 59864.6,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "abebb4ae98a9",
+      "latency_ms": 80928.0,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "abebb4ae98a9",
+      "latency_ms": 80303.5,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "18a03f4cb488",
+      "latency_ms": 80460.9,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "18a03f4cb488",
+      "latency_ms": 70901.8,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "18a03f4cb488",
+      "latency_ms": 101463.7,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "54b8bbc25c54",
+      "latency_ms": 83804.6,
+      "repetition": 1,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "54b8bbc25c54",
+      "latency_ms": 70984.3,
+      "repetition": 2,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "54b8bbc25c54",
+      "latency_ms": 116557.1,
+      "repetition": 3,
+      "scores": {
+        "correct": 1.0,
+        "read_only": 1.0
+      },
+      "url": null
+    }
+  ],
+  "schema": 1,
+  "url": null
+}
