@@ -23,7 +23,7 @@ from pathlib import Path
 from flywheel import config as config_module
 from flywheel import dataset, gate, mine, report
 from flywheel.config import Config, ConfigError, resolve
-from flywheel.experiment import Experiment, run_local
+from flywheel.experiment import Experiment, pool, run_local
 from flywheel.mine import NodeStep, TracedRun
 from flywheel.scores import score_all
 
@@ -107,7 +107,8 @@ def cmd_run(args: argparse.Namespace, cfg: Config) -> int:
 
 def cmd_gate(args: argparse.Namespace, cfg: Config) -> int:
     """`flywheel gate`."""
-    base, head = Experiment.load(Path(args.base)), Experiment.load(Path(args.head))
+    base = pool([Experiment.load(Path(path)) for path in args.base])
+    head = Experiment.load(Path(args.head))
     result = gate.compare(base, head, cfg.gate)
     markdown = report.render(result)
     if args.report:
@@ -284,7 +285,12 @@ def parser() -> argparse.ArgumentParser:
     run.add_argument("--only", help="comma-separated example ids to run")
 
     gate_cmd = sub.add_parser("gate", help="compare two experiments and decide")
-    gate_cmd.add_argument("--base", required=True)
+    gate_cmd.add_argument(
+        "--base",
+        required=True,
+        nargs="+",
+        help="the base branch's experiment; several runs of the same base are pooled",
+    )
     gate_cmd.add_argument("--head", required=True)
     gate_cmd.add_argument("--report", help="also write the Markdown report here")
 
