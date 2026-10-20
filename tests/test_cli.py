@@ -32,6 +32,15 @@ def test_gate_passes_with_no_change(workspace, capsys):
     assert "no regressions" in capsys.readouterr().out
 
 
+def test_gate_pools_several_base_runs(workspace, capsys):
+    """`--base` takes several runs of main and pools them."""
+    main(["run", "--label", "base1", "--out", "b1.json"])
+    main(["run", "--label", "base2", "--out", "b2.json"])
+    main(["run", "--label", "head", "--out", "head.json"])
+    assert main(["gate", "--base", "b1.json", "b2.json", "--head", "head.json"]) == 0
+    assert "`base1 + base2`" in capsys.readouterr().out
+
+
 def test_gate_blocks_the_regression(workspace, monkeypatch, tmp_path):
     """The refund rule dropped: the refund case breaks and the gate exits 1 with a report."""
     summary = tmp_path / "summary.md"
