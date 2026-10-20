@@ -9,7 +9,7 @@ import json
 import time
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -70,6 +70,38 @@ class Experiment:
     def runs_of(self, example_id: str) -> list[RunRecord]:
         """Every repetition of one example."""
         return [run for run in self.runs if run.example_id == example_id]
+
+
+def pool(experiments: list[Experiment]) -> Experiment:
+    """Several runs of the same version, combined into one experiment with every repetition.
+
+    A case that passes one time in three can pass 3 of 3 on one run of the base branch and 0 of
+    3 on the next, so comparing a pull request against one base run can call noise a break.
+    Pooling earlier base runs gives each case's pass rate more repetitions to stand on. The runs
+    must share a dataset version; each case's repetitions are renumbered in order."""
+    if len(experiments) == 1:
+        return experiments[0]
+    versions = {e.dataset_version for e in experiments}
+    if len(versions) > 1:
+        raise ValueError(f"cannot pool experiments over different datasets: {sorted(versions)}")
+    runs: list[RunRecord] = []
+    examples: dict[str, str] = {}
+    seen: dict[str, int] = {}
+    for experiment in experiments:
+        examples.update(experiment.examples)
+        for run in experiment.runs:
+            seen[run.example_id] = seen.get(run.example_id, 0) + 1
+            runs.append(replace(run, repetition=seen[run.example_id]))
+    shas = {e.git_sha for e in experiments}
+    return Experiment(
+        label=" + ".join(e.label for e in experiments),
+        backend="+".join(dict.fromkeys(e.backend for e in experiments)),
+        dataset_version=versions.pop(),
+        repetitions=sum(e.repetitions for e in experiments),
+        runs=runs,
+        examples=examples,
+        git_sha=shas.pop() if len(shas) == 1 else None,
+    )
 
 
 def summary(inputs: dict[str, Any]) -> str:

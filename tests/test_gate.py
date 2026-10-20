@@ -1,8 +1,12 @@
 """The gate's verdicts, its noise threshold, and its decision."""
 
+from dataclasses import replace
+
+import pytest
 from conftest import FAIL, PASS, experiment
 
 from flywheel.config import GateSettings
+from flywheel.experiment import pool
 from flywheel.gate import compare, metric_verdict, sign_test
 
 SETTINGS = GateSettings(metrics=("ok",))
@@ -58,6 +62,22 @@ def test_new_error_blocks_and_missing_score_fails():
     assert {c.example_id: c.verdict for c in result.cases} == {"a": "broken", "b": "broken"}
 
 
+def test_metric_a_case_never_scores_is_left_out():
+    """A check that declines a case on both sides is not counted as failing there."""
+    settings = GateSettings(metrics=("ok", "reply"))
+    reply = {"ok": 1.0, "reply": 1.0}
+    base = experiment("base", {"a": [PASS] * 3, "b": [reply] * 3})
+    head = experiment("head", {"a": [PASS] * 3, "b": [{"ok": 1.0}] * 3})
+    result = compare(base, head, settings)
+    cases = {c.example_id: c for c in result.cases}
+    assert [m.metric for m in cases["a"].metrics] == ["ok"]
+    assert cases["a"].verdict == "steady_pass"
+    # Scored before and missing now still counts as a failure: a crash cannot hide a metric.
+    assert cases["b"].verdict == "broken"
+    reply_total = next(t for t in result.totals if t.metric == "reply")
+    assert (reply_total.base_passed, reply_total.base_runs) == (3, 3)
+
+
 def test_errors_on_both_sides_are_not_new():
     """A case that already raised on the base branch is not a new error."""
     base = experiment("base", {"a": ["ValueError: x"]})
@@ -97,3 +117,31 @@ def test_sign_test():
     assert sign_test(3, 3) == 1.0
     assert sign_test(0, 8) < 0.01
     assert abs(sign_test(1, 0) - 1.0) < 1e-9
+
+
+def test_pooled_base_calls_a_coin_toss_case_a_wobble():
+    """One lucky base run makes a 1-in-3 case look broken; pooled base runs do not."""
+    lucky = experiment("main-a", {"c": [PASS, PASS, FAIL]})
+    unlucky = experiment("main-b", {"c": [FAIL, FAIL, FAIL]})
+    head = experiment("head", {"c": [FAIL, FAIL, FAIL]})
+    assert compare(lucky, head, SETTINGS).cases[0].verdict == "broken"
+    pooled = pool([lucky, unlucky])
+    assert pooled.repetitions == 6
+    assert [run.repetition for run in pooled.runs] == [1, 2, 3, 4, 5, 6]
+    result = compare(pooled, head, SETTINGS)
+    assert result.passed
+    assert result.cases[0].verdict == "wobble"
+
+
+def test_pooled_base_still_blocks_a_real_break():
+    """A case that always passed on main and now always fails is broken however many runs."""
+    base = pool([experiment("a", {"c": [PASS] * 3}), experiment("b", {"c": [PASS] * 3})])
+    result = compare(base, experiment("head", {"c": [FAIL] * 3}), SETTINGS)
+    assert not result.passed
+
+
+def test_pool_refuses_different_datasets():
+    """Pooling runs over different datasets would mix cases that are not the same."""
+    other = replace(experiment("b", {"c": [PASS]}), dataset_version="v2")
+    with pytest.raises(ValueError):
+        pool([experiment("a", {"c": [PASS]}), other])
