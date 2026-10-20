@@ -71,9 +71,8 @@ and both gates were run again at 6. Both rounds are reported.
 - **Haiku's other losses are spread thin.** Haiku called the expected tools in 30 of 66 reply
   runs against 34 to 36 for each Sonnet run, and met the criteria in 27 against 32 to 33. Haiku
   sorted emails slightly better (105 of 120, against 99 to 101).
-- **The real finding about the agent is the skipped calendar check.** On meeting requests it
-  often proposes times without looking at the calendar, which a user would only notice when
-  they are double-booked. Flywheel surfaced it from traffic, not from LangChain's own cases.
+- **The skipped calendar check was mostly the free route, not the agent.** On LangChain's own
+  API client (the paid check below), Haiku checked the calendar on that email in 3 of 3 runs.
 - The email agent is hard for every model on reply quality: about half of the replies meet
   LangChain's written criteria. The criteria are strict (exact tools, exact content).
 - At 3 runs the numbers were: triage 51, 49 and 53 of 60; tools 18, 17 and 15 of 33; criteria
@@ -94,7 +93,8 @@ checks and found 4 failures in 3 places:
 | 1 | Triage answered a CI-failure notice that should only have been flagged. |
 
 All 4 became test cases, growing the dataset from 16 to 20. Two of them decided the email gates:
-the calendar case at first, and the school-deadline case once main was pooled.
+the calendar case at first, and the school-deadline case once main was pooled. The traffic ran on the free
+route, so the two skipped-tool failures may partly be the route (see the paid check).
 
 ### What Flywheel caught that was not the agent
 
@@ -116,10 +116,36 @@ broken run.
   did not match "138.60", and a read-only schema lookup (`PRAGMA table_info`) was flagged as a
   write. Both fixed and tested, then every SQL run was rescored.
 
+## The paid check: does the free route give the same answers?
+
+Every run above went through the subscription, where the model returns its tool calls as JSON
+instead of making native tool calls. To test that, the Haiku side was run again on LangChain's own
+`ChatAnthropic` client against the Anthropic API, 3 runs per case. A hard spending cap of $6 was
+set (`apiguard.py`), and the run cost **$0.88** in total (546 model calls, priced from the API's
+own token counts).
+
+| | Free route (Haiku) | LangChain's own client (Haiku) |
+|---|---|---|
+| SQL, first 24 questions: correct | 70 / 72 | 72 / 72 |
+| Email: sorted into the right category | 53 / 60 | 51 / 60 |
+| Email: called every expected tool | 15 / 33 | 27 / 33 |
+| Email: reply met LangChain's criteria | 14 / 33 | 27 / 33 |
+
+- **On the SQL agent the two routes agree.** Flywheel's gate between them passes.
+- **On the email agent they do not.** Sorting emails is about the same. Replies are far better
+  on the native client: the expected tools were called in 27 of 33 runs against 15. The free
+  route made the email agent's replies look worse than they are.
+- **So the email gate verdicts above measure the free route as much as the models.** The
+  Sonnet-versus-Haiku comparison on the email agent has not yet been repeated on the native
+  client. The SQL results stand.
+- On the native client, Flywheel's gate against the pooled free Sonnet runs still flags the
+  school-deadline case (Haiku met it in 0 of 3 runs). That comparison mixes the two routes, so
+  it is reported, not relied on.
+
 ## How it ran, and what it cost
 
-- **API cost: $0.** Every run used the Claude subscription through headless Claude Code,
-  wrapped as a LangChain chat model (`subchat.py`). The agents' graphs, prompts and tools are
+- **API cost: $0.88**, all of it the paid check above. Every other run used the Claude
+  subscription through headless Claude Code, wrapped as a LangChain chat model (`subchat.py`). The agents' graphs, prompts and tools are
   unchanged; only the model transport differs.
 - **That transport is a disclosed difference.** The model does not get native tool calls; it
   returns its tool calls as JSON. In early runs it sometimes told the user "the SQL tools are not
@@ -138,9 +164,9 @@ broken run.
 - **The pooling fix was tested on one agent, with one independent control.** It passed that
   control, but one test is not many. A case near the threshold can still flip with which runs
   are pooled, as the school-deadline case shows.
-- **Native API parity is not yet checked.** A small paid run of the Haiku side on LangChain's own
-  `ChatAnthropic` client would show whether the subscription route gives the same verdicts.
-  It is ready (`apiguard.py` enforces a hard spending cap) but has not run.
+- **The email comparison needs repeating on the native client.** The paid check showed the free
+  route understates the email agent's replies. A native Sonnet run of the email agent, to set
+  against the native Haiku run, would settle the email verdict.
 - **The SQL set does not separate the models.** Both are near-perfect; a harder database or
   multi-step questions would be needed to see a gap.
 - The email assistant ships on OpenAI's gpt-4.1; it was not run on that model here.
