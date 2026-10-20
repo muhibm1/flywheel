@@ -1,0 +1,499 @@
+{
+  "backend": "local",
+  "created_at": "2026-10-19T17:36:18+00:00",
+  "dataset_version": "21611186c9ae",
+  "examples": {
+    "16e8090d3b20": "{\"email_input\":{\"author\":\"Lincoln Elementary <office@lincolnelementary.org>\",\"email_thread\":\"Dear Parent,\\n\\nYour daughter Emma's class is presenting at the sc\u2026",
+    "2368ed5bdcc6": "{\"email_input\":{\"author\":\"Marketing Team <marketing@openai.com>\",\"email_thread\":\"Hi Lance,\\n\\nWe're excited to announce that we've released a new model from Op\u2026",
+    "36cae117a337": "{\"email_input\":{\"author\":\"AWS Monitoring <no-reply@aws.amazon.com>\",\"email_thread\":\"ALERT: High CPU Utilization\\n\\nThe following EC2 instance has exceeded the \u2026",
+    "48793f4067db": "{\"email_input\":{\"author\":\"Rachel Kim <rachel.kim@company.com>\",\"email_thread\":\"Hi Lance,\\n\\nI just joined the applied AI team and would love to pick your brain\u2026",
+    "714903d07aba": "{\"email_input\":{\"author\":\"Dr. Roberts <droberts@medical.org>\",\"email_thread\":\"Hello Lance,\\n\\nThis is a reminder that it's time for your annual checkup. Our re\u2026",
+    "782e6b5fb339": "{\"email_input\":{\"author\":\"Social Media Platform <notifications@social.com>\",\"email_thread\":\"Hi Lance,\\n\\n5 people liked your recent post about \\\"Machine Learni\u2026",
+    "7ef49c4cebe7": "{\"email_input\":{\"author\":\"Client Success <success@vendor.com>\",\"email_thread\":\"Hello Lance,\\n\\nThis is a friendly reminder that your annual subscription to our\u2026",
+    "7fd34b3c68ac": "{\"email_input\":{\"author\":\"CI Bot <ci@company.com>\",\"email_thread\":\"Build #4821 on main FAILED.\\n\\nStage: integration-tests\\nFailed test: test_streaming_metadat\u2026",
+    "b04a1ebbfaa5": "{\"email_input\":{\"author\":\"Project Team <project@company.com>\",\"email_thread\":\"Hi Lance,\\n\\nThe leadership team has asked us to prepare a joint presentation on \u2026",
+    "b1391c55ef27": "{\"email_input\":{\"author\":\"Omar Haddad <omar@company.com>\",\"email_thread\":\"Lance,\\n\\nWe need one more interviewer for a staff engineer candidate on Friday. The \u2026",
+    "d7f5b1d40e05": "{\"email_input\":{\"author\":\"Community Pool <info@cityrecreation.org>\",\"email_thread\":\"Dear Lance,\\n\\nSummer swimming registration is now open! Based on your daug\u2026",
+    "d936c521e222": "{\"email_input\":{\"author\":\"GitHub <notifications@github.com>\",\"email_thread\":\"Hey there!\\n\\nalex-dev commented on your pull request #42 in langchain-ai/project:\u2026",
+    "e9092291cb7c": "{\"email_input\":{\"author\":\"Team Lead <teamlead@company.com>\",\"email_thread\":\"Hi Lance,\\n\\nIt's time for our quarterly planning session. I'd like to schedule a 9\u2026"
+  },
+  "git_sha": "6c3d3faf871a4ee7940adb3511d73eab2e60eee8",
+  "label": "main-b-rest6b-d3",
+  "name": null,
+  "repetitions": 3,
+  "runs": [
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d7f5b1d40e05",
+      "latency_ms": 76147.4,
+      "repetition": 1,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d7f5b1d40e05",
+      "latency_ms": 188265.5,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d7f5b1d40e05",
+      "latency_ms": 93278.0,
+      "repetition": 3,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d936c521e222",
+      "latency_ms": 56401.6,
+      "repetition": 1,
+      "scores": {
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d936c521e222",
+      "latency_ms": 48735.0,
+      "repetition": 2,
+      "scores": {
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "d936c521e222",
+      "latency_ms": 24071.3,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "e9092291cb7c",
+      "latency_ms": 70506.6,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "e9092291cb7c",
+      "latency_ms": 62193.3,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "e9092291cb7c",
+      "latency_ms": 103699.4,
+      "repetition": 3,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "36cae117a337",
+      "latency_ms": 24587.3,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "36cae117a337",
+      "latency_ms": 22983.7,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "36cae117a337",
+      "latency_ms": 23906.0,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7ef49c4cebe7",
+      "latency_ms": 17099.6,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7ef49c4cebe7",
+      "latency_ms": 13104.1,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7ef49c4cebe7",
+      "latency_ms": 16271.0,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "714903d07aba",
+      "latency_ms": 44163.1,
+      "repetition": 1,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "714903d07aba",
+      "latency_ms": 43804.3,
+      "repetition": 2,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "714903d07aba",
+      "latency_ms": 48791.5,
+      "repetition": 3,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "782e6b5fb339",
+      "latency_ms": 17970.8,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "782e6b5fb339",
+      "latency_ms": 18383.4,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "782e6b5fb339",
+      "latency_ms": 19395.3,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b04a1ebbfaa5",
+      "latency_ms": 103339.0,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b04a1ebbfaa5",
+      "latency_ms": 107418.4,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b04a1ebbfaa5",
+      "latency_ms": 75356.5,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "2368ed5bdcc6",
+      "latency_ms": 25617.5,
+      "repetition": 1,
+      "scores": {
+        "triage": 0.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "2368ed5bdcc6",
+      "latency_ms": 25178.2,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "2368ed5bdcc6",
+      "latency_ms": 32883.9,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "16e8090d3b20",
+      "latency_ms": 186867.8,
+      "repetition": 1,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "16e8090d3b20",
+      "latency_ms": 204587.3,
+      "repetition": 2,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "16e8090d3b20",
+      "latency_ms": 73867.2,
+      "repetition": 3,
+      "scores": {
+        "criteria": 1.0,
+        "tool_calls": 1.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "48793f4067db",
+      "latency_ms": 79176.8,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "48793f4067db",
+      "latency_ms": 57507.6,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "48793f4067db",
+      "latency_ms": 51143.1,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b1391c55ef27",
+      "latency_ms": 46872.1,
+      "repetition": 1,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b1391c55ef27",
+      "latency_ms": 66090.8,
+      "repetition": 2,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "b1391c55ef27",
+      "latency_ms": 60399.2,
+      "repetition": 3,
+      "scores": {
+        "criteria": 0.0,
+        "tool_calls": 0.0,
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7fd34b3c68ac",
+      "latency_ms": 17389.6,
+      "repetition": 1,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7fd34b3c68ac",
+      "latency_ms": 26594.8,
+      "repetition": 2,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "7fd34b3c68ac",
+      "latency_ms": 26224.3,
+      "repetition": 3,
+      "scores": {
+        "triage": 1.0
+      },
+      "url": null
+    }
+  ],
+  "schema": 1,
+  "url": null
+}
