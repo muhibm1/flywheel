@@ -106,3 +106,49 @@ def test_parse_since():
     assert parse_since("7d") is not None
     with pytest.raises(ConfigError):
         parse_since("a week")
+
+
+def test_run_only_keeps_the_whole_files_version_so_runs_pool(workspace, capsys):
+    """A run of a few cases names the same dataset version, so it pools with a full run."""
+    main(["run", "--label", "base", "--out", "base.json"])
+    first = load(Path("dataset.jsonl"))[0].id
+    main(["run", "--label", "extra", "--only", first, "--out", "extra.json"])
+    full = json.loads(Path("base.json").read_text())
+    extra = json.loads(Path("extra.json").read_text())
+    assert full["dataset_version"] == extra["dataset_version"]
+    assert set(extra["examples"]) == {first}
+    assert full["graders"] and full["graders"] == extra["graders"]
+    main(["run", "--label", "head", "--out", "head.json"])
+    capsys.readouterr()
+    code = main(["gate", "--base", "base.json", "extra.json", "--head", "head.json", "extra.json"])
+    assert code == 0
+    assert "and 2 times for the 1 close call" in capsys.readouterr().out
+
+
+def test_close_calls_prints_json(workspace, capsys):
+    """`close-calls` prints the ids and the repetitions; with repetitions 0 it lists none."""
+    main(["run", "--label", "base", "--out", "base.json"])
+    main(["run", "--label", "head", "--out", "head.json"])
+    capsys.readouterr()
+    assert main(["close-calls", "--base", "base.json", "--head", "head.json"]) == 0
+    assert json.loads(capsys.readouterr().out) == {"ids": [], "repetitions": 0}
+
+
+def test_gate_holds_an_edited_expected_answer_until_approved(workspace, tmp_path, capsys):
+    """A pull request that rewrites an expected answer is blocked until a person approves."""
+    base_branch = tmp_path / "base-branch"
+    shutil.copytree(workspace, base_branch)
+    rows = [json.loads(line) for line in Path("dataset.jsonl").read_text().splitlines()]
+    rows[0]["reference_outputs"] = {"team": "general"}
+    Path("dataset.jsonl").write_text("".join(json.dumps(row) + "\n" for row in rows))
+    main(["run", "--label", "base", "--out", "base.json"])
+    main(["run", "--label", "head", "--out", "head.json"])
+    capsys.readouterr()
+    args = ["gate", "--base", "base.json", "--head", "head.json"]
+    args += ["--base-config", str(base_branch / "flywheel.toml")]
+    assert main(args) == 1
+    out = capsys.readouterr().out
+    assert "changes how it is graded" in out
+    assert f"Expected answer changed: `{rows[0]['id']}`" in out
+    assert main([*args, "--approve-grading"]) == 0
+    assert "A person approved these edits." in capsys.readouterr().out

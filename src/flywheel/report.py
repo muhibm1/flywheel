@@ -7,6 +7,7 @@ wants to check the numbers.
 
 from flywheel.experiment import Experiment
 from flywheel.gate import CaseResult, GateResult
+from flywheel.grading import KIND_TITLES
 
 MARKER = "<!-- flywheel-report -->"
 VERDICT_TITLES = {
@@ -39,7 +40,15 @@ def plain_summary(result: GateResult) -> str:
     """One paragraph a non-engineer can repeat: what was run and what changed."""
     head = result.head
     shared = sum(1 for case in result.cases if case.verdict not in ("new", "removed"))
-    reps = "once each" if head.repetitions == 1 else f"{head.repetitions} times each"
+    counts = [len(head.runs_of(case.example_id)) for case in result.cases]
+    least, most = min(counts, default=head.repetitions), max(counts, default=head.repetitions)
+    reps = "once each" if least == 1 else f"{least} times each"
+    if most > least:
+        extra = sum(1 for count in counts if count > least)
+        reps += (
+            f", and {most} times for the {extra} close call{'s' if extra != 1 else ''} "
+            "where more runs could change the answer"
+        )
     parts = [
         f"Flywheel ran the agent on {shared} test case{'s' if shared != 1 else ''}, {reps}, "
         "before and after this change, and compared the results case by case."
@@ -68,9 +77,10 @@ def case_lines(case: CaseResult, base: Experiment, head: Experiment) -> list[str
     """One bullet for a case, with the metrics that moved and its trace links."""
     moved = [m for m in case.metrics if m.verdict not in ("steady_pass", "steady_fail")]
     shown = moved or case.metrics
+    base_runs = len(base.runs_of(case.example_id)) or base.repetitions
+    head_runs = len(head.runs_of(case.example_id)) or head.repetitions
     metrics = ", ".join(
-        f"`{m.metric}` {fraction(m.base_rate, base.repetitions)} → "
-        f"{fraction(m.head_rate, head.repetitions)}"
+        f"`{m.metric}` {fraction(m.base_rate, base_runs)} → {fraction(m.head_rate, head_runs)}"
         for m in shown
     )
     line = f"- `{case.example_id}` {case.summary}"
@@ -98,6 +108,23 @@ def render(result: GateResult) -> str:
     """The whole comment."""
     base, head = result.base, result.head
     lines = [MARKER, headline(result), "", plain_summary(result), ""]
+    if result.grading_changes:
+        status = (
+            "A person approved these edits."
+            if result.grading_approved
+            else "A person must approve these before the gate can pass: add the "
+            "`flywheel-grading-approved` label, or pass `--approve-grading`."
+        )
+        lines += [
+            "### This pull request changes how it is graded",
+            "",
+            "Edits like these can turn a failure into a pass without changing the agent. " + status,
+            "",
+        ]
+        for change in result.grading_changes:
+            detail = f": {change.detail}" if change.detail else ""
+            lines.append(f"- {KIND_TITLES[change.kind]}: `{change.subject}`{detail}")
+        lines.append("")
     for verdict in ("broken", "fixed", "wobble", "new", "removed"):
         cases = [case for case in result.cases if case.verdict == verdict]
         if not cases:
@@ -132,7 +159,7 @@ def render(result: GateResult) -> str:
         sha = f" at `{experiment.git_sha[:7]}`" if experiment.git_sha else ""
         lines.append(
             f"- {side}: {name}{sha}, {experiment.backend} backend, dataset "
-            f"`{experiment.dataset_version}`, {experiment.repetitions} repetition(s)"
+            f"`{experiment.dataset_version}`, {len(experiment.runs)} run(s)"
         )
     both = comparison_url(base, head)
     if both:

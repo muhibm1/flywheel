@@ -1,7 +1,8 @@
 name: Flywheel regression gate
 description: >-
   Run your agent's test cases on the pull request and on its base branch, compare them case by
-  case, comment the result on the pull request, and fail the check when a case broke.
+  case, comment the result on the pull request, and fail the check when a case broke or the
+  pull request changed its own checks without a person's approval.
 branding:
   icon: refresh-cw
   color: green
@@ -21,6 +22,29 @@ inputs:
   repetitions:
     description: Override the configured repetitions.
     default: ""
+  reuse-base:
+    description: >-
+      Store the base branch's result and reuse it instead of running the base branch again.
+      The stored result is keyed by the base commit, the files in the config's folder, the
+      backend, the repetitions and `cache-key`. Run the action on `push` to the default branch
+      as well, and every pull request starts with main's result already stored.
+    default: "true"
+  cache-key:
+    description: >-
+      Anything else the base result depends on that is not in the config's folder, such as the
+      model name a live run reads from the environment. Change it to stop reusing old results.
+    default: ""
+  close-call-repetitions:
+    description: >-
+      Override `[gate] close_call_repetitions`: extra runs, on both sides, of only the cases one
+      more run could change. 0 turns it off.
+    default: ""
+  approve-grading:
+    description: >-
+      `true` when a person approved this pull request's edits to its own checks (evaluator code,
+      expected answers, removed cases, gate settings). By default, the pull request carries the
+      `flywheel-grading-approved` label.
+    default: ${{ contains(github.event.pull_request.labels.*.name, 'flywheel-grading-approved') }}
   comment:
     description: Post or update one comment on the pull request with the report.
     default: "true"
@@ -35,6 +59,9 @@ outputs:
   report:
     description: Path to the Markdown report.
     value: ${{ steps.gate.outputs.report }}
+  reused-base:
+    description: "`true` when the base branch's stored result was reused instead of run."
+    value: ${{ steps.restore.outputs.cache-hit == 'true' }}
 
 runs:
   using: composite
@@ -43,18 +70,61 @@ runs:
       shell: bash
       run: python -m pip install "${GITHUB_ACTION_PATH}[langsmith]"
 
+    # On a pull request: gate it. On a push (to main): run the agent once and store the result,
+    # so the pull requests based on this commit can reuse it.
+    - name: Decide what to run
+      id: plan
+      shell: bash
+      env:
+        EVENT: ${{ github.event_name }}
+        PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        CONFIG_REL: ${{ inputs.config }}
+        BACKEND: ${{ inputs.backend }}
+        REPETITIONS: ${{ inputs.repetitions }}
+        CACHE_KEY: ${{ inputs.cache-key }}
+        ACTION_REF: ${{ github.action_ref }}
+      run: |
+        case "$EVENT" in
+          pull_request|pull_request_target) mode=gate; base_sha="$PR_BASE_SHA" ;;
+          push) mode=store; base_sha="$GITHUB_SHA" ;;
+          *) echo "Flywheel runs on pull_request (to gate) or push (to store main's result); got $EVENT." >&2; exit 1 ;;
+        esac
+        if [ -z "$base_sha" ]; then
+          echo "Flywheel compares a pull request with its base; this event has no base." >&2
+          exit 1
+        fi
+        # The base run uses the pull request's config folder (adapter and cases) with the base
+        # branch's code, so the key covers both: the base commit and the folder's tracked files.
+        folder=$(git -C "$GITHUB_WORKSPACE" ls-files -s -- "$(dirname "$CONFIG_REL")" | sha256sum | cut -c1-16)
+        extra=$(printf '%s|%s|%s|%s' "$BACKEND" "$REPETITIONS" "$CACHE_KEY" "$ACTION_REF" | sha256sum | cut -c1-8)
+        {
+          echo "mode=$mode"
+          echo "base_sha=$base_sha"
+          echo "key=flywheel-base-v1-$base_sha-$folder-$extra"
+        } >> "$GITHUB_OUTPUT"
+
+    - name: Restore the base branch's stored result
+      id: restore
+      if: inputs.reuse-base == 'true' && steps.plan.outputs.mode == 'gate'
+      uses: actions/cache/restore@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
+      with:
+        path: ${{ runner.temp }}/flywheel-base.json
+        key: ${{ steps.plan.outputs.key }}
+
     - name: Check out the base branch
       id: base
       shell: bash
       env:
-        BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        MODE: ${{ steps.plan.outputs.mode }}
+        BASE_SHA: ${{ steps.plan.outputs.base_sha }}
         TOKEN: ${{ inputs.github-token }}
       run: |
-        if [ -z "$BASE_SHA" ]; then
-          echo "Flywheel compares a pull request with its base; this event has no base." >&2
-          exit 1
+        if [ "$MODE" = store ]; then
+          echo "dir=$GITHUB_WORKSPACE" >> "$GITHUB_OUTPUT"
+          exit 0
         fi
-        # Works with `persist-credentials: false` checkouts and private repositories.
+        # Works with `persist-credentials: false` checkouts and private repositories. Fetched
+        # even when the result is reused: the gate reads the base branch's config and cases.
         auth=$(printf 'x-access-token:%s' "$TOKEN" | base64 | tr -d '\n')
         git -c "http.extraheader=AUTHORIZATION: basic $auth" \
           fetch --no-tags --depth=1 origin "$BASE_SHA"
@@ -65,20 +135,30 @@ runs:
     # so a case the pull request adds gets a "before" too: a fix that comes with its own
     # regression test shows up as fixed.
     - name: Run the base branch
+      id: run-base
+      if: steps.restore.outputs.cache-hit != 'true'
       shell: bash
       env:
         INSTALL: ${{ inputs.install }}
         CONFIG: ${{ github.workspace }}/${{ inputs.config }}
         BACKEND: ${{ inputs.backend }}
         REPETITIONS: ${{ inputs.repetitions }}
-        FLYWHEEL_GIT_SHA: ${{ github.event.pull_request.base.sha }}
+        FLYWHEEL_GIT_SHA: ${{ steps.plan.outputs.base_sha }}
       run: |
         (cd "${{ steps.base.outputs.dir }}" && eval "$INSTALL")
         cd "$(dirname "$CONFIG")"
         flywheel --config "$CONFIG" run --label base --backend "$BACKEND" \
           ${REPETITIONS:+--repetitions "$REPETITIONS"} --out "$RUNNER_TEMP/flywheel-base.json"
 
+    - name: Store the base branch's result
+      if: inputs.reuse-base == 'true' && steps.run-base.outcome == 'success'
+      uses: actions/cache/save@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
+      with:
+        path: ${{ runner.temp }}/flywheel-base.json
+        key: ${{ steps.plan.outputs.key }}
+
     - name: Run the pull request
+      if: steps.plan.outputs.mode == 'gate'
       shell: bash
       env:
         INSTALL: ${{ inputs.install }}
@@ -92,15 +172,59 @@ runs:
         flywheel --config "$CONFIG" run --label head --backend "$BACKEND" \
           ${REPETITIONS:+--repetitions "$REPETITIONS"} --out "$RUNNER_TEMP/flywheel-head.json"
 
+    # Three runs a side cannot settle a case that moved by about the threshold. Run only those
+    # cases again on both sides, and decide on all the runs.
+    - name: Run the close calls again
+      id: close
+      if: steps.plan.outputs.mode == 'gate'
+      shell: bash
+      env:
+        INSTALL: ${{ inputs.install }}
+        CONFIG: ${{ github.workspace }}/${{ inputs.config }}
+        BACKEND: ${{ inputs.backend }}
+        CLOSE_REPS: ${{ inputs.close-call-repetitions }}
+        BASE_SHA: ${{ steps.plan.outputs.base_sha }}
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      run: |
+        base_files="$RUNNER_TEMP/flywheel-base.json"
+        head_files="$RUNNER_TEMP/flywheel-head.json"
+        cd "$(dirname "$CONFIG")"
+        calls=$(flywheel --config "$CONFIG" close-calls --base "$base_files" --head "$head_files" \
+          ${CLOSE_REPS:+--repetitions "$CLOSE_REPS"})
+        ids=$(python -c 'import json, sys; print(",".join(json.loads(sys.argv[1])["ids"]))' "$calls")
+        reps=$(python -c 'import json, sys; print(json.loads(sys.argv[1])["repetitions"])' "$calls")
+        if [ -n "$ids" ]; then
+          echo "Running $reps more time(s) on each side: $ids"
+          FLYWHEEL_GIT_SHA="$HEAD_SHA" flywheel --config "$CONFIG" run --label head-extra \
+            --backend "$BACKEND" --only "$ids" --repetitions "$reps" \
+            --out "$RUNNER_TEMP/flywheel-head-extra.json"
+          (cd "${{ steps.base.outputs.dir }}" && eval "$INSTALL")
+          FLYWHEEL_GIT_SHA="$BASE_SHA" flywheel --config "$CONFIG" run --label base-extra \
+            --backend "$BACKEND" --only "$ids" --repetitions "$reps" \
+            --out "$RUNNER_TEMP/flywheel-base-extra.json"
+          base_files="$base_files $RUNNER_TEMP/flywheel-base-extra.json"
+          head_files="$head_files $RUNNER_TEMP/flywheel-head-extra.json"
+        fi
+        echo "base_files=$base_files" >> "$GITHUB_OUTPUT"
+        echo "head_files=$head_files" >> "$GITHUB_OUTPUT"
+
     - name: Compare
       id: gate
+      if: steps.plan.outputs.mode == 'gate'
       shell: bash
       env:
         CONFIG: ${{ github.workspace }}/${{ inputs.config }}
+        BASE_CONFIG: ${{ steps.base.outputs.dir }}/${{ inputs.config }}
+        BASE_FILES: ${{ steps.close.outputs.base_files }}
+        HEAD_FILES: ${{ steps.close.outputs.head_files }}
+        APPROVED: ${{ inputs.approve-grading }}
       run: |
+        approve=()
+        if [ "$APPROVED" = true ]; then approve=(--approve-grading); fi
         set +e
-        flywheel --config "$CONFIG" gate --base "$RUNNER_TEMP/flywheel-base.json" \
-          --head "$RUNNER_TEMP/flywheel-head.json" --report "$RUNNER_TEMP/flywheel.md" > /dev/null
+        # shellcheck disable=SC2086 # the file lists are space-separated paths in RUNNER_TEMP
+        flywheel --config "$CONFIG" gate --base $BASE_FILES --head $HEAD_FILES \
+          --base-config "$BASE_CONFIG" "${approve[@]}" --report "$RUNNER_TEMP/flywheel.md" > /dev/null
         code=$?
         set -e
         echo "report=$RUNNER_TEMP/flywheel.md" >> "$GITHUB_OUTPUT"
@@ -108,7 +232,7 @@ runs:
         if [ "$code" -gt 1 ]; then exit "$code"; fi
 
     - name: Comment on the pull request
-      if: inputs.comment == 'true'
+      if: inputs.comment == 'true' && steps.plan.outputs.mode == 'gate'
       shell: bash
       continue-on-error: true
       env:
@@ -125,6 +249,7 @@ runs:
         fi
 
     - name: Decide
+      if: steps.plan.outputs.mode == 'gate'
       shell: bash
       run: |
         if [ "${{ steps.gate.outputs.passed }}" != "true" ]; then

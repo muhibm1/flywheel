@@ -83,6 +83,49 @@ and fixed cases would appear if the change did nothing.
 On the base branch, the pull request's own test cases are run against the base code. So a fix
 that arrives with its regression test shows up as *fixed*, not *new*.
 
+### A pull request cannot grade itself
+
+Each side is graded by its own checkout. So a pull request could turn a failure into a pass
+without touching the agent: loosen an evaluator, rewrite a case's expected answer, delete the
+case, or raise `max_broken`. When agents write the pull requests, that is an easy shortcut to
+take by accident. Flywheel lists every such edit in the report and blocks until a person
+approves it, with the `flywheel-grading-approved` label or `flywheel gate --approve-grading`.
+
+| Edit | How it is found |
+|---|---|
+| Evaluator code changed | `flywheel run` records a hash of each evaluator's module; the two sides differ. A helper the evaluator imports from another module is not covered. |
+| Evaluator removed | It is in the base branch's `flywheel.toml` and not in the pull request's. |
+| Gate setting changed | Any change to `[gate]`, in either direction. |
+| Expected answer changed | A case in both datasets has different `reference_outputs`. |
+| Case removed | A case in the base branch's dataset is gone. |
+
+Adding cases or evaluators is not listed: it can only make the gate stricter.
+
+### More runs only where they change the answer
+
+Three runs a side settle a case that went from 3 of 3 to 0 of 3. They cannot settle one that
+went from 3 of 3 to 1 of 3: the next three runs might call it noise. Running every case six
+times settles both and doubles the bill. With `close_call_repetitions = 3` in `[gate]`, Flywheel
+runs everything three times, finds the **close calls** (cases whose move is within one run of
+the threshold), and runs only those again on both sides. `flywheel close-calls` lists them.
+
+Replayed on the LangChain email study's four six-run experiments (12 pairings, no new model
+calls), close calls reached the six-run decision and the same broken cases in all 12, with 34%
+fewer runs. Three runs alone matched in 7 of 12. The script is
+[studies/langchain-agents/close_calls_check.py](studies/langchain-agents/close_calls_check.py).
+The check is fair in one direction only: close-call cases reuse the very runs the six-run
+answer used, so what it shows is that the cases Flywheel skipped would not have changed the
+decision.
+
+### Main's result is stored, not rerun
+
+Every pull request used to run the agent twice, once on main. Main's half is the same work each
+time. The Action now stores the base branch's result, keyed by the base commit, the files in the
+config's folder, the backend and the repetitions, and reuses it. Run the Action on `push` to
+main too, and pull requests start with main's result already stored. A live gate costs half as
+many model calls; `flywheel gate --base a.json b.json` still pools several runs of main when one
+is not enough.
+
 ## LangSmith, used end to end
 
 | LangSmith feature | What Flywheel does with it |
@@ -115,6 +158,7 @@ langsmith_dataset = "my-agent-regressions"
 
 [gate]
 max_broken = 0      # how many broken cases to tolerate
+close_call_repetitions = 3  # extra runs, on both sides, for cases near the threshold (0: off)
 min_change = 0.5    # how far a pass rate must move to count
 
 [mine]
@@ -133,9 +177,16 @@ flywheel run --label head --out head.json               # on your branch
 flywheel gate --base base.json --head head.json         # exit 1 when blocked
 ```
 
-Add the gate to a repository's pull requests:
+Add the gate to a repository's pull requests. The `push` trigger stores main's result for
+pull requests to reuse; `labeled` re-runs the gate when a person adds
+`flywheel-grading-approved`:
 
 ```yaml
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
 permissions:
   contents: read
   pull-requests: write
@@ -172,7 +223,8 @@ flywheel gate --base /tmp/base.json --head /tmp/head.json   # blocked: the refun
 
 | Path | What it is |
 |---|---|
-| `src/flywheel/gate.py` | The per-case comparison, the noise allowance and the decision |
+| `src/flywheel/gate.py` | The per-case comparison, the noise allowance, close calls and the decision |
+| `src/flywheel/grading.py` | Edits a pull request makes to its own checks |
 | `src/flywheel/mine.py` | Failure detection, signatures (reason at node) and candidate cases |
 | `src/flywheel/langsmith_backend.py` | Traces, feedback, datasets, experiments and annotation queues |
 | `src/flywheel/report.py` | The pull-request comment |
