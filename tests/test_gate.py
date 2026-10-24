@@ -7,7 +7,8 @@ from conftest import FAIL, PASS, experiment
 
 from flywheel.config import GateSettings
 from flywheel.experiment import pool
-from flywheel.gate import compare, metric_verdict, sign_test
+from flywheel.gate import close_calls, compare, metric_verdict, sign_test
+from flywheel.grading import GradingChange
 
 SETTINGS = GateSettings(metrics=("ok",))
 
@@ -145,3 +146,51 @@ def test_pool_refuses_different_datasets():
     other = replace(experiment("b", {"c": [PASS]}), dataset_version="v2")
     with pytest.raises(ValueError):
         pool([experiment("a", {"c": [PASS]}), other])
+
+
+def test_close_calls_are_the_cases_one_more_run_could_change():
+    """A wobble and a two-run flip are close calls; a full flip and a steady case are not."""
+    base = experiment(
+        "base",
+        {"wob": [PASS] * 3, "two": [PASS] * 3, "all": [PASS] * 3, "same": [PASS, FAIL, FAIL]},
+    )
+    head = experiment(
+        "head",
+        {
+            "wob": [PASS, PASS, FAIL],
+            "two": [PASS, FAIL, FAIL],
+            "all": [FAIL] * 3,
+            "same": [FAIL, PASS, FAIL],
+        },
+    )
+    assert close_calls(base, head, SETTINGS) == ["wob", "two"]
+
+
+def test_close_calls_skip_new_cases():
+    """A case only the pull request runs has no before to be close to."""
+    base = experiment("base", {"a": [PASS] * 3})
+    head = experiment("head", {"a": [PASS] * 3, "b": [PASS, FAIL, FAIL]})
+    assert close_calls(base, head, SETTINGS) == []
+
+
+def test_extra_runs_settle_a_close_call():
+    """A two-run flip blocks at 3 runs; three more runs a side that pass call it a wobble."""
+    base = experiment("base", {"c": [PASS] * 3})
+    head = experiment("head", {"c": [PASS, FAIL, FAIL]})
+    assert not compare(base, head, SETTINGS).passed
+    more_base = experiment("base-extra", {"c": [PASS] * 3})
+    more_head = experiment("head-extra", {"c": [PASS] * 3})
+    result = compare(pool([base, more_base]), pool([head, more_head]), SETTINGS)
+    assert result.passed
+    assert result.cases[0].verdict == "wobble"
+
+
+def test_grading_changes_block_until_approved():
+    """An edit to the checks blocks even when every case passes, unless a person approved it."""
+    change = GradingChange("reference", "a")
+    base = experiment("base", {"a": [PASS]})
+    head = experiment("head", {"a": [PASS]})
+    blocked = compare(base, head, SETTINGS, grading_changes=[change])
+    assert not blocked.passed
+    assert "changes how it is graded" in blocked.reasons[0]
+    assert compare(base, head, SETTINGS, grading_changes=[change], grading_approved=True).passed

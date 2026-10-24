@@ -161,12 +161,14 @@ def run_experiment(
     label: str,
     git_sha: str | None = None,
     concurrency: int = 1,
+    sync_examples: list[Example] | None = None,
 ) -> Experiment:
     """Run `target` with LangSmith's `evaluate` over the synced examples and convert the result.
 
     The experiment's metadata carries the label, the commit and the dataset version, so the
-    LangSmith UI can line up the base and head experiments of one pull request."""
-    sync_dataset(ls, dataset, examples, dataset_version)
+    LangSmith UI can line up the base and head experiments of one pull request. `sync_examples`
+    is the whole dataset when `examples` is a subset, so the version tag covers every case."""
+    sync_dataset(ls, dataset, sync_examples or examples, dataset_version)
     wanted = {example.id for example in examples}
     data = [
         example

@@ -51,6 +51,9 @@ class Experiment:
     # The LangSmith experiment, when there is one.
     url: str | None = None
     name: str | None = None
+    # Evaluator name -> a hash of the source of the module that defines it, so the gate can
+    # tell when a pull request changed its own checks.
+    graders: dict[str, str] = field(default_factory=dict)
     schema: int = SCHEMA
 
     def save(self, path: Path) -> None:
@@ -78,7 +81,8 @@ def pool(experiments: list[Experiment]) -> Experiment:
     A case that passes one time in three can pass 3 of 3 on one run of the base branch and 0 of
     3 on the next, so comparing a pull request against one base run can call noise a break.
     Pooling earlier base runs gives each case's pass rate more repetitions to stand on. The runs
-    must share a dataset version; each case's repetitions are renumbered in order."""
+    must share a dataset version; each case's repetitions are renumbered in order. The pooled
+    experiment keeps the last experiment's evaluator hashes: pass the newest run last."""
     if len(experiments) == 1:
         return experiments[0]
     versions = {e.dataset_version for e in experiments}
@@ -101,6 +105,7 @@ def pool(experiments: list[Experiment]) -> Experiment:
         runs=runs,
         examples=examples,
         git_sha=shas.pop() if len(shas) == 1 else None,
+        graders=experiments[-1].graders,
     )
 
 

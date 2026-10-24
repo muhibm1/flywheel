@@ -14,8 +14,10 @@ went the other way. So the gate works per case and per metric:
   blocked, because adding a test for a known bug is how the bug gets fixed.
 
 The gate fails when more than `max_broken` cases broke, or (by default) when a case raises
-that did not raise on the base branch. It also reports a sign test over broken and fixed cases:
-how often a split at least that lopsided would appear if the change did nothing at all.
+that did not raise on the base branch, or when the pull request changed how it is graded
+(`flywheel.grading`) and no person approved that. It also reports a sign test over broken
+and fixed cases: how often a split at least that lopsided would appear if the change did
+nothing at all.
 """
 
 from dataclasses import dataclass, field
@@ -24,6 +26,7 @@ from typing import Literal
 
 from flywheel.config import GateSettings
 from flywheel.experiment import Experiment, RunRecord
+from flywheel.grading import GradingChange
 
 Verdict = Literal["broken", "fixed", "wobble", "steady_pass", "steady_fail", "new", "removed"]
 # The order in which a case's worst metric decides its own verdict.
@@ -82,6 +85,8 @@ class GateResult:
     sign_test_p: float | None
     base: Experiment
     head: Experiment
+    grading_changes: list[GradingChange] = field(default_factory=list)
+    grading_approved: bool = False
 
     def count(self, verdict: Verdict) -> int:
         """How many cases ended with `verdict`."""
@@ -150,7 +155,40 @@ def sign_test(broken: int, fixed: int) -> float | None:
     return min(1.0, 2 * tail)
 
 
-def compare(base: Experiment, head: Experiment, settings: GateSettings) -> GateResult:
+def close_calls(base: Experiment, head: Experiment, settings: GateSettings) -> list[str]:
+    """The shared cases whose verdict one more run could change, worth running again.
+
+    A metric is a close call when it moved, and its move is within one run's worth of the
+    `min_change` threshold. With 3 runs a side and the default threshold of 0.5, a 3/3 to 2/3
+    wobble and a 3/3 to 1/3 break are close calls; a 3/3 to 0/3 break and a steady case are not.
+    Extra runs go where they can change the answer, not to every case."""
+    picked = []
+    for example_id in head.examples:
+        if example_id not in base.examples:
+            continue
+        base_runs, head_runs = base.runs_of(example_id), head.runs_of(example_id)
+        if not base_runs or not head_runs:
+            continue
+        step = 1 / min(len(base_runs), len(head_runs))
+        for metric in gated_metrics(base, head, settings):
+            if not (scored(base_runs, metric) or scored(head_runs, metric)):
+                continue
+            base_rate = pass_rate(base_runs, metric, settings.pass_at) or 0.0
+            head_rate = pass_rate(head_runs, metric, settings.pass_at) or 0.0
+            move = abs(head_rate - base_rate)
+            if move > 0 and abs(move - settings.min_change) <= step + 1e-9:
+                picked.append(example_id)
+                break
+    return picked
+
+
+def compare(
+    base: Experiment,
+    head: Experiment,
+    settings: GateSettings,
+    grading_changes: list[GradingChange] | None = None,
+    grading_approved: bool = False,
+) -> GateResult:
     """Every case's verdict, the per-metric totals, and the decision."""
     metrics = gated_metrics(base, head, settings)
     ids = list(dict.fromkeys([*head.examples, *base.examples]))
@@ -225,6 +263,13 @@ def compare(base: Experiment, head: Experiment, settings: GateSettings) -> GateR
     if settings.block_on_new_errors and errored:
         noun = "case raises" if len(errored) == 1 else "cases raise"
         reasons.append(f"{len(errored)} {noun} an error it did not raise before")
+    grading_changes = grading_changes or []
+    if grading_changes and not grading_approved:
+        noun = "edit" if len(grading_changes) == 1 else "edits"
+        reasons.append(
+            f"it changes how it is graded ({len(grading_changes)} {noun}) and a person has "
+            "not approved that"
+        )
     return GateResult(
         passed=not reasons,
         reasons=reasons,
@@ -233,4 +278,6 @@ def compare(base: Experiment, head: Experiment, settings: GateSettings) -> GateR
         sign_test_p=sign_test(len(broken), len(fixed)),
         base=base,
         head=head,
+        grading_changes=grading_changes,
+        grading_approved=grading_approved,
     )

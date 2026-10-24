@@ -42,6 +42,9 @@ class GateSettings:
     max_broken: int = 0
     # Fail when the change makes a case raise that did not raise before.
     block_on_new_errors: bool = True
+    # Extra repetitions for close calls: cases whose verdict one more run could change. Each side
+    # runs only those cases this many more times, and the gate decides on all the runs. 0 is off.
+    close_call_repetitions: int = 0
 
 
 @dataclass(frozen=True)
@@ -103,6 +106,7 @@ def load(path: Path) -> Config:
                 min_change=float(gate.get("min_change", 0.5)),
                 max_broken=int(gate.get("max_broken", 0)),
                 block_on_new_errors=bool(gate.get("block_on_new_errors", True)),
+                close_call_repetitions=int(gate.get("close_call_repetitions", 0)),
             ),
             mine=MineSettings(
                 project=mine.get("project"),

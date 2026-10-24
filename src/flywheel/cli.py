@@ -2,6 +2,7 @@
 
     flywheel run     run the agent over the dataset and save the scored experiment
     flywheel gate    compare two experiments, write the report, exit 1 when blocked
+    flywheel close-calls  list the cases one more run could change, to run again
     flywheel mine    find failing traces in LangSmith and propose them as test cases
     flywheel promote add reviewed candidates to the dataset file
     flywheel sync    mirror the dataset file into a LangSmith dataset
@@ -17,11 +18,12 @@ import os
 import re
 import subprocess
 import sys
+from dataclasses import replace
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from flywheel import config as config_module
-from flywheel import dataset, gate, mine, report
+from flywheel import dataset, gate, grading, mine, report
 from flywheel.config import Config, ConfigError, resolve
 from flywheel.experiment import Experiment, pool, run_local
 from flywheel.mine import NodeStep, TracedRun
@@ -60,11 +62,14 @@ def parse_since(text: str | None) -> datetime | None:
 
 def cmd_run(args: argparse.Namespace, cfg: Config) -> int:
     """`flywheel run`."""
-    examples = dataset.load(cfg.dataset)
+    everything = dataset.load(cfg.dataset)
+    # The version names the whole file, so a run of a few cases (`--only`) can be pooled with a
+    # run of all of them.
+    version = dataset.version(everything)
+    examples = everything
     if args.only:
         wanted = set(args.only.split(","))
-        examples = [example for example in examples if example.id in wanted]
-    version = dataset.version(examples)
+        examples = [example for example in everything if example.id in wanted]
     repetitions = args.repetitions or cfg.repetitions
     if args.backend == "langsmith":
         from flywheel import langsmith_backend
@@ -76,6 +81,7 @@ def cmd_run(args: argparse.Namespace, cfg: Config) -> int:
             cfg.target_callable(),
             cfg.evaluator_callables(),
             examples,
+            sync_examples=everything,
             dataset=cfg.langsmith_dataset,
             dataset_version=version,
             repetitions=repetitions,
@@ -94,6 +100,7 @@ def cmd_run(args: argparse.Namespace, cfg: Config) -> int:
             git_sha=git_sha(),
             concurrency=args.concurrency,
         )
+    experiment = replace(experiment, graders=grading.fingerprints(cfg))
     experiment.save(Path(args.out))
     errored = sum(1 for run in experiment.runs if run.error)
     print(
@@ -108,8 +115,12 @@ def cmd_run(args: argparse.Namespace, cfg: Config) -> int:
 def cmd_gate(args: argparse.Namespace, cfg: Config) -> int:
     """`flywheel gate`."""
     base = pool([Experiment.load(Path(path)) for path in args.base])
-    head = Experiment.load(Path(args.head))
-    result = gate.compare(base, head, cfg.gate)
+    head = pool([Experiment.load(Path(path)) for path in args.head])
+    base_cfg = grading.load_base_config(Path(args.base_config)) if args.base_config else None
+    changes = grading.changes(base, head, cfg, base_cfg)
+    result = gate.compare(
+        base, head, cfg.gate, grading_changes=changes, grading_approved=args.approve_grading
+    )
     markdown = report.render(result)
     if args.report:
         Path(args.report).write_text(markdown, encoding="utf-8")
@@ -119,6 +130,18 @@ def cmd_gate(args: argparse.Namespace, cfg: Config) -> int:
             handle.write(markdown)
     print(markdown)
     return 0 if result.passed else 1
+
+
+def cmd_close_calls(args: argparse.Namespace, cfg: Config) -> int:
+    """`flywheel close-calls`: print the close calls as JSON, ids and how many more runs."""
+    base = pool([Experiment.load(Path(path)) for path in args.base])
+    head = pool([Experiment.load(Path(path)) for path in args.head])
+    repetitions = (
+        args.repetitions if args.repetitions is not None else (cfg.gate.close_call_repetitions)
+    )
+    ids = gate.close_calls(base, head, cfg.gate) if repetitions > 0 else []
+    print(json.dumps({"ids": ids, "repetitions": repetitions}))
+    return 0
 
 
 def cmd_mine(args: argparse.Namespace, cfg: Config) -> int:
@@ -291,8 +314,26 @@ def parser() -> argparse.ArgumentParser:
         nargs="+",
         help="the base branch's experiment; several runs of the same base are pooled",
     )
-    gate_cmd.add_argument("--head", required=True)
+    gate_cmd.add_argument(
+        "--head", required=True, nargs="+", help="the pull request's experiment; pooled likewise"
+    )
     gate_cmd.add_argument("--report", help="also write the Markdown report here")
+    gate_cmd.add_argument(
+        "--base-config",
+        help="the base branch's flywheel.toml, to find edits to the dataset and gate settings",
+    )
+    gate_cmd.add_argument(
+        "--approve-grading",
+        action="store_true",
+        help="a person approved this pull request's edits to its own checks",
+    )
+
+    close = sub.add_parser("close-calls", help="list the cases one more run could change")
+    close.add_argument("--base", required=True, nargs="+")
+    close.add_argument("--head", required=True, nargs="+")
+    close.add_argument(
+        "--repetitions", type=int, help="override [gate] close_call_repetitions; 0 lists none"
+    )
 
     mine_cmd = sub.add_parser("mine", help="propose failing traces as test cases")
     mine_cmd.add_argument("--project", help="the LangSmith tracing project")
@@ -321,6 +362,7 @@ def parser() -> argparse.ArgumentParser:
 COMMANDS = {
     "run": cmd_run,
     "gate": cmd_gate,
+    "close-calls": cmd_close_calls,
     "mine": cmd_mine,
     "promote": cmd_promote,
     "sync": cmd_sync,
