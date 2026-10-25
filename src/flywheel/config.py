@@ -45,6 +45,15 @@ class GateSettings:
     # Extra repetitions for close calls: cases whose verdict one more run could change. Each side
     # runs only those cases this many more times, and the gate decides on all the runs. 0 is off.
     close_call_repetitions: int = 0
+    # Cost checks, each off unless set, over the cases both sides ran. A run's cost is what its
+    # model calls used, as `flywheel.spend` counted them. Block when a run's list-price dollars
+    # rose by more than this share (0.25 is 25%); only runs whose every call was priced count.
+    max_cost_increase: float | None = None
+    # Block when a run's tokens, prompt and output, rose by more than this share.
+    max_token_increase: float | None = None
+    # Block when the share of the prompt read from the cache fell by more than this (0.2 is 20
+    # points): the sign of a prompt edit that broke caching.
+    max_cache_drop: float | None = None
 
 
 @dataclass(frozen=True)
@@ -107,6 +116,9 @@ def load(path: Path) -> Config:
                 max_broken=int(gate.get("max_broken", 0)),
                 block_on_new_errors=bool(gate.get("block_on_new_errors", True)),
                 close_call_repetitions=int(gate.get("close_call_repetitions", 0)),
+                max_cost_increase=optional_float(gate, "max_cost_increase"),
+                max_token_increase=optional_float(gate, "max_token_increase"),
+                max_cache_drop=optional_float(gate, "max_cache_drop"),
             ),
             mine=MineSettings(
                 project=mine.get("project"),
@@ -121,6 +133,11 @@ def load(path: Path) -> Config:
         )
     except (KeyError, TypeError, ValueError) as error:
         raise ConfigError(f"{path}: {error}") from error
+
+
+def optional_float(table: dict[str, Any], key: str) -> float | None:
+    """`table[key]` as a number, or None when it is not set."""
+    return None if table.get(key) is None else float(table[key])
 
 
 def required(table: dict[str, Any], key: str) -> Any:

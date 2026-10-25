@@ -3,6 +3,9 @@
 The gate compares two of these, so both the local backend (in process, no network) and the
 LangSmith backend write the same shape. A target that raises is recorded as an errored run with
 no scores, never a crash: the experiment finished, and the error is part of its result.
+
+The local backend also keeps what each run's model calls cost, when the agent counts them with
+`flywheel.spend`: tokens, cache reads and, for priced calls, dollars.
 """
 
 import json
@@ -14,6 +17,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from flywheel import spend
 from flywheel.dataset import Example, canonical
 from flywheel.scores import Evaluator, score_all
 
@@ -33,6 +37,9 @@ class RunRecord:
     # A link to this run's trace, when the backend records one.
     url: str | None = None
     latency_ms: float | None = None
+    # The run's model calls, as `flywheel.spend.Meter.summary` counts them; None when the agent
+    # counted none.
+    usage: dict[str, Any] | None = None
 
 
 @dataclass(frozen=True)
@@ -132,16 +139,18 @@ def run_local(
     def one(job: tuple[Example, int]) -> RunRecord:
         example, repetition = job
         started = time.perf_counter()
-        try:
-            outputs = target(dict(example.inputs))
-        except Exception as error:  # an errored run is a result, not a crash
-            return RunRecord(
-                example_id=example.id,
-                repetition=repetition,
-                scores={},
-                error=f"{type(error).__name__}: {error}"[:300],
-                latency_ms=round((time.perf_counter() - started) * 1000, 1),
-            )
+        with spend.meter() as used:
+            try:
+                outputs = target(dict(example.inputs))
+            except Exception as error:  # an errored run is a result, not a crash
+                return RunRecord(
+                    example_id=example.id,
+                    repetition=repetition,
+                    scores={},
+                    error=f"{type(error).__name__}: {error}"[:300],
+                    latency_ms=round((time.perf_counter() - started) * 1000, 1),
+                    usage=used.summary(),
+                )
         latency = round((time.perf_counter() - started) * 1000, 1)
         scores, errors = score_all(
             evaluators, dict(example.inputs), dict(outputs or {}), dict(example.reference_outputs)
@@ -152,11 +161,16 @@ def run_local(
             scores=scores,
             evaluator_errors=errors,
             latency_ms=latency,
+            usage=used.summary(),
         )
 
-    if concurrency > 1:
+    if concurrency > 1 and len(jobs) > 1:
+        # The first run goes alone. Parallel calls cannot read a cache entry that is still being
+        # written, so a shared prompt prefix this run writes is then read by every run after it,
+        # instead of each parallel run paying to write its own copy.
+        runs = [one(jobs[0])]
         with ThreadPoolExecutor(max_workers=concurrency) as pool:
-            runs = list(pool.map(one, jobs))
+            runs += list(pool.map(one, jobs[1:]))
     else:
         runs = [one(job) for job in jobs]
     return Experiment(

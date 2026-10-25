@@ -18,6 +18,10 @@ that did not raise on the base branch, or when the pull request changed how it i
 (`flywheel.grading`) and no person approved that. It also reports a sign test over broken
 and fixed cases: how often a split at least that lopsided would appear if the change did
 nothing at all.
+
+When the agent counts its model calls (`flywheel.spend`), the gate also compares what a run
+costs on each side: calls, tokens, the share of the prompt read from the cache and, for priced
+calls, dollars. Those checks block only when their settings are set.
 """
 
 from dataclasses import dataclass, field
@@ -75,6 +79,21 @@ class MetricTotal:
 
 
 @dataclass(frozen=True)
+class CostSide:
+    """What one side's runs of the shared cases used, on average per run."""
+
+    runs: int
+    calls: float
+    tokens: float
+    cache_share: float | None
+    # List-price dollars per run; None unless every call of every run was priced.
+    usd: float | None
+    # Dollars these runs actually spent, in total: nothing for replayed or subscription calls.
+    billed: float
+    replayed: int
+
+
+@dataclass(frozen=True)
 class GateResult:
     """The decision and everything the report shows."""
 
@@ -87,6 +106,8 @@ class GateResult:
     head: Experiment
     grading_changes: list[GradingChange] = field(default_factory=list)
     grading_approved: bool = False
+    base_cost: CostSide | None = None
+    head_cost: CostSide | None = None
 
     def count(self, verdict: Verdict) -> int:
         """How many cases ended with `verdict`."""
@@ -153,6 +174,64 @@ def sign_test(broken: int, fixed: int) -> float | None:
     k = min(broken, fixed)
     tail = sum(comb(n, i) for i in range(k + 1)) / 2**n
     return min(1.0, 2 * tail)
+
+
+def cost_side(experiment: Experiment, example_ids: set[str]) -> CostSide | None:
+    """The average run's model use over `example_ids`; None when no run counted a call.
+
+    Every run of those cases is in the average, so a run that made no call counts as zero."""
+    runs = [run for run in experiment.runs if run.example_id in example_ids]
+    used = [run.usage or {} for run in runs]
+    if not any(used):
+        return None
+    n = len(runs)
+
+    def total(key: str) -> float:
+        return sum(u.get(key) or 0 for u in used)
+
+    prompt = total("input") + total("cache_write") + total("cache_read")
+    priced = all("usd" in u for u in used if u)
+    return CostSide(
+        runs=n,
+        calls=total("calls") / n,
+        tokens=(prompt + total("output")) / n,
+        cache_share=total("cache_read") / prompt if prompt else None,
+        usd=total("usd") / n if priced else None,
+        billed=total("billed"),
+        replayed=int(total("replayed")),
+    )
+
+
+def cost_reasons(base: CostSide | None, head: CostSide | None, settings: GateSettings) -> list[str]:
+    """Why the cost checks block, when they are set and both sides have numbers to compare."""
+    if base is None or head is None:
+        return []
+    reasons = []
+    limit = settings.max_cost_increase
+    if limit is not None and base.usd and head.usd is not None:
+        rise = head.usd / base.usd - 1
+        if rise > limit + 1e-9:
+            reasons.append(
+                f"a run's cost rose {rise:.0%}, from ${base.usd:.4f} to ${head.usd:.4f} "
+                f"(at most {limit:.0%} allowed)"
+            )
+    limit = settings.max_token_increase
+    if limit is not None and base.tokens:
+        rise = head.tokens / base.tokens - 1
+        if rise > limit + 1e-9:
+            reasons.append(
+                f"a run's tokens rose {rise:.0%}, from {base.tokens:,.0f} to {head.tokens:,.0f} "
+                f"(at most {limit:.0%} allowed)"
+            )
+    limit = settings.max_cache_drop
+    if limit is not None and base.cache_share is not None and head.cache_share is not None:
+        drop = base.cache_share - head.cache_share
+        if drop > limit + 1e-9:
+            reasons.append(
+                f"the share of the prompt read from the cache fell from {base.cache_share:.0%} "
+                f"to {head.cache_share:.0%} (at most {limit * 100:.0f} points allowed)"
+            )
+    return reasons
 
 
 def close_calls(base: Experiment, head: Experiment, settings: GateSettings) -> list[str]:
@@ -270,6 +349,8 @@ def compare(
             f"it changes how it is graded ({len(grading_changes)} {noun}) and a person has "
             "not approved that"
         )
+    base_cost, head_cost = cost_side(base, set(shared)), cost_side(head, set(shared))
+    reasons += cost_reasons(base_cost, head_cost, settings)
     return GateResult(
         passed=not reasons,
         reasons=reasons,
@@ -280,4 +361,6 @@ def compare(
         head=head,
         grading_changes=grading_changes,
         grading_approved=grading_approved,
+        base_cost=base_cost,
+        head_cost=head_cost,
     )

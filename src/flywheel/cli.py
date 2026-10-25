@@ -7,6 +7,7 @@
     flywheel promote add reviewed candidates to the dataset file
     flywheel sync    mirror the dataset file into a LangSmith dataset
     flywheel score   attach the evaluators' scores to existing traces as feedback
+    flywheel spend   total the paid-call ledgers: calls, tokens, cache reads and dollars
 
 Exit codes: 0 done (and, for `gate`, not blocked); 1 `gate` blocked or a run could not
 complete; 2 a usage or configuration error.
@@ -23,7 +24,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from flywheel import config as config_module
-from flywheel import dataset, gate, grading, mine, report
+from flywheel import dataset, gate, grading, mine, report, spend
 from flywheel.config import Config, ConfigError, resolve
 from flywheel.experiment import Experiment, pool, run_local
 from flywheel.mine import NodeStep, TracedRun
@@ -293,6 +294,72 @@ def cmd_score(args: argparse.Namespace, cfg: Config) -> int:
     return 0
 
 
+def cmd_spend(args: argparse.Namespace) -> int:
+    """`flywheel spend`: no `flywheel.toml` needed, only ledgers."""
+    paths = [Path(path) for path in args.ledgers]
+    missing = [str(path) for path in paths if not path.exists()]
+    if missing:
+        print(f"flywheel: no ledger at {', '.join(missing)}", file=sys.stderr)
+        return 2
+    totals = spend.tally(spend.read_ledger(paths))
+    if args.json:
+        print(json.dumps(spend_json(totals), indent=2, sort_keys=True))
+        return 0
+    print(spend_text(totals))
+    return 0
+
+
+def tally_line(name: str, tally: spend.Tally) -> str:
+    """One row of the `flywheel spend` table."""
+    share = spend.cache_share(tally.usage)
+    cached = "–" if share is None else f"{share:.0%}"
+    spent, saved = f"${tally.billed:,.2f}", f"${tally.saved:,.2f}"
+    return (
+        f"{name:<24} {tally.calls:>7,} {tally.replayed:>9,} {tally.usage.tokens:>13,} "
+        f"{cached:>7} {spent:>10} {saved:>10}"
+    )
+
+
+def spend_text(totals: dict) -> str:
+    """The ledgers' totals as a plain table, overall and by day, model and project."""
+    columns = ("calls", 7), ("replayed", 9), ("tokens", 13), ("cached", 7), ("spent", 10)
+    header = " ".join(
+        [" " * 24, *(f"{name:>{width}}" for name, width in columns), f"{'saved':>10}"]
+    )
+    lines = [header, tally_line("total", totals["total"])]
+    for group in ("day", "model", "project"):
+        lines += ["", f"by {group}"]
+        lines += [tally_line(name, tally) for name, tally in sorted(totals[group].items())]
+    lines += [
+        "",
+        "cached: share of the prompt read from the cache. spent: API credit billed. saved: the "
+        "list price of the calls answered from recordings.",
+    ]
+    return "\n".join(lines)
+
+
+def spend_json(totals: dict) -> dict:
+    """The ledgers' totals as plain data."""
+
+    def flat(tally: spend.Tally) -> dict:
+        return {
+            "calls": tally.calls,
+            "replayed": tally.replayed,
+            "input": tally.usage.input,
+            "cache_write": tally.usage.cache_write,
+            "cache_read": tally.usage.cache_read,
+            "output": tally.usage.output,
+            "cache_share": spend.cache_share(tally.usage),
+            "billed": round(tally.billed, 6),
+            "saved": round(tally.saved, 6),
+        }
+
+    out = {"total": flat(totals["total"])}
+    for group in ("day", "model", "project"):
+        out[group] = {name: flat(tally) for name, tally in totals[group].items()}
+    return out
+
+
 def parser() -> argparse.ArgumentParser:
     """The argument parser."""
     root = argparse.ArgumentParser(prog="flywheel", description=__doc__.split("\n\n")[0])
@@ -356,6 +423,12 @@ def parser() -> argparse.ArgumentParser:
     score.add_argument("--since")
     score.add_argument("--limit", type=int, default=100)
     score.add_argument("--rescore", action="store_true", help="score runs that have feedback")
+
+    spend_cmd = sub.add_parser("spend", help="total the paid-call ledgers")
+    spend_cmd.add_argument(
+        "ledgers", nargs="*", default=[spend.DEFAULT_LEDGER], help="ledger files (JSONL)"
+    )
+    spend_cmd.add_argument("--json", action="store_true", help="print the totals as JSON")
     return root
 
 
@@ -373,6 +446,8 @@ COMMANDS = {
 def main(argv: list[str] | None = None) -> int:
     """Entry point."""
     args = parser().parse_args(argv)
+    if args.command == "spend":
+        return cmd_spend(args)
     try:
         cfg = config_module.load(Path(args.config))
         return COMMANDS[args.command](args, cfg)

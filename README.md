@@ -126,6 +126,64 @@ main too, and pull requests start with main's result already stored. A live gate
 many model calls; `flywheel gate --base a.json b.json` still pools several runs of main when one
 is not enough.
 
+### What a run costs
+
+An agent can keep passing while it gets more expensive: a longer prompt, an extra model call,
+or a date placed early in the prompt that stops the cache from working. When the agent counts
+its calls with `flywheel.spend` (below), each run keeps its calls' tokens, cache reads and, for
+paid calls, list-price dollars. The report then adds a cost table, before and after, for an
+average run of the cases both sides ran. Three settings in `[gate]` turn it into a check, each
+off unless set:
+
+| Setting | Blocks when |
+|---|---|
+| `max_cost_increase = 0.25` | A run's list-price dollars rose by more than 25%. Only runs whose every call was priced count. |
+| `max_token_increase = 0.25` | A run's tokens, prompt and output, rose by more than 25%. This works for runs on a subscription too. |
+| `max_cache_drop = 0.2` | The share of the prompt read from the cache fell by more than 20 points. |
+
+Replayed calls keep the usage they were recorded with, so a replayed base compares fairly with
+a live pull request. Like any other `[gate]` edit, changing these settings needs a person's
+approval.
+
+## Paid calls: a cap, a ledger and replay
+
+`flywheel.spend` is a small module for the paid model calls themselves, and it needs only the
+standard library. A call goes through it in this order:
+
+1. **Replay.** Each call is keyed by a hash of its exact request, leaving out cache markers. A
+   call recorded before is answered from the recording and costs nothing. With
+   `FLYWHEEL_REPLAY=replay`, a call that was never recorded raises instead of going live, so a
+   frozen CI run cannot start spending.
+2. **The guard.** A live call needs a dollar cap. With no `FLYWHEEL_API_CAP` set, paid calls
+   are off. Once the ledger's total reaches the cap, every later call is refused, in this run
+   and the next.
+3. **The ledger.** Every call is appended to `.flywheel/api-ledger.jsonl`: model, uncached
+   input, cache writes, cache reads, output, list price and what was actually billed.
+
+```python
+from flywheel import spend
+
+guard = spend.Guard.from_env(project="my-agent")  # FLYWHEEL_API_CAP, FLYWHEEL_API_LEDGER
+recorder = spend.Recorder.from_env()  # FLYWHEEL_REPLAY=record, replay or off
+
+
+def ask(body):  # a Messages API request body
+    return spend.call(body, send_to_anthropic, guard=guard, recorder=recorder)
+```
+
+Code that makes its own calls can count them with `guard.record(model, usage)`. Calls answered
+through a Claude subscription are counted with `spend.note(model, usage, "subscription")`: they
+keep their tokens and are never priced. `flywheel spend` totals one or more ledgers by day,
+model and project, with what replay saved:
+
+```bash
+flywheel spend .flywheel/api-ledger.jsonl
+```
+
+`flywheel run` also sends its first case alone before it runs the rest in parallel. A cache
+entry can be read only once its first answer has started, so cases started together would each
+pay to write the same shared prompt prefix.
+
 ## LangSmith, used end to end
 
 | LangSmith feature | What Flywheel does with it |
@@ -160,6 +218,7 @@ langsmith_dataset = "my-agent-regressions"
 max_broken = 0      # how many broken cases to tolerate
 close_call_repetitions = 3  # extra runs, on both sides, for cases near the threshold (0: off)
 min_change = 0.5    # how far a pass rate must move to count
+max_cache_drop = 0.2        # block a 20-point fall in the share of the prompt read from cache
 
 [mine]
 project = "my-agent-prod"
@@ -228,6 +287,7 @@ flywheel gate --base /tmp/base.json --head /tmp/head.json   # blocked: the refun
 | `src/flywheel/mine.py` | Failure detection, signatures (reason at node) and candidate cases |
 | `src/flywheel/langsmith_backend.py` | Traces, feedback, datasets, experiments and annotation queues |
 | `src/flywheel/report.py` | The pull-request comment |
+| `src/flywheel/spend.py` | Prices, the budget guard and its ledger, record and replay, the per-run meter |
 | `action.yml` | The GitHub Action |
 | `docs/playbook.md` | The first two weeks with a customer's agent, step by step |
 | `examples/quickstart/` | The dependency-free demo |
@@ -244,5 +304,7 @@ The core needs only the Python standard library; LangSmith is an optional extra.
   single failure matters.
 - Each result above is one change on one agent: 7 or 36 cases, 3 repetitions, one model. It shows
   the mechanism working. It is not a benchmark.
+- The cost table sees only the calls an agent reports to `flywheel.spend`, and only on the local
+  backend for now. Prices are Anthropic's list prices, kept by hand in `PRICES`.
 
 MIT licensed.
