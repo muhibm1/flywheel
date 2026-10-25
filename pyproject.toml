@@ -16,6 +16,8 @@ dependencies = []
 [project.optional-dependencies]
 # Only the LangSmith backend imports it (src/flywheel/langsmith_backend.py).
 langsmith = ["langsmith==0.14.2"]
+# Only the LangChain adapter imports it (src/flywheel/langchain_spend.py).
+langchain = ["langchain-core==1.6.6"]
 dev = ["pytest==9.1.1", "ruff==0.16.9"]
 
 [project.scripts]

@@ -3,7 +3,10 @@
 from datetime import UTC, datetime, timedelta
 from types import SimpleNamespace
 
+import pytest
+
 from flywheel import langsmith_backend as backend
+from flywheel import spend
 from flywheel.config import FailureRule, MineSettings
 from flywheel.dataset import Example
 
@@ -121,3 +124,43 @@ def test_sync_dataset_is_idempotent_and_tags_the_version():
     assert len(ls.examples) == 2
     assert first == second
     assert ls.tags == ["fw-abc", "fw-abc"]
+
+
+class Results(list):
+    """What `evaluate` returns, as far as `run_experiment` reads it before converting."""
+
+    experiment_name = "flywheel-head"
+
+
+def test_a_spend_stop_is_raised_once_evaluate_has_kept_it_as_an_errored_run():
+    """`evaluate` keeps a target's error and goes on, so a refused call is raised after it."""
+    ls = FakeClient()
+    kept = []
+
+    def evaluate(target, *, data, **options):
+        """Like `langsmith.Client.evaluate`: a target's error is kept, never raised."""
+        for _ in data:
+            try:
+                target({"q": 1})
+            except Exception as error:
+                kept.append(type(error).__name__)
+        return Results()
+
+    ls.evaluate = evaluate
+
+    def refused(inputs):
+        raise spend.SpendRefused("a call to claude-haiku-5-5 refused: paid calls are off")
+
+    examples = [Example.new({"q": 1}), Example.new({"q": 2})]
+    with pytest.raises(spend.SpendRefused):
+        backend.run_experiment(
+            ls,
+            refused,
+            [],
+            examples,
+            dataset="regressions",
+            dataset_version="abc",
+            repetitions=1,
+            label="head",
+        )
+    assert kept == ["SpendRefused", "SpendRefused"]

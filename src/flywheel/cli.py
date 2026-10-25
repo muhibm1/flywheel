@@ -100,6 +100,7 @@ def cmd_run(args: argparse.Namespace, cfg: Config) -> int:
             dataset_version=version,
             git_sha=git_sha(),
             concurrency=args.concurrency,
+            first_repetition=args.first_repetition,
         )
     experiment = replace(experiment, graders=grading.fingerprints(cfg))
     experiment.save(Path(args.out))
@@ -141,7 +142,11 @@ def cmd_close_calls(args: argparse.Namespace, cfg: Config) -> int:
         args.repetitions if args.repetitions is not None else (cfg.gate.close_call_repetitions)
     )
     ids = gate.close_calls(base, head, cfg.gate) if repetitions > 0 else []
-    print(json.dumps({"ids": ids, "repetitions": repetitions}))
+    # The extra runs are numbered after the runs these cases already have, so a model whose
+    # answers are recorded gives new answers for them instead of replaying the first ones.
+    done = [len(side.runs_of(case)) for side in (base, head) for case in ids]
+    first = max(done, default=0) + 1
+    print(json.dumps({"ids": ids, "repetitions": repetitions, "first_repetition": first}))
     return 0
 
 
@@ -373,6 +378,12 @@ def parser() -> argparse.ArgumentParser:
     run.add_argument("--repetitions", type=int, help="override the configured repetitions")
     run.add_argument("--concurrency", type=int, default=1)
     run.add_argument("--only", help="comma-separated example ids to run")
+    run.add_argument(
+        "--first-repetition",
+        type=int,
+        default=1,
+        help="number repetitions from here (local backend), so extra runs record new answers",
+    )
 
     gate_cmd = sub.add_parser("gate", help="compare two experiments and decide")
     gate_cmd.add_argument(
@@ -454,6 +465,10 @@ def main(argv: list[str] | None = None) -> int:
     except (ConfigError, dataset.DatasetError) as error:
         print(f"flywheel: {error}", file=sys.stderr)
         return 2
+    except spend.STOPS as error:
+        # Raised before the call was sent, and nothing of the run is saved.
+        print(f"flywheel: the run stopped: {type(error).__name__}: {error}", file=sys.stderr)
+        return 1
     except Exception as error:
         # A LangSmith API failure is reported in one line, not a traceback.
         if type(error).__module__.startswith("langsmith"):
