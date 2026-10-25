@@ -107,7 +107,9 @@ Three runs a side settle a case that went from 3 of 3 to 0 of 3. They cannot set
 went from 3 of 3 to 1 of 3: the next three runs might call it noise. Running every case six
 times settles both and doubles the bill. With `close_call_repetitions = 3` in `[gate]`, Flywheel
 runs everything three times, finds the **close calls** (cases whose move is within one run of
-the threshold), and runs only those again on both sides. `flywheel close-calls` lists them.
+the threshold), and runs only those again on both sides. `flywheel close-calls` lists them,
+with the number to start the extra runs from (`flywheel run --first-repetition`), so a
+recorded answer from the first runs is never replayed as a new one.
 
 Replayed on the LangChain email study's four six-run experiments (12 pairings, no new model
 calls), close calls reached the six-run decision and the same broken cases in all 12, with 34%
@@ -151,14 +153,20 @@ approval.
 standard library. A call goes through it in this order:
 
 1. **Replay.** Each call is keyed by a hash of its exact request, leaving out cache markers. A
-   call recorded before is answered from the recording and costs nothing. With
-   `FLYWHEEL_REPLAY=replay`, a call that was never recorded raises instead of going live, so a
-   frozen CI run cannot start spending.
+   call recorded before is answered from the recording and costs nothing. A request sent
+   several times, as an agent run three times sends its first request, keeps one recording per
+   use, so the repeats keep their spread; in `flywheel run`, each repetition replays its own.
+   With `FLYWHEEL_REPLAY=replay`, a call that was never recorded raises instead of going live,
+   so a frozen CI run cannot start spending.
 2. **The guard.** A live call needs a dollar cap. With no `FLYWHEEL_API_CAP` set, paid calls
    are off. Once the ledger's total reaches the cap, every later call is refused, in this run
    and the next.
 3. **The ledger.** Every call is appended to `.flywheel/api-ledger.jsonl`: model, uncached
    input, cache writes, cache reads, output, list price and what was actually billed.
+
+A refused call or a replay miss ends `flywheel run` with exit 1 and one line naming the cause,
+and no experiment file is written. Every later call would stop the same way, and a file of
+errored runs would read to the gate as a regression.
 
 ```python
 from flywheel import spend
@@ -170,6 +178,24 @@ recorder = spend.Recorder.from_env()  # FLYWHEEL_REPLAY=record, replay or off
 def ask(body):  # a Messages API request body
     return spend.call(body, send_to_anthropic, guard=guard, recorder=recorder)
 ```
+
+A LangChain chat model gets the same order through LangChain's own cache slot, with the
+`langchain` extra installed:
+
+```python
+from flywheel.langchain_spend import guard_model
+
+model = guard_model(ChatAnthropic(model="claude-haiku-5-5"), guard, recorder, label="triage")
+```
+
+LangChain asks a model's cache before it sends any call, so a refusal or a replay miss is raised
+before anything leaves. It does not ask when a model streams, so `guard_model` also turns
+streaming off: `stream()` then waits for the whole answer. The key leaves out message ids,
+the token usage on earlier answers, cache markers and transport settings such as the endpoint,
+timeout and retry count. Usage is left out because LangChain zeroes the cost on an answer it
+replays, and an agent loop sends that answer back in its next request. A prompt that carries
+something new on every run, such as a random marker around untrusted text, can pass
+`normalize=` to blank it in the key, so the rerun still replays.
 
 Code that makes its own calls can count them with `guard.record(model, usage)`. Calls answered
 through a Claude subscription are counted with `spend.note(model, usage, "subscription")`: they
@@ -288,12 +314,13 @@ flywheel gate --base /tmp/base.json --head /tmp/head.json   # blocked: the refun
 | `src/flywheel/langsmith_backend.py` | Traces, feedback, datasets, experiments and annotation queues |
 | `src/flywheel/report.py` | The pull-request comment |
 | `src/flywheel/spend.py` | Prices, the budget guard and its ledger, record and replay, the per-run meter |
+| `src/flywheel/langchain_spend.py` | The same guard and replay for a LangChain chat model, through its cache slot |
 | `action.yml` | The GitHub Action |
 | `docs/playbook.md` | The first two weeks with a customer's agent, step by step |
 | `examples/quickstart/` | The dependency-free demo |
 
-The core needs only the Python standard library; LangSmith is an optional extra. Tests:
-`pip install -e ".[dev,langsmith]" && pytest`.
+The core needs only the Python standard library; LangSmith and LangChain are optional extras.
+Tests: `pip install -e ".[dev,langsmith,langchain]" && pytest`.
 
 ## Limits, stated plainly
 

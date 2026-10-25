@@ -26,7 +26,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install
-        run: python -m pip install -e ".[dev,langsmith]"
+        run: python -m pip install -e ".[dev,langsmith,langchain]"
 
       - name: Lint
         run: python -m ruff check .

@@ -16,6 +16,7 @@ from datetime import UTC, datetime
 from itertools import islice
 from typing import Any
 
+from flywheel import spend
 from flywheel.config import MineSettings
 from flywheel.dataset import Example
 from flywheel.experiment import Experiment, RunRecord, summary
@@ -167,7 +168,9 @@ def run_experiment(
 
     The experiment's metadata carries the label, the commit and the dataset version, so the
     LangSmith UI can line up the base and head experiments of one pull request. `sync_examples`
-    is the whole dataset when `examples` is a subset, so the version tag covers every case."""
+    is the whole dataset when `examples` is a subset, so the version tag covers every case.
+    `evaluate` keeps a target's error as an errored run, so a refused call or a replay miss
+    (`spend.STOPS`) is noted and raised once it returns, as `run_local` raises it."""
     sync_dataset(ls, dataset, sync_examples or examples, dataset_version)
     wanted = {example.id for example in examples}
     data = [
@@ -175,8 +178,18 @@ def run_experiment(
         for example in ls.list_examples(dataset_name=dataset, as_of=f"fw-{dataset_version}")
         if (example.metadata or {}).get(FLYWHEEL_ID) in wanted
     ]
+    stops: list[Exception] = []
+
+    def noted(inputs: dict[str, Any]) -> dict[str, Any]:
+        """`target`, noting a spend stop before `evaluate` turns it into an errored run."""
+        try:
+            return target(inputs)
+        except spend.STOPS as error:
+            stops.append(error)
+            raise
+
     results = ls.evaluate(
-        target,
+        noted,
         data=data,
         evaluators=evaluators,
         num_repetitions=repetitions,
@@ -185,6 +198,8 @@ def run_experiment(
         max_concurrency=concurrency,
     )
     rows = list(results)
+    if stops:
+        raise stops[0]
     project = ls.read_project(project_name=results.experiment_name)
     repetition_of: dict[str, int] = {}
     runs: list[RunRecord] = []

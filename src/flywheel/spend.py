@@ -4,8 +4,10 @@ A paid API call should be the last thing an agent's harness reaches for. These p
 so, in the order a call goes through them:
 
 1. **Replay.** Each call is keyed by a fingerprint of its exact request. A call that was
-   recorded before is answered from the recording and costs nothing. In replay mode a miss
-   raises `ReplayMiss` instead of going live, so a frozen run can never start spending.
+   recorded before is answered from the recording and costs nothing. Identical requests are
+   separate samples, never one answer copied: the n-th use of a request gets the n-th recorded
+   answer, so repeated runs keep their spread. In replay mode a miss raises `ReplayMiss`
+   instead of going live, so a frozen run can never start spending.
 2. **The guard.** A live call needs a dollar cap (`FLYWHEEL_API_CAP` by default). Before each
    call the guard reads the running total from its ledger and refuses once the cap is spent;
    with no cap set, paid calls are off. Calls already in flight can overshoot it, nothing more.
@@ -91,6 +93,10 @@ class SpendRefused(RuntimeError):
 
 class ReplayMiss(RuntimeError):
     """Replay asked for a call the recording does not hold."""
+
+
+# What stops a whole run, not one call: every later call would be refused or missed the same way.
+STOPS = (SpendRefused, ReplayMiss)
 
 
 class UnknownModel(KeyError):
@@ -215,7 +221,18 @@ class Meter:
     usage: Usage = field(default_factory=Usage)
     usd: float = 0.0  # list price of the priced calls, paid or replayed
     billed: float = 0.0  # what was actually spent
+    # The run's repetition, when the block is one run of a repeated case: it names the run's
+    # recorded answers, so each repetition keeps its own (`Recorder.claim`).
+    sample: int | None = None
+    _claims: dict[str, int] = field(default_factory=dict, repr=False, compare=False)
     _lock: threading.Lock = field(default_factory=threading.Lock, repr=False, compare=False)
+
+    def claim(self, key: str) -> int:
+        """How many times this block used `key` before now."""
+        with self._lock:
+            used = self._claims.get(key, 0)
+            self._claims[key] = used + 1
+        return used
 
     def add(self, usage: Usage, route: str, usd: float | None) -> None:
         """Count one call."""
@@ -246,10 +263,10 @@ class Meter:
             "cache_write": self.usage.cache_write,
             "cache_read": self.usage.cache_read,
             "output": self.usage.output,
-            "billed": round(self.billed, 6),
+            "billed": round(self.billed, 9),
         }
         if not (self.subscription or self.unpriced):
-            out["usd"] = round(self.usd, 6)
+            out["usd"] = round(self.usd, 9)
         return out
 
 
@@ -257,14 +274,22 @@ _current: ContextVar[Meter | None] = ContextVar("flywheel_spend_meter", default=
 
 
 @contextmanager
-def meter() -> Iterator[Meter]:
-    """Count every call noted inside the block, in this thread and in tasks it copies to."""
-    current = Meter()
+def meter(sample: int | None = None) -> Iterator[Meter]:
+    """Count every call noted inside the block, in this thread and in tasks it copies to.
+
+    `sample` is the block's repetition when it is one run of a repeated case; recordings made
+    inside it are kept per repetition."""
+    current = Meter(sample=sample)
     token = _current.set(current)
     try:
         yield current
     finally:
         _current.reset(token)
+
+
+def current() -> Meter | None:
+    """The meter of the block this code runs in, if any."""
+    return _current.get()
 
 
 def note(model: str, usage: Usage, route: str = "api") -> float | None:
@@ -366,8 +391,8 @@ class Guard:
             "cache_read": usage.cache_read,
             "output": usage.output,
             "web_searches": usage.web_searches,
-            "usd": None if usd is None else round(usd, 6),
-            "billed": round(usd or 0.0, 6) if route == "api" else 0.0,
+            "usd": None if usd is None else round(usd, 9),
+            "billed": round(usd or 0.0, 9) if route == "api" else 0.0,
             "key": key,
         }
         line = json.dumps(row, sort_keys=True) + "\n"
@@ -471,7 +496,8 @@ class Recorder:
     """Answers stored one file per call under `root`, named by the call's fingerprint.
 
     `record` serves a stored answer when there is one and stores every new one; `replay` serves
-    stored answers only and raises `ReplayMiss` for anything else; `off` stores nothing."""
+    stored answers only and raises `ReplayMiss` for anything else; `off` stores nothing. Keep one
+    recorder for a whole run: it counts the uses of each request (`claim`)."""
 
     def __init__(self, root: Path | str, mode: str = "record"):
         """Use the recordings under `root` in `mode`."""
@@ -481,6 +507,7 @@ class Recorder:
         self.mode = mode
         self.hits = 0
         self.misses = 0
+        self._claims: dict[str, int] = {}
         self._lock = threading.Lock()
 
     @classmethod
@@ -489,8 +516,29 @@ class Recorder:
         mode = os.environ.get(variable, "off") or "off"
         return cls(os.environ.get(f"{variable}_DIR") or default_root, mode)
 
+    def claim(self, key: str) -> str:
+        """The slot of this use of `key`: where its answer is recorded, or replayed from.
+
+        An agent run three times sends the same first request three times, and needs three
+        answers, not one answer three times, or every repeat would agree and the spread the
+        repeats exist to measure would vanish. So the n-th use of a key in a run gets its own
+        slot, and a later run of the same work replays the same answers in turn. Inside
+        `meter(sample=r)`, as each repetition of `flywheel run` is, uses are counted per run and
+        the slot names the repetition: repetition r replays repetition r's answers in any later
+        run, so a request a change left alone replays on the pull request's side too, while
+        runs of further repetitions record new answers."""
+        current = _current.get()
+        if current is not None and current.sample is not None:
+            used, slot = current.claim(key), f"{key}.r{current.sample}"
+        else:
+            with self._lock:
+                used = self._claims.get(key, 0)
+                self._claims[key] = used + 1
+            slot = key
+        return slot if used == 0 else f"{slot}.{used}"
+
     def path(self, key: str) -> Path:
-        """Where the answer to `key` is stored."""
+        """Where the answer to `key`, a fingerprint or a slot that starts with one, is stored."""
         return self.root / key[:2] / f"{key}.json"
 
     def get(self, key: str) -> dict[str, Any] | None:
@@ -550,16 +598,13 @@ def call(
     model = str(request.get("model") or "")
     key = fingerprint(request)
     if recorder is not None and recorder.mode != "off":
+        key = recorder.claim(key)
         stored = recorder.get(key)
         if stored is not None:
-            usage = Usage(**stored["usage"])
-            if guard is not None:
-                guard.record(model, usage, route="replay", key=key, label=label)
-            else:
-                note(model, usage, "replay")
+            replayed(model, stored, guard, label)
             return stored["response"]
         if recorder.mode == "replay":
-            raise ReplayMiss(f"no recording for this call ({model}, key {key[:12]})")
+            raise ReplayMiss(f"no recording for this call ({model}, slot {key[:12]}...{key[64:]})")
     if guard is None:
         raise SpendRefused("a paid model call needs a budget guard, and none was given")
     guard.require(f"a call to {model}" + (f" ({label})" if label else ""), model=model)
@@ -569,3 +614,12 @@ def call(
     if recorder is not None:
         recorder.put(key, model, response, usage, label)
     return response
+
+
+def replayed(model: str, stored: Mapping[str, Any], guard: Guard | None, label: str = "") -> None:
+    """Count a call answered from a recording: in the guard's ledger at no cost, or the meter."""
+    usage = Usage(**stored["usage"])
+    if guard is not None:
+        guard.record(model, usage, route="replay", key=stored.get("key"), label=label)
+    else:
+        note(model, usage, "replay")

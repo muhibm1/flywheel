@@ -5,10 +5,13 @@ import shutil
 from pathlib import Path
 
 import pytest
+from conftest import experiment
 
+from flywheel import spend
 from flywheel.cli import main, parse_since
-from flywheel.config import ConfigError
+from flywheel.config import Config, ConfigError
 from flywheel.dataset import load
+from flywheel.experiment import Experiment
 
 QUICKSTART = Path(__file__).parent.parent / "examples" / "quickstart"
 
@@ -53,6 +56,18 @@ def test_gate_blocks_the_regression(workspace, monkeypatch, tmp_path):
     report = Path("r.md").read_text()
     assert "I want a refund" in report
     assert summary.read_text() == report
+
+
+def test_a_spend_stop_exits_1_in_one_line_and_saves_nothing(workspace, monkeypatch, capsys):
+    """A refused call ends `flywheel run` before an experiment a gate could read is written."""
+
+    def refused(inputs):
+        raise spend.SpendRefused("a call to claude-haiku-5-5 refused: paid calls are off")
+
+    monkeypatch.setattr(Config, "target_callable", lambda self: refused)
+    assert main(["run", "--label", "head", "--out", "head.json"]) == 1
+    assert "flywheel: the run stopped: SpendRefused: a call to" in capsys.readouterr().err
+    assert not Path("head.json").exists()
 
 
 def test_mine_then_promote(workspace, capsys):
@@ -126,12 +141,34 @@ def test_run_only_keeps_the_whole_files_version_so_runs_pool(workspace, capsys):
 
 
 def test_close_calls_prints_json(workspace, capsys):
-    """`close-calls` prints the ids and the repetitions; with repetitions 0 it lists none."""
+    """`close-calls` prints the ids, the repetitions and where to number them from; with
+    repetitions 0 it lists none."""
     main(["run", "--label", "base", "--out", "base.json"])
     main(["run", "--label", "head", "--out", "head.json"])
     capsys.readouterr()
     assert main(["close-calls", "--base", "base.json", "--head", "head.json"]) == 0
-    assert json.loads(capsys.readouterr().out) == {"ids": [], "repetitions": 0}
+    assert json.loads(capsys.readouterr().out) == {
+        "ids": [],
+        "repetitions": 0,
+        "first_repetition": 1,
+    }
+
+
+def test_extra_runs_are_numbered_after_the_first_ones(workspace, capsys):
+    """A close call's extra runs start after the runs it has, so recorded answers keyed by
+    repetition are not replayed as new runs; `run --first-repetition` numbers them."""
+    passed, failed = {"correct_team": 1.0}, {"correct_team": 0.0}
+    base = experiment("base", {"x": [passed] * 3})
+    head = experiment("head", {"x": [passed, passed, failed]})
+    base.save(Path("base.json"))
+    head.save(Path("head.json"))
+    args = ["close-calls", "--base", "base.json", "--head", "head.json", "--repetitions", "2"]
+    assert main(args) == 0
+    calls = json.loads(capsys.readouterr().out)
+    assert calls == {"ids": ["x"], "repetitions": 2, "first_repetition": 4}
+    more = ["run", "--label", "more", "--out", "more.json", "--repetitions", "2"]
+    assert main([*more, "--first-repetition", "4"]) == 0
+    assert {run.repetition for run in Experiment.load(Path("more.json")).runs} == {4, 5}
 
 
 def test_gate_holds_an_edited_expected_answer_until_approved(workspace, tmp_path, capsys):

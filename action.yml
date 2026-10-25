@@ -193,14 +193,17 @@ runs:
           ${CLOSE_REPS:+--repetitions "$CLOSE_REPS"})
         ids=$(python -c 'import json, sys; print(",".join(json.loads(sys.argv[1])["ids"]))' "$calls")
         reps=$(python -c 'import json, sys; print(json.loads(sys.argv[1])["repetitions"])' "$calls")
+        # Numbered after the runs these cases already have, so recorded model answers are not
+        # replayed as if they were new runs.
+        first=$(python -c 'import json, sys; print(json.loads(sys.argv[1])["first_repetition"])' "$calls")
         if [ -n "$ids" ]; then
           echo "Running $reps more time(s) on each side: $ids"
           FLYWHEEL_GIT_SHA="$HEAD_SHA" flywheel --config "$CONFIG" run --label head-extra \
-            --backend "$BACKEND" --only "$ids" --repetitions "$reps" \
+            --backend "$BACKEND" --only "$ids" --repetitions "$reps" --first-repetition "$first" \
             --out "$RUNNER_TEMP/flywheel-head-extra.json"
           (cd "${{ steps.base.outputs.dir }}" && eval "$INSTALL")
           FLYWHEEL_GIT_SHA="$BASE_SHA" flywheel --config "$CONFIG" run --label base-extra \
-            --backend "$BACKEND" --only "$ids" --repetitions "$reps" \
+            --backend "$BACKEND" --only "$ids" --repetitions "$reps" --first-repetition "$first" \
             --out "$RUNNER_TEMP/flywheel-base-extra.json"
           base_files="$base_files $RUNNER_TEMP/flywheel-base-extra.json"
           head_files="$head_files $RUNNER_TEMP/flywheel-head-extra.json"

@@ -163,25 +163,67 @@ def test_fingerprint_ignores_cache_markers_streaming_and_key_order():
     assert spend.fingerprint(plain) != spend.fingerprint(request(max_tokens=101))
 
 
-def test_record_once_then_replay_for_free(tmp_path):
-    """The second identical call is answered from the recording and bills nothing."""
+def test_a_rerun_is_answered_from_the_recordings_for_free(tmp_path):
+    """A later run of the same work is answered from what the first run recorded and bills
+    nothing."""
     guard = spend.Guard(1, tmp_path / "ledger.jsonl")
-    recorder = spend.Recorder(tmp_path / "replay", "record")
     sent = []
 
     def send(body):
         sent.append(body)
         return answer()
 
-    first = spend.call(request(), send, guard=guard, recorder=recorder)
-    second = spend.call(request(), send, guard=guard, recorder=recorder)
+    first = spend.call(request(), send, guard=guard, recorder=spend.Recorder(tmp_path / "r"))
+    second = spend.call(request(), send, guard=guard, recorder=spend.Recorder(tmp_path / "r"))
     assert first == second and len(sent) == 1
     rows = spend.read_ledger([guard.ledger])
     assert [row["route"] for row in rows] == ["api", "replay"]
+    assert rows[0]["key"] == rows[1]["key"] == spend.fingerprint(request())
     assert guard.spent() == pytest.approx(rows[0]["usd"])
     assert rows[1]["billed"] == 0 and rows[1]["usd"] == rows[0]["usd"]
     totals = spend.tally(rows)["total"]
     assert totals.replayed == 1 and totals.saved == pytest.approx(rows[0]["usd"])
+
+
+def test_repeats_of_one_request_are_separate_samples(tmp_path):
+    """Within a run the same request asked three times gets three answers, not one answer three
+    times; a rerun replays the three in order."""
+    guard = spend.Guard(1, tmp_path / "ledger.jsonl")
+    sent = []
+
+    def send(body):
+        sent.append(body)
+        return answer(output_tokens=len(sent))  # each live answer differs
+
+    recorder = spend.Recorder(tmp_path / "r")
+    first = [spend.call(request(), send, guard=guard, recorder=recorder) for _ in range(3)]
+    assert len(sent) == 3 and len({json.dumps(a) for a in first}) == 3
+    rerun = spend.Recorder(tmp_path / "r", "replay")
+    assert [spend.call(request(), send, guard=guard, recorder=rerun) for _ in range(3)] == first
+    assert len(sent) == 3
+    with pytest.raises(spend.ReplayMiss):
+        spend.call(request(), send, guard=guard, recorder=rerun)  # a fourth was never recorded
+
+
+def test_each_repetition_replays_its_own_answers(tmp_path):
+    """Inside meter(sample=r) the recordings are kept per repetition: a later run replays each
+    repetition's own answer, and a further repetition goes live."""
+    guard = spend.Guard(1, tmp_path / "ledger.jsonl")
+    sent = []
+
+    def send(body):
+        sent.append(body)
+        return answer(output_tokens=len(sent))
+
+    def run(repetition, recorder):
+        with spend.meter(sample=repetition):
+            return spend.call(request(), send, guard=guard, recorder=recorder)
+
+    recorder = spend.Recorder(tmp_path / "r")
+    recorded = {rep: run(rep, recorder) for rep in (1, 2, 3)}
+    later = spend.Recorder(tmp_path / "r")
+    assert {rep: run(rep, later) for rep in (3, 1, 2)} == recorded and len(sent) == 3
+    assert run(4, later) not in recorded.values() and len(sent) == 4
 
 
 def test_replay_never_goes_live(tmp_path):
@@ -196,8 +238,9 @@ def test_replay_never_goes_live(tmp_path):
     spend.Recorder(tmp_path / "replay", "record").put(
         spend.fingerprint(request()), HAIKU, answer(), spend.Usage(input=1000, output=200)
     )
-    assert spend.call(request(), send, guard=None, recorder=recorder) == answer()
-    assert recorder.hits == 1 and recorder.misses == 1
+    rerun = spend.Recorder(tmp_path / "replay", "replay")
+    assert spend.call(request(), send, guard=None, recorder=rerun) == answer()
+    assert (recorder.hits, recorder.misses, rerun.hits, rerun.misses) == (0, 1, 1, 0)
 
 
 def test_a_live_call_needs_a_guard_and_a_cap(tmp_path):
@@ -286,6 +329,43 @@ def test_runs_keep_their_usage_and_the_first_runs_alone():
     assert all(t >= first_end for t in others)
     assert [run.usage["input"] for run in result.runs] == [100, 200, 300, 400, 500]
     assert result.runs[0].usage["usd"] > 0
+
+
+def test_a_spend_stop_ends_the_run_but_an_ordinary_error_is_one_errored_run():
+    """A bug in one case is that case's result; a refused call would refuse every later case."""
+    started = []
+
+    def target(inputs):
+        started.append(inputs["n"])
+        if inputs["n"] == 0:
+            raise ValueError("a bug in the agent")
+        if inputs["n"] == 1:
+            raise spend.SpendRefused("a call to claude-haiku-5-5 refused: paid calls are off")
+        return {"ok": True}
+
+    examples = [Example(id=f"c{n}", inputs={"n": n}, reference_outputs={}) for n in range(4)]
+    with pytest.raises(spend.SpendRefused):
+        run_local(target, [], examples, repetitions=1, label="x", dataset_version="v1")
+    assert started == [0, 1]
+
+
+def test_a_replay_miss_in_parallel_runs_drops_the_runs_not_yet_started():
+    """Runs already going finish; the rest never start."""
+    started = []
+
+    def target(inputs):
+        started.append(inputs["n"])
+        if inputs["n"] == 1:
+            raise spend.ReplayMiss("no recording for this call")
+        time.sleep(0.2)
+        return {"ok": True}
+
+    examples = [Example(id=f"c{n}", inputs={"n": n}, reference_outputs={}) for n in range(10)]
+    with pytest.raises(spend.ReplayMiss):
+        run_local(
+            target, [], examples, repetitions=1, label="x", dataset_version="v1", concurrency=2
+        )
+    assert 2 <= len(started) < 10
 
 
 def test_usage_survives_save_and_load(tmp_path):

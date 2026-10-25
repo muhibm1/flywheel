@@ -132,16 +132,25 @@ def run_local(
     dataset_version: str,
     git_sha: str | None = None,
     concurrency: int = 1,
+    first_repetition: int = 1,
 ) -> Experiment:
-    """Run `target` over every example `repetitions` times, in process, and score each run."""
-    jobs = [(example, rep) for example in examples for rep in range(1, repetitions + 1)]
+    """Run `target` over every example `repetitions` times, in process, and score each run.
+
+    Repetitions are numbered from `first_repetition`. The number keys a run's recorded model
+    answers (`flywheel.spend`), so extra runs numbered after the first ones record new answers
+    instead of replaying theirs. A refused call or a replay miss (`spend.STOPS`) ends the whole
+    run: it is raised, and runs not yet started are dropped."""
+    last = first_repetition + repetitions
+    jobs = [(example, rep) for example in examples for rep in range(first_repetition, last)]
 
     def one(job: tuple[Example, int]) -> RunRecord:
         example, repetition = job
         started = time.perf_counter()
-        with spend.meter() as used:
+        with spend.meter(sample=repetition) as used:
             try:
                 outputs = target(dict(example.inputs))
+            except spend.STOPS:
+                raise
             except Exception as error:  # an errored run is a result, not a crash
                 return RunRecord(
                     example_id=example.id,
@@ -170,7 +179,11 @@ def run_local(
         # instead of each parallel run paying to write its own copy.
         runs = [one(jobs[0])]
         with ThreadPoolExecutor(max_workers=concurrency) as pool:
-            runs += list(pool.map(one, jobs[1:]))
+            try:
+                runs += list(pool.map(one, jobs[1:]))
+            except spend.STOPS:
+                pool.shutdown(cancel_futures=True)
+                raise
     else:
         runs = [one(job) for job in jobs]
     return Experiment(
