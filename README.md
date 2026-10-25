@@ -227,7 +227,7 @@ function grades a run in CI, a LangSmith experiment, and a production trace.
 ## Use it
 
 ```bash
-pip install "langsmith-flywheel[langsmith] @ git+https://github.com/muhibm1/flywheel@3fe3668707673b40a9219265c71af8f9669b1665"
+pip install "langsmith-flywheel[langsmith] @ git+https://github.com/muhibm1/flywheel@8271c46814e3724305588245da7920a893738859"
 ```
 
 Write `flywheel.toml` next to your agent:
@@ -282,7 +282,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - uses: muhibm1/flywheel@3fe3668707673b40a9219265c71af8f9669b1665 # main, 2026-10-24
+      - uses: muhibm1/flywheel@8271c46814e3724305588245da7920a893738859 # main, 2026-10-25
         with:
           config: flywheel/flywheel.toml
           install: python -m pip install -e .
