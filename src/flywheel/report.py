@@ -6,7 +6,7 @@ wants to check the numbers.
 """
 
 from flywheel.experiment import Experiment
-from flywheel.gate import CaseResult, GateResult
+from flywheel.gate import CaseResult, CostSide, GateResult
 from flywheel.grading import KIND_TITLES
 
 MARKER = "<!-- flywheel-report -->"
@@ -104,6 +104,44 @@ def comparison_url(base: Experiment, head: Experiment) -> str | None:
     return f"{base_page}selectedSessions={base_session},{head_session}"
 
 
+def cost_lines(result: GateResult) -> list[str]:
+    """The cost table: what an average run used on each side; nothing when neither counted."""
+    base, head = result.base_cost, result.head_cost
+    if base is None and head is None:
+        return []
+
+    def cell(side: CostSide | None, value) -> str:
+        return "–" if side is None else value(side)
+
+    def share(side: CostSide) -> str:
+        return "–" if side.cache_share is None else f"{side.cache_share:.0%}"
+
+    def dollars(side: CostSide) -> str:
+        return "–" if side.usd is None else f"${side.usd:.4f}"
+
+    rows = [
+        ("Model calls", lambda side: f"{side.calls:.1f}"),
+        ("Tokens, prompt and output", lambda side: f"{side.tokens:,.0f}"),
+        ("Share of the prompt read from the cache", share),
+    ]
+    if any(side is not None and side.usd is not None for side in (base, head)):
+        rows.append(("Dollars at list price", dollars))
+    lines = ["### Cost of a run", "", "| Per run | Before | After |", "|---|---|---|"]
+    lines += [f"| {name} | {cell(base, value)} | {cell(head, value)} |" for name, value in rows]
+    lines.append("")
+    sides = [side for side in (base, head) if side is not None]
+    spent = sum(side.billed for side in sides)
+    replayed = sum(side.replayed for side in sides)
+    note = f"API credit these runs spent: ${spent:.2f}."
+    if replayed:
+        note += f" {replayed} call{'s' if replayed != 1 else ''} came from recordings at no cost."
+    for side, name in ((base, "base branch's"), (head, "pull request's")):
+        if side is None:
+            note += f" The {name} runs counted no model calls, so the sides cannot be compared."
+    lines += [note, ""]
+    return lines
+
+
 def render(result: GateResult) -> str:
     """The whole comment."""
     base, head = result.base, result.head
@@ -149,6 +187,7 @@ def render(result: GateResult) -> str:
             "split at least this uneven if the change did nothing)."
         )
         lines.append("")
+    lines += cost_lines(result)
     lines += ["<details><summary>Provenance</summary>", ""]
     for side, experiment in (("Before", base), ("After", head)):
         name = (
