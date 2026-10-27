@@ -49,6 +49,8 @@ check was not noise. One passing control is not proof for every agent, though: o
 email agent, whose replies pass about half the time, the same rule blocks a change that did
 nothing in a third to a half of gates
 ([measured](studies/langchain-agents/README.md#how-often-the-gate-blocks-a-change-that-did-nothing)).
+For agents like that, `max_p = 0.05` swaps the fixed threshold for a per-case Fisher exact test,
+which cut those false blocks to 5-10% on the same runs.
 Reports and raw results:
 [docs/results/agentops-2026-10-13.md](docs/results/agentops-2026-10-13.md).
 
@@ -78,6 +80,7 @@ So Flywheel decides per case:
 | Broken | The pass rate fell by at least half. With 3 repetitions, at least two runs flipped from pass to fail. |
 | Fixed | The pass rate rose by as much. |
 | Wobble | A smaller move. Reported, never blocking: one run in three flipping is what a live model's noise looks like. |
+| `max_p` | Optional. A one-sided Fisher exact test on the case's pass counts decides instead of "fell by half": broken when the p-value is at most `max_p`. Needs a pooled base to have power. |
 | New | A case added by the pull request. A failing new case is reported, not blocked, because adding a test for a known bug is how the bug gets fixed. |
 
 The gate fails when a case breaks, or when a case starts raising an error it did not raise
@@ -248,6 +251,7 @@ langsmith_dataset = "my-agent-regressions"
 max_broken = 0      # how many broken cases to tolerate
 close_call_repetitions = 3  # extra runs, on both sides, for cases near the threshold (0: off)
 min_change = 0.5    # how far a pass rate must move to count
+# max_p = 0.05      # optional: a Fisher exact test on each case's counts decides instead
 max_cache_drop = 0.2        # block a 20-point fall in the share of the prompt read from cache
 
 [mine]
@@ -333,6 +337,9 @@ Tests: `pip install -e ".[dev,langsmith,langchain]" && pytest`.
 - Three repetitions tell a real break from noise only for large moves. A case that goes from
   3 of 3 to 2 of 3 is reported as a wobble, not blocked. Raise `repetitions` for cases where a
   single failure matters.
+- On an agent whose cases pass only some of the time, the fall-by-half rule blocks no-change
+  gates often. The `max_p` test fixes most of that, at the price of needing more runs to catch a
+  break on a case that was a coin toss to begin with.
 - Each result above is one change on one agent: 7 or 36 cases, 3 repetitions, one model. It shows
   the mechanism working. It is not a benchmark.
 - The cost table sees only the calls an agent reports to `flywheel.spend`, and only on the local
