@@ -7,7 +7,7 @@ from conftest import FAIL, PASS, experiment
 
 from flywheel.config import GateSettings
 from flywheel.experiment import pool
-from flywheel.gate import close_calls, compare, metric_verdict, sign_test
+from flywheel.gate import close_calls, compare, fisher_drop, metric_verdict, sign_test
 from flywheel.grading import GradingChange
 
 SETTINGS = GateSettings(metrics=("ok",))
@@ -194,3 +194,58 @@ def test_grading_changes_block_until_approved():
     assert not blocked.passed
     assert "changes how it is graded" in blocked.reasons[0]
     assert compare(base, head, SETTINGS, grading_changes=[change], grading_approved=True).passed
+
+
+def test_fisher_drop_matches_known_values():
+    """The one-sided Fisher p-value matches the hypergeometric tail worked by hand."""
+    assert fisher_drop(3, 3, 0, 3) == pytest.approx(1 / 20)
+    assert fisher_drop(3, 3, 1, 3) == pytest.approx(4 / 20)
+    # 12 of 12 against 3 of 6: draw 6 of 18 runs holding 15 passes; P(at most 3 passes).
+    assert fisher_drop(12, 12, 3, 6) == pytest.approx(455 * 1 / 18564)
+    assert fisher_drop(2, 3, 2, 3) == pytest.approx(16 / 20)
+
+
+def test_max_p_keeps_a_noisy_fall_as_a_wobble():
+    """With `max_p`, a fall the counts cannot tell from noise is a wobble and does not block."""
+    base = experiment("base", {"a": [PASS, PASS, PASS]})
+    head = experiment("head", {"a": [PASS, FAIL, FAIL]})
+    assert not compare(base, head, SETTINGS).passed
+    result = compare(base, head, replace(SETTINGS, max_p=0.05))
+    assert result.passed
+    assert result.cases[0].verdict == "wobble"
+    assert result.cases[0].metrics[0].p_value == pytest.approx(0.2)
+
+
+def test_max_p_still_blocks_a_full_flip_and_counts_fixes():
+    """A 3/3 to 0/3 flip reaches p = 0.05 and still blocks; the rising side is tested too."""
+    base = experiment("base", {"a": [PASS] * 3, "b": [FAIL] * 3})
+    head = experiment("head", {"a": [FAIL] * 3, "b": [PASS] * 3})
+    result = compare(base, head, replace(SETTINGS, max_p=0.05))
+    assert not result.passed
+    assert [c.verdict for c in result.cases] == ["broken", "fixed"]
+    assert [c.metrics[0].p_value for c in result.cases] == [pytest.approx(0.05)] * 2
+
+
+def test_max_p_uses_a_pooled_base():
+    """A pooled base gives the test its power: 12/12 to 3/6 blocks, 12/12 to 5/6 does not."""
+    base = experiment("base", {"a": [PASS] * 12})
+    settings = replace(SETTINGS, max_p=0.05)
+    assert not compare(base, experiment("head", {"a": [PASS] * 3 + [FAIL] * 3}), settings).passed
+    assert compare(base, experiment("head", {"a": [PASS] * 5 + [FAIL]}), settings).passed
+
+
+def test_max_p_off_leaves_no_p_value():
+    """Without `max_p` the gate is unchanged and reports no p-value."""
+    base = experiment("base", {"a": [PASS, PASS, PASS]})
+    head = experiment("head", {"a": [FAIL, FAIL, FAIL]})
+    assert compare(base, head, SETTINGS).cases[0].metrics[0].p_value is None
+
+
+def test_max_p_replaces_min_change():
+    """With `max_p`, a fall smaller than `min_change` blocks when the counts make it unlikely."""
+    base = experiment("base", {"a": [PASS] * 30})
+    head = experiment("head", {"a": [PASS] * 4 + [FAIL] * 2})
+    assert compare(base, head, SETTINGS).passed
+    result = compare(base, head, replace(SETTINGS, max_p=0.05))
+    assert not result.passed
+    assert result.cases[0].metrics[0].p_value == pytest.approx(46376 / 1947792)

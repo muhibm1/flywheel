@@ -8,6 +8,9 @@ study's own settings. Both sides come from the same agent, so every block is a f
 The same draws, with Haiku 4.5's six runs as the head, give how often the gate catches the one
 break the study reports (the school-deadline email, case 16e8...).
 
+Each split runs twice: with the study's settings (a fall of `min_change` blocks), and with
+`max_p = 0.05` added (the fall must also pass a one-sided Fisher exact test).
+
 It assumes a case's repetitions are exchangeable: any run of main is as likely as any other.
 The three email experiments were made on different days, so this is the best case for noise.
 
@@ -33,6 +36,7 @@ STUDIES = {
 }
 # Base repetitions, head repetitions: one run a side at 3 and 6, and a pooled main.
 SPLITS = {"email": [(3, 3), (6, 6), (12, 6)], "sql": [(3, 3)]}
+MAX_P = 0.05
 
 
 def by_case(experiments: list[Experiment]) -> dict[str, list[RunRecord]]:
@@ -66,44 +70,49 @@ def draw(cases: dict[str, list[RunRecord]], base_n: int, head_n: int, rng: rando
 
 def main() -> None:
     """Print the false-block rate for each agent and split, then the deadline catch rate."""
-    rng = random.Random(SEED)
     for agent, (names, change) in STUDIES.items():
-        settings = load(HERE / agent / "flywheel.toml").gate
-        experiments = [Experiment.load(HERE / agent / "runs" / f"{n}.json") for n in names]
-        cases = by_case(experiments)
-        template = experiments[0]
-        for base_n, head_n in SPLITS[agent]:
-            blocks = broken = 0
-            for _ in range(TRIALS):
-                base, head = draw(cases, base_n, head_n, rng)
-                result = compare(
-                    side(template, base, base_n), side(template, head, head_n), settings
-                )
-                blocks += not result.passed
-                broken += result.count("broken")
-            print(
-                f"{agent:5} {len(cases)} cases, main {base_n} vs main {head_n}: "
-                f"blocked {blocks / TRIALS:.1%} of {TRIALS} no-change gates, "
-                f"{broken / TRIALS:.2f} broken cases a gate"
+        study = load(HERE / agent / "flywheel.toml").gate
+        for rule, settings in [("min_change", study), ("Fisher", replace(study, max_p=MAX_P))]:
+            run_study(agent, rule, settings, names, change)
+
+
+def run_study(agent, rule, settings, names, change) -> None:
+    """The false-block rate for each split, then the deadline catch rate, under one rule."""
+    rng = random.Random(SEED)  # the same draws for both rules
+    experiments = [Experiment.load(HERE / agent / "runs" / f"{n}.json") for n in names]
+    cases = by_case(experiments)
+    template = experiments[0]
+    for base_n, head_n in SPLITS[agent]:
+        blocks = broken = 0
+        for _ in range(TRIALS):
+            base, head = draw(cases, base_n, head_n, rng)
+            result = compare(side(template, base, base_n), side(template, head, head_n), settings)
+            blocks += not result.passed
+            broken += result.count("broken")
+        print(
+            f"{agent:5} {rule:10} {len(cases)} cases, main {base_n} vs main {head_n}: "
+            f"blocked {blocks / TRIALS:.1%} of {TRIALS} no-change gates, "
+            f"{broken / TRIALS:.2f} broken cases a gate"
+        )
+    if change is None:
+        return
+    haiku = Experiment.load(HERE / agent / "runs" / f"{change}.json")
+    haiku_cases = by_case([haiku])
+    for base_n, head_n in [(3, 3), (12, 3), (12, 6)]:
+        caught = blocked = 0
+        for _ in range(TRIALS):
+            base, _ = draw(cases, base_n, 0, rng)
+            head, _ = draw(haiku_cases, head_n, 0, rng)
+            result = compare(side(template, base, base_n), side(haiku, head, head_n), settings)
+            blocked += not result.passed
+            caught += any(
+                c.example_id.startswith(DEADLINE) and c.verdict == "broken" for c in result.cases
             )
-        if change is None:
-            continue
-        haiku = Experiment.load(HERE / agent / "runs" / f"{change}.json")
-        haiku_cases = by_case([haiku])
-        for base_n, head_n in [(3, 3), (12, 3), (12, 6)]:
-            caught = 0
-            for _ in range(TRIALS):
-                base, _ = draw(cases, base_n, 0, rng)
-                head, _ = draw(haiku_cases, head_n, 0, rng)
-                result = compare(side(template, base, base_n), side(haiku, head, head_n), settings)
-                caught += any(
-                    c.example_id.startswith(DEADLINE) and c.verdict == "broken"
-                    for c in result.cases
-                )
-            print(
-                f"{agent:5} main {base_n} vs Haiku {head_n}: the deadline break caught in "
-                f"{caught / TRIALS:.1%} of {TRIALS} gates"
-            )
+        print(
+            f"{agent:5} {rule:10} main {base_n} vs Haiku {head_n}: the deadline break caught in "
+            f"{caught / TRIALS:.1%} of {TRIALS} gates, and the gate blocked Haiku in "
+            f"{blocked / TRIALS:.1%}"
+        )
 
 
 if __name__ == "__main__":
