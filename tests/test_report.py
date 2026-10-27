@@ -38,3 +38,11 @@ def test_comparison_url_only_for_one_dataset():
     assert comparison_url(base, head) == page + "aaa,bbb"
     other = Experiment("h", "langsmith", "v", 1, [], {}, url=page.replace("/9/", "/8/") + "c")
     assert comparison_url(base, other) is None
+
+
+def test_report_shows_the_p_value_under_max_p():
+    """With `max_p` set, a moved metric's line carries its Fisher p-value."""
+    base = experiment("base", {"a": [PASS] * 3})
+    head = experiment("head", {"a": [FAIL] * 3})
+    settings = GateSettings(metrics=("ok",), max_p=0.05)
+    assert "(p = 0.05)" in render(compare(base, head, settings))

@@ -8,6 +8,11 @@ went the other way. So the gate works per case and per metric:
 - A case is **broken** when its pass rate fell by at least `min_change` (by default 0.5: with
   three repetitions, at least two runs flipped from pass to fail), and **fixed** when it rose by
   as much.
+- With `max_p` set, a test on the counts decides instead of `min_change`: a case is broken
+  (or fixed) when a one-sided Fisher exact test on its pass counts gives a p-value of at most
+  `max_p`, the chance a fall (or rise) at least that large shows up when nothing changed. Any
+  other move is a wobble. Off by default; it needs more runs a side to have power, which a
+  pooled base supplies.
 - A smaller move is a **wobble**: reported, never blocking. Live models are not deterministic,
   and one run in three flipping is what noise looks like.
 - A case present only in the pull request is **new**; a failing new case is reported, not
@@ -53,6 +58,8 @@ class MetricResult:
     base_rate: float | None
     head_rate: float | None
     verdict: Verdict
+    # The one-sided Fisher exact p-value for the move, when `max_p` is set and the rate moved.
+    p_value: float | None = None
 
 
 @dataclass(frozen=True)
@@ -166,6 +173,20 @@ def metric_verdict(base_rate: float | None, head_rate: float | None, min_change:
     return "steady_pass" if head_rate >= 0.5 else "steady_fail"
 
 
+def fisher_drop(base_passed: int, base_runs: int, head_passed: int, head_runs: int) -> float:
+    """One-sided Fisher exact test: the chance the head passes this few times under no change.
+
+    The case's passes are pooled across both sides; under no change, which runs are the head's
+    is chance, so the head's passes follow a hypergeometric draw. The p-value is the chance of
+    a draw at most `head_passed`."""
+    total, passed = base_runs + head_runs, base_passed + head_passed
+    low = max(0, head_runs - (total - passed))
+    tail = sum(
+        comb(passed, x) * comb(total - passed, head_runs - x) for x in range(low, head_passed + 1)
+    )
+    return tail / comb(total, head_runs)
+
+
 def sign_test(broken: int, fixed: int) -> float | None:
     """Two-sided exact sign test: the chance of a split at least this uneven under no effect."""
     n = broken + fixed
@@ -261,6 +282,32 @@ def close_calls(base: Experiment, head: Experiment, settings: GateSettings) -> l
     return picked
 
 
+def counts(runs: list[RunRecord], metric: str, pass_at: float) -> tuple[int, int]:
+    """How many of `runs` passed `metric`, and how many there are."""
+    return sum(passes(run, metric, pass_at) for run in runs), len(runs)
+
+
+def metric_result(
+    metric: str, base_runs: list[RunRecord], head_runs: list[RunRecord], settings: GateSettings
+) -> MetricResult:
+    """One metric of one case; with `max_p` set, the Fisher test decides instead of `min_change`."""
+    base_rate = pass_rate(base_runs, metric, settings.pass_at)
+    head_rate = pass_rate(head_runs, metric, settings.pass_at)
+    verdict = metric_verdict(base_rate, head_rate, settings.min_change)
+    if settings.max_p is None or base_rate is None or head_rate is None or base_rate == head_rate:
+        return MetricResult(metric, base_rate, head_rate, verdict)
+    base_passed, base_n = counts(base_runs, metric, settings.pass_at)
+    head_passed, head_n = counts(head_runs, metric, settings.pass_at)
+    if head_rate < base_rate:
+        p_value = fisher_drop(base_passed, base_n, head_passed, head_n)
+        moved: Verdict = "broken"
+    else:
+        p_value = fisher_drop(head_passed, head_n, base_passed, base_n)
+        moved = "fixed"
+    verdict = moved if p_value <= settings.max_p + 1e-12 else "wobble"
+    return MetricResult(metric, base_rate, head_rate, verdict, p_value)
+
+
 def compare(
     base: Experiment,
     head: Experiment,
@@ -276,16 +323,7 @@ def compare(
         base_runs = base.runs_of(example_id) if example_id in base.examples else []
         head_runs = head.runs_of(example_id) if example_id in head.examples else []
         results = [
-            MetricResult(
-                metric=metric,
-                base_rate=pass_rate(base_runs, metric, settings.pass_at),
-                head_rate=pass_rate(head_runs, metric, settings.pass_at),
-                verdict=metric_verdict(
-                    pass_rate(base_runs, metric, settings.pass_at),
-                    pass_rate(head_runs, metric, settings.pass_at),
-                    settings.min_change,
-                ),
-            )
+            metric_result(metric, base_runs, head_runs, settings)
             for metric in metrics
             if scored(base_runs, metric) or scored(head_runs, metric)
         ]
