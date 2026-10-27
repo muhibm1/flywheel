@@ -71,8 +71,8 @@ and both gates were run again at 6. Both rounds are reported.
 - **Haiku's other losses are spread thin.** Haiku called the expected tools in 30 of 66 reply
   runs against 34 to 36 for each Sonnet run, and met the criteria in 27 against 32 to 33. Haiku
   sorted emails slightly better (105 of 120, against 99 to 101).
-- **The skipped calendar check was mostly the free route, not the agent.** On LangChain's own
-  API client (the paid check below), Haiku checked the calendar on that email in 3 of 3 runs.
+- **The skipped calendar check was mostly the command-line route, not the agent.** On LangChain's own
+  API client (the native-client check below), Haiku checked the calendar on that email in 3 of 3 runs.
 - **The school-deadline break is real.** It shows again on LangChain's own client, Sonnet 3 of 3
   against Haiku 0 of 3 (below).
 - The email agent is hard for every model on reply quality: about half of the replies meet
@@ -95,12 +95,12 @@ checks and found 4 failures in 3 places:
 | 1 | Triage answered a CI-failure notice that should only have been flagged. |
 
 All 4 became test cases, growing the dataset from 16 to 20. Two of them decided the email gates:
-the calendar case at first, and the school-deadline case once main was pooled. The traffic ran on the free
-route, so the two skipped-tool failures may partly be the route (see the paid check).
+the calendar case at first, and the school-deadline case once main was pooled. The traffic ran on the command-line
+route, so the two skipped-tool failures may partly be the route (see the native-client check).
 
 ### What Flywheel caught that was not the agent
 
-Mid-study the subscription's usage limit ran out partway through a control run. Flywheel blocked
+Mid-study the model service's usage limit ran out partway through a control run. Flywheel blocked
 that run: 12 cases broken and 16 raising errors they did not raise before. The run was thrown
 out and redone, and the blocked report is kept
 (`email/runs/v1-transport/gate-control-limit-hit.md`). This is the gate doing its job on a
@@ -118,18 +118,16 @@ broken run.
   did not match "138.60", and a read-only schema lookup (`PRAGMA table_info`) was flagged as a
   write. Both fixed and tested, then every SQL run was rescored.
 
-## The paid check: LangChain's own client
+## The native-client check: LangChain's own client
 
-Every run above went through the subscription, where the model returns its tool calls as JSON
-instead of making native tool calls. To test what that changes, both models were run again on
-LangChain's own `ChatAnthropic` client against the Anthropic API, 3 runs per case: Haiku on both
-agents, then Sonnet on the email agent. A hard spending cap of $6 was set (`apiguard.py`). The
-whole paid check cost **$1.97** (697 model calls, priced from the API's own token counts): $0.88
-for Haiku, $1.09 for Sonnet.
+Every run above went through a command-line route, where the model returns its tool calls as
+JSON instead of making native tool calls. To test what that changes, both models were run again
+on LangChain's own `ChatAnthropic` client against the Anthropic API, 3 runs per case: Haiku on
+both agents, then Sonnet on the email agent, 697 model calls in all.
 
-### Does the free route give the same answers?
+### Does the command-line route give the same answers?
 
-| | Free route (Haiku) | LangChain's own client (Haiku) |
+| | Command-line route (Haiku) | LangChain's own client (Haiku) |
 |---|---|---|
 | SQL, first 24 questions: correct | 70 / 72 | 72 / 72 |
 | Email: sorted into the right category | 53 / 60 | 51 / 60 |
@@ -138,9 +136,9 @@ for Haiku, $1.09 for Sonnet.
 
 - **On the SQL agent the two routes agree.** Flywheel's gate between them passes.
 - **On the email agent they do not.** Sorting emails is about the same. Replies are far better
-  on the native client: the expected tools were called in 27 of 33 runs against 15. The free
+  on the native client: the expected tools were called in 27 of 33 runs against 15. The command-line
   route made the email agent's replies look worse than they are. So the email results in the
-  section above measure the free route as much as the models.
+  section above measure the command-line route as much as the models.
 
 ### The email verdict on LangChain's own client
 
@@ -154,32 +152,64 @@ for Haiku, $1.09 for Sonnet.
   in 27 of 33 runs.
 - **Flywheel still blocks the move to Haiku, on one case: the school deadline.** Sonnet
   acknowledged the March 7 deadline in 3 of 3 runs, Haiku in 0 of 3. This is the same case that
-  blocked on the free route, so the break shows on both routes. A total-score dashboard would
+  blocked on the command-line route, so the break shows on both routes. A total-score dashboard would
   have called the two models equal and shipped the change; the per-case gate shows one email
   type that Haiku reliably gets wrong.
 - Haiku also fixed one case (a joint-presentation request: Sonnet 0 of 3, Haiku 3 of 3), and one
   GitHub notification moved by less than the noise threshold. Report:
   `email/runs/gate-api-haiku.md`.
-- This gate uses one native Sonnet run as main, with no native control; the free-route control
+- This gate uses one native Sonnet run as main, with no native control; the command-line-route control
   showed single-run mains can mislead. The school-deadline break is the one result that holds
-  across the free route (pooled main) and the native client.
+  across the command-line route (pooled main) and the native client.
 
-## How it ran, and what it cost
+## How it ran
 
-- **API cost: $1.97**, all of it the paid check above. Every other run used the Claude
-  subscription through headless the harness, wrapped as a LangChain chat model (`subchat.py`). The agents' graphs, prompts and tools are
-  unchanged; only the model transport differs.
+- **Two transports.** The native-client check above used `ChatAnthropic`. Every other run
+  called the model through a headless command-line client, wrapped as a LangChain chat model
+  (`subchat.py`). The agents' graphs, prompts and tools are unchanged; only the model transport
+  differs.
 - **That transport is a disclosed difference.** The model does not get native tool calls; it
   returns its tool calls as JSON. In early runs it sometimes told the user "the SQL tools are not
   available" instead of calling them. Clearer framing cut this from 3 runs in 8 to about 1 run
   in 100 (0 of 108 Sonnet main runs, 1 of 108 Haiku runs, 2 of 108 control runs). Those runs count
   as failures above; they were not dropped.
-- **The email judge** is Claude Sonnet 4.6 on the subscription, the same for every run, using
+- **The email judge** is Claude Sonnet 4.6, the same for every run, using
   LangChain's own judge prompt.
-- **LangSmith's free monthly trace limit was used up**, so the traffic traces were exported to a
+- **LangSmith's monthly trace limit was reached**, so the traffic traces were exported to a
   file and mined with `flywheel mine --from-file` rather than read from LangSmith.
 - Usage limits cut some runs short. `assemble.py` rebuilds a run from its saved answers and the
   remaining cases were run separately; each case keeps its first 3 answers (or 6).
+
+## How often the gate blocks a change that did nothing
+
+The controls above are single gates. To measure the false-block rate, every stored run of the
+unchanged agent was pooled per case and gated against itself 2,000 times, drawing disjoint runs
+for the two sides each time ([false_block_check.py](false_block_check.py), no new model calls).
+Both sides are the same agent, so every block is a false one.
+
+| Agent | Main runs vs head runs | No-change gates blocked |
+| --- | --- | --- |
+| SQL, 36 cases | 3 vs 3 | 0% |
+| Email, 20 cases | 3 vs 3 | 50% |
+| Email, 20 cases | 6 vs 6 | 34% |
+| Email, 20 cases | 12 (pooled) vs 6 | 17% |
+
+- **On the SQL agent the gate is quiet.** Its cases pass almost always, so a fall by half is
+  never noise.
+- **On the email agent it is not.** Eight of its case checks pass between 20% and 80% of the
+  time across 18 Sonnet runs, and a rule of "the pass rate fell by half" fires on one of them by
+  chance in half of all gates at 3 runs a side. Pooling main helps, and still leaves one gate in
+  six blocked for nothing. The single controls that passed were the lucky draws.
+- **The same draws show how often the real break is caught.** Pooled main (12 runs) against
+  Haiku's six caught the school-deadline break in 45% of gates on the command-line route, where
+  Sonnet met that case in 11 of 18 runs. That break is clearer on the native client (3 of 3
+  against 0 of 3), but there are too few native runs to resample.
+- **What it points to.** A per-case statistical test in place of the fixed threshold, so a
+  coin-toss case needs more evidence to block. On the same draws, a one-sided Fisher exact test
+  at 0.05 blocked 5% of no-change gates at 12 against 6 runs and caught a real Haiku break in
+  72%. That rule is not in Flywheel yet; the numbers are from a prototype on these runs.
+- The draws treat any run of a case as exchangeable with any other. The three Sonnet runs were
+  made on different days, so the real noise between two days can only be larger.
 
 ## Gaps
 

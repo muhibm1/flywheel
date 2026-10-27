@@ -44,8 +44,12 @@ runs on a scripted model. In this experiment I wired Flywheel into it.
   **The cases that caught the regression came from traffic, not from imagination.**
 
 A control run makes the result credible. I ran main against itself: same code, two separate
-live experiments. Flywheel passed it with one case wobbling inside the allowance. So a red
-check means a real change, not model noise. Reports and raw results:
+live experiments. Flywheel passed it with one case wobbling inside the allowance, so this red
+check was not noise. One passing control is not proof for every agent, though: on LangChain's
+email agent, whose replies pass about half the time, the same rule blocks a change that did
+nothing in a third to a half of gates
+([measured](studies/langchain-agents/README.md#how-often-the-gate-blocks-a-change-that-did-nothing)).
+Reports and raw results:
 [docs/results/agentops-2026-10-13.md](docs/results/agentops-2026-10-13.md).
 
 ## A second agent: the same result, a different kind of agent
