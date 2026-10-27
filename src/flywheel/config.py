@@ -38,6 +38,11 @@ class GateSettings:
     # With three repetitions, 0.5 means "two of three runs changed", so one noisy run in three
     # is reported as a wobble and never blocks.
     min_change: float = 0.5
+    # When set, a one-sided Fisher exact test on each case's pass counts decides instead of
+    # `min_change`: a move counts as broken or fixed when its p-value is at most this (0.05 is
+    # usual), and is a wobble otherwise. None is off. With three runs a side only a full 3/3 to
+    # 0/3 flip reaches 0.05, so pool the base (`--base a.json b.json`) to give it power.
+    max_p: float | None = None
     # How many broken cases are tolerated before the gate fails.
     max_broken: int = 0
     # Fail when the change makes a case raise that did not raise before.
@@ -113,6 +118,7 @@ def load(path: Path) -> Config:
                 metrics=tuple(gate.get("metrics", ())),
                 pass_at=float(gate.get("pass_at", 1.0)),
                 min_change=float(gate.get("min_change", 0.5)),
+                max_p=optional_float(gate, "max_p"),
                 max_broken=int(gate.get("max_broken", 0)),
                 block_on_new_errors=bool(gate.get("block_on_new_errors", True)),
                 close_call_repetitions=int(gate.get("close_call_repetitions", 0)),

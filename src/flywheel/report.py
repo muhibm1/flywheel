@@ -81,6 +81,7 @@ def case_lines(case: CaseResult, base: Experiment, head: Experiment) -> list[str
     head_runs = len(head.runs_of(case.example_id)) or head.repetitions
     metrics = ", ".join(
         f"`{m.metric}` {fraction(m.base_rate, base_runs)} → {fraction(m.head_rate, head_runs)}"
+        + (f" (p = {m.p_value:.2g})" if m.p_value is not None else "")
         for m in shown
     )
     line = f"- `{case.example_id}` {case.summary}"
