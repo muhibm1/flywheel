@@ -1,14 +1,20 @@
 """A tiny stand-in agent so the quickstart runs with nothing installed.
 
-It routes a customer message to a team. `QUICKSTART_REGRESSION=1` swaps in a "simplified"
-rule set that drops the refund rule, the kind of tidy-up that reads fine in review and
-silently misroutes every refund request.
+It routes a customer message to a team. Two "simplified" rule sets stand in for edits that
+read fine in review:
+
+- `QUICKSTART_REGRESSION=1` drops the refund rule, so every refund request is misrouted. The
+  hand-written seed cases catch this one.
+- `QUICKSTART_REGRESSION=money` drops the "money back" rule, added after production traffic
+  showed customers asking for their money back without saying "refund". No seed case covers
+  it; only the cases mined from `traces.json` do.
 """
 
 import os
 
 RULES = [
     ("refund", "billing"),
+    ("money back", "billing"),
     ("charged twice", "billing"),
     ("invoice", "billing"),
     ("password", "account"),
@@ -20,7 +26,9 @@ RULES = [
 
 def target(inputs: dict) -> dict:
     """Route one message: the first rule whose phrase appears wins; otherwise `general`."""
-    rules = RULES[1:] if os.environ.get("QUICKSTART_REGRESSION") == "1" else RULES
+    regression = os.environ.get("QUICKSTART_REGRESSION")
+    dropped = {"1": "refund", "money": "money back"}.get(regression or "")
+    rules = [rule for rule in RULES if rule[0] != dropped]
     message = inputs["message"].lower()
     for phrase, team in rules:
         if phrase in message:
