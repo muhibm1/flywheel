@@ -312,6 +312,31 @@ QUICKSTART_REGRESSION=1 flywheel run --label head --out /tmp/head.json
 flywheel gate --base /tmp/base.json --head /tmp/head.json   # blocked: the refund case broke
 ```
 
+### The whole loop, offline
+
+The same quickstart also shows the result above in miniature: a case mined from traffic catches
+a change that every hand-written case passes. `traces.json` holds eight exported runs of the
+router from before it learned that "can I get my money back?" belongs with billing; three of
+them were scored wrong. `QUICKSTART_REGRESSION=money` is a later tidy-up that drops that rule
+again. `review.py` stands in for the person who writes the right answer for each candidate.
+
+```bash
+cp -r examples/quickstart /tmp/loop && cd /tmp/loop      # promote edits the dataset
+flywheel run --label base --out /tmp/base.json
+QUICKSTART_REGRESSION=money flywheel run --label head --out /tmp/head.json
+flywheel gate --base /tmp/base.json --head /tmp/head.json   # passes: no seed case asks for money back
+
+flywheel mine --from-file traces.json        # 3 failing runs, 2 distinct messages, 2 candidates
+python review.py .flywheel/candidates.jsonl  # a person writes the reference: billing
+flywheel promote .flywheel/candidates.jsonl  # the dataset grows from 8 cases to 10
+
+flywheel run --label base --out /tmp/base.json
+QUICKSTART_REGRESSION=money flywheel run --label head --out /tmp/head.json
+flywheel gate --base /tmp/base.json --head /tmp/head.json   # blocked: the 2 mined cases broke
+```
+
+`tests/test_cli.py` runs this loop on every push.
+
 ## What is in the repository
 
 | Path | What it is |
@@ -325,7 +350,7 @@ flywheel gate --base /tmp/base.json --head /tmp/head.json   # blocked: the refun
 | `src/flywheel/langchain_spend.py` | The same guard and replay for a LangChain chat model, through its cache slot |
 | `action.yml` | The GitHub Action |
 | `docs/playbook.md` | The first two weeks with a customer's agent, step by step |
-| `examples/quickstart/` | The dependency-free demo |
+| `examples/quickstart/` | The dependency-free demo, with exported traces for the whole loop |
 
 The core needs only the Python standard library; LangSmith and LangChain are optional extras.
 Tests: `pip install -e ".[dev,langsmith,langchain]" && pytest`.

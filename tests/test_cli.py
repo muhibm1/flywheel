@@ -189,3 +189,32 @@ def test_gate_holds_an_edited_expected_answer_until_approved(workspace, tmp_path
     assert f"Expected answer changed: `{rows[0]['id']}`" in out
     assert main([*args, "--approve-grading"]) == 0
     assert "A person approved these edits." in capsys.readouterr().out
+
+
+def test_the_whole_loop_catches_what_only_traffic_covers(workspace, monkeypatch, capsys):
+    """The quickstart's full loop: a regression no seed case covers passes the gate, then the
+    cases mined from its traces, reviewed and promoted, block it."""
+    import subprocess
+    import sys
+
+    def gate() -> int:
+        """Run main and the regression once each and return the gate's exit code."""
+        monkeypatch.delenv("QUICKSTART_REGRESSION", raising=False)
+        assert main(["run", "--label", "base", "--out", "base.json"]) == 0
+        monkeypatch.setenv("QUICKSTART_REGRESSION", "money")
+        assert main(["run", "--label", "head", "--out", "head.json"]) == 0
+        monkeypatch.delenv("QUICKSTART_REGRESSION")
+        return main(["gate", "--base", "base.json", "--head", "head.json"])
+
+    assert gate() == 0  # the seed cases never ask for money back
+    assert main(["mine", "--from-file", "traces.json"]) == 0
+    candidates = load(Path(".flywheel/candidates.jsonl"))
+    assert len(candidates) == 2  # three failing traces, two distinct messages
+    assert main(["promote", ".flywheel/candidates.jsonl"]) == 2  # not reviewed yet
+    subprocess.run([sys.executable, "review.py", ".flywheel/candidates.jsonl"], check=True)
+    assert main(["promote", ".flywheel/candidates.jsonl"]) == 0
+    capsys.readouterr()
+    assert gate() == 1
+    report = capsys.readouterr().out
+    assert "2 cases broke" in report
+    assert "money back" in report
