@@ -1,0 +1,294 @@
+[
+ {
+  "repo": "agentops",
+  "fix": "6ec50db482cc4e6ef3b172223b15b1ce3c1e4d85",
+  "parent": "6b54aeb7f9ae3580546f77957bf6dc276e9e70d2",
+  "subject": "fix(review): router matches mis/re/un-prefixed keywords; triage rejects repeated names; escalate records rejected attempts",
+  "task": "fix(review): router matches mis/re/un-prefixed keywords; triage rejects repeated names; escalate records rejected attempts",
+  "tests": [
+   "tests/test_rca_escalate.py",
+   "tests/test_router.py",
+   "tests/test_state.py"
+  ],
+  "code": [
+   "src/agentops/nodes/escalate.py",
+   "src/agentops/nodes/router.py",
+   "src/agentops/state.py"
+  ],
+  "lines": 88
+ },
+ {
+  "repo": "agentops",
+  "fix": "75b77ef6d7679ce561b0feac4c91d5932e2b13ab",
+  "parent": "0b76e158d3e5b7097e02518b6ced35a09747f9e8",
+  "subject": "fix(review): write the escalation reason where the decision is made",
+  "task": "fix(review): write the escalation reason where the decision is made\n\nrca writes ambiguous when it clears the result; merge writes its stop reason when it routes\nto escalate; escalate reads the state first.",
+  "tests": [
+   "tests/test_merge.py",
+   "tests/test_rca_escalate.py"
+  ],
+  "code": [
+   "src/agentops/nodes/escalate.py",
+   "src/agentops/nodes/merge.py",
+   "src/agentops/nodes/rca.py"
+  ],
+  "lines": 59
+ },
+ {
+  "repo": "agentops",
+  "fix": "7ad570fd6bb5215813e12d4cd47ab0c7faa495f3",
+  "parent": "e3905fe34ef28c744fe3aad70a243d12622a296d",
+  "subject": "fix(verify): an unreadable metric or log source is never cleared",
+  "task": "fix(verify): an unreadable metric or log source is never cleared\n\nverify swallowed a failed metric or log read and could still say cleared. The result and\nthe audit record now carry unreadable_sources, a metric with no healthy range is no longer\nhealthy, and tests pin the latest-point rule and the opened_at boundary.",
+  "tests": [
+   "tests/test_verify_postmortem.py"
+  ],
+  "code": [
+   "src/agentops/nodes/verify.py"
+  ],
+  "lines": 142
+ },
+ {
+  "repo": "agentops",
+  "fix": "5290f6908bddf0aec9e39455a2b51ae3d7abec8a",
+  "parent": "78611ac65a7ffdf8368b07cf9400dcb52556cd25",
+  "subject": "fix(review): label looped_then_remediated by applies, not by the loops counter",
+  "task": "fix(review): label looped_then_remediated by applies, not by the loops counter",
+  "tests": [
+   "tests/test_evaluators.py"
+  ],
+  "code": [
+   "src/agentops/evals/outcome.py"
+  ],
+  "lines": 83
+ },
+ {
+  "repo": "agentops",
+  "fix": "aeb5e00f234e3ac82edf2c0acb533dbe39df3619",
+  "parent": "7ce4c805808efe4fdddcdad0a2b2b3f9497d472e",
+  "subject": "fix(review): cut the run-failed message to 200 characters",
+  "task": "fix(review): cut the run-failed message to 200 characters",
+  "tests": [
+   "tests/test_cli.py"
+  ],
+  "code": [
+   "src/agentops/cli.py"
+  ],
+  "lines": 17
+ },
+ {
+  "repo": "workhorse",
+  "fix": "ef43c5ee85ec2fc6ca6a4a504fda6668d3bdef86",
+  "parent": "ebd7d7f146e1f1e5bf2adb219c5741a52753a2bc",
+  "subject": "fix: the close commit carries the retro's instinct files",
+  "task": "fix: the close commit carries the retro's instinct files\n\nFrom the live run's last step: wh-retro-learner wrote six instinct files to\n.workhorse/instincts/, outside the change folder (they accumulate across changes), and\nphase done committed only docs/sdlc/<id>, leaving them untracked. They are the record of\nwhat the pipeline learned, so the close commit now includes .workhorse/instincts too.\n\nTests: 1 new. Plugin 143/143.",
+  "tests": [
+   "hooks/tests/run.js"
+  ],
+  "code": [
+   "scripts/wh.js"
+  ],
+  "lines": 15
+ },
+ {
+  "repo": "workhorse",
+  "fix": "2c9cd063806a3986f8ca3b25bd7280cf2c19c274",
+  "parent": "ee9e0b421fdafdaa513596f538cee06b18a725af",
+  "subject": "fix: real timestamps in the conductor log, artifacts sized to the change",
+  "task": "fix: real timestamps in the conductor log, artifacts sized to the change\n\nTwo findings from the full live run.\n\nThe conductor wrote conductor-log.md by hand and guessed the times. It logged\n\"presenting G2, ending turn\" at 05:42 when the file itself was written at 05:55,\nso the log could not be used to reconstruct the run. New command: wh.js log\n\"<agent> | <result>\" appends a line stamped by the CLI with the real time and the\ncurrent phase. The conductor is told to use only that.\n\nA tier-1 /health endpoint produced a 268-line intent (the rule says 150), a 535-line\nspec and 34 eval cases. A human reads the spec at G2, so length is a real cost. The\nspec architect now sizes to the tier (tier 0-1 under about 200 lines, tier 2 under\n400), writes \"Not applicable: reason\" for sections that do not apply, and cites\nrather than restates. The eval designer is told not to pad categories, and the\nintent writer's limit is now given in bytes as well as lines. This is guidance, not\nenforcement; whether it holds is only visible on the next run.\n\nTests: 3 new (log appends, uses the real time, refuses empty). Plugin 117/117.",
+  "tests": [
+   "hooks/tests/run.js"
+  ],
+  "code": [
+   "agents/wh-conductor.md",
+   "agents/wh-eval-designer.md",
+   "agents/wh-intent-writer.md",
+   "agents/wh-spec-architect.md",
+   "scripts/wh.js"
+  ],
+  "lines": 48
+ },
+ {
+  "repo": "workhorse",
+  "fix": "32bdf1a25ba5ed9bbd398cd51eb2bfaf32661fbf",
+  "parent": "1e4e059e4891586b069aeb351e2edd12ca4d161b",
+  "subject": "fix: WorkHorse 0.3.6, the sensitive-path hook reads the approved plan from the main checkout",
+  "task": "fix: WorkHorse 0.3.6, the sensitive-path hook reads the approved plan from the main checkout",
+  "tests": [
+   "hooks/tests/run.js"
+  ],
+  "code": [
+   "hooks/scripts/protect-paths.js"
+  ],
+  "lines": 46
+ },
+ {
+  "repo": "agentops",
+  "fix": "09f949a336a0ec3b17b39edd9f56a48193f05a0e",
+  "parent": "2bce95e83f91964424c1cd9dd49ff15bee32f18b",
+  "subject": "fix: score each apply by the approval that let it run",
+  "task": "fix: score each apply by the approval that let it run\n\n`apply_attempts_of` set `approved` for every apply from the one approval left in the final\nstate. A verified apply that loops clears that approval (verify.py), so a run that applied an\napproved action, looped and then escalated scored its first apply as unapproved and failed\n`safety`. Seen on the Sonnet dev run of 2026-10-12, two_concurrent_faults repetition 3: the\nrollback was approved, applied and verified; the second pass found the scores too close and\nhanded off; the row scored safety False.\n\nThe executor now records the approving decision on each apply's action evidence (`approval`),\nand the scorer reads it per apply. Evidence without the field (older checkpoints) falls back to\nthe approval in state, and only when its idempotency key is the apply's own.\n\nContract change: action evidence of kind `action` carries one more key, `approval`.",
+  "tests": [
+   "tests/test_evaluators.py"
+  ],
+  "code": [
+   "src/agentops/actions/executor.py",
+   "src/agentops/evals/outcome.py"
+  ],
+  "lines": 98
+ },
+ {
+  "repo": "agentops",
+  "fix": "cf21be9ce908b0f18b5b09bbea999c79aba1c8c1",
+  "parent": "0cf10abff4a99f66b4b65c1a6a9a373d877006b3",
+  "subject": "fix: let the model send remediation parameters at all",
+  "task": "fix: let the model send remediation parameters at all\n\nThe r3b live run (c084cbc) still escalated every proposal of an action\nwith a required parameter. Root cause, confirmed offline with\nanthropic.transform_schema: langchain-anthropic's json_schema method\ncloses every object schema, so Remediation.params, an open mapping,\nreached the model as {\"type\": \"object\", \"properties\": {},\n\"additionalProperties\": false}. The only valid answer was params {}, so\ncircuit_break_dependency and rerun_partition could never pass the\nrunbook check. The baseline was unaffected because it calls tools.\n\nRemediation.params stays a mapping in Python, in state, in audit records\nand in scenario files. Its JSON schema is now a list of {name, value}\npairs, and a before-validator turns that list into the mapping. A\nmissing key, an extra key, or a repeated name is refused. No other\nmodel-facing schema has an open mapping.",
+  "tests": [
+   "tests/test_traced_run_fixes.py"
+  ],
+  "code": [
+   "src/agentops/state.py"
+  ],
+  "lines": 86
+ },
+ {
+  "repo": "agentops",
+  "fix": "e717d7e35389eb929ace1135e9b71c2dca877e1a",
+  "parent": "15ff24efab47b76b44de2d4369a9e8e05fbe5fc2",
+  "subject": "fix(review): treat this thread's recorded apply as already applied on a fresh source",
+  "task": "fix(review): treat this thread's recorded apply as already applied on a fresh source",
+  "tests": [
+   "tests/test_executor.py"
+  ],
+  "code": [
+   "src/agentops/actions/executor.py"
+  ],
+  "lines": 108
+ },
+ {
+  "repo": "agentops",
+  "fix": "15ff24efab47b76b44de2d4369a9e8e05fbe5fc2",
+  "parent": "58916f28b5cd288ffd5effc72d7f75ff719a2879",
+  "subject": "fix(review): end a torn audit line before appending the next record",
+  "task": "fix(review): end a torn audit line before appending the next record",
+  "tests": [
+   "tests/test_audit.py"
+  ],
+  "code": [
+   "src/agentops/actions/audit.py"
+  ],
+  "lines": 47
+ },
+ {
+  "repo": "agentops",
+  "fix": "58916f28b5cd288ffd5effc72d7f75ff719a2879",
+  "parent": "b393e2d6d44d957a968fb5c0b8b184cd90a3657c",
+  "subject": "fix(review): append ledger lines with LF only and skip blank ledger lines on replay",
+  "task": "fix(review): append ledger lines with LF only and skip blank ledger lines on replay",
+  "tests": [
+   "tests/test_simulator.py"
+  ],
+  "code": [
+   "src/agentops/sources/simulator.py"
+  ],
+  "lines": 55
+ },
+ {
+  "repo": "agentops",
+  "fix": "11067ac08282e83656d428668c07d601939c5b28",
+  "parent": "2072d09346f9f5cf26d357b9da3f7b169a998edf",
+  "subject": "fix(simulator): skip a torn final ledger line and start the next entry on a fresh line",
+  "task": "fix(simulator): skip a torn final ledger line and start the next entry on a fresh line\n\nOnly a final line with no newline after it, that is not JSON, is skipped and counted in\ntorn_ledger_lines; any earlier non-JSON line still raises LedgerError naming it (D17).\nA fragment cut inside a multibyte character is decoded leniently and treated as torn.",
+  "tests": [
+   "tests/test_simulator.py"
+  ],
+  "code": [
+   "src/agentops/sources/simulator.py"
+  ],
+  "lines": 189
+ },
+ {
+  "repo": "agentops",
+  "fix": "7ce4c805808efe4fdddcdad0a2b2b3f9497d472e",
+  "parent": "dbad3a138c19d127cfbc4e21b9ef18256d961645",
+  "subject": "fix(review): a plain repeat of an applied key stays applied=False so verify escalates",
+  "task": "fix(review): a plain repeat of an applied key stays applied=False so verify escalates",
+  "tests": [
+   "tests/test_executor.py"
+  ],
+  "code": [
+   "src/agentops/actions/executor.py"
+  ],
+  "lines": 49
+ },
+ {
+  "repo": "agentops",
+  "fix": "d9ada42a5882022b16c1430a1e9a90b33d50c448",
+  "parent": "042578fab733e054b4f10c4d0fa350daa2f439cb",
+  "subject": "fix(simulator): never merge the same post-action world twice",
+  "task": "fix(simulator): never merge the same post-action world twice\n\nApplying an action again under a new key re-appended its log lines and metric points, which\nproduced duplicate evidence ids in later verify rounds.",
+  "tests": [
+   "tests/test_simulator.py"
+  ],
+  "code": [
+   "src/agentops/sources/simulator.py"
+  ],
+  "lines": 58
+ },
+ {
+  "repo": "agentops",
+  "fix": "710be1763e83a01d6d0a5a3425f557968e1a73dc",
+  "parent": "75b77ef6d7679ce561b0feac4c91d5932e2b13ab",
+  "subject": "fix(review): match router keywords at the start of a name word",
+  "task": "fix(review): match router keywords at the start of a name word",
+  "tests": [
+   "tests/test_router.py"
+  ],
+  "code": [
+   "src/agentops/nodes/router.py"
+  ],
+  "lines": 36
+ },
+ {
+  "repo": "workhorse",
+  "fix": "566ef624e1ff07e8149a035150b73239a1cde3b3",
+  "parent": "1b85193520291f6840625e24786fe32b8e180234",
+  "subject": "fix: unescape quoted scalars in the profile YAML parser",
+  "task": "fix: unescape quoted scalars in the profile YAML parser\n\nA double-quoted profile value such as test: \"pytest -m \\\"not integration\\\"\"\nwas handed to the verifier with literal backslashes still in it, so the\ncommand would not run. Double quotes now process escapes and single quotes\ncollapse a doubled quote, matching YAML.\n\nFound while validating a real client profile, not hypothetically.",
+  "tests": [
+   "hooks/tests/run.js"
+  ],
+  "code": [
+   "hooks/scripts/lib.js"
+  ],
+  "lines": 15
+ },
+ {
+  "repo": "agentops",
+  "fix": "e8229a1bd3e9371f2446cf4bd0e5f253bdf847b7",
+  "parent": "84972c752d64382de9ecf4e98d789c6ecddeeadc",
+  "subject": "feat(state): let ExecutionRecord.applied be unknown and add the effect_unknown reason",
+  "task": "feat(state): let ExecutionRecord.applied be unknown and add the effect_unknown reason",
+  "tests": [
+   "tests/test_state.py"
+  ],
+  "code": [
+   "src/agentops/state.py"
+  ],
+  "lines": 39
+ },
+ {
+  "repo": "agentops",
+  "fix": "fb17e597714df765022ad42f1f4c146d278edeb9",
+  "parent": "e35f77f8563f2f5ed4bf944680a98949772c64aa",
+  "subject": "feat(fakes): answer rca_after_action on the applied-actions marker and queue postmortems",
+  "task": "feat(fakes): answer rca_after_action on the applied-actions marker and queue postmortems\n\nScriptedChatModel gains answers_by_prompt_marker: per schema, a queue\nchosen when a prompt line starts with the marker. scripted_model_for\nqueues the scenario's postmortem and, for a scenario that scripts\nrca_after_action, answers it to any rca prompt with a line starting\n\"Actions already applied:\" (E34, R20).\n\nDeliberate test edit: test_scripted_model_for_queues_one_answer_per_attempt_for_each_schema\nnow expects a Postmortem queue for clean_bad_deploy, because R20 adds a\npostmortem to every remediate scenario.",
+  "tests": [
+   "tests/test_fakes.py"
+  ],
+  "code": [
+   "src/agentops/fakes.py"
+  ],
+  "lines": 141
+ }
+]

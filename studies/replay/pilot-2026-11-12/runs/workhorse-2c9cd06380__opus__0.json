@@ -1,0 +1,13 @@
+{
+ "case": "workhorse-2c9cd06380",
+ "model": "opus",
+ "rep": 0,
+ "seconds": 76,
+ "turns": 16,
+ "tokens": 719907,
+ "agent_error": false,
+ "flags": [],
+ "files_changed": 6,
+ "passed": false,
+ "fail_tail": "le\n  ok   the active change survives a branch checkout\n  ok   the phase survives a branch checkout\n  ok   a worktree sees the same active change\n  ok   a worktree sees the same phase\n  ok   a change made from a worktree is visible in the main checkout\n  ok   test-lock enforces inside a builder worktree\n  ok   protect-paths denies editing control state\n  ok   protect-paths denies editing control state from a worktree\nlegacy state migration\n  ok   a legacy active change is still found\n  ok   legacy state is still read\n  ok   legacy state is migrated into the git common dir\n\n116 passed, 1 failed\n"
+}

@@ -365,6 +365,59 @@ def spend_json(totals: dict) -> dict:
     return out
 
 
+def cmd_replay(args: argparse.Namespace) -> int:
+    """`flywheel replay mine|check|run|report`."""
+    import tempfile
+    from concurrent.futures import ThreadPoolExecutor
+
+    from flywheel import replay
+
+    if args.replay_command == "report":
+        folder = Path(args.results)
+        results = [json.loads(f.read_text()) for f in sorted(folder.glob("*.json"))]
+        print(replay.to_markdown(results))
+        return 0
+    specs = {s.name: s for s in replay.RepoSpec.load(Path(args.spec))}
+    if args.replay_command == "mine":
+        cases = []
+        for spec in specs.values():
+            found = replay.mine(
+                spec, since=args.since, max_lines=args.max_lines, fixes_only=not args.all_commits
+            )
+            print(f"{spec.name}: {len(found)} candidate changes")
+            cases += found
+        replay.save_cases(Path(args.out), cases)
+        return 0
+    cases = replay.load_cases(Path(args.cases))
+    if args.replay_command == "check":
+        scratch = Path(tempfile.mkdtemp(prefix="replay-check-"))
+        with ThreadPoolExecutor(args.workers) as pool:
+            verdicts = list(pool.map(lambda c: replay.check_fair(specs[c.repo], c, scratch), cases))
+        fair = [c for c, v in zip(cases, verdicts, strict=True) if v["fair"]]
+        for c, v in zip(cases, verdicts, strict=True):
+            print(f"{'fair' if v['fair'] else 'out '} {c.id}: {v['reason']}")
+        replay.save_cases(Path(args.out), fair)
+        print(f"{len(fair)} of {len(cases)} cases are fair")
+        return 0
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    results = replay.run_all(
+        specs,
+        cases,
+        args.models.split(","),
+        args.reps,
+        out,
+        args.workers,
+        progress=lambda r: print(
+            f"{r['case']} {r['model']} #{r['rep']}: "
+            f"{'pass' if r.get('passed') else 'fail'} {r.get('seconds')}s",
+            flush=True,
+        ),
+    )
+    print(replay.to_markdown(results))
+    return 0
+
+
 def parser() -> argparse.ArgumentParser:
     """The argument parser."""
     root = argparse.ArgumentParser(prog="flywheel", description=__doc__.split("\n\n")[0])
@@ -435,6 +488,29 @@ def parser() -> argparse.ArgumentParser:
     score.add_argument("--limit", type=int, default=100)
     score.add_argument("--rescore", action="store_true", help="score runs that have feedback")
 
+    rp = sub.add_parser("replay", help="test an agent on real past changes from a repository")
+    rsub = rp.add_subparsers(dest="replay_command", required=True)
+    rm = rsub.add_parser("mine", help="list replayable changes in each repository")
+    rm.add_argument("--spec", required=True, help="repositories file (JSON)")
+    rm.add_argument("--since", default="2026-08-01")
+    rm.add_argument("--max-lines", type=int, default=600)
+    rm.add_argument("--all-commits", action="store_true", help="not only commits that say fix")
+    rm.add_argument("--out", required=True)
+    rc = rsub.add_parser("check", help="keep only the cases that are fair")
+    rc.add_argument("--spec", required=True)
+    rc.add_argument("--cases", required=True)
+    rc.add_argument("--out", required=True, help="fair cases are written here")
+    rc.add_argument("--workers", type=int, default=4)
+    rr = rsub.add_parser("run", help="run each case on each model and score it")
+    rr.add_argument("--spec", required=True)
+    rr.add_argument("--cases", required=True)
+    rr.add_argument("--models", default="haiku,sonnet,opus")
+    rr.add_argument("--reps", type=int, default=1)
+    rr.add_argument("--workers", type=int, default=3)
+    rr.add_argument("--out", required=True, help="results folder")
+    rp_report = rsub.add_parser("report", help="print the pass-rate table")
+    rp_report.add_argument("results", help="results folder")
+
     spend_cmd = sub.add_parser("spend", help="total the paid-call ledgers")
     spend_cmd.add_argument(
         "ledgers", nargs="*", default=[spend.DEFAULT_LEDGER], help="ledger files (JSONL)"
@@ -459,6 +535,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
     if args.command == "spend":
         return cmd_spend(args)
+    if args.command == "replay":
+        return cmd_replay(args)
     try:
         cfg = config_module.load(Path(args.config))
         return COMMANDS[args.command](args, cfg)

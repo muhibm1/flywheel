@@ -1,0 +1,47 @@
+[
+  {
+    "name": "agentops",
+    "path": "agentops",
+    "test_command": "\"$AGENTOPS_PY\" -m pytest -q -x -p no:cacheprovider {tests}",
+    "code_globs": [
+      "src/**/*.py"
+    ],
+    "test_globs": [
+      "tests/**/test_*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}/src"
+    },
+    "agent_path": "$AGENTOPS_BIN"
+  },
+  {
+    "name": "changelens",
+    "path": "fathom",
+    "test_command": "\"$CHANGELENS_PY\" -m pytest -q -x -p no:cacheprovider {tests}",
+    "code_globs": [
+      "src/**/*.py"
+    ],
+    "test_globs": [
+      "tests/**/test_*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}/src:{work}"
+    },
+    "agent_path": "$CHANGELENS_BIN"
+  },
+  {
+    "name": "workhorse",
+    "path": "workhorse",
+    "test_command": "node hooks/tests/run.js",
+    "code_globs": [
+      "scripts/**/*.js",
+      "hooks/scripts/**/*.js",
+      "skills/**/*",
+      "agents/**/*"
+    ],
+    "test_globs": [
+      "hooks/tests/run.js"
+    ],
+    "env": {}
+  }
+]
