@@ -1,0 +1,13 @@
+{
+ "case": "agentops-75b77ef6d7",
+ "model": "haiku",
+ "rep": 1,
+ "seconds": 137,
+ "turns": 26,
+ "tokens": 882272,
+ "agent_error": false,
+ "flags": [],
+ "files_changed": 4,
+ "passed": false,
+ "fail_tail": "           Hypothesis(name=\"database_saturation\", score=scores[1]),\n        ]\n    \n        update = escalate_with(state, {\"summary\": \"hand over\"})\n    \n>       assert update[\"escalation_reason\"] == expected_reason\nE       AssertionError: assert None == 'no_evidence'\n\ntests/test_rca_escalate.py:228: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_rca_escalate.py::test_escalation_reason_is_computed_from_state[no evidence]\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 16 passed in 0.23s\n"
+}

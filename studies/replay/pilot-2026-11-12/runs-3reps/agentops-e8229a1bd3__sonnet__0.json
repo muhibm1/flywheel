@@ -1,0 +1,12 @@
+{
+ "case": "agentops-e8229a1bd3",
+ "model": "sonnet",
+ "rep": 0,
+ "seconds": 51,
+ "turns": 9,
+ "tokens": 335126,
+ "agent_error": false,
+ "flags": [],
+ "files_changed": 1,
+ "passed": true
+}

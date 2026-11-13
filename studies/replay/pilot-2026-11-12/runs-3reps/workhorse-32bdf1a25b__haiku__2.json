@@ -1,0 +1,12 @@
+{
+ "case": "workhorse-32bdf1a25b",
+ "model": "haiku",
+ "rep": 2,
+ "seconds": 388,
+ "turns": 52,
+ "tokens": 4205546,
+ "agent_error": false,
+ "flags": [],
+ "files_changed": 6,
+ "passed": true
+}
