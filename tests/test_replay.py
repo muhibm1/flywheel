@@ -204,3 +204,8 @@ def test_run_all_stops_at_the_usage_limit(repo, tmp_path, monkeypatch):
     monkeypatch.setattr(replay, "run_agent", limited)
     done = replay.run_all({repo.name: repo}, [case], ["m"], 20, tmp_path, workers=1)
     assert len(done) == 1 and len(calls) < 20
+
+
+def test_finish_state_skips_events_of_other_shapes(tmp_path):
+    events = [{"type": "user", "message": "plain text"}, {"message": {"content": ["x", 3]}}]
+    assert replay.finish_state(events, str(tmp_path))["edited_code"] is False

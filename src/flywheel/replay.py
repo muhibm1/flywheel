@@ -316,10 +316,13 @@ def finish_state(events: list[dict], cwd: str) -> dict:
     for event in events:
         if event.get("subtype") == "hook_response" and event.get("hook_event") == "Stop":
             blocks += '"block"' in str(event.get("stdout") or "")
-        content = (event.get("message") or {}).get("content")
+        message = event.get("message")
+        content = message.get("content") if isinstance(message, dict) else None
         if not isinstance(content, list):
             continue
         for block in content:
+            if not isinstance(block, dict):
+                continue
             if block.get("type") == "tool_use":
                 calls[block.get("id", "")] = (block.get("name", ""), block.get("input") or {})
             elif block.get("type") == "tool_result" and block.get("tool_use_id") in calls:
@@ -409,7 +412,9 @@ def run_agent(
         events = []
         for line in stdout.splitlines():
             try:
-                events.append(json.loads(line))
+                event = json.loads(line)
+                if isinstance(event, dict):
+                    events.append(event)
             except json.JSONDecodeError:
                 continue
         final = next((e for e in reversed(events) if e.get("type") == "result"), {})
