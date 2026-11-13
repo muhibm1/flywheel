@@ -1,0 +1,12 @@
+{
+ "case": "workhorse-566ef624e1",
+ "model": "sonnet",
+ "rep": 0,
+ "seconds": 45,
+ "turns": 14,
+ "tokens": 493375,
+ "agent_error": false,
+ "flags": [],
+ "files_changed": 2,
+ "passed": true
+}

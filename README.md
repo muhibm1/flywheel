@@ -68,6 +68,15 @@ did not: the paragraph fixed 3 questions and broke 5, and one of the broken ones
 unanswerable question the agent started answering with an invented fact. Flywheel blocked it.
 [Report](https://github.com/muhibm1/studbook-agent/blob/main/docs/results/comparison-prompt-2026-10-13.md).
 
+## Replay: test an agent on your own past changes
+
+`flywheel replay` is a second mode. It takes changes that really shipped in a repository, rewinds
+the code to just before each one with no history to peek at, gives an agent the task, and lets the
+real change's own tests decide. A change is used only if its tests fail before and pass after,
+twice. In a 20-case pilot on AgentOps and WorkHorse, Haiku passed 14, Sonnet 16 and Opus 16, with
+Sonnet using about 45% fewer tokens than Opus
+([report](docs/results/replay-pilot-2026-11-12.md)). It is a pilot: 20 cases, one run each.
+
 ## How it decides
 
 The question a reviewer asks is "which cases did this break?", not "did the average move?". An

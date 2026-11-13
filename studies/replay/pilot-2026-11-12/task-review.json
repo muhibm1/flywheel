@@ -1,0 +1,322 @@
+[
+ {
+  "id": "agentops-e3905fe34e",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests reference a new executor.RECOVERED_DETAIL constant that the text never names."
+ },
+ {
+  "id": "agentops-6ec50db482",
+  "verdict": "KEEP",
+  "reason": "The three behaviours are stated, and the tool name 'model' and the type-name detail follow existing conventions in nodes/evidence.py and ask_model."
+ },
+ {
+  "id": "agentops-75b77ef6d7",
+  "verdict": "KEEP",
+  "reason": "The text says which node writes which existing escalation reason, and the tests check exactly that."
+ },
+ {
+  "id": "agentops-78611ac65a",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests require the exact seal line '{\"torn_seal\": true}' and its placement rules, which the text does not give."
+ },
+ {
+  "id": "agentops-7ad570fd6b",
+  "verdict": "KEEP",
+  "reason": "The text names the unreadable_sources field and the no-range-is-unhealthy rule, and the other tests pin behaviour that already exists."
+ },
+ {
+  "id": "agentops-298c825790",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests require the exact '(effect unknown)' postmortem wording, and the text leans on internal case ids (E2, E3, E5)."
+ },
+ {
+  "id": "agentops-af40539bce",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests call unrecorded_approval_problem with a new positional thread_id argument that a one-line subject does not specify."
+ },
+ {
+  "id": "agentops-4cb0e5cc15",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests check the exact prompt phrase 'at most {N} characters', which the text does not give."
+ },
+ {
+  "id": "agentops-92f1251536",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests need a target_pattern for each action in the runbook (for example rejecting payments-prod-db for scale_db_pool) and a validate_params target= keyword, and the text gives neither."
+ },
+ {
+  "id": "agentops-83e9ca46df",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The forged-marker test depends on a new log-007 'NEW INSTRUCTIONS' line in the scenario fixture, which is neither in the test files nor described in the text."
+ },
+ {
+  "id": "agentops-5290f6908b",
+  "verdict": "KEEP",
+  "reason": "'Label by applies, not loops' clearly means two or more applies, which is what the tests check."
+ },
+ {
+  "id": "agentops-aeb5e00f23",
+  "verdict": "KEEP",
+  "reason": "The text states the 200-character cut, and the test only checks that a long message is truncated."
+ },
+ {
+  "id": "agentops-fb3588e1df",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests need an exact detail string ('The source raised X inside apply.'), effect values and an outcome kind, none of which the text gives."
+ },
+ {
+  "id": "agentops-83145b3b1c",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests match the error substring 'after the verify window', which the text does not give."
+ },
+ {
+  "id": "agentops-0cf10abff4",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests match the exact refusal message 'runs on --model anthropic; pass --model anthropic', which the text does not give."
+ },
+ {
+  "id": "workhorse-3a162abb6a",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests match the exact approvals.md line format 'Packet: `path` sha256 `hex`' and a 'sha256 `missing' form, neither given in the text."
+ },
+ {
+  "id": "workhorse-ebd7d7f146",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests match the error text 'retro.md does not exist', which the text does not give."
+ },
+ {
+  "id": "workhorse-9ff6e63f8f",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The test needs the '.claude/worktrees' path, but the text only says 'harness isolation worktrees' and the repository does not name the path; the commit is also mostly a version bump."
+ },
+ {
+  "id": "workhorse-a316ad0b70",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests read a new cut_from key in the JSON output of 'new' that the text never mentions."
+ },
+ {
+  "id": "workhorse-ef43c5ee85",
+  "verdict": "KEEP",
+  "reason": "The text says the close commit must also include .workhorse/instincts, which is exactly what the test checks."
+ },
+ {
+  "id": "workhorse-9956a454be",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests read a 'committed' JSON key holding the short hash, which the text does not give, and part of the task is Paddock UI work."
+ },
+ {
+  "id": "workhorse-cdff2b4f55",
+  "verdict": "ODD",
+  "reason": "A bundle of six fixes, mostly in the Paddock desk app, where only the rejected-gate rule in wh.js is judged."
+ },
+ {
+  "id": "workhorse-6e66c1fe6b",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests match status strings ('cited not re-run', 'skipped') and agent-prompt wording, none of which the text gives, alongside release bookkeeping."
+ },
+ {
+  "id": "workhorse-1da773020f",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "Tests match exact present output ('Design (G2) is waiting on you', 'G2 Design presented', 'no \"## Your decision\"'), none of which the text gives."
+ },
+ {
+  "id": "workhorse-4e085d94d3",
+  "verdict": "ODD",
+  "reason": "Only agent prompt Markdown changes, judged by regexes on wording."
+ },
+ {
+  "id": "workhorse-a15837ee80",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The test names the path in plan.md and expects plan.md in the reason, while the text speaks only of the approved brief or design."
+ },
+ {
+  "id": "workhorse-2c9cd06380",
+  "verdict": "KEEP",
+  "reason": "The text names the log command and its stamping, the existing conductor convention gives the timestamp, phase order, and refusing an empty message is a natural requirement."
+ },
+ {
+  "id": "workhorse-32bdf1a25b",
+  "verdict": "KEEP",
+  "reason": "Reading the approved plan from the main checkout when inside a stale worktree is stated clearly and is what the test checks."
+ },
+ {
+  "id": "workhorse-64d9fde35d",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The text specifies the location and migration well, but the tests also require .gitignore to list '.workhorse/active', which the text never mentions."
+ },
+ {
+  "id": "changelens-7080b9ab19",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The test needs the exact command 'dbt parse --project-dir <path>', but the text only says 'the command that builds it'."
+ },
+ {
+  "id": "agentops-09f949a336",
+  "verdict": "KEEP",
+  "reason": "The text names the new `approval` evidence key, says it holds the decision, and gives the fallback keyed on the idempotency key; the tests check exactly that behaviour."
+ },
+ {
+  "id": "agentops-abb6a22615",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The test pins the prompt phrase 'a root cause with no remediation is rejected', which the text does not give (only the numeric phrases are given)."
+ },
+ {
+  "id": "agentops-cf21be9ce9",
+  "verdict": "KEEP",
+  "reason": "The text specifies {name, value} pairs in the JSON schema, conversion to a mapping, and refusal of missing, extra or repeated keys, which is what the tests check."
+ },
+ {
+  "id": "agentops-c084cbcb99",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The tests pin the exact parameter wording ('string, required, matching ^...$', 'at least 8, at most 128'), which the text does not give."
+ },
+ {
+  "id": "agentops-e717d7e353",
+  "verdict": "KEEP",
+  "reason": "The title-only task says what to do (treat this thread's audit-recorded apply as already applied on a fresh source), and the tests check that behaviour plus thread and key scoping that follows from it."
+ },
+ {
+  "id": "agentops-15ff24efab",
+  "verdict": "KEEP",
+  "reason": "Ending a torn last line before appending is described clearly, and the tests check that behaviour, not names or strings."
+ },
+ {
+  "id": "agentops-58916f28b5",
+  "verdict": "KEEP",
+  "reason": "LF-only appends and skipping blank ledger lines are stated directly, and the tests check that behaviour."
+ },
+ {
+  "id": "agentops-92899b6478",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The tests call a new function `executor.unrecorded_approval_problem` and check langgraph.json CORS keys, and the text names neither."
+ },
+ {
+  "id": "agentops-72f32d77a5",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The tests require exact strings ('run failed: graph broken_rca: CitationError', 'Every run failed', 'without proposing', 'waiting for an approval') that the text does not give."
+ },
+ {
+  "id": "agentops-6492f19671",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The tests require check_dataset to raise UnicodeDecodeError and stderr to name 'UnicodeDecodeError', and they monkeypatch `sha256_of`; the text gives none of this."
+ },
+ {
+  "id": "agentops-17e9b1e1e7",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "'Whole token' is ambiguous: the tests decide that '-', '_', digits and accented letters count as part of a token, and a plain \\b implementation would fail."
+ },
+ {
+  "id": "agentops-448d698662",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The text gives the torn-run rule, but the tests pin which line number each LedgerError names and the exact torn_ledger_lines lists for edge cases the text leaves open."
+ },
+ {
+  "id": "agentops-11067ac082",
+  "verdict": "KEEP",
+  "reason": "The text gives the torn_ledger_lines name, the last-line-only rule, the error for earlier lines and the lenient decoding, which match what the tests check."
+ },
+ {
+  "id": "agentops-7ce4c80580",
+  "verdict": "KEEP",
+  "reason": "The title states the behaviour (a plain repeat of an applied key records applied=False so verify escalates), and the test checks only that."
+ },
+ {
+  "id": "agentops-d9ada42a58",
+  "verdict": "KEEP",
+  "reason": "Not merging the same post-action world twice is clearly described, and the test checks for no duplicate log ids or metric points."
+ },
+ {
+  "id": "agentops-042578fab7",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The test pins the new prompt label 'Actions applied: a; b' (renamed from 'Action applied:'), which the text does not give."
+ },
+ {
+  "id": "agentops-f7addc28b9",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The tests require specific stderr phrases ('was refused', 'no usable checkpoint') that the text does not give."
+ },
+ {
+  "id": "agentops-b6746a5826",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The title-only task does not say what the code-built summary contains, and the tests require hypothesis names and scores in it with empty evidence_ids."
+ },
+ {
+  "id": "agentops-710be1763e",
+  "verdict": "KEEP",
+  "reason": "Matching keywords at the start of a name word is exactly what the tests check (prefix of a `_`-separated token)."
+ },
+ {
+  "id": "workhorse-9beff32c48",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The test requires a `reset_to_pending` key in the command output, which the text does not name; the commit also includes a version bump."
+ },
+ {
+  "id": "workhorse-d82ebcd6a4",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The test matches /prove nothing/ in stderr, an exact phrase the text does not give (it says 'proves nothing', which does not match)."
+ },
+ {
+  "id": "workhorse-566ef624e1",
+  "verdict": "KEEP",
+  "reason": "YAML double-quote escapes and single-quote doubling are specified, and the tests check those behaviours."
+ },
+ {
+  "id": "agentops-02fa6f8f23",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The tests pin error strings ('Uncited: [...]', 'outside the catalogue: [...]') and a new function `failed_preconditions_of`, which the text does not give."
+ },
+ {
+  "id": "agentops-26f2547651",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The tests pin the exact prompt line prefix 'Actions possibly applied:', which the title-only text does not give."
+ },
+ {
+  "id": "agentops-e8229a1bd3",
+  "verdict": "KEEP",
+  "reason": "Making applied nullable (still required) and adding the effect_unknown escalation reason is stated, and the tests check exactly that."
+ },
+ {
+  "id": "agentops-fb17e59771",
+  "verdict": "KEEP",
+  "reason": "The text names answers_by_prompt_marker, the line-start marker rule, the 'Actions already applied:' marker and the postmortem queue, which is what the tests check."
+ },
+ {
+  "id": "agentops-04ec2b2070",
+  "verdict": "ODD",
+  "reason": "This is a docs-only change (ADR citations and docstrings) checked by document tests."
+ },
+ {
+  "id": "agentops-0b76e158d3",
+  "verdict": "ODD",
+  "reason": "This is document bookkeeping for an increment, with document tests, not a behavioural code change."
+ },
+ {
+  "id": "agentops-70fe0196ff",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "The tests require exact output strings ('escalation: ambiguous', 'loops: 1', 'budget remaining: N of 12', 'not wired yet') that the text does not give."
+ },
+ {
+  "id": "agentops-2b74b368bf",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "This large CLI feature's tests require exact output strings ('root cause: ', 'increment 3', 'increment 2' on stderr) that the text does not give."
+ },
+ {
+  "id": "agentops-ffcef77842",
+  "verdict": "ODD",
+  "reason": "This is a scaffold and chore commit (package, pins, licence, docs) checked by document and requirements tests."
+ },
+ {
+  "id": "workhorse-6910955427",
+  "verdict": "ODD",
+  "reason": "This is a template and agent-prompt Markdown change; the tests only check document structure."
+ },
+ {
+  "id": "workhorse-1eb3cea8fa",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "This large change, which also touches a desktop app, has tests that pin exact strings ('do not answer D2', 'D1: recommendation accepted. fine by me') and digest field shapes the text does not give."
+ },
+ {
+  "id": "workhorse-1b85193520",
+  "verdict": "UNDERSPECIFIED",
+  "reason": "This large feature's tests pin many digest field names and values (waiting_on 'You (G4)', blocking_gate, tldr, decisions), which the text does not give."
+ }
+]

@@ -1,0 +1,13 @@
+{
+ "case": "agentops-7ad570fd6b",
+ "model": "haiku",
+ "rep": 0,
+ "seconds": 191,
+ "turns": 39,
+ "tokens": 1804932,
+ "agent_error": false,
+ "flags": [],
+ "files_changed": 2,
+ "passed": false,
+ "fail_tail": "ogLine(id=\"log-1\", timestamp=start, level=\"INFO\", message=\"ok\", service=\"s\")\n    \n>       assert judge([recovered], [line]).cleared is True\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       TypeError: judge() missing 1 required positional argument: 'unreadable'\n\ntests/test_verify_postmortem.py:304: TypeError\n=========================== short test summary info ============================\nFAILED tests/test_verify_postmortem.py::test_only_the_latest_point_of_a_series_decides_the_verdict\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 11 passed in 0.22s\n"
+}

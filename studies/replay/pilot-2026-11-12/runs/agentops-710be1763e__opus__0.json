@@ -1,0 +1,12 @@
+{
+ "case": "agentops-710be1763e",
+ "model": "opus",
+ "rep": 0,
+ "seconds": 80,
+ "turns": 22,
+ "tokens": 718419,
+ "agent_error": false,
+ "flags": [],
+ "files_changed": 4,
+ "passed": true
+}
