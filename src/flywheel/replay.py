@@ -50,6 +50,7 @@ class RepoSpec:
     test_globs: tuple[str, ...]
     env: dict[str, str] = field(default_factory=dict)  # `{work}` becomes the working copy
     agent_path: str = ""  # a folder put first on PATH for the agent, so `python` has the deps
+    links: dict[str, str] = field(default_factory=dict)  # name in the copy -> folder to link to
 
     @staticmethod
     def load(path: Path) -> list[RepoSpec]:
@@ -65,6 +66,7 @@ class RepoSpec:
                     tuple(d["test_globs"]),
                     d.get("env", {}),
                     d.get("agent_path", ""),
+                    d.get("links", {}),
                 )
             )
         return out
@@ -170,6 +172,10 @@ def materialize(spec: RepoSpec, case: Case, dest: Path, *, at: str, tests: bool)
         ["git", "-C", spec.path, "archive", rev], capture_output=True, check=True
     ).stdout
     subprocess.run(["tar", "-x", "-C", str(dest)], input=archive, check=True)
+    for name, target in spec.links.items():
+        link = dest / name
+        if not link.exists():
+            link.symlink_to(os.path.expandvars(target))
     if tests:
         overlay_tests(spec, case, dest)
 
@@ -270,6 +276,7 @@ ALLOWED_TOOLS = (
     "Bash(python3:*)",
     "Bash(pytest:*)",
     "Bash(node:*)",
+    "Bash(npx vitest:*)",
     "Bash(ls:*)",
     "Bash(cat:*)",
     "Bash(grep:*)",
@@ -299,6 +306,38 @@ def _flags(events: list[dict], work: Path, repo_path: str) -> list[str]:
     return flags
 
 
+def finish_state(events: list[dict], cwd: str) -> dict:
+    """Whether the agent edited code, finished with it checked, and how often a hook blocked it."""
+    from flywheel import finish_check
+
+    calls: dict[str, tuple[str, dict]] = {}
+    steps: list[dict] = []
+    blocks = 0
+    for event in events:
+        if event.get("subtype") == "hook_response" and event.get("hook_event") == "Stop":
+            blocks += '"block"' in str(event.get("stdout") or "")
+        content = (event.get("message") or {}).get("content")
+        if not isinstance(content, list):
+            continue
+        for block in content:
+            if block.get("type") == "tool_use":
+                calls[block.get("id", "")] = (block.get("name", ""), block.get("input") or {})
+            elif block.get("type") == "tool_result" and block.get("tool_use_id") in calls:
+                name, tool_input = calls[block["tool_use_id"]]
+                ok = not block.get("is_error")
+                path = finish_check.is_code_edit(name, tool_input, cwd)
+                if path and ok:
+                    steps.append({"kind": "edit", "file": path})
+                elif finish_check.is_check(name, tool_input):
+                    steps.append({"kind": "check", "ok": ok})
+    edited = any(s["kind"] == "edit" for s in steps)
+    return {
+        "edited_code": edited,
+        "verified_finish": edited and finish_check.verdict(steps) is None,
+        "hook_blocks": blocks,
+    }
+
+
 def run_agent(
     spec: RepoSpec,
     case: Case,
@@ -309,14 +348,25 @@ def run_agent(
     timeout: int = 900,
     runner: Callable[..., subprocess.CompletedProcess] = subprocess.run,
     claude: str = "claude",
+    setup: str = "",
+    settings: str | None = None,
+    clean: bool = False,
 ) -> dict:
-    """One replay: the agent works on the rewound copy, then the real tests judge it."""
-    out_file = out_dir / f"{case.id}__{model}__{rep}.json"
+    """One replay: the agent works on the rewound copy, then the real tests judge it.
+
+    `setup` names a variant (such as a hook) and is added to the model label; `settings` is a
+    settings file or JSON passed to the agent; `clean` leaves out the user's own settings so only
+    the repository's settings and `settings` apply.
+    """
+    label = f"{model}+{setup}" if setup else model
+    out_file = out_dir / f"{case.id}__{label}__{rep}.json"
     if out_file.exists():
-        return json.loads(out_file.read_text())
+        old = json.loads(out_file.read_text())
+        if not old.get("agent_error"):
+            return old
     work = Path(tempfile.mkdtemp(prefix=f"replay-{case.id}-"))
     started = time.time()
-    record: dict = {"case": case.id, "model": model, "rep": rep}
+    record: dict = {"case": case.id, "model": label, "rep": rep}
     try:
         materialize(spec, case, work, at="parent", tests=False)
         snapshot(work)
@@ -341,15 +391,21 @@ def run_agent(
             "WebSearch",
             "Agent",
         ]
+        if clean:
+            cmd += ["--setting-sources", "project,local"]
+        if settings:
+            cmd += ["--settings", settings]
         try:
             env = {**os.environ, **{k: v.format(work=work) for k, v in spec.env.items()}}
             if spec.agent_path:
                 env["PATH"] = os.path.expandvars(spec.agent_path) + os.pathsep + env.get("PATH", "")
             done = runner(cmd, cwd=work, env=env, capture_output=True, text=True, timeout=timeout)
             stdout, error = done.stdout, done.returncode != 0
+            stderr = done.stderr or ""
         except subprocess.TimeoutExpired as exc:
             stdout, error = (exc.stdout or "") if isinstance(exc.stdout, str) else "", True
             record["timed_out"] = True
+            stderr = ""
         events = []
         for line in stdout.splitlines():
             try:
@@ -372,7 +428,10 @@ def run_agent(
             ),
             agent_error=bool(final.get("is_error")) or (error and not final),
             flags=_flags(events, work, str(Path(spec.path).resolve())),
+            **finish_state(events, str(work)),
         )
+        if record["agent_error"]:
+            record["error_text"] = (str(final.get("result") or "") or stderr)[-400:]
         changed = _git(work, "status", "--porcelain", check=False).strip().splitlines()
         record["files_changed"] = len(changed)
         overlay_tests(spec, case, work)
@@ -395,13 +454,16 @@ def run_all(
     out_dir: Path,
     workers: int = 3,
     progress: Callable[[dict], None] | None = None,
+    **agent_options,
 ) -> list[dict]:
     """Run every (case, model, repeat) with a few at a time; finished ones are skipped."""
     jobs = [(c, m, r) for c in cases for m in models for r in range(reps)]
     results = []
     with ThreadPoolExecutor(max_workers=workers) as pool:
         futures = [
-            pool.submit(run_agent, specs[c.repo], c, model=m, rep=r, out_dir=out_dir)
+            pool.submit(
+                run_agent, specs[c.repo], c, model=m, rep=r, out_dir=out_dir, **agent_options
+            )
             for c, m, r in jobs
         ]
         for future in as_completed(futures):
@@ -428,12 +490,14 @@ def summarize(results: list[dict]) -> dict[str, dict]:
     out: dict[str, dict] = {}
     for model in sorted({r["model"] for r in results}):
         rows = [r for r in results if r["model"] == model]
-        clean = [r for r in rows if not r.get("flags")]
+        broken = [r for r in rows if r.get("agent_error") and not r.get("flags")]
+        clean = [r for r in rows if not r.get("flags") and not r.get("agent_error")]
         passed = sum(1 for r in clean if r.get("passed"))
         low, high = wilson(passed, len(clean))
         out[model] = {
             "runs": len(rows),
-            "flagged": len(rows) - len(clean),
+            "flagged": len(rows) - len(clean) - len(broken),
+            "agent_errors": len(broken),
             "scored": len(clean),
             "passed": passed,
             "rate": passed / len(clean) if clean else None,
@@ -441,6 +505,9 @@ def summarize(results: list[dict]) -> dict[str, dict]:
             "high": high,
             "mean_tokens": round(sum(r.get("tokens") or 0 for r in clean) / max(1, len(clean))),
             "mean_seconds": round(sum(r.get("seconds") or 0 for r in clean) / max(1, len(clean))),
+            "edited": sum(1 for r in clean if r.get("edited_code")),
+            "verified": sum(1 for r in clean if r.get("verified_finish")),
+            "measured_finish": sum(1 for r in clean if "edited_code" in r),
         }
     return out
 
@@ -449,6 +516,8 @@ def per_case(results: list[dict]) -> dict[str, dict[str, str]]:
     """For each case and model, the passes out of runs, such as '2/3'."""
     table: dict[str, dict[str, str]] = {}
     for r in results:
+        if r.get("agent_error") and not r.get("flags"):
+            continue
         cell = table.setdefault(r["case"], {})
         a, b = (int(x) for x in cell.get(r["model"], "0/0").split("/"))
         cell[r["model"]] = f"{a + (1 if r.get('passed') and not r.get('flags') else 0)}/{b + 1}"
@@ -460,16 +529,21 @@ def to_markdown(results: list[dict]) -> str:
     summary = summarize(results)
     lines = [
         "| Model | Scored runs | Passed | Pass rate (95% interval) | Mean tokens | Mean seconds "
-        "| Flagged and left out |",
-        "| --- | ---: | ---: | --- | ---: | ---: | ---: |",
+        "| Flagged and left out | Agent errors, left out | Finished with code checked |",
+        "| --- | ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: |",
     ]
     for model, s in summary.items():
+        checked = (
+            f"{s['verified']} of {s['edited']} edited runs"
+            if s["measured_finish"]
+            else "not measured"
+        )
         rate = (
             "n/a" if s["rate"] is None else f"{s['rate']:.0%} ({s['low']:.0%} to {s['high']:.0%})"
         )
         lines.append(
             f"| {model} | {s['scored']} | {s['passed']} | {rate} | {s['mean_tokens']:,} "
-            f"| {s['mean_seconds']} | {s['flagged']} |"
+            f"| {s['mean_seconds']} | {s['flagged']} | {s['agent_errors']} | {checked} |"
         )
     models = list(summary)
     lines += [

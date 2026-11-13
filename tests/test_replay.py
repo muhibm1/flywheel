@@ -143,3 +143,45 @@ def test_wilson_interval_brackets_the_rate():
     low, high = replay.wilson(18, 20)
     assert low < 0.9 < high
     assert replay.wilson(0, 0) == (0.0, 0.0)
+
+
+def test_a_crashed_agent_is_retried_and_not_counted(repo, tmp_path):
+    case = replay.mine(repo, since="2000-01-01")[0]
+
+    def crashed(cmd, cwd, **_):
+        out = stream({"is_error": True, "result": "usage limit reached", "num_turns": 1})
+        return subprocess.CompletedProcess(cmd, 1, out, "")
+
+    out = tmp_path / "o"
+    rec = replay.run_agent(repo, case, model="m", rep=0, out_dir=out, runner=crashed)
+    assert rec["agent_error"] and "usage limit" in rec["error_text"]
+    summary = replay.summarize([rec])["m"]
+    assert summary["scored"] == 0 and summary["agent_errors"] == 1
+    rec = replay.run_agent(repo, case, model="m", rep=0, out_dir=out, runner=fake_agent(True))
+    assert rec["passed"] and not rec["agent_error"]
+
+
+def test_finish_state_reads_edits_and_checks_from_the_stream(tmp_path):
+    def use(i, name, inp):
+        return {
+            "type": "assistant",
+            "message": {"content": [{"type": "tool_use", "id": i, "name": name, "input": inp}]},
+        }
+
+    def result(i, error=False):
+        return {
+            "type": "user",
+            "message": {"content": [{"type": "tool_result", "tool_use_id": i, "is_error": error}]},
+        }
+
+    cwd = str(tmp_path)
+    events = [use("1", "Edit", {"file_path": f"{cwd}/a.py"}), result("1")]
+    assert replay.finish_state(events, cwd) == {
+        "edited_code": True,
+        "verified_finish": False,
+        "hook_blocks": 0,
+    }
+    events += [use("2", "Bash", {"command": "pytest -q"}), result("2")]
+    assert replay.finish_state(events, cwd)["verified_finish"]
+    events += [use("3", "Bash", {"command": "pytest -q"}), result("3", error=True)]
+    assert not replay.finish_state(events, cwd)["verified_finish"]

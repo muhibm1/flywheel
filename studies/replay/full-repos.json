@@ -1,0 +1,139 @@
+[
+  {
+    "name": "agentops",
+    "path": "agentops",
+    "test_command": "\"$AGENTOPS_PY\" -m pytest -q -x -p no:cacheprovider {tests}",
+    "code_globs": [
+      "src/**/*.py"
+    ],
+    "test_globs": [
+      "tests/**/test_*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}/src"
+    },
+    "agent_path": "$AGENTOPS_BIN"
+  },
+  {
+    "name": "workhorse",
+    "path": "workhorse",
+    "test_command": "node hooks/tests/run.js",
+    "code_globs": [
+      "scripts/**/*.js",
+      "hooks/scripts/**/*.js",
+      "skills/**/*",
+      "agents/**/*"
+    ],
+    "test_globs": [
+      "hooks/tests/run.js"
+    ]
+  },
+  {
+    "name": "tannhauser-gate",
+    "path": "tannhauser-gate",
+    "test_command": "node hooks/tests/run.js",
+    "code_globs": [
+      "scripts/**/*.js",
+      "hooks/scripts/**/*.js",
+      "skills/**/*",
+      "agents/**/*"
+    ],
+    "test_globs": [
+      "hooks/tests/run.js"
+    ]
+  },
+  {
+    "name": "auspex",
+    "path": "auspex",
+    "test_command": "node --test {tests}",
+    "code_globs": [
+      "src/**/*.js",
+      "src/**/*.jsx",
+      "bin/**/*.js"
+    ],
+    "test_globs": [
+      "test/**/*.test.js"
+    ],
+    "links": {
+      "node_modules": "$AUSPEX_NM"
+    }
+  },
+  {
+    "name": "atelier",
+    "path": "atelier",
+    "test_command": "node --test {tests}",
+    "code_globs": [
+      "src/**/*.mjs",
+      "src/**/*.js"
+    ],
+    "test_globs": [
+      "test/**/*.test.mjs"
+    ],
+    "links": {
+      "node_modules": "$ATELIER_NM"
+    }
+  },
+  {
+    "name": "lodestar",
+    "path": "lodestar",
+    "test_command": "\"$LODESTAR_PY\" -m pytest -q -x -p no:cacheprovider {tests}",
+    "code_globs": [
+      "src/**/*.py"
+    ],
+    "test_globs": [
+      "tests/**/test_*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}/src"
+    },
+    "agent_path": "$LODESTAR_BIN"
+  },
+  {
+    "name": "garvis",
+    "path": "garvis",
+    "test_command": "\"$GARVIS_PY\" -m pytest -q -x -p no:cacheprovider {tests}",
+    "code_globs": [
+      "src/**/*.py"
+    ],
+    "test_globs": [
+      "tests/**/test_*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}/src:{work}"
+    },
+    "agent_path": "$GARVIS_BIN"
+  },
+  {
+    "name": "flywheel",
+    "path": "flywheel",
+    "test_command": "\"$CHANGELENS_PY\" -m pytest -q -x -p no:cacheprovider {tests}",
+    "code_globs": [
+      "src/**/*.py"
+    ],
+    "test_globs": [
+      "tests/**/test_*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}/src"
+    },
+    "agent_path": "$CHANGELENS_BIN"
+  },
+  {
+    "name": "portfolio",
+    "path": "Portfolio",
+    "test_command": "npx vitest run {tests}",
+    "code_globs": [
+      "src/**/*.js",
+      "src/**/*.jsx",
+      "scripts/**/*.mjs"
+    ],
+    "test_globs": [
+      "src/**/*.test.js",
+      "src/**/*.test.jsx",
+      "src/**/*.test.mjs"
+    ],
+    "links": {
+      "node_modules": "$PORTFOLIO_NM"
+    }
+  }
+]
