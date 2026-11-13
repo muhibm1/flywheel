@@ -1,0 +1,541 @@
+[
+ {
+  "repo": "agentops",
+  "fix": "75b77ef6d7679ce561b0feac4c91d5932e2b13ab",
+  "parent": "0b76e158d3e5b7097e02518b6ced35a09747f9e8",
+  "subject": "fix(review): write the escalation reason where the decision is made",
+  "task": "fix(review): write the escalation reason where the decision is made\n\nrca writes ambiguous when it clears the result; merge writes its stop reason when it routes\nto escalate; escalate reads the state first.",
+  "tests": [
+   "tests/test_merge.py",
+   "tests/test_rca_escalate.py"
+  ],
+  "code": [
+   "src/agentops/nodes/escalate.py",
+   "src/agentops/nodes/merge.py",
+   "src/agentops/nodes/rca.py"
+  ],
+  "lines": 59
+ },
+ {
+  "repo": "portfolio",
+  "fix": "02ed3bf67c26042b45723c1f0455044603c00f95",
+  "parent": "921b981cdbb779452d6f628f024c79571ba4867c",
+  "subject": "fix(review): keep mobile menu panel hidden via Tailwind preflight and derive GitHub aria-label from data",
+  "task": "fix(review): keep mobile menu panel hidden via Tailwind preflight and derive GitHub aria-label from data\n\n- Confirmed Tailwind preflight rule [hidden]{display:none!important} in the built CSS overrides\n  the panel's flex utility class when closed, so no extra hidden class is needed.\n- SiteHeader.test.jsx: panelLinks() now uses queryAllByRole (the panel stays mounted, not\n  absent) and asserts the closed panel is present, has the hidden attribute, and is not visible.\n- GitHubLink aria-label now derives from portfolioData personal.name instead of a hard-coded\n  string.",
+  "tests": [
+   "src/components/SiteHeader.test.jsx"
+  ],
+  "code": [
+   "src/components/SiteHeader.jsx"
+  ],
+  "lines": 43
+ },
+ {
+  "repo": "portfolio",
+  "fix": "b88848a4a36ba7dc3a1ef09866b1bf641f052f2d",
+  "parent": "0308548f3d9541d568f6d1762b8ca811bf58b2d9",
+  "subject": "feat: link GitHub in the header in place of the email",
+  "task": "feat: link GitHub in the header in place of the email",
+  "tests": [
+   "src/components/SiteHeader.test.jsx"
+  ],
+  "code": [
+   "src/components/SiteHeader.jsx"
+  ],
+  "lines": 30
+ },
+ {
+  "repo": "tannhauser-gate",
+  "fix": "e010b191814c54ea8015215dbe6d0c412d400134",
+  "parent": "82c86a48e1a9f5023332d5b1cad06e4fa5edfb8b",
+  "subject": "feat: retire the pipeline, keep the hard-line hook, and add line 7 (no AI attribution)",
+  "task": "feat: retire the pipeline, keep the hard-line hook, and add line 7 (no AI attribution)",
+  "tests": [
+   "hooks/tests/run.js"
+  ],
+  "code": [
+   "hooks/scripts/lib/rules.js"
+  ],
+  "lines": 120
+ },
+ {
+  "repo": "portfolio",
+  "fix": "66467c3231c57f84e8c63b1bb0865567fc4b4061",
+  "parent": "242955e6f31a384f85c14840eae2fb0ee97e127f",
+  "subject": "fix: start new pages at the top and reword the 40% caption",
+  "task": "fix: start new pages at the top and reword the 40% caption\n\nA link that opens a new page now scrolls to the top; back, forward and\nhash links are left alone. The caption under the ~40% stat no longer\nnames EMR and EKS.",
+  "tests": [
+   "src/components/SiteLayout.test.jsx"
+  ],
+  "code": [
+   "src/components/SiteLayout.jsx",
+   "src/data/portfolioData.js"
+  ],
+  "lines": 100
+ },
+ {
+  "repo": "portfolio",
+  "fix": "8933dceea04767aeb093a98d559b6a6f14c6c051",
+  "parent": "f00eb298870721f7de3e10ff545314f46b40b2ff",
+  "subject": "feat(simulator): label fictional data and clear timers; restyle static home sections",
+  "task": "feat(simulator): label fictional data and clear timers; restyle static home sections\n\nR45: the simulator shows \"Illustrative example, fictional data\" beside the\nscenario list and again on the payload inspector (G1-D5).\nR46: the three stage timeouts are held in a ref and cleared on reset, on\nunmount, and before a new run.\nR79: the simulator, philosophy, experience and skills sections drop every\nshadow and ring, use 0px radius on cards and 10px on interactive elements,\nand use the design brief palette only.",
+  "tests": [
+   "src/components/ExperienceTimeline.test.jsx",
+   "src/components/FdePhilosophy.test.jsx",
+   "src/components/InteractiveTriageSimulator.test.jsx",
+   "src/components/SkillsMatrix.test.jsx"
+  ],
+  "code": [
+   "src/components/ExperienceTimeline.jsx",
+   "src/components/FdePhilosophy.jsx",
+   "src/components/InteractiveTriageSimulator.jsx",
+   "src/components/SkillsMatrix.jsx"
+  ],
+  "lines": 401
+ },
+ {
+  "repo": "agentops",
+  "fix": "15ff24efab47b76b44de2d4369a9e8e05fbe5fc2",
+  "parent": "58916f28b5cd288ffd5effc72d7f75ff719a2879",
+  "subject": "fix(review): end a torn audit line before appending the next record",
+  "task": "fix(review): end a torn audit line before appending the next record",
+  "tests": [
+   "tests/test_audit.py"
+  ],
+  "code": [
+   "src/agentops/actions/audit.py"
+  ],
+  "lines": 47
+ },
+ {
+  "repo": "agentops",
+  "fix": "58916f28b5cd288ffd5effc72d7f75ff719a2879",
+  "parent": "b393e2d6d44d957a968fb5c0b8b184cd90a3657c",
+  "subject": "fix(review): append ledger lines with LF only and skip blank ledger lines on replay",
+  "task": "fix(review): append ledger lines with LF only and skip blank ledger lines on replay",
+  "tests": [
+   "tests/test_simulator.py"
+  ],
+  "code": [
+   "src/agentops/sources/simulator.py"
+  ],
+  "lines": 55
+ },
+ {
+  "repo": "portfolio",
+  "fix": "8666788dc172a555c18edc9848218900d99c71cd",
+  "parent": "94f63526a1fa8bf0e21531ab8835937be647c1c8",
+  "subject": "fix: send focus to the first phase tab when Back to the start is pressed in the click-driven console",
+  "task": "fix: send focus to the first phase tab when Back to the start is pressed in the click-driven console",
+  "tests": [
+   "src/components/WalkthroughBlock.test.jsx"
+  ],
+  "code": [
+   "src/components/WalkthroughBlock.jsx",
+   "src/components/walkthroughs/useWalkthrough.js"
+  ],
+  "lines": 62
+ },
+ {
+  "repo": "agentops",
+  "fix": "fb17e597714df765022ad42f1f4c146d278edeb9",
+  "parent": "e35f77f8563f2f5ed4bf944680a98949772c64aa",
+  "subject": "feat(fakes): answer rca_after_action on the applied-actions marker and queue postmortems",
+  "task": "feat(fakes): answer rca_after_action on the applied-actions marker and queue postmortems\n\nScriptedChatModel gains answers_by_prompt_marker: per schema, a queue\nchosen when a prompt line starts with the marker. scripted_model_for\nqueues the scenario's postmortem and, for a scenario that scripts\nrca_after_action, answers it to any rca prompt with a line starting\n\"Actions already applied:\" (E34, R20).\n\nDeliberate test edit: test_scripted_model_for_queues_one_answer_per_attempt_for_each_schema\nnow expects a Postmortem queue for clean_bad_deploy, because R20 adds a\npostmortem to every remediate scenario.",
+  "tests": [
+   "tests/test_fakes.py"
+  ],
+  "code": [
+   "src/agentops/fakes.py"
+  ],
+  "lines": 141
+ },
+ {
+  "repo": "agentops",
+  "fix": "710be1763e83a01d6d0a5a3425f557968e1a73dc",
+  "parent": "75b77ef6d7679ce561b0feac4c91d5932e2b13ab",
+  "subject": "fix(review): match router keywords at the start of a name word",
+  "task": "fix(review): match router keywords at the start of a name word",
+  "tests": [
+   "tests/test_router.py"
+  ],
+  "code": [
+   "src/agentops/nodes/router.py"
+  ],
+  "lines": 36
+ },
+ {
+  "repo": "auspex",
+  "fix": "2c6f07ed1f5c0a0efc8d3d76e6f2af22efae8433",
+  "parent": "b9dcdf76544d466275caff441107ea53614fa8da",
+  "subject": "fix: refuse events posted from web pages and keep reading past bad transcript lines (#22)",
+  "task": "fix: refuse events posted from web pages and keep reading past bad transcript lines (#22)\n\nThe local server refuses a POST a browser sends from another page, so a web site cannot feed it fake sessions or usage readings. Transcript lines that are valid JSON but not entries are skipped, and one bad file no longer stops the watcher. A malformed session id gets 400. Unused code removed.",
+  "tests": [
+   "test/feeds.test.js",
+   "test/transcript.test.js"
+  ],
+  "code": [
+   "src/server/context.js",
+   "src/server/demoOrion.js",
+   "src/server/index.js",
+   "src/server/transcript.js",
+   "src/server/watcher.js",
+   "src/web/src/AgentGraph.jsx",
+   "src/web/src/App.jsx",
+   "src/web/src/TracePanel.jsx"
+  ],
+  "lines": 167
+ },
+ {
+  "repo": "agentops",
+  "fix": "11067ac08282e83656d428668c07d601939c5b28",
+  "parent": "2072d09346f9f5cf26d357b9da3f7b169a998edf",
+  "subject": "fix(simulator): skip a torn final ledger line and start the next entry on a fresh line",
+  "task": "fix(simulator): skip a torn final ledger line and start the next entry on a fresh line\n\nOnly a final line with no newline after it, that is not JSON, is skipped and counted in\ntorn_ledger_lines; any earlier non-JSON line still raises LedgerError naming it (D17).\nA fragment cut inside a multibyte character is decoded leniently and treated as torn.",
+  "tests": [
+   "tests/test_simulator.py"
+  ],
+  "code": [
+   "src/agentops/sources/simulator.py"
+  ],
+  "lines": 189
+ },
+ {
+  "repo": "lodestar",
+  "fix": "b8872cfc10b170e75bd7dbb735173f01ed53f9a7",
+  "parent": "b27904e691e1fdd6666b818b68e1b455deb71031",
+  "subject": "feat: count every model attempt that outlasts the timeout, on the request, the span, a counter, an alert and the dashboard",
+  "task": "feat: count every model attempt that outlasts the timeout, on the request, the span, a counter, an alert and the dashboard\n\nA model that is slow but answers on the retry used to leave no trace beyond\nlatency. Each timed-out attempt now adds to `timeouts` on the request block,\n`lodestar.timeouts` on the span and `lodestar_model_timeouts_total` on\n/metrics; a ninth alert rule warns when the rate is above zero for ten\nminutes, and the dashboard plots timed-out attempts beside escalations.",
+  "tests": [
+   "tests/test_service.py"
+  ],
+  "code": [
+   "src/lodestar/agents/analyst.py",
+   "src/lodestar/cost.py",
+   "src/lodestar/models.py",
+   "src/lodestar/runner.py",
+   "src/lodestar/telemetry.py"
+  ],
+  "lines": 80
+ },
+ {
+  "repo": "portfolio",
+  "fix": "c7655c263f088366e120f468f05e05ea502fe548",
+  "parent": "f41f74c108dea14b28a65404afea4e663d5e4133",
+  "subject": "refactor: fold the Fathom verdict section into the replay",
+  "task": "refactor: fold the Fathom verdict section into the replay\n\nThe replay tells the same discount_pct example step by step, so the\nseparate verdict section's flow and opening paragraph are cut. Its last\nparagraph (the add-a-column result and the risk score's parts) moves\nunder the replay.",
+  "tests": [
+   "src/components/CaseStudyPage.test.jsx",
+   "src/components/FathomReplay.test.jsx",
+   "src/data/portfolioData.test.js"
+  ],
+  "code": [
+   "src/data/portfolioData.js"
+  ],
+  "lines": 33
+ },
+ {
+  "repo": "workhorse",
+  "fix": "32bdf1a25ba5ed9bbd398cd51eb2bfaf32661fbf",
+  "parent": "1e4e059e4891586b069aeb351e2edd12ca4d161b",
+  "subject": "fix: WorkHorse 0.3.6, the sensitive-path hook reads the approved plan from the main checkout",
+  "task": "fix: WorkHorse 0.3.6, the sensitive-path hook reads the approved plan from the main checkout",
+  "tests": [
+   "hooks/tests/run.js"
+  ],
+  "code": [
+   "hooks/scripts/protect-paths.js"
+  ],
+  "lines": 46
+ },
+ {
+  "repo": "portfolio",
+  "fix": "665d0d83892c1ac2aef94d86c0815dae68ee9137",
+  "parent": "f78db2c5bdc9cc5407fe756fffa812bd48d0a3cd",
+  "subject": "fix(checks): scan PDFs again in the phone redaction check (D30)",
+  "task": "fix(checks): scan PDFs again in the phone redaction check (D30)\n\nNo resume PDF exists in the repository any more, so the compensating\nskip for it in BINARY_EXTENSIONS is gone; any .pdf that reappears is\nnow reported as undecodable, like any other unrecognised binary type.",
+  "tests": [
+   "src/checkPhoneRedaction.test.js"
+  ],
+  "code": [
+   "scripts/phone-redaction-scan.mjs"
+  ],
+  "lines": 19
+ },
+ {
+  "repo": "lodestar",
+  "fix": "6b7e2616c037bee24333b9cf1097c696e7b9a54b",
+  "parent": "2c333693c946ec9681bdac3c3094eae7eda8dd3c",
+  "subject": "fix(service): liveness answers while the store is down, so an outage does not restart the pod",
+  "task": "fix(service): liveness answers while the store is down, so an outage does not restart the pod\n\n/healthz read today's spend from the ledger, so while Postgres was down it\nanswered 500 (reproduced by stopping the server under a running service).\nThe manifests use it as the liveness probe: after 45 seconds of an outage\nKubernetes would have killed the pod and restarted it into the same outage,\nwhere startup fails too. Readiness already answered 503 and recovered by\nitself when the server came back.\n\n/healthz now never depends on the store: the cap and database figures come\nback as {\"error\": ...} when it cannot answer, and the body stays 200. /metrics\nkeeps the cap gauge at its last value instead of failing the scrape. A test\ncovers both; the runbook says which probe shows an outage and why.",
+  "tests": [
+   "tests/test_service.py"
+  ],
+  "code": [
+   "src/lodestar/service.py"
+  ],
+  "lines": 50
+ },
+ {
+  "repo": "agentops",
+  "fix": "e717d7e35389eb929ace1135e9b71c2dca877e1a",
+  "parent": "15ff24efab47b76b44de2d4369a9e8e05fbe5fc2",
+  "subject": "fix(review): treat this thread's recorded apply as already applied on a fresh source",
+  "task": "fix(review): treat this thread's recorded apply as already applied on a fresh source",
+  "tests": [
+   "tests/test_executor.py"
+  ],
+  "code": [
+   "src/agentops/actions/executor.py"
+  ],
+  "lines": 108
+ },
+ {
+  "repo": "agentops",
+  "fix": "aeb5e00f234e3ac82edf2c0acb533dbe39df3619",
+  "parent": "7ce4c805808efe4fdddcdad0a2b2b3f9497d472e",
+  "subject": "fix(review): cut the run-failed message to 200 characters",
+  "task": "fix(review): cut the run-failed message to 200 characters",
+  "tests": [
+   "tests/test_cli.py"
+  ],
+  "code": [
+   "src/agentops/cli.py"
+  ],
+  "lines": 17
+ },
+ {
+  "repo": "portfolio",
+  "fix": "9d7d803e910a9e3d8285604699bc81c54000fd8c",
+  "parent": "68622245cf5c5b45733ac94f2130b33603820d4f",
+  "subject": "feat(chrome): remove every resume control, add the header GitHub link and the code line",
+  "task": "feat(chrome): remove every resume control, add the header GitHub link and the code line\n\nSiteHeader replaces the Resume anchor in both the desktop nav and the mobile\npanel with an external GitHub link (secondaryButtonClasses, target=\"_blank\",\nrel=\"noopener noreferrer\", an accessible name naming the profile), shown on\nevery route per R133. HomeHero drops its second button and renders\nhero.codeLine as the \"Right now\" aside's last line. ExperienceSection drops\nits resume link and the now-unused resumeHref prop. ContactFooter keeps only\nEmail and LinkedIn in both variants, dropping resumeHref and the GitHub\nbutton per R152. HomePage stops threading resumeHref to its children.",
+  "tests": [
+   "src/components/ContactFooter.test.jsx",
+   "src/components/SiteHeader.test.jsx",
+   "src/pages/HomePage.test.jsx"
+  ],
+  "code": [
+   "src/components/ContactFooter.jsx",
+   "src/components/ExperienceSection.jsx",
+   "src/components/HomeHero.jsx",
+   "src/components/SiteHeader.jsx",
+   "src/pages/HomePage.jsx"
+  ],
+  "lines": 148
+ },
+ {
+  "repo": "garvis",
+  "fix": "ddfce19093cc6a03890dba156deb9a8ef4f4e8b6",
+  "parent": "3c839d936de82a0cbaa7ee6ef18d5a78bfe1f4d1",
+  "subject": "fix: Open Deep Research's report comes back as plain text, so a long report is not lost to the JSON step",
+  "task": "fix: Open Deep Research's report comes back as plain text, so a long report is not lost to the JSON step",
+  "tests": [
+   "tests/test_cache.py",
+   "tests/test_odr_baseline.py"
+  ],
+  "code": [
+   "src/garvis/cache.py",
+   "src/garvis/odr_baseline.py",
+   "src/garvis/subscription.py"
+  ],
+  "lines": 81
+ },
+ {
+  "repo": "garvis",
+  "fix": "908bd81bcc0d86ae5cbd07c0d8475467afdf4d2e",
+  "parent": "fad734060d33c53b3a80f217521ee8907212713b",
+  "subject": "fix: a recorded fetch error reads exactly as the live one, so replays match",
+  "task": "fix: a recorded fetch error reads exactly as the live one, so replays match",
+  "tests": [
+   "tests/test_cache.py"
+  ],
+  "code": [
+   "src/garvis/cache.py"
+  ],
+  "lines": 32
+ },
+ {
+  "repo": "agentops",
+  "fix": "6ec50db482cc4e6ef3b172223b15b1ce3c1e4d85",
+  "parent": "6b54aeb7f9ae3580546f77957bf6dc276e9e70d2",
+  "subject": "fix(review): router matches mis/re/un-prefixed keywords; triage rejects repeated names; escalate records rejected attempts",
+  "task": "fix(review): router matches mis/re/un-prefixed keywords; triage rejects repeated names; escalate records rejected attempts",
+  "tests": [
+   "tests/test_rca_escalate.py",
+   "tests/test_router.py",
+   "tests/test_state.py"
+  ],
+  "code": [
+   "src/agentops/nodes/escalate.py",
+   "src/agentops/nodes/router.py",
+   "src/agentops/state.py"
+  ],
+  "lines": 88
+ },
+ {
+  "repo": "portfolio",
+  "fix": "525bf71b38e15396cea64e7096ead66c70cbddf3",
+  "parent": "28756add8f30d33b5e687a873d4bcb4ce8760cae",
+  "subject": "fix(review): remove inline grid-template-columns overriding mobile layout",
+  "task": "fix(review): remove inline grid-template-columns overriding mobile layout\n\nCaseStudyPage's at-a-glance strip, stats grid and CaseStudyFlowDiagram's flow\ngrid used an inline style that overrode the mobile grid-cols-* classes at\nevery breakpoint, so narrow viewports never collapsed. Replace the inline\nstyle with a literal-class lookup keyed by column count so Tailwind's\nscanner sees the classes, keeping the mobile classes intact.",
+  "tests": [
+   "src/components/CaseStudyFlowDiagram.test.jsx",
+   "src/components/CaseStudyPage.test.jsx"
+  ],
+  "code": [
+   "src/components/CaseStudyFlowDiagram.jsx",
+   "src/components/CaseStudyPage.jsx"
+  ],
+  "lines": 61
+ },
+ {
+  "repo": "workhorse",
+  "fix": "ef43c5ee85ec2fc6ca6a4a504fda6668d3bdef86",
+  "parent": "ebd7d7f146e1f1e5bf2adb219c5741a52753a2bc",
+  "subject": "fix: the close commit carries the retro's instinct files",
+  "task": "fix: the close commit carries the retro's instinct files\n\nFrom the live run's last step: wh-retro-learner wrote six instinct files to\n.workhorse/instincts/, outside the change folder (they accumulate across changes), and\nphase done committed only docs/sdlc/<id>, leaving them untracked. They are the record of\nwhat the pipeline learned, so the close commit now includes .workhorse/instincts too.\n\nTests: 1 new. Plugin 143/143.",
+  "tests": [
+   "hooks/tests/run.js"
+  ],
+  "code": [
+   "scripts/wh.js"
+  ],
+  "lines": 15
+ },
+ {
+  "repo": "portfolio",
+  "fix": "4a82dc51c268e5c81238ebde901faea85ee8a340",
+  "parent": "01c1bef51d6bf95856ff961f6eb2d6f49036dfd9",
+  "subject": "fix(review): skip binaries and anchor 2x/11x/4-of-4 in the copy scanner",
+  "task": "fix(review): skip binaries and anchor 2x/11x/4-of-4 in the copy scanner\n\nGroup 1 (bug reviewer medium, typescript reviewer two mediums, bug low 1):\nscripts/forbidden-copy.mjs now skips BINARY_EXTENSIONS (shared with\nphone-redaction-scan.mjs) so an image's raw bytes cannot false-hit a term,\ncounting skips so an all-binary scope still fails closed. The 2x, 11x and\n4-of-4 terms move from plain substrings to boundary-aware pattern terms:\n2x excludes only an @2x asset-name suffix (a srcset density descriptor\ncannot be told apart from \"2x faster\" without missing the banned claim,\nso it stays a hit, per the review note); 11x and 4-of-4 no longer match\ninside a larger number. Re-synced the checkForbiddenCopy pin (26 -> 29)\nin scripts/check-test-floor.mjs and its mirror in src/checkTestFloor.test.js.",
+  "tests": [
+   "src/checkForbiddenCopy.test.js",
+   "src/checkTestFloor.test.js"
+  ],
+  "code": [
+   "scripts/check-test-floor.mjs",
+   "scripts/forbidden-copy.mjs"
+  ],
+  "lines": 121
+ },
+ {
+  "repo": "agentops",
+  "fix": "e8229a1bd3e9371f2446cf4bd0e5f253bdf847b7",
+  "parent": "84972c752d64382de9ecf4e98d789c6ecddeeadc",
+  "subject": "feat(state): let ExecutionRecord.applied be unknown and add the effect_unknown reason",
+  "task": "feat(state): let ExecutionRecord.applied be unknown and add the effect_unknown reason",
+  "tests": [
+   "tests/test_state.py"
+  ],
+  "code": [
+   "src/agentops/state.py"
+  ],
+  "lines": 39
+ },
+ {
+  "repo": "tannhauser-gate",
+  "fix": "4d2eae664c543cb3f506ed040bad306a6cf33c5c",
+  "parent": "300ccff9b4e4980f52896ed0f4c7dc1d3d0e5c59",
+  "subject": "fix: hard lines read git commands that carry git's own options first (-C, -c, --git-dir)",
+  "task": "fix: hard lines read git commands that carry git's own options first (-C, -c, --git-dir)",
+  "tests": [
+   "hooks/tests/run.js"
+  ],
+  "code": [
+   "hooks/scripts/lib/rules.js"
+  ],
+  "lines": 23
+ },
+ {
+  "repo": "portfolio",
+  "fix": "c7ab618b385102adaf79fddbba9428d9b8eb5fe7",
+  "parent": "525bf71b38e15396cea64e7096ead66c70cbddf3",
+  "subject": "fix(review): prerender writes nothing on any error, surface stack traces",
+  "task": "fix(review): prerender writes nothing on any error, surface stack traces\n\nscripts/prerender.mjs wrote each page as it rendered, so a failure on page N\nleft pages 1..N-1 already written to dist/, contradicting the documented\nfail-closed contract. Render and assemble every page into memory first, then\nwrite all only once every page has assembled without error. Add a test that\na render failure on a later page leaves dist/ untouched.\n\nAlso in scripts/prerender.mjs, scripts/forbidden-copy.mjs and\nscripts/check-route-pages.mjs: the top-level catch blocks now print\nerror.stack to stderr in addition to the existing ::error:: first line, and\nnormalise non-Error throws instead of assuming error.message exists.",
+  "tests": [
+   "src/prerender.test.js"
+  ],
+  "code": [
+   "scripts/check-route-pages.mjs",
+   "scripts/forbidden-copy.mjs",
+   "scripts/prerender.mjs"
+  ],
+  "lines": 49
+ },
+ {
+  "repo": "flywheel",
+  "fix": "a6dc00c425686f49cc696e32125b4362fcb1daff",
+  "parent": "09a2f84c92bedb573602fc17f0989917aa88e0d7",
+  "subject": "fix(gate): leave out a metric a case never scores",
+  "task": "fix(gate): leave out a metric a case never scores\n\nA check that only applies to some cases (a reply check, for an email that\nneeds no reply) was counted as failing on every other case, which inflated\nthe totals' denominators. A metric no run of a case scored on either side,\nand no run errored, is now left out of that case and of the totals. A\nmetric scored before and missing after still counts as a failure.",
+  "tests": [
+   "tests/test_gate.py"
+  ],
+  "code": [
+   "src/flywheel/gate.py"
+  ],
+  "lines": 36
+ },
+ {
+  "repo": "portfolio",
+  "fix": "92230cb082ffe1c2e24737bfa6b8f2dd98e8cce6",
+  "parent": "06fc35b2798201aebe540c60e2341f4b82383e58",
+  "subject": "fix(review): render the contact footer on the not-found page",
+  "task": "fix(review): render the contact footer on the not-found page\n\nThe header's Contact link points at #contact, which the 404 page\nlacked, so following it from that page went nowhere. Render\nContactFooter on NotFoundPage as WorkIndexPage already does.",
+  "tests": [
+   "src/pages/NotFoundPage.test.jsx"
+  ],
+  "code": [
+   "src/pages/NotFoundPage.jsx"
+  ],
+  "lines": 41
+ },
+ {
+  "repo": "agentops",
+  "fix": "09f949a336a0ec3b17b39edd9f56a48193f05a0e",
+  "parent": "2bce95e83f91964424c1cd9dd49ff15bee32f18b",
+  "subject": "fix: score each apply by the approval that let it run",
+  "task": "fix: score each apply by the approval that let it run\n\n`apply_attempts_of` set `approved` for every apply from the one approval left in the final\nstate. A verified apply that loops clears that approval (verify.py), so a run that applied an\napproved action, looped and then escalated scored its first apply as unapproved and failed\n`safety`. Seen on the Sonnet dev run of 2026-10-12, two_concurrent_faults repetition 3: the\nrollback was approved, applied and verified; the second pass found the scores too close and\nhanded off; the row scored safety False.\n\nThe executor now records the approving decision on each apply's action evidence (`approval`),\nand the scorer reads it per apply. Evidence without the field (older checkpoints) falls back to\nthe approval in state, and only when its idempotency key is the apply's own.\n\nContract change: action evidence of kind `action` carries one more key, `approval`.",
+  "tests": [
+   "tests/test_evaluators.py"
+  ],
+  "code": [
+   "src/agentops/actions/executor.py",
+   "src/agentops/evals/outcome.py"
+  ],
+  "lines": 98
+ },
+ {
+  "repo": "agentops",
+  "fix": "7ad570fd6bb5215813e12d4cd47ab0c7faa495f3",
+  "parent": "e3905fe34ef28c744fe3aad70a243d12622a296d",
+  "subject": "fix(verify): an unreadable metric or log source is never cleared",
+  "task": "fix(verify): an unreadable metric or log source is never cleared\n\nverify swallowed a failed metric or log read and could still say cleared. The result and\nthe audit record now carry unreadable_sources, a metric with no healthy range is no longer\nhealthy, and tests pin the latest-point rule and the opened_at boundary.",
+  "tests": [
+   "tests/test_verify_postmortem.py"
+  ],
+  "code": [
+   "src/agentops/nodes/verify.py"
+  ],
+  "lines": 142
+ },
+ {
+  "repo": "workhorse",
+  "fix": "2c9cd063806a3986f8ca3b25bd7280cf2c19c274",
+  "parent": "ee9e0b421fdafdaa513596f538cee06b18a725af",
+  "subject": "fix: real timestamps in the conductor log, artifacts sized to the change",
+  "task": "fix: real timestamps in the conductor log, artifacts sized to the change\n\nTwo findings from the full live run.\n\nThe conductor wrote conductor-log.md by hand and guessed the times. It logged\n\"presenting G2, ending turn\" at 05:42 when the file itself was written at 05:55,\nso the log could not be used to reconstruct the run. New command: wh.js log\n\"<agent> | <result>\" appends a line stamped by the CLI with the real time and the\ncurrent phase. The conductor is told to use only that.\n\nA tier-1 /health endpoint produced a 268-line intent (the rule says 150), a 535-line\nspec and 34 eval cases. A human reads the spec at G2, so length is a real cost. The\nspec architect now sizes to the tier (tier 0-1 under about 200 lines, tier 2 under\n400), writes \"Not applicable: reason\" for sections that do not apply, and cites\nrather than restates. The eval designer is told not to pad categories, and the\nintent writer's limit is now given in bytes as well as lines. This is guidance, not\nenforcement; whether it holds is only visible on the next run.\n\nTests: 3 new (log appends, uses the real time, refuses empty). Plugin 117/117.",
+  "tests": [
+   "hooks/tests/run.js"
+  ],
+  "code": [
+   "agents/wh-conductor.md",
+   "agents/wh-eval-designer.md",
+   "agents/wh-intent-writer.md",
+   "agents/wh-spec-architect.md",
+   "scripts/wh.js"
+  ],
+  "lines": 48
+ }
+]

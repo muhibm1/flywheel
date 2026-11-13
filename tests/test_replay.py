@@ -185,3 +185,22 @@ def test_finish_state_reads_edits_and_checks_from_the_stream(tmp_path):
     assert replay.finish_state(events, cwd)["verified_finish"]
     events += [use("3", "Bash", {"command": "pytest -q"}), result("3", error=True)]
     assert not replay.finish_state(events, cwd)["verified_finish"]
+
+
+def test_run_all_stops_at_the_usage_limit(repo, tmp_path, monkeypatch):
+    case = replay.mine(repo, since="2000-01-01")[0]
+    calls = []
+
+    def limited(spec, c, *, model, rep, out_dir, **_):
+        calls.append(rep)
+        return {
+            "case": c.id,
+            "model": model,
+            "rep": rep,
+            "agent_error": True,
+            "error_text": "You've hit your 5-hour limit",
+        }
+
+    monkeypatch.setattr(replay, "run_agent", limited)
+    done = replay.run_all({repo.name: repo}, [case], ["m"], 20, tmp_path, workers=1)
+    assert len(done) == 1 and len(calls) < 20

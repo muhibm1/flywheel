@@ -1,0 +1,277 @@
+[
+ {
+  "id": "agentops-75b77ef6d7",
+  "verdict": "KEEP",
+  "reason": "The text says which node writes which existing escalation reason, and the tests check exactly that."
+ },
+ {
+  "id": "portfolio-02ed3bf67c",
+  "verdict": "KEEP",
+  "reason": "The task describes the closed panel staying mounted with the hidden attribute and the queryAllByRole change, which is what the tests check."
+ },
+ {
+  "id": "portfolio-b88848a4a3",
+  "verdict": "KEEP",
+  "reason": "Swapping the header email link for a GitHub link uses the existing GitHub handle and href from portfolioData, and target/rel follow the repo's external-link convention."
+ },
+ {
+  "id": "tannhauser-gate-e010b19181",
+  "verdict": "KEEP",
+  "reason": "The task names line 7 as no AI attribution, and the tests check natural cases (co-author and session trailers, generated-by footers) through the existing check()/readFile interface."
+ },
+ {
+  "id": "portfolio-66467c3231",
+  "verdict": "KEEP",
+  "reason": "The tests check the described behaviour: scroll to (0,0) on a new-page link, but not on first render, hash links or going back."
+ },
+ {
+  "id": "portfolio-8933dceea0",
+  "verdict": "KEEP",
+  "reason": "The task quotes the fictional-data label and describes clearing the timers; the new render tests read existing data."
+ },
+ {
+  "id": "agentops-15ff24efab",
+  "verdict": "KEEP",
+  "reason": "Ending a torn last line before appending is described clearly, and the tests check that behaviour, not names or strings."
+ },
+ {
+  "id": "agentops-58916f28b5",
+  "verdict": "KEEP",
+  "reason": "LF-only appends and skipping blank ledger lines are stated directly, and the tests check that behaviour."
+ },
+ {
+  "id": "portfolio-8666788dc1",
+  "verdict": "KEEP",
+  "reason": "The tests check the described behaviour: focus moves to the first phase tab after Back to the start, and the autoplay block is unchanged."
+ },
+ {
+  "id": "agentops-fb17e59771",
+  "verdict": "KEEP",
+  "reason": "The text names answers_by_prompt_marker, the line-start marker rule, the 'Actions already applied:' marker and the postmortem queue, which is what the tests check."
+ },
+ {
+  "id": "agentops-710be1763e",
+  "verdict": "KEEP",
+  "reason": "Matching keywords at the start of a name word is exactly what the tests check (prefix of a `_`-separated token)."
+ },
+ {
+  "id": "auspex-2c6f07ed1f",
+  "verdict": "KEEP",
+  "reason": "Tests check 403 for cross-origin POSTs, 400 for a malformed session id, and that bad JSON lines and one failing transcript reader do not stop the watcher, all described in the task."
+ },
+ {
+  "id": "agentops-11067ac082",
+  "verdict": "KEEP",
+  "reason": "The text gives the torn_ledger_lines name, the last-line-only rule, the error for earlier lines and the lenient decoding, which match what the tests check."
+ },
+ {
+  "id": "lodestar-b8872cfc10",
+  "verdict": "KEEP",
+  "reason": "The task names the request field timeouts and the metric lodestar_model_timeouts_total, and the agent label follows the existing metric pattern."
+ },
+ {
+  "id": "portfolio-c7655c263f",
+  "verdict": "KEEP",
+  "reason": "Cutting the verdict section makes the next section 'trust' the replay's skip target, and both ids already exist in the data."
+ },
+ {
+  "id": "workhorse-32bdf1a25b",
+  "verdict": "KEEP",
+  "reason": "Reading the approved plan from the main checkout when inside a stale worktree is stated clearly and is what the test checks."
+ },
+ {
+  "id": "portfolio-665d0d8389",
+  "verdict": "KEEP",
+  "reason": "Removing .pdf from BINARY_EXTENSIONS, as the task says, leaves the list the test expects."
+ },
+ {
+  "id": "lodestar-6b7e2616c0",
+  "verdict": "KEEP",
+  "reason": "The task gives the {\"error\": ...} shape for the cap and database figures, the 200 body and the /metrics behaviour that the test checks."
+ },
+ {
+  "id": "agentops-e717d7e353",
+  "verdict": "KEEP",
+  "reason": "The title-only task says what to do (treat this thread's audit-recorded apply as already applied on a fresh source), and the tests check that behaviour plus thread and key scoping that follows from it."
+ },
+ {
+  "id": "agentops-aeb5e00f23",
+  "verdict": "KEEP",
+  "reason": "The text states the 200-character cut, and the test only checks that a long message is truncated."
+ },
+ {
+  "id": "portfolio-9d7d803e91",
+  "verdict": "KEEP",
+  "reason": "The task describes in detail the GitHub link attributes and accessible name, the removed resume controls, the footer links and the hero.codeLine the tests check."
+ },
+ {
+  "id": "garvis-ddfce19093",
+  "verdict": "KEEP",
+  "reason": "Asking for the report as plain text (no --json-schema) and recording the reply's result field follows naturally from the task."
+ },
+ {
+  "id": "garvis-908bd81bcc",
+  "verdict": "KEEP",
+  "reason": "The task title says a recorded fetch error must read exactly like the live one, and the test checks for the same ValueError type and text in record and replay."
+ },
+ {
+  "id": "agentops-6ec50db482",
+  "verdict": "KEEP",
+  "reason": "The three behaviours are stated, and the tool name 'model' and the type-name detail follow existing conventions in nodes/evidence.py and ask_model."
+ },
+ {
+  "id": "portfolio-525bf71b38",
+  "verdict": "KEEP",
+  "reason": "The task describes replacing the inline grid-template-columns with literal per-count classes and keeping the existing mobile grid-cols classes, which is what the tests check."
+ },
+ {
+  "id": "workhorse-ef43c5ee85",
+  "verdict": "KEEP",
+  "reason": "The text says the close commit must also include .workhorse/instincts, which is exactly what the test checks."
+ },
+ {
+  "id": "portfolio-4a82dc51c2",
+  "verdict": "KEEP",
+  "reason": "The task spells out the binary skip that counts skips and fails closed, the @2x, 11x and 4-of-4 boundary rules and the 26-to-29 pin; the one doubt is whether counts.skippedAsBinary already exists in the shared scanner."
+ },
+ {
+  "id": "agentops-e8229a1bd3",
+  "verdict": "KEEP",
+  "reason": "Making applied nullable (still required) and adding the effect_unknown escalation reason is stated, and the tests check exactly that."
+ },
+ {
+  "id": "tannhauser-gate-4d2eae664c",
+  "verdict": "KEEP",
+  "reason": "Making the existing hard-line rules see past git's global options (-C, -c, --git-dir, --no-pager) is exactly what the task says, and the tests reuse the existing line numbers."
+ },
+ {
+  "id": "portfolio-c7ab618b38",
+  "verdict": "KEEP",
+  "reason": "The task describes the fail-closed behaviour precisely (render every page in memory, write nothing on a later page's error), and the test checks exactly that."
+ },
+ {
+  "id": "flywheel-a6dc00c425",
+  "verdict": "KEEP",
+  "reason": "The test checks that a metric no run scored on either side is left out of the case and totals, while a metric scored before and missing after still fails, which is exactly the rule the task states."
+ },
+ {
+  "id": "portfolio-92230cb082",
+  "verdict": "KEEP",
+  "reason": "Rendering the existing ContactFooter on NotFoundPage gives the #contact element the test checks."
+ },
+ {
+  "id": "agentops-09f949a336",
+  "verdict": "KEEP",
+  "reason": "The text names the new `approval` evidence key, says it holds the decision, and gives the fallback keyed on the idempotency key; the tests check exactly that behaviour."
+ },
+ {
+  "id": "agentops-7ad570fd6b",
+  "verdict": "KEEP",
+  "reason": "The text names the unreadable_sources field and the no-range-is-unhealthy rule, and the other tests pin behaviour that already exists."
+ },
+ {
+  "id": "workhorse-2c9cd06380",
+  "verdict": "KEEP",
+  "reason": "The text names the log command and its stamping, the existing conductor convention gives the timestamp, phase order, and refusing an empty message is a natural requirement."
+ },
+ {
+  "id": "portfolio-ada85095cb",
+  "verdict": "KEEP",
+  "reason": "Rendering the existing CaseStudyCards and ContactFooter in place of the filter UI gives the links and absences the tests check."
+ },
+ {
+  "id": "portfolio-d5491fc3c6",
+  "verdict": "KEEP",
+  "reason": "The codeLink label 'Code: agentops-snapshot' and the snapshot URL follow the existing WorkHorse pattern the task points to."
+ },
+ {
+  "id": "portfolio-2e7150bd04",
+  "verdict": "KEEP",
+  "reason": "The task describes exactly two footer links and an aria-label built from codeLink.label, which is what the tests assert."
+ },
+ {
+  "id": "lodestar-311bc104e5",
+  "verdict": "KEEP",
+  "reason": "The test races two decide calls and expects one Refused with in_flight/409 and one apply, matching the task's stated reason and status."
+ },
+ {
+  "id": "portfolio-9ff8096fb3",
+  "verdict": "KEEP",
+  "reason": "Extending the existing pattern to accept the Oxford comma is exactly what the task says, and the near-miss cases follow naturally."
+ },
+ {
+  "id": "auspex-de701efb49",
+  "verdict": "KEEP",
+  "reason": "cleanPrompt already exists and the task says plainly to show the <note> text of a <relay> envelope as the prompt."
+ },
+ {
+  "id": "portfolio-0ad768a0ce",
+  "verdict": "KEEP",
+  "reason": "The task names the aria-disabled approach that keeps focus, and the tests check that attribute and that focus stays."
+ },
+ {
+  "id": "portfolio-c0b27895e7",
+  "verdict": "KEEP",
+  "reason": "Removing plan step 4's missing-facts sentence from the existing Orion data is locatable in the repo, and the test only checks that its words are gone."
+ },
+ {
+  "id": "agentops-7ce4c80580",
+  "verdict": "KEEP",
+  "reason": "The title states the behaviour (a plain repeat of an applied key records applied=False so verify escalates), and the test checks only that."
+ },
+ {
+  "id": "lodestar-eadbae8d0e",
+  "verdict": "KEEP",
+  "reason": "The task says the kill endpoint takes the reason as a query parameter with no body, which is exactly what the test sends."
+ },
+ {
+  "id": "agentops-cf21be9ce9",
+  "verdict": "KEEP",
+  "reason": "The text specifies {name, value} pairs in the JSON schema, conversion to a mapping, and refusal of missing, extra or repeated keys, which is what the tests check."
+ },
+ {
+  "id": "garvis-fad734060d",
+  "verdict": "KEEP",
+  "reason": "The test checks that record mode serves a prompt it already holds instead of calling the model again, which is the stated behaviour."
+ },
+ {
+  "id": "lodestar-effbe48386",
+  "verdict": "KEEP",
+  "reason": "The source fix is the one-line empty max() crash the task describes; the test drives existing load-tool behaviour (backoff constant, dollar-formatted report)."
+ },
+ {
+  "id": "portfolio-0818ce4f38",
+  "verdict": "KEEP",
+  "reason": "The tests check that the education box no longer renders and that exactly one replay step pane is shown at a time, both following from the task."
+ },
+ {
+  "id": "tannhauser-gate-10f6e3750e",
+  "verdict": "KEEP",
+  "reason": "The task states the ask-versus-refuse behaviour and the 'spend API credit' wording; the permissionDecision 'ask' output is the harness's standard field, and an 'ask' flag on the hit is a natural name."
+ },
+ {
+  "id": "workhorse-566ef624e1",
+  "verdict": "KEEP",
+  "reason": "YAML double-quote escapes and single-quote doubling are specified, and the tests check those behaviours."
+ },
+ {
+  "id": "portfolio-f5bb094b69",
+  "verdict": "KEEP",
+  "reason": "The task describes the hover behaviour closely (plate-level hover, settle delay, off-part grace period), the classes the tests use likely already exist, and the test timing windows allow reasonable delay choices."
+ },
+ {
+  "id": "agentops-d9ada42a58",
+  "verdict": "KEEP",
+  "reason": "Not merging the same post-action world twice is clearly described, and the test checks for no duplicate log ids or metric points."
+ },
+ {
+  "id": "agentops-5290f6908b",
+  "verdict": "KEEP",
+  "reason": "'Label by applies, not loops' clearly means two or more applies, which is what the tests check."
+ },
+ {
+  "id": "portfolio-c9bf06c3ce",
+  "verdict": "KEEP",
+  "reason": "Banning the plain word 'Paddock' as a whole-word, case-insensitive term and removing its data follows directly from the task, and the existing 'Paddock retirement wording' term stays."
+ }
+]

@@ -446,6 +446,9 @@ def run_agent(
     return record
 
 
+LIMIT = re.compile(r"hit your .*limit|usage limit|rate limit", re.I)
+
+
 def run_all(
     specs: dict[str, RepoSpec],
     cases: list[Case],
@@ -467,10 +470,17 @@ def run_all(
             for c, m, r in jobs
         ]
         for future in as_completed(futures):
+            if future.cancelled():
+                continue
             record = future.result()
             results.append(record)
             if progress:
                 progress(record)
+            if LIMIT.search(str(record.get("error_text") or "")):
+                # The subscription's usage limit: every later run would fail the same way.
+                for other in futures:
+                    other.cancel()
+                break
     return results
 
 
