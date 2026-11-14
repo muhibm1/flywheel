@@ -1,0 +1,15 @@
+{
+ "case": "agentops-cf21be9ce9",
+ "model": "haiku",
+ "rep": 1,
+ "seconds": 253,
+ "turns": 21,
+ "tokens": 1138068,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

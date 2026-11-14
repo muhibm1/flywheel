@@ -1,0 +1,15 @@
+{
+ "case": "portfolio-66467c3231",
+ "model": "opus",
+ "rep": 2,
+ "seconds": 93,
+ "turns": 23,
+ "tokens": 856881,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

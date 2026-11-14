@@ -1,0 +1,16 @@
+{
+ "case": "agentops-6ec50db482",
+ "model": "sonnet+finish-check",
+ "rep": 0,
+ "seconds": 114,
+ "turns": 12,
+ "tokens": 639854,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": false,
+ "fail_tail": "_rejects_a_repeated_hypothesis_name ________________\n\n    def test_triage_rejects_a_repeated_hypothesis_name() -> None:\n>       with pytest.raises(ValidationError, match=\"bad_deploy\"):\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: DID NOT RAISE ValidationError\n\ntests/test_state.py:264: Failed\n=========================== short test summary info ============================\nFAILED tests/test_state.py::test_triage_rejects_a_repeated_hypothesis_name - ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 74 passed in 0.24s\n"
+}

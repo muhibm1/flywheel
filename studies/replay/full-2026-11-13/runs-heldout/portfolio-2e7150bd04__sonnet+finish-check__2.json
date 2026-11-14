@@ -1,0 +1,16 @@
+{
+ "case": "portfolio-2e7150bd04",
+ "model": "sonnet+finish-check",
+ "rep": 2,
+ "seconds": 55,
+ "turns": 18,
+ "tokens": 561997,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 1,
+ "files_changed": 6,
+ "passed": false,
+ "fail_tail": "to have attribute:\n\u001b[32m  aria-label=StringContaining \"Code: workhorse-snapshot\"\u001b[39m\nReceived:\n\u001b[31m  aria-label=\"View the code on GitHub, workhorse-snapshot, public snapshot\"\u001b[39m\n \u276f src/components/CaseStudyCards.test.jsx:43:22\n     41|     expect(codeLink).toHaveAttribute(\"rel\", \"noopener noreferrer\");\n     42|     // R153/WCAG 2.5.3: the accessible name must name the repository, \u2026\n     43|     expect(codeLink).toHaveAttribute(\n       |                      ^\n     44|       \"aria-label\",\n     45|       expect.stringContaining(caseStudies[0].codeLink.label),\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/1]\u23af\n\n"
+}

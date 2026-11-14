@@ -1,0 +1,16 @@
+{
+ "case": "auspex-2c6f07ed1f",
+ "model": "opus",
+ "rep": 0,
+ "seconds": 146,
+ "turns": 36,
+ "tokens": 2097757,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 6,
+ "passed": false,
+ "fail_tail": " - names models and tools in plain words\n  ---\n  duration_ms: 0.20459\n  type: 'test'\n  ...\n# Subtest: a prompt wrapped by the app shows only the message that was sent\nok 23 - a prompt wrapped by the app shows only the message that was sent\n  ---\n  duration_ms: 0.483257\n  type: 'test'\n  ...\n# Subtest: a model call still generating shows the model the agent last used\nok 24 - a model call still generating shows the model the agent last used\n  ---\n  duration_ms: 0.225988\n  type: 'test'\n  ...\n1..24\n# tests 24\n# suites 0\n# pass 23\n# fail 1\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 375.169603\n"
+}

@@ -1,0 +1,13 @@
+{
+ "case": "agentops-6ec50db482",
+ "model": "opus",
+ "rep": 0,
+ "seconds": 92,
+ "turns": 14,
+ "tokens": 874054,
+ "agent_error": false,
+ "flags": [],
+ "files_changed": 6,
+ "passed": false,
+ "fail_tail": "_rejects_a_repeated_hypothesis_name ________________\n\n    def test_triage_rejects_a_repeated_hypothesis_name() -> None:\n>       with pytest.raises(ValidationError, match=\"bad_deploy\"):\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: DID NOT RAISE ValidationError\n\ntests/test_state.py:264: Failed\n=========================== short test summary info ============================\nFAILED tests/test_state.py::test_triage_rejects_a_repeated_hypothesis_name - ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 74 passed in 0.26s\n"
+}

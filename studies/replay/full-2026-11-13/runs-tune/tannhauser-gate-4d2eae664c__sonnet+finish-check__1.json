@@ -1,0 +1,16 @@
+{
+ "case": "tannhauser-gate-4d2eae664c",
+ "model": "sonnet+finish-check",
+ "rep": 1,
+ "seconds": 26,
+ "turns": 11,
+ "tokens": 473562,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 1,
+ "files_changed": 2,
+ "passed": false,
+ "fail_tail": "ew passed its text\nok    design refused without a plain review\nok    design refused when its text changed after review\nok    design refused when plain review failed\nok    deployment renders with both reviewers passed on its commit\nok    deployment refused when reviews read another commit\nok    deployment refused when security review sent it back\nok    deployment refused with no review round\nok    deployment refused without a decisions log\nok    deployment refused with a hand-written decisions part\nok    deployment lists every logged decision\nok    deployment shows a caught drill\n\n87/88 passed\n"
+}

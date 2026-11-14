@@ -408,6 +408,9 @@ def cmd_replay(args: argparse.Namespace) -> int:
         args.reps,
         out,
         args.workers,
+        setup=args.setup,
+        settings=args.settings,
+        clean=args.clean_settings,
         progress=lambda r: print(
             f"{r['case']} {r['model']} #{r['rep']}: "
             f"{'pass' if r.get('passed') else 'fail'} {r.get('seconds')}s",
@@ -415,6 +418,23 @@ def cmd_replay(args: argparse.Namespace) -> int:
         ),
     )
     print(replay.to_markdown(results))
+    return 0
+
+
+def cmd_finish_check(args: argparse.Namespace) -> int:
+    """`flywheel finish-check`: answer one hook event from stdin, or print the hooks block."""
+    from flywheel import finish_check
+
+    if args.settings:
+        print(json.dumps(finish_check.settings(args.hook_command), indent=2))
+        return 0
+    try:
+        answer = finish_check.handle(json.loads(sys.stdin.read() or "{}"))
+    except Exception as error:  # a hook must never break the session
+        print(f"finish-check: {type(error).__name__}: {error}", file=sys.stderr)
+        return 0
+    if answer:
+        print(json.dumps(answer))
     return 0
 
 
@@ -508,8 +528,17 @@ def parser() -> argparse.ArgumentParser:
     rr.add_argument("--reps", type=int, default=1)
     rr.add_argument("--workers", type=int, default=3)
     rr.add_argument("--out", required=True, help="results folder")
+    rr.add_argument("--setup", default="", help="name of the variant, added to the model label")
+    rr.add_argument("--settings", help="settings file or JSON passed to the agent")
+    rr.add_argument(
+        "--clean-settings", action="store_true", help="leave out the user's own settings"
+    )
     rp_report = rsub.add_parser("report", help="print the pass-rate table")
     rp_report.add_argument("results", help="results folder")
+
+    fc = sub.add_parser("finish-check", help="hook: do not end a turn on unchecked code")
+    fc.add_argument("--settings", action="store_true", help="print the hooks block to install")
+    fc.add_argument("--hook-command", default="flywheel finish-check", help="command the hooks run")
 
     spend_cmd = sub.add_parser("spend", help="total the paid-call ledgers")
     spend_cmd.add_argument(
@@ -537,6 +566,8 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_spend(args)
     if args.command == "replay":
         return cmd_replay(args)
+    if args.command == "finish-check":
+        return cmd_finish_check(args)
     try:
         cfg = config_module.load(Path(args.config))
         return COMMANDS[args.command](args, cfg)

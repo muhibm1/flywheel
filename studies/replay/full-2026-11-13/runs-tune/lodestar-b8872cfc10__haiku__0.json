@@ -1,0 +1,15 @@
+{
+ "case": "lodestar-b8872cfc10",
+ "model": "haiku",
+ "rep": 0,
+ "seconds": 149,
+ "turns": 34,
+ "tokens": 2667070,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 10,
+ "passed": true
+}

@@ -1,0 +1,16 @@
+{
+ "case": "agentops-fb17e59771",
+ "model": "haiku",
+ "rep": 2,
+ "seconds": 186,
+ "turns": 45,
+ "tokens": 2895112,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": false,
+ "fail_tail": "raise ScriptExhausted(\n                f\"The scripted model has no entries left for {schema.__name__} \"\n                f\"after {len(self.calls)} calls.\"\n            )\nE           agentops.fakes.ScriptExhausted: The scripted model has no entries left for RcaStandIn after 2 calls.\n\nsrc/agentops/fakes.py:133: ScriptExhausted\n=========================== short test summary info ============================\nFAILED tests/test_fakes.py::test_a_marker_counts_only_at_the_start_of_a_prompt_line\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 10 passed in 0.24s\n"
+}

@@ -1,0 +1,16 @@
+{
+ "case": "portfolio-b88848a4a3",
+ "model": "sonnet+finish-check",
+ "rep": 0,
+ "seconds": 84,
+ "turns": 18,
+ "tokens": 607115,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 1,
+ "files_changed": 2,
+ "passed": false,
+ "fail_tail": "dist/query-helpers.js:52:17\n \u276f ../claude-0/-home-user/b41520fd-53c1-5e0c-b5b0-7886b3f9cf0c/scratchpad/env/portfolio/node_modules/@testing-library/dom/dist/query-helpers.js:95:19\n \u276f src/components/SiteHeader.test.jsx:31:27\n     29|     ]);\n     30|     const banner = within(screen.getByRole('banner'));\n     31|     const github = banner.getByRole('link', { name: 'github.com/muhibm\u2026\n       |                           ^\n     32|     expect(github).toHaveAttribute('href', portfolioData.home.hero.cod\u2026\n     33|     expect(github).toHaveAttribute('target', '_blank');\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/1]\u23af\n\n"
+}

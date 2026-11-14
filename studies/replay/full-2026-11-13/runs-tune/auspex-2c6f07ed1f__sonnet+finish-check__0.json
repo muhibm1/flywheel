@@ -1,0 +1,18 @@
+{
+ "case": "auspex-2c6f07ed1f",
+ "model": "sonnet+finish-check",
+ "rep": 0,
+ "seconds": 45,
+ "turns": 12,
+ "tokens": 589889,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"python3 - <<'E'\\nimport re\\np='src/server/index.js'\\ns=open(p).read()\\ns=s.replace(\\\"\\\"\\\"      const url = "
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": false,
+ "fail_tail": "- names models and tools in plain words\n  ---\n  duration_ms: 0.172651\n  type: 'test'\n  ...\n# Subtest: a prompt wrapped by the app shows only the message that was sent\nok 23 - a prompt wrapped by the app shows only the message that was sent\n  ---\n  duration_ms: 0.370028\n  type: 'test'\n  ...\n# Subtest: a model call still generating shows the model the agent last used\nok 24 - a model call still generating shows the model the agent last used\n  ---\n  duration_ms: 0.161883\n  type: 'test'\n  ...\n1..24\n# tests 24\n# suites 0\n# pass 23\n# fail 1\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 357.154275\n"
+}

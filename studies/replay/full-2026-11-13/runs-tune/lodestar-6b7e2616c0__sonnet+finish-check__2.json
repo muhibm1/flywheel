@@ -1,0 +1,16 @@
+{
+ "case": "lodestar-6b7e2616c0",
+ "model": "sonnet+finish-check",
+ "rep": 2,
+ "seconds": 42,
+ "turns": 7,
+ "tokens": 300171,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": false,
+ "fail_tail": "sed) == 1 and refused[0].reason == \"in_flight\" and refused[0].status == 409\nE       assert (1 == 1 and 'not_waiting' == 'in_flight'\nE        +  where 1 = len([Refused(\"run '1302afde4546' is running, not waiting\")])\nE         \nE         - in_flight\nE         + not_waiting)\n\ntests/test_service.py:360: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_service.py::test_two_decisions_on_one_run_take_turns - asse...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 21 passed, 2 skipped in 13.57s\n"
+}

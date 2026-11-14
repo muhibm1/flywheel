@@ -1,0 +1,15 @@
+{
+ "case": "garvis-fad734060d",
+ "model": "sonnet",
+ "rep": 0,
+ "seconds": 23,
+ "turns": 6,
+ "tokens": 278836,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

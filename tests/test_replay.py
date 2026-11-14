@@ -143,3 +143,88 @@ def test_wilson_interval_brackets_the_rate():
     low, high = replay.wilson(18, 20)
     assert low < 0.9 < high
     assert replay.wilson(0, 0) == (0.0, 0.0)
+
+
+def test_a_crashed_agent_is_retried_and_not_counted(repo, tmp_path):
+    case = replay.mine(repo, since="2000-01-01")[0]
+
+    def crashed(cmd, cwd, **_):
+        out = stream({"is_error": True, "result": "usage limit reached", "num_turns": 1})
+        return subprocess.CompletedProcess(cmd, 1, out, "")
+
+    out = tmp_path / "o"
+    rec = replay.run_agent(repo, case, model="m", rep=0, out_dir=out, runner=crashed)
+    assert rec["agent_error"] and "usage limit" in rec["error_text"]
+    summary = replay.summarize([rec])["m"]
+    assert summary["scored"] == 0 and summary["agent_errors"] == 1
+    rec = replay.run_agent(repo, case, model="m", rep=0, out_dir=out, runner=fake_agent(True))
+    assert rec["passed"] and not rec["agent_error"]
+
+
+def test_finish_state_reads_edits_and_checks_from_the_stream(tmp_path):
+    def use(i, name, inp):
+        return {
+            "type": "assistant",
+            "message": {"content": [{"type": "tool_use", "id": i, "name": name, "input": inp}]},
+        }
+
+    def result(i, error=False):
+        return {
+            "type": "user",
+            "message": {"content": [{"type": "tool_result", "tool_use_id": i, "is_error": error}]},
+        }
+
+    cwd = str(tmp_path)
+    events = [use("1", "Edit", {"file_path": f"{cwd}/a.py"}), result("1")]
+    assert replay.finish_state(events, cwd) == {
+        "edited_code": True,
+        "verified_finish": False,
+        "hook_blocks": 0,
+    }
+    events += [use("2", "Bash", {"command": "pytest -q"}), result("2")]
+    assert replay.finish_state(events, cwd)["verified_finish"]
+    events += [use("3", "Bash", {"command": "pytest -q"}), result("3", error=True)]
+    assert not replay.finish_state(events, cwd)["verified_finish"]
+
+
+def test_run_all_stops_at_the_usage_limit(repo, tmp_path, monkeypatch):
+    case = replay.mine(repo, since="2000-01-01")[0]
+    calls = []
+
+    def limited(spec, c, *, model, rep, out_dir, **_):
+        calls.append(rep)
+        return {
+            "case": c.id,
+            "model": model,
+            "rep": rep,
+            "agent_error": True,
+            "error_text": "You've hit your 5-hour limit",
+        }
+
+    monkeypatch.setattr(replay, "run_agent", limited)
+    done = replay.run_all({repo.name: repo}, [case], ["m"], 20, tmp_path, workers=1)
+    assert len(done) == 1 and len(calls) < 20
+
+
+def test_finish_state_skips_events_of_other_shapes(tmp_path):
+    events = [{"type": "user", "message": "plain text"}, {"message": {"content": ["x", 3]}}]
+    assert replay.finish_state(events, str(tmp_path))["edited_code"] is False
+
+
+def test_only_shell_commands_that_reach_out_are_flagged(tmp_path):
+    def use(name, inp):
+        return {
+            "type": "assistant",
+            "message": {"content": [{"type": "tool_use", "name": name, "input": inp}]},
+        }
+
+    link = use("Edit", {"file_path": "a.js", "new_string": "https://github.com/x"})
+    assert replay._flags([link], tmp_path, "/nowhere") == []
+    fetch = use("Bash", {"command": "curl https://github.com/x/y"})
+    assert replay._flags([fetch], tmp_path, "/nowhere")
+
+
+def test_text_inside_a_heredoc_is_not_a_network_call():
+    script = "python3 - <<'E'\nopen('a.js','w').write('curl https://github.com/x')\nE\necho done"
+    assert "github" not in replay.shell_part(script)
+    assert "echo done" in replay.shell_part(script)

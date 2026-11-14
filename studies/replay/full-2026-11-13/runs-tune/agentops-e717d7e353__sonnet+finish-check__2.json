@@ -1,0 +1,16 @@
+{
+ "case": "agentops-e717d7e353",
+ "model": "sonnet+finish-check",
+ "rep": 2,
+ "seconds": 130,
+ "turns": 17,
+ "tokens": 666223,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": false,
+ "fail_tail": "  \n        second = run_executor(state, RecordingSource(SimulatorSource(scenario), calls), tmp_path)\n    \n>       assert second.kind == \"already_applied\"\nE       AssertionError: assert 'applied' == 'already_applied'\nE         \nE         - already_applied\nE         + applied\n\ntests/test_executor.py:1134: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_executor.py::test_a_state_reset_on_a_fresh_source_does_not_apply_twice\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 40 passed in 0.57s\n"
+}

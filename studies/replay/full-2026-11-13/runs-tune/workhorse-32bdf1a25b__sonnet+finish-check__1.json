@@ -1,0 +1,15 @@
+{
+ "case": "workhorse-32bdf1a25b",
+ "model": "sonnet+finish-check",
+ "rep": 1,
+ "seconds": 57,
+ "turns": 18,
+ "tokens": 688575,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 1,
+ "files_changed": 5,
+ "passed": true
+}

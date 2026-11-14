@@ -1,0 +1,16 @@
+{
+ "case": "agentops-11067ac082",
+ "model": "haiku",
+ "rep": 2,
+ "seconds": 163,
+ "turns": 26,
+ "tokens": 1342019,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": false,
+ "fail_tail": "empotency_key for entry in source.ledger()] == [\"key-rollback-1\"]\n>       assert source.torn_ledger_lines == [2]\nE       assert torn_ledger_lines == [2]\nE        +  where torn_ledger_lines = <agentops.sources.simulator.SimulatorSource object at 0x7f0d48376550>.torn_ledger_lines\n\ntests/test_simulator.py:412: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_simulator.py::test_a_torn_final_ledger_line_is_skipped_and_counted\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 31 passed in 0.17s\n"
+}

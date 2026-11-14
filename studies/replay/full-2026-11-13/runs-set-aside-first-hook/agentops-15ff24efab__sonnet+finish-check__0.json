@@ -1,0 +1,17 @@
+{
+ "case": "agentops-15ff24efab",
+ "model": "sonnet+finish-check",
+ "rep": 0,
+ "seconds": 67,
+ "turns": 10,
+ "tokens": 331296,
+ "agent_error": true,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "error_text": "You've hit your 5-hour limit \u00b7 resets 12:20am (UTC)",
+ "files_changed": 1,
+ "passed": false,
+ "fail_tail": "et(sizes))\n>       assert recorder.modes == [\"a\", \"a\", \"a\"]\nE       AssertionError: assert ['rb', 'a', '...a', 'rb', 'a'] == ['a', 'a', 'a']\nE         \nE         At index 0 diff: 'rb' != 'a'\nE         Left contains 3 more items, first extra item: 'a'\nE         Use -v to get more diff\n\ntests/test_audit.py:54: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_audit.py::test_three_appends_write_three_parseable_lines_to_one_growing_file\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed in 0.13s\n"
+}

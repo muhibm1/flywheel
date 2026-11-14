@@ -1,0 +1,12 @@
+{
+ "case": "workhorse-32bdf1a25b",
+ "model": "opus",
+ "rep": 2,
+ "seconds": 112,
+ "turns": 23,
+ "tokens": 930409,
+ "agent_error": false,
+ "flags": [],
+ "files_changed": 6,
+ "passed": true
+}

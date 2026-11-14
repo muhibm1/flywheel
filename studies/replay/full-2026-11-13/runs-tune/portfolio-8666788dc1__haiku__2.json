@@ -1,0 +1,16 @@
+{
+ "case": "portfolio-8666788dc1",
+ "model": "haiku",
+ "rep": 2,
+ "seconds": 71,
+ "turns": 26,
+ "tokens": 1031625,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": false,
+ "fail_tail": "tton\"\u001b[39m\n\u001b[31m+             >\u001b[39m\n\u001b[31m+               Show on the floor\u001b[39m\n\u001b[31m+             </button>\u001b[39m\n\u001b[31m+           </li>\u001b[39m\n\u001b[31m+         </ol>\u001b[39m\n\u001b[31m+       </div>\u001b[39m\n\u001b[31m+     </div>\u001b[39m\n\u001b[31m+   </div>\u001b[39m\n\u001b[31m+ </body>\u001b[39m\n\n \u276f src/components/WalkthroughBlock.test.jsx:462:40\n    460| \n    461|         expect(consoleOf()).toHaveTextContent('Phase 1 of 12');\n    462|         expect(document.activeElement).toBe(tab('intake'));\n       |                                        ^\n    463|       } finally {\n    464|         restore();\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/2]\u23af\n\n"
+}

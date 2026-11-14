@@ -1,0 +1,15 @@
+{
+ "case": "lodestar-b8872cfc10",
+ "model": "sonnet",
+ "rep": 2,
+ "seconds": 63,
+ "turns": 26,
+ "tokens": 668015,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 9,
+ "passed": true
+}

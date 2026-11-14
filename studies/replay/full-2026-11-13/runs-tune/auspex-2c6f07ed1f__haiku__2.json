@@ -1,0 +1,15 @@
+{
+ "case": "auspex-2c6f07ed1f",
+ "model": "haiku",
+ "rep": 2,
+ "seconds": 160,
+ "turns": 48,
+ "tokens": 2822649,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 6,
+ "passed": true
+}

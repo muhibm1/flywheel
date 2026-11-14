@@ -1,0 +1,15 @@
+{
+ "case": "auspex-2c6f07ed1f",
+ "model": "sonnet",
+ "rep": 1,
+ "seconds": 107,
+ "turns": 29,
+ "tokens": 1563011,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 5,
+ "passed": true
+}

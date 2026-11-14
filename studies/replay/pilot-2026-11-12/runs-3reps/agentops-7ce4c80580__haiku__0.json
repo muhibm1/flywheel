@@ -1,0 +1,13 @@
+{
+ "case": "agentops-7ce4c80580",
+ "model": "haiku",
+ "rep": 0,
+ "seconds": 229,
+ "turns": 27,
+ "tokens": 2118597,
+ "agent_error": false,
+ "flags": [],
+ "files_changed": 3,
+ "passed": false,
+ "fail_tail": "   assert second.kind == \"already_applied\"\n        assert second.execution is not None\n        assert second.execution.applied is False\n        [evidence] = second.evidence\n>       assert evidence.payload[\"applied\"] is False\nE       assert True is False\n\ntests/test_executor.py:800: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_executor.py::test_a_repeat_of_a_key_applied_earlier_in_the_run_changes_nothing_and_escalates\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 27 passed in 0.49s\n"
+}

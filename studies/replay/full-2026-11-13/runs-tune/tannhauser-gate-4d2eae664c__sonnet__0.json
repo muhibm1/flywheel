@@ -1,0 +1,15 @@
+{
+ "case": "tannhauser-gate-4d2eae664c",
+ "model": "sonnet",
+ "rep": 0,
+ "seconds": 39,
+ "turns": 14,
+ "tokens": 426258,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

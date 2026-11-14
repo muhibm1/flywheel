@@ -1,0 +1,18 @@
+{
+ "case": "lodestar-eadbae8d0e",
+ "model": "sonnet+finish-check",
+ "rep": 0,
+ "seconds": 37,
+ "turns": 15,
+ "tokens": 419723,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"cd /tmp/replay-lodestar-eadbae8d0e-eq20981p; python - <<'E'\\nimport re\\np='src/lodestar/service.py'; s=open",
+  "history or network: {\"command\": \"cd /tmp/replay-lodestar-eadbae8d0e-eq20981p; cat > /tmp/claude-0/-tmp-replay-lodestar-eadbae8d0e-eq20981p/8"
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

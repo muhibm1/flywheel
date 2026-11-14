@@ -1,0 +1,15 @@
+{
+ "case": "auspex-de701efb49",
+ "model": "opus",
+ "rep": 2,
+ "seconds": 41,
+ "turns": 19,
+ "tokens": 804856,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

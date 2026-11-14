@@ -1,0 +1,15 @@
+{
+ "case": "agentops-d9ada42a58",
+ "model": "sonnet+finish-check",
+ "rep": 1,
+ "seconds": 44,
+ "turns": 4,
+ "tokens": 188408,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 1,
+ "passed": true
+}

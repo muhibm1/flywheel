@@ -1,0 +1,13 @@
+{
+ "case": "agentops-6ec50db482",
+ "model": "sonnet",
+ "rep": 1,
+ "seconds": 45,
+ "turns": 9,
+ "tokens": 326589,
+ "agent_error": false,
+ "flags": [],
+ "files_changed": 3,
+ "passed": false,
+ "fail_tail": "      Actual message: \"1 validation error for Triage\\n  Value error, hypothesis names must be unique. [type=value_error, input_value={'hypotheses': [Hypothesi...radicting_evidence=[])]}, input_type=dict]\\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error\"\n\ntests/test_state.py:264: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_state.py::test_triage_rejects_a_repeated_hypothesis_name - ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 74 passed in 0.27s\n"
+}

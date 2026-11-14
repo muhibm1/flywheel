@@ -1,0 +1,16 @@
+{
+ "case": "agentops-6ec50db482",
+ "model": "sonnet+finish-check",
+ "rep": 2,
+ "seconds": 54,
+ "turns": 15,
+ "tokens": 566197,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": false,
+ "fail_tail": "ed)\n>       assert all(action.detail == \"CitationError\" for action in rejected)\nE       assert False\nE        +  where False = all(<generator object test_three_bad_citations_still_hand_off_with_a_summary_built_by_code.<locals>.<genexpr> at 0x7f891c054c70>)\n\ntests/test_rca_escalate.py:297: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_rca_escalate.py::test_three_bad_citations_still_hand_off_with_a_summary_built_by_code\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 16 passed in 0.23s\n"
+}

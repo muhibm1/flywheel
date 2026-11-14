@@ -1,0 +1,16 @@
+{
+ "case": "portfolio-8666788dc1",
+ "model": "sonnet+finish-check",
+ "rep": 1,
+ "seconds": 29,
+ "turns": 10,
+ "tokens": 431518,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 1,
+ "passed": false,
+ "fail_tail": "or: expected \"focus\" to not be called at all, but actually been called 1 times\u001b[90m\n\nReceived: \n\n\u001b[1m  1st focus call:\n\n\u001b[22m    Array [\n      Object {\n        \"preventScroll\": true,\n      },\n    ]\n\u001b[39m\u001b[90m\n\nNumber of calls: \u001b[1m1\u001b[22m\n\u001b[39m\n \u276f src/components/WalkthroughBlock.test.jsx:476:26\n    474|     const focusSpy = vi.spyOn(firstTab, 'focus');\n    475|     fireEvent.click(again);\n    476|     expect(focusSpy).not.toHaveBeenCalled();\n       |                          ^\n    477|     expect(firstTab).toHaveAttribute('aria-current', 'step');\n    478|   });\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/1]\u23af\n\n"
+}

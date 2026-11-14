@@ -1,0 +1,17 @@
+{
+ "case": "lodestar-eadbae8d0e",
+ "model": "haiku",
+ "rep": 2,
+ "seconds": 102,
+ "turns": 39,
+ "tokens": 2040178,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"SCR=/tmp/claude-0/-tmp-replay-lodestar-eadbae8d0e-849gnx55/1067fb74-b48e-437d-96d8-cf53a7ccc1d4/scratchpad "
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

@@ -1,0 +1,15 @@
+{
+ "case": "garvis-908bd81bcc",
+ "model": "sonnet+finish-check",
+ "rep": 1,
+ "seconds": 28,
+ "turns": 12,
+ "tokens": 434662,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

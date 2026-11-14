@@ -1,0 +1,17 @@
+{
+ "case": "lodestar-eadbae8d0e",
+ "model": "haiku",
+ "rep": 0,
+ "seconds": 70,
+ "turns": 30,
+ "tokens": 1352330,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"LODESTAR_DATA_DIR=/tmp/claude-0/-tmp-replay-lodestar-eadbae8d0e-b7tzln2-/e8072fd2-d8f4-444b-83bd-cb2f5c7c88"
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

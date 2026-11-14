@@ -1,0 +1,298 @@
+[
+ {
+  "repo": "portfolio",
+  "fix": "ada85095cbcb5aaf23a59e90ad540671d3b9f255",
+  "parent": "0e76da28e7a4495ed339b6ff848126106e2358b5",
+  "subject": "feat(work): list the five case studies and restyle the not-found page",
+  "task": "feat(work): list the five case studies and restyle the not-found page\n\nWorkIndexPage now renders CaseStudyCards and ContactFooter from the\nrewritten data module instead of the old projects/demos/filter shape.",
+  "tests": [
+   "src/pages/WorkIndexPage.test.jsx"
+  ],
+  "code": [
+   "src/pages/WorkIndexPage.jsx"
+  ],
+  "lines": 345
+ },
+ {
+  "repo": "portfolio",
+  "fix": "d5491fc3c66e13abdc73c131a70017545885f091",
+  "parent": "891e04d66db7a019082eafb9e7dcb64873c8a19d",
+  "subject": "feat: link the AgentOps case study to its public snapshot",
+  "task": "feat: link the AgentOps case study to its public snapshot\n\nAgentOps now has a public snapshot repository, so the case study\ncarries a code link like WorkHorse does, and personal.repositories\nholds four snapshot URLs. The pinned test moves with the copy: it now\nexpects the codeLink instead of its absence.",
+  "tests": [
+   "src/data/portfolioData.test.js"
+  ],
+  "code": [
+   "src/data/portfolioData.js"
+  ],
+  "lines": 19
+ },
+ {
+  "repo": "portfolio",
+  "fix": "2e7150bd0416d966f67cdf994b607b93282f877e",
+  "parent": "02ed3bf67c26042b45723c1f0455044603c00f95",
+  "subject": "fix(review): footer holds exactly two links, live R156 comment, code link names the repo",
+  "task": "fix(review): footer holds exactly two links, live R156 comment, code link names the repo\n\n- ContactFooter.jsx collapsed the two responsive email-button anchors into one anchor with a\n  viewport-scoped label, so the footer has exactly two links in the DOM (G12), not four.\n- ContactFooter.test.jsx and HomePage.test.jsx now assert toHaveLength(2) on the footer's links.\n- portfolioData.test.js: the R156 term-pinning comment no longer says the scan passes\n  trivially; the terms are folded into FORBIDDEN_TERMS and the assertion is live today.\n- CaseStudyCards.jsx: the featured card's \"View the code\" link now names the repository in its\n  accessible name (WCAG 2.5.3), built from codeLink.label; test extended to assert it.",
+  "tests": [
+   "src/components/CaseStudyCards.test.jsx",
+   "src/components/ContactFooter.test.jsx",
+   "src/data/portfolioData.test.js",
+   "src/pages/HomePage.test.jsx"
+  ],
+  "code": [
+   "src/components/CaseStudyCards.jsx",
+   "src/components/ContactFooter.jsx"
+  ],
+  "lines": 35
+ },
+ {
+  "repo": "lodestar",
+  "fix": "311bc104e53aa1d0bd0aef49e051a5ecbb7e98ad",
+  "parent": "d3cfdd17a663f346e47b519ce877036db77631c4",
+  "subject": "fix: a decision or resume claims the run before stepping it, so two requests on one run take turns",
+  "task": "fix: a decision or resume claims the run before stepping it, so two requests on one run take turns\n\nTwo decisions on the same waiting run could both pass the state check and\nboth step the same checkpoint; nothing in the service stopped them, only the\nagents' own idempotency. The runner now marks the row running with a\ncompare-and-set on the state and the updated stamp it read (both, because\nupdated is kept to the second and two claims inside one second would both\nmatch it). The loser is answered 409 in_flight and reads the winner's result\non its next GET. A test races two decisions on one run: one is served and the\naction is applied once. The ten drills pass, including two replicas on one\nPostgres.",
+  "tests": [
+   "tests/test_service.py"
+  ],
+  "code": [
+   "src/lodestar/index.py",
+   "src/lodestar/runner.py"
+  ],
+  "lines": 82
+ },
+ {
+  "repo": "portfolio",
+  "fix": "9ff8096fb3407525efbec1410bad6c36def372cd",
+  "parent": "70022ed7a0ff12748dcf2e16fcce9c89a0dec517",
+  "subject": "fix(review): ban approve, reject, or hold with the Oxford comma too",
+  "task": "fix(review): ban approve, reject, or hold with the Oxford comma too",
+  "tests": [
+   "src/checkForbiddenCopy.test.js"
+  ],
+  "code": [
+   "scripts/forbidden-copy.mjs"
+  ],
+  "lines": 7
+ },
+ {
+  "repo": "auspex",
+  "fix": "de701efb49afce8e01735636a6caf032db7bace3",
+  "parent": "6fe26d4bad9d09924a89396be930120679929074",
+  "subject": "fix: strip relay envelopes from prompts too (#2)",
+  "task": "fix: strip relay envelopes from prompts too (#2)\n\nSessions started by a relayed brief wrap the text in <coordinator-relay>/<relay> with the brief in <note>; show that note as the prompt.",
+  "tests": [
+   "test/transcript.test.js"
+  ],
+  "code": [
+   "src/server/transcript.js"
+  ],
+  "lines": 11
+ },
+ {
+  "repo": "portfolio",
+  "fix": "0ad768a0ce29d021b3ac3f53f6d241a5f7c35586",
+  "parent": "ab18302d0744e2ce937abc71537f311ccfde4439",
+  "subject": "fix: keep keyboard focus on Previous and Next at the ends by marking them aria-disabled, and skip empty read and write rows",
+  "task": "fix: keep keyboard focus on Previous and Next at the ends by marking them aria-disabled, and skip empty read and write rows",
+  "tests": [
+   "src/components/WalkthroughBlock.test.jsx",
+   "src/components/walkthroughs/stability.test.jsx"
+  ],
+  "code": [
+   "src/components/WalkthroughBlock.jsx"
+  ],
+  "lines": 55
+ },
+ {
+  "repo": "portfolio",
+  "fix": "c0b27895e7ac635f87410a9c8ef43c4978a6f4fe",
+  "parent": "e3ac3cd1066fbc67dae0402c4eb9ae35cab801c8",
+  "subject": "fix: leave plan step 4's missing-facts sentence out whole and tidy the walkthrough tests",
+  "task": "fix: leave plan step 4's missing-facts sentence out whole and tidy the walkthrough tests",
+  "tests": [
+   "src/components/walkthroughs/stability.test.jsx",
+   "src/data/portfolioData.test.js"
+  ],
+  "code": [
+   "src/components/WalkthroughBlock.jsx",
+   "src/data/portfolioData.js"
+  ],
+  "lines": 11
+ },
+ {
+  "repo": "agentops",
+  "fix": "7ce4c805808efe4fdddcdad0a2b2b3f9497d472e",
+  "parent": "dbad3a138c19d127cfbc4e21b9ef18256d961645",
+  "subject": "fix(review): a plain repeat of an applied key stays applied=False so verify escalates",
+  "task": "fix(review): a plain repeat of an applied key stays applied=False so verify escalates",
+  "tests": [
+   "tests/test_executor.py"
+  ],
+  "code": [
+   "src/agentops/actions/executor.py"
+  ],
+  "lines": 49
+ },
+ {
+  "repo": "lodestar",
+  "fix": "eadbae8d0e99fc097eac29097a24fa769ccd7a99",
+  "parent": "b17c9a0655c6a682fb26bf88827415735d647114",
+  "subject": "fix(runbook): the kill-switch curl as written never engaged the switch",
+  "task": "fix(runbook): the kill-switch curl as written never engaged the switch\n\nFollowed cold, the runbook's admin curl sent JSON without a content-type header and the\nservice answered 422. The endpoint now takes the reason as a query parameter with no body,\nthe runbook shows that form, and the cold read is recorded in the runbook.",
+  "tests": [
+   "tests/test_service.py"
+  ],
+  "code": [
+   "src/lodestar/service.py"
+  ],
+  "lines": 21
+ },
+ {
+  "repo": "agentops",
+  "fix": "cf21be9ce908b0f18b5b09bbea999c79aba1c8c1",
+  "parent": "0cf10abff4a99f66b4b65c1a6a9a373d877006b3",
+  "subject": "fix: let the model send remediation parameters at all",
+  "task": "fix: let the model send remediation parameters at all\n\nThe r3b live run (c084cbc) still escalated every proposal of an action\nwith a required parameter. Root cause, confirmed offline with\nanthropic.transform_schema: langchain-anthropic's json_schema method\ncloses every object schema, so Remediation.params, an open mapping,\nreached the model as {\"type\": \"object\", \"properties\": {},\n\"additionalProperties\": false}. The only valid answer was params {}, so\ncircuit_break_dependency and rerun_partition could never pass the\nrunbook check. The baseline was unaffected because it calls tools.\n\nRemediation.params stays a mapping in Python, in state, in audit records\nand in scenario files. Its JSON schema is now a list of {name, value}\npairs, and a before-validator turns that list into the mapping. A\nmissing key, an extra key, or a repeated name is refused. No other\nmodel-facing schema has an open mapping.",
+  "tests": [
+   "tests/test_traced_run_fixes.py"
+  ],
+  "code": [
+   "src/agentops/state.py"
+  ],
+  "lines": 86
+ },
+ {
+  "repo": "garvis",
+  "fix": "fad734060d33c53b3a80f217521ee8907212713b",
+  "parent": "fca91ddf08360dade22e2f7660e15350619fffad",
+  "subject": "feat: record mode serves replies it already holds, so an interrupted recording resumes",
+  "task": "feat: record mode serves replies it already holds, so an interrupted recording resumes",
+  "tests": [
+   "tests/test_cache.py"
+  ],
+  "code": [
+   "src/garvis/cache.py"
+  ],
+  "lines": 32
+ },
+ {
+  "repo": "lodestar",
+  "fix": "effbe4838616a9ee80016e9bcf4dffe310341493",
+  "parent": "8db4fb214b556b452590f32491ef147296f4772e",
+  "subject": "test(load): the backoff after a refusal and the priced report; a run with nothing served no longer crashes the chart",
+  "task": "test(load): the backoff after a refusal and the priced report; a run with nothing served no longer crashes the chart\n\nThe load tool had no tests. Two now drive it against a fake service: one that\nrefuses everything, proving a worker waits after a 503 and the run writes its\nreport, and one that serves everything, proving nothing is throttled and the\ncost line is formatted in dollars. The first found a crash: a run with no\nserved request has no latency to plot, and the chart's max() was given an\nempty sequence.",
+  "tests": [
+   "tests/test_load.py"
+  ],
+  "code": [
+   "src/lodestar/load.py"
+  ],
+  "lines": 56
+ },
+ {
+  "repo": "portfolio",
+  "fix": "0818ce4f3827f8b7eb50a355c8ee0bca481fa593",
+  "parent": "34e14c05810a9d7ffde0bec6d4378745c8011ab2",
+  "subject": "fix: drop the education box from the home page, remove the unused toolkit component and tighten replay semantics and tests",
+  "task": "fix: drop the education box from the home page, remove the unused toolkit component and tighten replay semantics and tests",
+  "tests": [
+   "src/components/AgentOpsReplay.test.jsx",
+   "src/pages/HomePage.test.jsx"
+  ],
+  "code": [
+   "src/components/AgentOpsReplay.jsx",
+   "src/components/ExperienceSection.jsx",
+   "src/components/Toolkit.jsx",
+   "src/pages/HomePage.jsx"
+  ],
+  "lines": 62
+ },
+ {
+  "repo": "tannhauser-gate",
+  "fix": "10f6e3750e1a2ce4a4ef0c401641b8264fe93fc5",
+  "parent": "71704865f20e72553d41d60cc82a324301439685",
+  "subject": "feat(hooks): paid model API use asks for approval instead of being refused (#17)",
+  "task": "feat(hooks): paid model API use asks for approval instead of being refused (#17)\n\nA command or workflow that uses a paid model API key now stops on a\npermission prompt that says it will spend API credit, and runs only\nif Muhammad approves it. Paid infrastructure is still refused, and a\nrefusal on the same call still wins over the prompt.",
+  "tests": [
+   "hooks/tests/run.js"
+  ],
+  "code": [
+   "hooks/scripts/hard-lines.js",
+   "hooks/scripts/lib/rules.js"
+  ],
+  "lines": 88
+ },
+ {
+  "repo": "workhorse",
+  "fix": "566ef624e1ff07e8149a035150b73239a1cde3b3",
+  "parent": "1b85193520291f6840625e24786fe32b8e180234",
+  "subject": "fix: unescape quoted scalars in the profile YAML parser",
+  "task": "fix: unescape quoted scalars in the profile YAML parser\n\nA double-quoted profile value such as test: \"pytest -m \\\"not integration\\\"\"\nwas handed to the verifier with literal backslashes still in it, so the\ncommand would not run. Double quotes now process escapes and single quotes\ncollapse a doubled quote, matching YAML.\n\nFound while validating a real client profile, not hypothetically.",
+  "tests": [
+   "hooks/tests/run.js"
+  ],
+  "code": [
+   "hooks/scripts/lib.js"
+  ],
+  "lines": 15
+ },
+ {
+  "repo": "portfolio",
+  "fix": "f5bb094b69425ca6d07f13ffa0a573fa94b83c31",
+  "parent": "d733559301a52ada762e4924d2898ab3b649c743",
+  "subject": "fix: steadier hover on the Orion chip",
+  "task": "fix: steadier hover on the Orion chip\n\nThe whole framed plate now keeps the chip face up, so it no longer drops back\nwhen the cursor drifts off the chip itself. Each part's hit area stops short of\nits neighbours and the lifted face no longer takes the pointer, so the gaps\nbetween parts trigger nothing. A part opens once the cursor settles on it, and\nthe run carries on only after the cursor has stayed off every part a moment,\nso crossing a gap never flickers.",
+  "tests": [
+   "src/components/walkthroughs/ChipWalkthrough.test.jsx"
+  ],
+  "code": [
+   "src/components/walkthroughs/ChipWalkthrough.jsx"
+  ],
+  "lines": 67
+ },
+ {
+  "repo": "agentops",
+  "fix": "d9ada42a5882022b16c1430a1e9a90b33d50c448",
+  "parent": "042578fab733e054b4f10c4d0fa350daa2f439cb",
+  "subject": "fix(simulator): never merge the same post-action world twice",
+  "task": "fix(simulator): never merge the same post-action world twice\n\nApplying an action again under a new key re-appended its log lines and metric points, which\nproduced duplicate evidence ids in later verify rounds.",
+  "tests": [
+   "tests/test_simulator.py"
+  ],
+  "code": [
+   "src/agentops/sources/simulator.py"
+  ],
+  "lines": 58
+ },
+ {
+  "repo": "agentops",
+  "fix": "5290f6908bddf0aec9e39455a2b51ae3d7abec8a",
+  "parent": "78611ac65a7ffdf8368b07cf9400dcb52556cd25",
+  "subject": "fix(review): label looped_then_remediated by applies, not by the loops counter",
+  "task": "fix(review): label looped_then_remediated by applies, not by the loops counter",
+  "tests": [
+   "tests/test_evaluators.py"
+  ],
+  "code": [
+   "src/agentops/evals/outcome.py"
+  ],
+  "lines": 83
+ },
+ {
+  "repo": "portfolio",
+  "fix": "c9bf06c3ce0c1388f3a63fbe3ca33b32afe027be",
+  "parent": "6501eac1278ba23abde2a44c37d46d8040b2945a",
+  "subject": "fix: remove Paddock from the site and ban the word in the copy scan",
+  "task": "fix: remove Paddock from the site and ban the word in the copy scan\n\nThe owner dropped Paddock. The data entry, the paragraph and link in the\nWorkHorse study, and the tests that required them are gone; the scanner now\nbans the plain word and no longer says Paddock is current.",
+  "tests": [
+   "src/checkForbiddenCopy.test.js",
+   "src/components/CaseStudyPage.test.jsx",
+   "src/data/portfolioData.test.js"
+  ],
+  "code": [
+   "scripts/forbidden-copy.mjs",
+   "src/data/portfolioData.js"
+  ],
+  "lines": 133
+ }
+]

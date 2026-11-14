@@ -1,0 +1,15 @@
+{
+ "case": "auspex-de701efb49",
+ "model": "haiku",
+ "rep": 1,
+ "seconds": 30,
+ "turns": 15,
+ "tokens": 789137,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

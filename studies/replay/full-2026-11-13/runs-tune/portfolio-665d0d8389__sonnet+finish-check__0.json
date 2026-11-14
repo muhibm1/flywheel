@@ -1,0 +1,15 @@
+{
+ "case": "portfolio-665d0d8389",
+ "model": "sonnet+finish-check",
+ "rep": 0,
+ "seconds": 26,
+ "turns": 12,
+ "tokens": 477292,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 1,
+ "files_changed": 2,
+ "passed": true
+}

@@ -1,0 +1,16 @@
+{
+ "case": "portfolio-2e7150bd04",
+ "model": "sonnet",
+ "rep": 2,
+ "seconds": 29,
+ "turns": 13,
+ "tokens": 504724,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 6,
+ "passed": false,
+ "fail_tail": "s:52:17\n \u276f ../claude-0/-home-user/b41520fd-53c1-5e0c-b5b0-7886b3f9cf0c/scratchpad/env/portfolio/node_modules/@testing-library/dom/dist/query-helpers.js:95:19\n \u276f src/components/CaseStudyCards.test.jsx:38:46\n     36| \n     37|     const featuredArticle = screen.getByRole(\"article\");\n     38|     const codeLink = within(featuredArticle).getByRole(\"link\", { name:\u2026\n       |                                              ^\n     39|     expect(codeLink).toHaveAttribute(\"href\", caseStudies[0].codeLink.h\u2026\n     40|     expect(codeLink).toHaveAttribute(\"target\", \"_blank\");\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/1]\u23af\n\n"
+}

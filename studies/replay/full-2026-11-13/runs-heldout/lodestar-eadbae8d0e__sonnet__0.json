@@ -1,0 +1,17 @@
+{
+ "case": "lodestar-eadbae8d0e",
+ "model": "sonnet",
+ "rep": 0,
+ "seconds": 26,
+ "turns": 7,
+ "tokens": 276717,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"python - <<'E'\\nimport re\\np='src/lodestar/service.py'; s=open(p).read()\\ns=s.replace('''class KillRequest("
+ ],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

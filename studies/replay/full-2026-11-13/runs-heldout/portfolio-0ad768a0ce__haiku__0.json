@@ -1,0 +1,15 @@
+{
+ "case": "portfolio-0ad768a0ce",
+ "model": "haiku",
+ "rep": 0,
+ "seconds": 98,
+ "turns": 26,
+ "tokens": 1037739,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

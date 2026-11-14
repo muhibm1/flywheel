@@ -1,0 +1,18 @@
+{
+ "case": "auspex-2c6f07ed1f",
+ "model": "sonnet",
+ "rep": 0,
+ "seconds": 70,
+ "turns": 24,
+ "tokens": 916869,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"python3 - <<'E'\\nimport re\\np='src/server/index.js'\\ns=open(p).read()\\ns=s.replace(\\\"\\\"\\\"      const url = ",
+  "history or network: {\"replace_all\": false, \"file_path\": \"/tmp/replay-auspex-2c6f07ed1f-1qnjpbcm/src/server/index.js\", \"old_string\": \"      c"
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

@@ -1,0 +1,15 @@
+{
+ "case": "garvis-ddfce19093",
+ "model": "opus",
+ "rep": 1,
+ "seconds": 89,
+ "turns": 27,
+ "tokens": 1058546,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}
