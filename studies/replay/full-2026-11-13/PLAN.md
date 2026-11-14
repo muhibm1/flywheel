@@ -16,7 +16,7 @@
 ## Changes made after the tuning runs, before any held-out score (14 November)
 
 - The finish check now also counts files changed from the shell (heredoc scripts, `sed -i`,
-  redirects). The tuning runs showed Sonnet makes about 4 in 10 of its edits that way, which the
+  redirects). In 42 of 105 tuning runs Sonnet changed files only from the shell, which the
   first version could not see. The 17 runs made with the first version were set aside and re-run.
 - Contamination flags now match network and history commands only in shell commands, so a link
   written into a page no longer flags a run, and `git remote` (harmless in a copy with no
