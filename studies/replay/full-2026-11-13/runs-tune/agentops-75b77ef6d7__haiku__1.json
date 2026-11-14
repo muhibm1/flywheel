@@ -1,0 +1,16 @@
+{
+ "case": "agentops-75b77ef6d7",
+ "model": "haiku",
+ "rep": 1,
+ "seconds": 113,
+ "turns": 26,
+ "tokens": 887396,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 5,
+ "passed": false,
+ "fail_tail": "       reason = state[\"escalation_reason\"]\n        if reason is None:\n>           raise RuntimeError(\"escalate was reached without an escalation_reason set by merge or rca.\")\nE           RuntimeError: escalate was reached without an escalation_reason set by merge or rca.\n\nsrc/agentops/nodes/escalate.py:27: RuntimeError\n=========================== short test summary info ============================\nFAILED tests/test_rca_escalate.py::test_escalation_citations_are_checked_like_any_other\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 15 passed in 0.22s\n"
+}

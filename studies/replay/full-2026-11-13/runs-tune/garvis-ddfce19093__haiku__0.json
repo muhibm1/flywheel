@@ -1,0 +1,15 @@
+{
+ "case": "garvis-ddfce19093",
+ "model": "haiku",
+ "rep": 0,
+ "seconds": 68,
+ "turns": 19,
+ "tokens": 1175481,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 5,
+ "passed": true
+}

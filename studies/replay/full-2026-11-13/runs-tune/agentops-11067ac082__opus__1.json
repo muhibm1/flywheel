@@ -1,0 +1,15 @@
+{
+ "case": "agentops-11067ac082",
+ "model": "opus",
+ "rep": 1,
+ "seconds": 182,
+ "turns": 17,
+ "tokens": 810279,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

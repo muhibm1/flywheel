@@ -1,0 +1,15 @@
+{
+ "case": "flywheel-a6dc00c425",
+ "model": "sonnet+finish-check",
+ "rep": 1,
+ "seconds": 19,
+ "turns": 8,
+ "tokens": 332071,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

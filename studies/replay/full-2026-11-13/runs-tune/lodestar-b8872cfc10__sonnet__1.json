@@ -1,0 +1,17 @@
+{
+ "case": "lodestar-b8872cfc10",
+ "model": "sonnet",
+ "rep": 1,
+ "seconds": 82,
+ "turns": 17,
+ "tokens": 922385,
+ "agent_error": false,
+ "flags": [
+  "touched the source repository: {\"command\": \"python3 - <<'E'\\np='tests/test_service.py'\\ns=open(p).read()\\ns=s.replace('''    assert \\\"2 attempt(s)\\\" in"
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 9,
+ "passed": true
+}

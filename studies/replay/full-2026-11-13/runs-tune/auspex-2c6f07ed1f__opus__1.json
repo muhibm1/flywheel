@@ -1,0 +1,15 @@
+{
+ "case": "auspex-2c6f07ed1f",
+ "model": "opus",
+ "rep": 1,
+ "seconds": 126,
+ "turns": 32,
+ "tokens": 1866903,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 6,
+ "passed": true
+}

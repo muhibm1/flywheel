@@ -1,0 +1,15 @@
+{
+ "case": "lodestar-6b7e2616c0",
+ "model": "haiku",
+ "rep": 0,
+ "seconds": 123,
+ "turns": 25,
+ "tokens": 1319498,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

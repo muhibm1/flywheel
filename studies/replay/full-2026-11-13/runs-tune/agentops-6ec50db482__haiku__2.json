@@ -1,0 +1,16 @@
+{
+ "case": "agentops-6ec50db482",
+ "model": "haiku",
+ "rep": 2,
+ "seconds": 196,
+ "turns": 35,
+ "tokens": 2445801,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 6,
+ "passed": false,
+ "fail_tail": "ation\" in summary and \"0.4\" in summary\n        assert update[\"escalation\"].evidence_ids == []\n        rejected = [action for action in update[\"actions\"] if not action.ok]\n>       assert len(rejected) == 3\nE       assert 0 == 3\nE        +  where 0 = len([])\n\ntests/test_rca_escalate.py:295: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_rca_escalate.py::test_three_bad_citations_still_hand_off_with_a_summary_built_by_code\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 16 passed in 0.24s\n"
+}

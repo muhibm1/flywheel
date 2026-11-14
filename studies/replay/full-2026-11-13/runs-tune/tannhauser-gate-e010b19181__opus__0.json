@@ -1,0 +1,16 @@
+{
+ "case": "tannhauser-gate-e010b19181",
+ "model": "opus",
+ "rep": 0,
+ "seconds": 176,
+ "turns": 25,
+ "tokens": 1876619,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 20,
+ "passed": false,
+ "fail_tail": "ck that cannot start fails\nok    verify: a private path in a new test file fails\nok    ship: nothing verified or reviewed blocks\nok    ship: verified and reviewed with no run is clear\nok    ship: a review of another head blocks\nok    ship: only shadow checkers is not a review\nok    ship: a blocking finding blocks, and --with-open only works at the round limit\nok    ship: standard tier needs his approval pinned to the page as it reads now\nok    ship: the page lists the choices made without him\nok    ship: push refuses the default branch\nok    ship: a change not committed blocks\n\n193/194 passed\n"
+}

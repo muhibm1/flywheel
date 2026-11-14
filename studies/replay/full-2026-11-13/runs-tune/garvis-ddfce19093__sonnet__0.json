@@ -1,0 +1,15 @@
+{
+ "case": "garvis-ddfce19093",
+ "model": "sonnet",
+ "rep": 0,
+ "seconds": 53,
+ "turns": 14,
+ "tokens": 576887,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

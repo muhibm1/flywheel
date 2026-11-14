@@ -1,0 +1,15 @@
+{
+ "case": "workhorse-ef43c5ee85",
+ "model": "sonnet",
+ "rep": 0,
+ "seconds": 32,
+ "turns": 8,
+ "tokens": 331561,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

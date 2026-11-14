@@ -1,0 +1,17 @@
+{
+ "case": "auspex-2c6f07ed1f",
+ "model": "haiku",
+ "rep": 1,
+ "seconds": 190,
+ "turns": 58,
+ "tokens": 3478226,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"sed -n 160,190p test/history.test.js; git remote -v\", \"description\": \"Inspect the failing history test and "
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 5,
+ "passed": true
+}

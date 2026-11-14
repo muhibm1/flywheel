@@ -1,0 +1,16 @@
+{
+ "case": "agentops-75b77ef6d7",
+ "model": "sonnet+finish-check",
+ "rep": 0,
+ "seconds": 76,
+ "turns": 16,
+ "tokens": 465946,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": false,
+ "fail_tail": "]),\n        ]\n    \n        update = escalate_with(state, {\"summary\": \"hand over\"})\n    \n>       assert update[\"escalation_reason\"] == expected_reason\nE       AssertionError: assert 'ambiguous' == 'no_evidence'\nE         \nE         - no_evidence\nE         + ambiguous\n\ntests/test_rca_escalate.py:228: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_rca_escalate.py::test_escalation_reason_is_computed_from_state[no evidence]\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 16 passed in 0.17s\n"
+}

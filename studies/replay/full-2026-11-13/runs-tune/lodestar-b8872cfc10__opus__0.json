@@ -1,0 +1,15 @@
+{
+ "case": "lodestar-b8872cfc10",
+ "model": "opus",
+ "rep": 0,
+ "seconds": 168,
+ "turns": 35,
+ "tokens": 1800366,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 10,
+ "passed": true
+}

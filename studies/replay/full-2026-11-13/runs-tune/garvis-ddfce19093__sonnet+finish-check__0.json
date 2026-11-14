@@ -1,0 +1,16 @@
+{
+ "case": "garvis-ddfce19093",
+ "model": "sonnet+finish-check",
+ "rep": 0,
+ "seconds": 51,
+ "turns": 25,
+ "tokens": 766313,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": false,
+ "fail_tail": "t\"] == \"The whole report.\"\n        assert run(args, \"write\")[\"result\"] == \"The whole report.\"\n>       assert live_calls == [\"write\"]\nE       AssertionError: assert ['write', 'write'] == ['write']\nE         \nE         Left contains one more item: 'write'\nE         Use -v to get more diff\n\ntests/test_cache.py:144: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_cache.py::test_a_plain_text_reply_is_recorded_too - Asserti...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 6 passed in 0.23s\n"
+}

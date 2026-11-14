@@ -1,0 +1,16 @@
+{
+ "case": "agentops-75b77ef6d7",
+ "model": "sonnet+finish-check",
+ "rep": 1,
+ "seconds": 88,
+ "turns": 11,
+ "tokens": 480312,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 5,
+ "passed": false,
+ "fail_tail": "ence'])}\"\n        )\n    \n        reason = state[\"escalation_reason\"]\n        if reason is None:\n>           raise ValueError(\"escalate needs an escalation_reason; merge or rca writes it.\")\nE           ValueError: escalate needs an escalation_reason; merge or rca writes it.\n\nsrc/agentops/nodes/escalate.py:36: ValueError\n=========================== short test summary info ============================\nFAILED tests/test_rca_escalate.py::test_escalation_citations_are_checked_like_any_other\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 15 passed in 0.20s\n"
+}

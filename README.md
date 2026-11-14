@@ -73,9 +73,15 @@ unanswerable question the agent started answering with an invented fact. Flywhee
 `flywheel replay` is a second mode. It takes changes that really shipped in a repository, rewinds
 the code to just before each one with no history to peek at, gives an agent the task, and lets the
 real change's own tests decide. A change is used only if its tests fail before and pass after,
-twice. In a 20-case pilot on AgentOps and WorkHorse, Haiku passed 14, Sonnet 16 and Opus 16, with
-Sonnet using about 45% fewer tokens than Opus
-([report](docs/results/replay-pilot-2026-11-12.md)). It is a pilot: 20 cases, one run each.
+twice, and a blind review keeps only cases whose task text says enough to pass. On 35 real
+changes from nine repositories, three runs each, Opus passed 88%, Sonnet 83% and Haiku 77%, with
+Sonnet using about half of Opus's tokens
+([report](docs/results/replay-full-2026-11-14.md); the first 20-case pilot is
+[here](docs/results/replay-pilot-2026-11-12.md)).
+
+`flywheel finish-check` is a Claude Code hook that will not let a turn end on code that was edited
+and never checked. Replay measured it: it did not raise Sonnet's pass rate, so it is offered as a
+tool, not a recommendation.
 
 ## How it decides
 

@@ -1,0 +1,16 @@
+{
+ "case": "tannhauser-gate-e010b19181",
+ "model": "sonnet",
+ "rep": 2,
+ "seconds": 98,
+ "turns": 23,
+ "tokens": 1058004,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 315,
+ "passed": false,
+ "fail_tail": "(node:internal/modules/cjs/loader:1216:25)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Module.require (node:internal/modules/cjs/loader:1527:12)\n    at require (node:internal/modules/helpers:147:16)\n    at Object.<anonymous> (/tmp/replay-tannhauser-gate-e010b19181-fl78_5m9/hooks/tests/run.js:153:30)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [\n    '/tmp/replay-tannhauser-gate-e010b19181-fl78_5m9/hooks/tests/run.js'\n  ]\n}\n\nNode.js v22.23.4\n"
+}

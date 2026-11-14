@@ -1,0 +1,15 @@
+{
+ "case": "workhorse-32bdf1a25b",
+ "model": "haiku",
+ "rep": 2,
+ "seconds": 51,
+ "turns": 18,
+ "tokens": 828325,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 6,
+ "passed": true
+}
