@@ -44,6 +44,22 @@ NO_CHECK_FILE = re.compile(
 NO_CHECK_PLACE = re.compile(r"^/(?:tmp|private/tmp|var/folders)/|/scratchpad/|/\.claude/|/memory/")
 EDIT_TOOLS = {"Edit", "Write", "MultiEdit", "NotebookEdit"}
 
+# Shell commands that write files: agents often edit with a heredoc script or sed instead of the
+# edit tools, and those edits need checking too.
+SHELL_WRITE = re.compile(
+    "|".join(
+        [
+            r"\bsed\s+(?:-\w+\s+)*-i",
+            r"\bperl\s+-\w*i",
+            r"\.write_text\(|\.write\(|\bwriteFileSync\(",
+            r"open\([^)]*,\s*['\"][wa]",
+            r"(?<![<>&\d])>{1,2}\s*(?!/dev/null|&)[\w.~/-]+",
+            r"\btee\b|\bpatch\b|\bgit\s+apply\b",
+        ]
+    )
+)
+SHELL_EDIT = "a file changed from the shell"
+
 REASON = (
     "You changed {files} and have not checked the change since your last edit{failed}. "
     "Run the project's tests (or its type check, lint or build if it has no tests) now, fix "
@@ -63,6 +79,11 @@ def is_code_edit(tool: str, tool_input: dict, cwd: str = "") -> str | None:
     A file inside the session's folder always counts; one outside it is skipped when it sits in
     a scratch place (a temporary folder, a scratchpad, the harness's own files).
     """
+    if tool == "Bash":
+        command = str(tool_input.get("command") or "")
+        if SHELL_WRITE.search(command) and not CHECK_COMMAND.search(command):
+            return SHELL_EDIT
+        return None
     if tool not in EDIT_TOOLS:
         return None
     path = str(tool_input.get("file_path") or tool_input.get("notebook_path") or "")
@@ -88,7 +109,9 @@ def verdict(steps: list[dict]) -> str | None:
     if after and after[-1]["ok"]:
         return None
     files = sorted({steps[i]["file"] for i in edits})
-    named = ", ".join(Path(f).name for f in files[:3]) + (" and others" if len(files) > 3 else "")
+    named = ", ".join(f if f == SHELL_EDIT else Path(f).name for f in files[:3]) + (
+        " and others" if len(files) > 3 else ""
+    )
     failed = ", and your last check failed" if after else ""
     return REASON.format(files=named, failed=failed)
 

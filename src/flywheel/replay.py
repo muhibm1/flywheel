@@ -286,7 +286,9 @@ ALLOWED_TOOLS = (
 )
 
 # Paths and commands that would let an agent look at the real history or the network.
-LEAK = re.compile(r"git (fetch|pull|clone|remote)|curl |wget |github\.com")
+# Commands that reach history or the network. Only shell commands are matched: a file the agent
+# writes may mention github.com (a link on a page) without reaching anything.
+LEAK = re.compile(r"git (fetch|pull|clone)|curl |wget |\bgh\s|https?://(www\.)?github\.com")
 
 
 def _flags(events: list[dict], work: Path, repo_path: str) -> list[str]:
@@ -301,7 +303,9 @@ def _flags(events: list[dict], work: Path, repo_path: str) -> list[str]:
             blob = json.dumps(block.get("input", {}))
             if repo_path and repo_path in blob:
                 flags.append(f"touched the source repository: {blob[:120]}")
-            elif LEAK.search(blob):
+            elif block.get("name") == "Bash" and LEAK.search(
+                str((block.get("input") or {}).get("command"))
+            ):
                 flags.append(f"history or network: {blob[:120]}")
     return flags
 

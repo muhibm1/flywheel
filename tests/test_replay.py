@@ -209,3 +209,16 @@ def test_run_all_stops_at_the_usage_limit(repo, tmp_path, monkeypatch):
 def test_finish_state_skips_events_of_other_shapes(tmp_path):
     events = [{"type": "user", "message": "plain text"}, {"message": {"content": ["x", 3]}}]
     assert replay.finish_state(events, str(tmp_path))["edited_code"] is False
+
+
+def test_only_shell_commands_that_reach_out_are_flagged(tmp_path):
+    def use(name, inp):
+        return {
+            "type": "assistant",
+            "message": {"content": [{"type": "tool_use", "name": name, "input": inp}]},
+        }
+
+    link = use("Edit", {"file_path": "a.js", "new_string": "https://github.com/x"})
+    assert replay._flags([link], tmp_path, "/nowhere") == []
+    fetch = use("Bash", {"command": "curl https://github.com/x/y"})
+    assert replay._flags([fetch], tmp_path, "/nowhere")

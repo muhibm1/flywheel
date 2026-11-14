@@ -88,3 +88,20 @@ def test_command_line_answers_on_stdout_and_never_fails(tmp_path):
 def test_settings_block_installs_every_event():
     hooks = finish_check.settings("x")["hooks"]
     assert set(hooks) == {"UserPromptSubmit", "PostToolUse", "PostToolUseFailure", "Stop"}
+
+
+def test_edits_made_from_the_shell_count(tmp_path):
+    script = "python3 - <<'E'\np='src/a.py'\nopen(p, 'w').write('x = 1')\nE"
+    answer = play(tmp_path, bash(script), ev("Stop"))
+    assert answer["decision"] == "block" and "shell" in answer["reason"]
+    assert play(tmp_path, bash("sed -i 's/a/b/' src/a.py"), bash("pytest -q"), ev("Stop")) is None
+
+
+def test_reading_commands_are_not_edits(tmp_path):
+    for command in (
+        "cat a.py | grep x",
+        "ls > /dev/null",
+        "npm test 2>&1",
+        "python3 - <<'E'\nprint(1)\nE",
+    ):
+        assert finish_check.is_code_edit("Bash", {"command": command}) is None, command
