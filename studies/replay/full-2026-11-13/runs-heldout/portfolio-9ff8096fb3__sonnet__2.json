@@ -1,0 +1,16 @@
+{
+ "case": "portfolio-9ff8096fb3",
+ "model": "sonnet",
+ "rep": 2,
+ "seconds": 18,
+ "turns": 7,
+ "tokens": 281347,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 1,
+ "passed": false,
+ "fail_tail": " agent (R12)\nAssertionError: approve, reject, or hold: expected [] to deeply equal [ 'approve, reject or hold' ]\n\n\u001b[32m- Expected\u001b[39m\n\u001b[31m+ Received\u001b[39m\n\n\u001b[32m- [\u001b[39m\n\u001b[32m-   \"approve, reject or hold\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ []\u001b[39m\n\n \u276f src/checkForbiddenCopy.test.js:610:28\n    608|     for (const [index, [text, label]] of phrases.entries()) {\n    609|       const labels = labelsHitBy(text, `authority-${index}.txt`);\n    610|       expect(labels, text).toEqual([label]);\n       |                            ^\n    611|     }\n    612|     expectNoneToHit([\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/1]\u23af\n\n"
+}

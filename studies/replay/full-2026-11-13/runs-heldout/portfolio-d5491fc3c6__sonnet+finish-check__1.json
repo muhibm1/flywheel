@@ -1,0 +1,17 @@
+{
+ "case": "portfolio-d5491fc3c6",
+ "model": "sonnet+finish-check",
+ "rep": 1,
+ "seconds": 66,
+ "turns": 21,
+ "tokens": 552660,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"python3 - <<'E'\\np='src/data/portfolioData.js'\\ns=open(p).read()\\ns=s.replace('''  paddock: \\\"https://githu"
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 1,
+ "files_changed": 2,
+ "passed": true
+}

@@ -22,3 +22,10 @@
   written into a page no longer flags a run, and `git remote` (harmless in a copy with no
   history) no longer does. Tuning runs keep the flags they were given, which can only leave out
   more runs, not fewer.
+
+## After the held-out run (14 November)
+
+- Text inside a heredoc (a script the agent pipes to Python, or a file it writes with `cat`) no
+  longer counts toward a network or history flag: a page with a GitHub link or a runbook that
+  mentions `curl` reaches nothing. Stored runs flagged only for that are scored; the rule is
+  applied the same way to the tuning and held-out runs, and the held-out runs were not re-run.

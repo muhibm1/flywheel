@@ -1,0 +1,18 @@
+{
+ "case": "lodestar-eadbae8d0e",
+ "model": "haiku",
+ "rep": 1,
+ "seconds": 98,
+ "turns": 25,
+ "tokens": 1308255,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"S=/tmp/claude-0/-tmp-replay-lodestar-eadbae8d0e-835hfgwl/de80f0a7-fe03-4f3b-a189-8037c82e9218/scratchpad &&",
+  "history or network: {\"command\": \"PYTHONPATH=/tmp/replay-lodestar-eadbae8d0e-835hfgwl/src LODESTAR_DATA_DIR=/tmp/claude-0/-tmp-replay-lodesta"
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 5,
+ "passed": true
+}

@@ -1,0 +1,17 @@
+{
+ "case": "portfolio-d5491fc3c6",
+ "model": "opus",
+ "rep": 2,
+ "seconds": 70,
+ "turns": 21,
+ "tokens": 698059,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"python3 - <<'EOF'\\nimport re\\np='src/data/portfolioData.js'; s=open(p).read()\\ns=s.replace(\\\"personal (cont"
+ ],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

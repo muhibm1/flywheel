@@ -1,0 +1,15 @@
+{
+ "case": "garvis-fad734060d",
+ "model": "haiku",
+ "rep": 1,
+ "seconds": 44,
+ "turns": 15,
+ "tokens": 506784,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

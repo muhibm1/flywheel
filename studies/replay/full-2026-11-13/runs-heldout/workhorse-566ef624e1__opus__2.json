@@ -1,0 +1,15 @@
+{
+ "case": "workhorse-566ef624e1",
+ "model": "opus",
+ "rep": 2,
+ "seconds": 59,
+ "turns": 16,
+ "tokens": 630965,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

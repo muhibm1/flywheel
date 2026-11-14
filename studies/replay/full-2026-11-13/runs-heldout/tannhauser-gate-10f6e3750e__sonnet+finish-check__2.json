@@ -1,0 +1,18 @@
+{
+ "case": "tannhauser-gate-10f6e3750e",
+ "model": "sonnet+finish-check",
+ "rep": 2,
+ "seconds": 65,
+ "turns": 25,
+ "tokens": 733936,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"cd /tmp/replay-tannhauser-gate-10f6e3750e-xindjsac; python3 - <<'EOF'\\np='hooks/scripts/lib/rules.js'\\ns=op",
+  "history or network: {\"command\": \"node hooks/tests/run.js | grep -v \\\"^ok\\\"; echo '{\\\"tool_name\\\":\\\"Bash\\\",\\\"tool_input\\\":{\\\"command\\\":\\\"echo"
+ ],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 1,
+ "files_changed": 3,
+ "passed": true
+}

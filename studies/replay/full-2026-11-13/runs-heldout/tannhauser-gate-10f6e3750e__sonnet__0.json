@@ -1,0 +1,17 @@
+{
+ "case": "tannhauser-gate-10f6e3750e",
+ "model": "sonnet",
+ "rep": 0,
+ "seconds": 44,
+ "turns": 11,
+ "tokens": 620404,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"python3 - <<'EOF'\\np='hooks/scripts/lib/rules.js'\\ns=open(p).read()\\ns=s.replace(\\\"\\\"\\\"  for (const [re, re"
+ ],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

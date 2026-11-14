@@ -1,0 +1,15 @@
+{
+ "case": "garvis-fad734060d",
+ "model": "opus",
+ "rep": 2,
+ "seconds": 47,
+ "turns": 13,
+ "tokens": 722630,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

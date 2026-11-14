@@ -291,6 +291,19 @@ ALLOWED_TOOLS = (
 LEAK = re.compile(r"git (fetch|pull|clone)|curl |wget |\bgh\s|https?://(www\.)?github\.com")
 
 
+HEREDOC = re.compile(r"<<-?\s*['\"]?(\w+)['\"]?[^\n]*\n.*?\n\s*\1\b", re.S)
+# A heredoc's body is text the agent writes into a file or a script, such as a page with a link
+# or a runbook that mentions curl; only the command around it reaches anything.
+FLAG_FROM_HEREDOC = re.compile(
+    r'^history or network: \{"command": "(cd [^"]*?(&&|;) *)?(python3? - <<|cat > \S+ <<)'
+)
+
+
+def shell_part(command: str) -> str:
+    """A shell command without its heredoc bodies."""
+    return HEREDOC.sub("<<heredoc", command)
+
+
 def _flags(events: list[dict], work: Path, repo_path: str) -> list[str]:
     """Tool calls that went outside the working copy or touched history: contamination flags."""
     flags = []
@@ -504,13 +517,22 @@ def wilson(passed: int, total: int, z: float = 1.96) -> tuple[float, float]:
     return (max(0.0, centre - half), min(1.0, centre + half))
 
 
+def real_flags(record: dict) -> list[str]:
+    """A run's flags, leaving out those that only matched text inside a heredoc.
+
+    Runs recorded before heredoc bodies were ignored can carry such a flag; the run itself is
+    fine, so it is scored.
+    """
+    return [f for f in record.get("flags") or [] if not FLAG_FROM_HEREDOC.match(f)]
+
+
 def summarize(results: list[dict]) -> dict[str, dict]:
     """Per model: runs, passes, pass rate with interval, mean tokens and seconds, flagged runs."""
     out: dict[str, dict] = {}
     for model in sorted({r["model"] for r in results}):
         rows = [r for r in results if r["model"] == model]
-        broken = [r for r in rows if r.get("agent_error") and not r.get("flags")]
-        clean = [r for r in rows if not r.get("flags") and not r.get("agent_error")]
+        broken = [r for r in rows if r.get("agent_error") and not real_flags(r)]
+        clean = [r for r in rows if not real_flags(r) and not r.get("agent_error")]
         passed = sum(1 for r in clean if r.get("passed"))
         low, high = wilson(passed, len(clean))
         out[model] = {
@@ -535,7 +557,7 @@ def per_case(results: list[dict]) -> dict[str, dict[str, str]]:
     """For each case and model, the passes out of runs, such as '2/3'."""
     table: dict[str, dict[str, str]] = {}
     for r in results:
-        if r.get("agent_error") and not r.get("flags"):
+        if r.get("agent_error") and not real_flags(r):
             continue
         cell = table.setdefault(r["case"], {})
         a, b = (int(x) for x in cell.get(r["model"], "0/0").split("/"))

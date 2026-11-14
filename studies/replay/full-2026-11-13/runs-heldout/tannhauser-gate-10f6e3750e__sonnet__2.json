@@ -1,0 +1,18 @@
+{
+ "case": "tannhauser-gate-10f6e3750e",
+ "model": "sonnet",
+ "rep": 2,
+ "seconds": 42,
+ "turns": 15,
+ "tokens": 663373,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"python3 - <<'EOF'\\np='hooks/tests/run.js'\\ns=open(p).read()\\ns=s.replace(\\\"const { check } = require('../sc"
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": false,
+ "fail_tail": "ck that cannot start fails\nok    verify: a private path in a new test file fails\nok    ship: nothing verified or reviewed blocks\nok    ship: verified and reviewed with no run is clear\nok    ship: a review of another head blocks\nok    ship: only shadow checkers is not a review\nok    ship: a blocking finding blocks, and --with-open only works at the round limit\nok    ship: standard tier needs his approval pinned to the page as it reads now\nok    ship: the page lists the choices made without him\nok    ship: push refuses the default branch\nok    ship: a change not committed blocks\n\n189/195 passed\n"
+}

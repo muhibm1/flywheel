@@ -1,0 +1,15 @@
+{
+ "case": "lodestar-effbe48386",
+ "model": "opus",
+ "rep": 0,
+ "seconds": 71,
+ "turns": 13,
+ "tokens": 455924,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

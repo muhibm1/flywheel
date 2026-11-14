@@ -1,0 +1,15 @@
+{
+ "case": "portfolio-ada85095cb",
+ "model": "sonnet+finish-check",
+ "rep": 2,
+ "seconds": 80,
+ "turns": 19,
+ "tokens": 918214,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 1,
+ "files_changed": 3,
+ "passed": true
+}

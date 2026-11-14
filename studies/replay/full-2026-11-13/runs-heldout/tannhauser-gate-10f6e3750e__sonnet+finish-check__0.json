@@ -1,0 +1,17 @@
+{
+ "case": "tannhauser-gate-10f6e3750e",
+ "model": "sonnet+finish-check",
+ "rep": 0,
+ "seconds": 49,
+ "turns": 17,
+ "tokens": 679389,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"cd /tmp/replay-tannhauser-gate-10f6e3750e-qtk1dszf && python3 - <<'EOF'\\np='hooks/scripts/lib/rules.js'\\ns="
+ ],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 1,
+ "files_changed": 4,
+ "passed": true
+}

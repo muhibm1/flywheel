@@ -1,0 +1,15 @@
+{
+ "case": "portfolio-ada85095cb",
+ "model": "haiku",
+ "rep": 2,
+ "seconds": 114,
+ "turns": 28,
+ "tokens": 1331447,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

@@ -1,0 +1,15 @@
+{
+ "case": "auspex-de701efb49",
+ "model": "sonnet+finish-check",
+ "rep": 1,
+ "seconds": 34,
+ "turns": 19,
+ "tokens": 731297,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 1,
+ "files_changed": 2,
+ "passed": true
+}

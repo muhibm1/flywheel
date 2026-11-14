@@ -1,0 +1,15 @@
+{
+ "case": "lodestar-311bc104e5",
+ "model": "sonnet+finish-check",
+ "rep": 0,
+ "seconds": 97,
+ "turns": 14,
+ "tokens": 637825,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

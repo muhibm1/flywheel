@@ -222,3 +222,9 @@ def test_only_shell_commands_that_reach_out_are_flagged(tmp_path):
     assert replay._flags([link], tmp_path, "/nowhere") == []
     fetch = use("Bash", {"command": "curl https://github.com/x/y"})
     assert replay._flags([fetch], tmp_path, "/nowhere")
+
+
+def test_text_inside_a_heredoc_is_not_a_network_call():
+    script = "python3 - <<'E'\nopen('a.js','w').write('curl https://github.com/x')\nE\necho done"
+    assert "github" not in replay.shell_part(script)
+    assert "echo done" in replay.shell_part(script)
