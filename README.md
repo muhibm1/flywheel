@@ -74,7 +74,7 @@ unanswerable question the agent started answering with an invented fact. Flywhee
 the code to just before each one with no history to peek at, gives an agent the task, and lets the
 real change's own tests decide. A change is used only if its tests fail before and pass after,
 twice, and a blind review keeps only cases whose task text says enough to pass. On 20 held-out
-real changes from nine repositories, scored once with three runs each, Opus passed 85%, Sonnet 78%
+real changes from seven repositories, scored once with three runs each, Opus passed 85%, Sonnet 78%
 and Haiku 76%, with Sonnet using about half of Opus's tokens
 ([report](docs/results/replay-full-2026-11-14.md); the first 20-case pilot is
 [here](docs/results/replay-pilot-2026-11-12.md)).
