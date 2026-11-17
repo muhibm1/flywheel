@@ -1,0 +1,16 @@
+{
+ "case": "portfolio-ada85095cb",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 213,
+ "turns": 26,
+ "tokens": 1411423,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

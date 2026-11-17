@@ -1,0 +1,16 @@
+{
+ "case": "tannhauser-gate-4d2eae664c",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 98,
+ "turns": 29,
+ "tokens": 1077147,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

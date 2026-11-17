@@ -358,6 +358,93 @@ def finish_state(events: list[dict], cwd: str) -> dict:
     }
 
 
+PROTOCOL_PROMPT = """You are working in a copy of a software repository. It has no history and no \
+network. Make the change described in the task below, the way the repository's own maintainer did.
+
+The task is the message of the real commit. Tests written with that commit will check your work \
+afterwards, so work like this:
+
+1. Read the repository's own instructions (CLAUDE.md, README, CONTRIBUTING) and the code and \
+existing tests around everything the task touches. Find how similar things are already done.
+2. List every concrete requirement in the task: each behaviour, function, command, option, field, \
+file, message text, label and number it mentions. Exact words in the task (quoted text, names, \
+flags, wording of messages or labels, class names) are exact requirements: use them verbatim. \
+When the task leaves a name or wording open, follow the closest existing pattern in the code.
+3. Where the task says tests were added or changed, write those tests yourself, in the existing \
+test files and style, then implement the change until they pass. Prefer extending existing code \
+and files over new ones. Keep existing behaviour and tests unless the task says they change; when \
+it says an expectation changes, update that test.
+4. Run the tests for what you touched, then the repository's whole test suite, and fix every \
+failure you caused.
+5. Before finishing, reread the task line by line and check each requirement against `git diff`. \
+Fix anything missing or only partly done.
+
+Do not ask questions. Do not use git history commands (stash, checkout, reset, log) or the \
+network.
+
+Task:
+{task}
+"""
+
+REVIEW_PROMPT = """You are reviewing and finishing a change in this copy of a software repository. \
+It has no history and no network. A colleague has already worked on the task below; `git diff` \
+and `git status` show what they changed since the snapshot.
+
+Check, line by line, that every requirement in the task is fully and exactly done: each \
+behaviour, name, command, option, field, file, message text, label and number it mentions, with \
+exact words in the task used verbatim, and any tests the task says were added or changed. Check \
+that nothing that worked before is broken: run the tests for the changed code and the \
+repository's whole test suite.
+
+Fix every gap or failure directly in the working tree. Do not redo work that is already right and \
+do not undo correct parts. If everything is right and the tests pass, change nothing.
+
+Do not ask questions. Do not use git history commands (stash, checkout, reset, log) or the \
+network.
+
+Task:
+{task}
+"""
+
+HARNESSES = {
+    # name: the prompts run one after another in the same working copy
+    "plain": (PROMPT,),
+    "protocol": (PROTOCOL_PROMPT,),
+    "protocol-review": (PROTOCOL_PROMPT, REVIEW_PROMPT),
+}
+
+EXTRA_TOOLS = (
+    "Bash(npm test:*)",
+    "Bash(npm run:*)",
+    "Bash(npx:*)",
+    "Bash(head:*)",
+    "Bash(tail:*)",
+    "Bash(wc:*)",
+)
+
+
+def _invoke(
+    cmd: list[str], work: Path, env: dict, timeout: int, runner
+) -> tuple[list, str, bool, bool]:
+    """Run one headless agent call; its events, standard error, whether it failed, timed out."""
+    timed_out = False
+    try:
+        done = runner(cmd, cwd=work, env=env, capture_output=True, text=True, timeout=timeout)
+        stdout, error, stderr = done.stdout, done.returncode != 0, done.stderr or ""
+    except subprocess.TimeoutExpired as exc:
+        stdout = (exc.stdout or "") if isinstance(exc.stdout, str) else ""
+        error, stderr, timed_out = True, "", True
+    events = []
+    for line in stdout.splitlines():
+        try:
+            event = json.loads(line)
+            if isinstance(event, dict):
+                events.append(event)
+        except json.JSONDecodeError:
+            continue
+    return events, stderr, error, timed_out
+
+
 def run_agent(
     spec: RepoSpec,
     case: Case,
@@ -371,12 +458,14 @@ def run_agent(
     setup: str = "",
     settings: str | None = None,
     clean: bool = False,
+    harness: str = "plain",
 ) -> dict:
     """One replay: the agent works on the rewound copy, then the real tests judge it.
 
     `setup` names a variant (such as a hook) and is added to the model label; `settings` is a
     settings file or JSON passed to the agent; `clean` leaves out the user's own settings so only
-    the repository's settings and `settings` apply.
+    the repository's settings and `settings` apply. `harness` picks the prompts the agent gets
+    (see HARNESSES); every stage runs in the same copy before the real tests are put in place.
     """
     label = f"{model}+{setup}" if setup else model
     out_file = out_dir / f"{case.id}__{label}__{rep}.json"
@@ -387,70 +476,67 @@ def run_agent(
     work = Path(tempfile.mkdtemp(prefix=f"replay-{case.id}-"))
     started = time.time()
     record: dict = {"case": case.id, "model": label, "rep": rep}
+    if harness != "plain":
+        record["harness"] = harness
     try:
         materialize(spec, case, work, at="parent", tests=False)
         snapshot(work)
-        cmd = [
-            claude,
-            "-p",
-            PROMPT.format(task=case.task),
-            "--model",
-            model,
-            "--output-format",
-            "stream-json",
-            "--verbose",
-            "--permission-mode",
-            "acceptEdits",
-            "--allowedTools",
-            *ALLOWED_TOOLS,
-            "--no-session-persistence",
-            "--strict-mcp-config",
-            "--disable-slash-commands",
-            "--disallowedTools",
-            "WebFetch",
-            "WebSearch",
-            "Agent",
-        ]
-        if clean:
-            cmd += ["--setting-sources", "project,local"]
-        if settings:
-            cmd += ["--settings", settings]
-        try:
-            env = {**os.environ, **{k: v.format(work=work) for k, v in spec.env.items()}}
-            if spec.agent_path:
-                env["PATH"] = os.path.expandvars(spec.agent_path) + os.pathsep + env.get("PATH", "")
-            done = runner(cmd, cwd=work, env=env, capture_output=True, text=True, timeout=timeout)
-            stdout, error = done.stdout, done.returncode != 0
-            stderr = done.stderr or ""
-        except subprocess.TimeoutExpired as exc:
-            stdout, error = (exc.stdout or "") if isinstance(exc.stdout, str) else "", True
-            record["timed_out"] = True
-            stderr = ""
-        events = []
-        for line in stdout.splitlines():
-            try:
-                event = json.loads(line)
-                if isinstance(event, dict):
-                    events.append(event)
-            except json.JSONDecodeError:
-                continue
-        final = next((e for e in reversed(events) if e.get("type") == "result"), {})
-        usage = final.get("usage", {})
+        env = {**os.environ, **{k: v.format(work=work) for k, v in spec.env.items()}}
+        if spec.agent_path:
+            env["PATH"] = os.path.expandvars(spec.agent_path) + os.pathsep + env.get("PATH", "")
+        tools = ALLOWED_TOOLS + (EXTRA_TOOLS if harness != "plain" else ())
+        all_events: list[dict] = []
+        finals: list[dict] = []
+        error = False
+        stderr = ""
+        for prompt in HARNESSES[harness]:
+            cmd = [
+                claude,
+                "-p",
+                prompt.format(task=case.task),
+                "--model",
+                model,
+                "--output-format",
+                "stream-json",
+                "--verbose",
+                "--permission-mode",
+                "acceptEdits",
+                "--allowedTools",
+                *tools,
+                "--no-session-persistence",
+                "--strict-mcp-config",
+                "--disable-slash-commands",
+                "--disallowedTools",
+                "WebFetch",
+                "WebSearch",
+                "Agent",
+            ]
+            if clean:
+                cmd += ["--setting-sources", "project,local"]
+            if settings:
+                cmd += ["--settings", settings]
+            events, stderr, error, timed_out = _invoke(cmd, work, env, timeout, runner)
+            if timed_out:
+                record["timed_out"] = True
+            all_events += events
+            final = next((e for e in reversed(events) if e.get("type") == "result"), {})
+            finals.append(final)
+            if bool(final.get("is_error")) or (error and not final):
+                break
+        final = finals[-1]
+        usage_keys = (
+            "input_tokens",
+            "output_tokens",
+            "cache_creation_input_tokens",
+            "cache_read_input_tokens",
+        )
         record.update(
             seconds=round(time.time() - started),
-            turns=final.get("num_turns"),
-            tokens=sum(
-                usage.get(k, 0)
-                for k in (
-                    "input_tokens",
-                    "output_tokens",
-                    "cache_creation_input_tokens",
-                    "cache_read_input_tokens",
-                )
-            ),
+            turns=sum(f.get("num_turns") or 0 for f in finals) or None,
+            tokens=sum(f.get("usage", {}).get(k, 0) for f in finals for k in usage_keys),
             agent_error=bool(final.get("is_error")) or (error and not final),
-            flags=_flags(events, work, str(Path(spec.path).resolve())),
-            **finish_state(events, str(work)),
+            flags=_flags(all_events, work, str(Path(spec.path).resolve())),
+            **finish_state(all_events, str(work)),
         )
         if record["agent_error"]:
             record["error_text"] = (str(final.get("result") or "") or stderr)[-400:]

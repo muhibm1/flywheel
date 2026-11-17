@@ -1,0 +1,262 @@
+[
+ {
+  "id": "fathom-7080b9ab19",
+  "verdict": "DROP",
+  "reason": "The test pins the exact command text 'dbt parse --project-dir <project>', which the subject line never gives and the existing message ('run `dbt parse` or `dbt build` first') does not imply."
+ },
+ {
+  "id": "fathom-f1b170a0d4",
+  "verdict": "DROP",
+  "reason": "The test asserts the exact prefix 'binary file, sha256 ', but the task only says 'a line naming its SHA-256'."
+ },
+ {
+  "id": "fathom-6cb3707eb2",
+  "verdict": "DROP",
+  "reason": "The tests need new names and values the task never gives: _settle_removed_entries, the git_changes renames parameter, an 'entries' key, _ignore returning ['*'], and the wording 'dbt project configuration'."
+ },
+ {
+  "id": "fathom-18aa401fd1",
+  "verdict": "DROP",
+  "reason": "The tests import a new ignored_path function and pin the exact ignore entries _ignore must add, and the task names neither."
+ },
+ {
+  "id": "fathom-9b686f56e3",
+  "verdict": "KEEP",
+  "reason": "The bug (lstrip('./') stripping characters instead of a prefix) and the expected behaviour are stated clearly, and the test uses only existing helpers."
+ },
+ {
+  "id": "erp-data-platform-bdf5de5af5",
+  "verdict": "KEEP",
+  "reason": "harbor_step already returns the LIVE refusal and 201 results, so the only change is to append '(recorded drill)' to the name only when the recorded path runs, which follows from 'label step 4 by what ran'."
+ },
+ {
+  "id": "studbook-6bc7f144f8",
+  "verdict": "KEEP",
+  "reason": "The task names the 'coverage@5' metric and defines it per gold document, which matches the existing recall@k report keys in ScoreBoard."
+ },
+ {
+  "id": "shu-ad0fb094f3",
+  "verdict": "KEEP",
+  "reason": "The task names the new field, its source (report.safe_to_resume) and the heartbeat behaviour the test checks."
+ },
+ {
+  "id": "shu-0d1f48253f",
+  "verdict": "KEEP",
+  "reason": "The task names SleeveAccount.reducing_reference_qty, gives the exact clamp semantics and lists the three call sites, which is everything the tests assert."
+ },
+ {
+  "id": "shu-5a5383f222",
+  "verdict": "KEEP",
+  "reason": "The task states the exposure-delta formula, the new SleeveFill symbol/side fields and the expected approve/deny outcomes the tests check."
+ },
+ {
+  "id": "shu-b6bfd8e0da",
+  "verdict": "KEEP",
+  "reason": "The task says to store non-finite metrics as JSON null and read them back as -inf, which is exactly what the tests assert through the existing research_trials_table."
+ },
+ {
+  "id": "wasl-ea18b0e1ee",
+  "verdict": "DROP",
+  "reason": "The tests depend on thresholds and month/year lengths the task never gives (weeks below 30 days, 30.44-day months so that 45 days reads 'last month'); a 30-day month with the existing Math.round would give '2 months ago'."
+ },
+ {
+  "id": "fathom-9af77755ff",
+  "verdict": "DROP",
+  "reason": "The tests use many unnamed internals and exact strings: _patch_path, _singular_tests, _lineage_job, the cache_path argument, PathResolver.tested_by, a 'schema entry changed: columns' field and a '1 changed path is not mapped to any asset' title."
+ },
+ {
+  "id": "fathom-bbeff838ae",
+  "verdict": "KEEP",
+  "reason": "The task states the behaviour (normalise line endings before hashing undecodable bytes) and the test checks only that equality on the existing _as_text."
+ },
+ {
+  "id": "fathom-d1d86a1451",
+  "verdict": "KEEP",
+  "reason": "The task describes CRLF-to-LF normalisation when reading changed files, and the test checks it only through the existing git_changes."
+ },
+ {
+  "id": "fathom-ae5203f0bb",
+  "verdict": "DROP",
+  "reason": "The test pins an exact summary sentence ('2 earlier model findings not re-checked (model unavailable): ...') and a new 'unchecked' return key, and the task gives neither."
+ },
+ {
+  "id": "fathom-6e35758785",
+  "verdict": "KEEP",
+  "reason": "The subject line states the whole behaviour (an indented export const counts as a definition), and the test checks only that through existing functions."
+ },
+ {
+  "id": "fathom-605a983a9e",
+  "verdict": "DROP",
+  "reason": "The test asserts the error text 'review failed', but the task only says the tool returns {ok: false, error}."
+ },
+ {
+  "id": "erp-data-platform-0042380abc",
+  "verdict": "DROP",
+  "reason": "The task names unsafe_function, but the tests pin error messages that name the function ('set_config is not allowed') and a 'U&' return for unicode-escaped identifiers, neither of which is stated."
+ },
+ {
+  "id": "studbook-b03b3076d7",
+  "verdict": "DROP",
+  "reason": "The test pins a SHA-256 over the stems of a probe list, so it passes only if the stemmer's undoubling rule matches exactly (for example whether 'all' becomes 'al' and 'access' becomes 'acces'), which the task does not specify."
+ },
+ {
+  "id": "shu-4a3ccccadf",
+  "verdict": "KEEP",
+  "reason": "The task names the model field and the fix (Field(gt=0)), which gives the 422 the test expects."
+ },
+ {
+  "id": "shu-d066ea6556",
+  "verdict": "KEEP",
+  "reason": "The task gives the exact half-open bound change and the expected denial at the close instant."
+ },
+ {
+  "id": "shu-c14d7fb1ab",
+  "verdict": "KEEP",
+  "reason": "The task fully specifies the partial-fill accounting (reduce the reservation by qty*price, clamped at zero) that the tests assert."
+ },
+ {
+  "id": "shu-be4298a248",
+  "verdict": "KEEP",
+  "reason": "The task says to catch the zero-variance ValueError in both call sites so evaluate_gate returns a result, and the test checks only the existing min_trades check."
+ },
+ {
+  "id": "wasl-1b1f10095b",
+  "verdict": "DROP",
+  "reason": "The tests import a new src/utils/search module with ilikeFilterValue and ilikeAnyOf, and pin whitespace collapsing and wildcard-to-space output, none of which the task names."
+ },
+ {
+  "id": "studbook-e4917208a1",
+  "verdict": "DROP",
+  "reason": "The tests import a SECURITY_HEADERS constant from api.main, a name the task never gives and the existing code does not have."
+ },
+ {
+  "id": "fathom-f2e56184dd",
+  "verdict": "KEEP",
+  "reason": "The task states the fix (append a SHA-256 line when the locale cannot decode), and the test only checks that two different undecodable inputs differ and the text survives."
+ },
+ {
+  "id": "fathom-468f49dfd1",
+  "verdict": "KEEP",
+  "reason": "The task states the behaviour (read bytes, decode with replacement), and the test only checks that git_changes returns strings for a binary file."
+ },
+ {
+  "id": "fathom-6468720324",
+  "verdict": "KEEP",
+  "reason": "Refusing an empty graph and unknown condition names is stated; 'unknown condition X' and 'is empty; run `orion sync`' messages and Exit(2) already exist as patterns in the code."
+ },
+ {
+  "id": "fathom-d90125a23c",
+  "verdict": "KEEP",
+  "reason": "The task states exactly the rule the test checks: JS/TS const/let/var counts as a definition only at module level."
+ },
+ {
+  "id": "fathom-daa436d9ca",
+  "verdict": "DROP",
+  "reason": "Tests depend on an unstated build_server keyword (review_provider), an unstated 'diff' argument name and the exact error text 'give base_ref or diff'."
+ },
+ {
+  "id": "studbook-eeb05478cf",
+  "verdict": "DROP",
+  "reason": "Tests require that .md files directly under a change's reviews/ folder map to 'review'. The task never says where review documents live, and nothing in the code implies it."
+ },
+ {
+  "id": "studbook-27fa2a2d9f",
+  "verdict": "DROP",
+  "reason": "The test pins eval/test.jsonl to a hash of a hand-written 60-question data set that cannot be reproduced from the task; this is a data drop, not a code change."
+ },
+ {
+  "id": "shu-ac8097afb7",
+  "verdict": "KEEP",
+  "reason": "The task states the exact fix (return dataclasses.replace copies inside MappingProxyType), and the test checks only that behaviour."
+ },
+ {
+  "id": "shu-2cb45a53d7",
+  "verdict": "KEEP",
+  "reason": "Both fixes are stated (reject a non-positive REFUND_SLEEVE amount with ValueError at construction; command_id as secondary sort key), and the 'positive' match follows from the task."
+ },
+ {
+  "id": "shu-d0aa937296",
+  "verdict": "KEEP",
+  "reason": "The task gives the exact change, max(n_trials, 2) in _min_backtest_length_check, which the test asserts."
+ },
+ {
+  "id": "shu-673b4d6b1b",
+  "verdict": "KEEP",
+  "reason": "The task fully describes splitting the index union into contiguous runs and pooling returns, and the test checks run_walk_forward's public output against that."
+ },
+ {
+  "id": "fathom-a4d5b0ba4d",
+  "verdict": "DROP",
+  "reason": "A multi-feature release whose tests assert many exact strings (provider names, error messages, markdown wording, 'graph never synced') that the one-paragraph summary never gives."
+ },
+ {
+  "id": "shu-94b8e7be5d",
+  "verdict": "DROP",
+  "reason": "Rule A's denial must contain 'position-reducing order working', a new reason string that the task does not give and that does not exist in the code."
+ },
+ {
+  "id": "fathom-92226d0452",
+  "verdict": "KEEP",
+  "reason": "The task states NUL-byte binary detection and replacement-character decoding, and the test only checks that the text keeps its start and end."
+ },
+ {
+  "id": "fathom-90afb39e5b",
+  "verdict": "DROP",
+  "reason": "Tests assert unstated field names (background_events), a changed _history return shape, a background limit of 20, and exact summary and markdown phrases ('not from this kind of change', 'to the key it already has', 'Other events on these assets')."
+ },
+ {
+  "id": "fathom-28027a1676",
+  "verdict": "DROP",
+  "reason": "The test asserts the exact rejection note 'repeats the credential scan's block on this line', which the task does not give."
+ },
+ {
+  "id": "fathom-00e03b1121",
+  "verdict": "KEEP",
+  "reason": "The task gives the new precision formula and says duplicate findings are reported separately; 'duplicate_findings' follows directly from that wording and the summary's existing snake_case keys."
+ },
+ {
+  "id": "fathom-9d6fa6d17e",
+  "verdict": "KEEP",
+  "reason": "The task states the new dedupe rule (a duplicate only when it cites the constraint and no hunk), which is all the test checks."
+ },
+ {
+  "id": "studbook-06d5117518",
+  "verdict": "DROP",
+  "reason": "Tests need an unstated RuntimeError carrying the phrase 'not Windows', and a workflow pinned to real 40-character commit SHAs, which the agent cannot know."
+ },
+ {
+  "id": "shu-1cb5a18638",
+  "verdict": "KEEP",
+  "reason": "Both fixes are stated (dict snapshot plus replace copies in Portfolio and SleeveAccount positions; docs_url, redoc_url and openapi_url set to None), and the tests check only those behaviours."
+ },
+ {
+  "id": "shu-8bd68bd2ba",
+  "verdict": "KEEP",
+  "reason": "The task gives the behaviour (later passes and restarts report POSITION_BREAK and stay unresolved, the detail uses the pre-replay quantity), and every asserted detail substring already exists in the reconciler's messages."
+ },
+ {
+  "id": "shu-a929d31db7",
+  "verdict": "KEEP",
+  "reason": "The task states per-date memoization of session_bounds, including None for a non-session day, and the test spies on the existing _calendar.schedule."
+ },
+ {
+  "id": "shu-20d9f7779f",
+  "verdict": "KEEP",
+  "reason": "The task states the fix (accumulate the last close per symbol and mark against it), and the test checks the resulting positions_value."
+ },
+ {
+  "id": "wasl-b967dbab64",
+  "verdict": "DROP",
+  "reason": "The task is a subject line only, and the tests import new names (lib/connectivity with subscribeToConnectivity and isOnline) with signatures the task never gives."
+ },
+ {
+  "id": "fathom-a4fc96a635",
+  "verdict": "DROP",
+  "reason": "A broad hardening change whose tests assert exact task-id prefixes, dejinja output text ('select null', 'null as k'), a lineage error wording and the unmapped reason 'dbt package versions', none of which the bullet list gives."
+ },
+ {
+  "id": "shu-a45941e67e",
+  "verdict": "KEEP",
+  "reason": "Both fixes are described in detail, and the new signed per-symbol 'working quantity' accessor follows directly from the existing position_qty(symbol) and working_notional naming; check labels already exist."
+ }
+]

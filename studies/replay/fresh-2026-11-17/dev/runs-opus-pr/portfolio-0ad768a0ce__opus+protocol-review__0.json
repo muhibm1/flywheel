@@ -1,0 +1,16 @@
+{
+ "case": "portfolio-0ad768a0ce",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 170,
+ "turns": 26,
+ "tokens": 1303968,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

@@ -411,6 +411,7 @@ def cmd_replay(args: argparse.Namespace) -> int:
         setup=args.setup,
         settings=args.settings,
         clean=args.clean_settings,
+        harness=args.harness,
         progress=lambda r: print(
             f"{r['case']} {r['model']} #{r['rep']}: "
             f"{'pass' if r.get('passed') else 'fail'} {r.get('seconds')}s",
@@ -532,6 +533,12 @@ def parser() -> argparse.ArgumentParser:
     rr.add_argument("--settings", help="settings file or JSON passed to the agent")
     rr.add_argument(
         "--clean-settings", action="store_true", help="leave out the user's own settings"
+    )
+    rr.add_argument(
+        "--harness",
+        default="plain",
+        choices=("plain", "protocol", "protocol-review"),
+        help="the prompts the agent gets: the task, a working protocol, or that plus a review",
     )
     rp_report = rsub.add_parser("report", help="print the pass-rate table")
     rp_report.add_argument("results", help="results folder")

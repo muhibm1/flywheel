@@ -1,0 +1,18 @@
+{
+ "case": "lodestar-eadbae8d0e",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 113,
+ "turns": 24,
+ "tokens": 834499,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"python - <<'EOF'\\nimport re\\np='src/lodestar/service.py'; s=open(p).read()\\ns=s.replace('''class KillReques"
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

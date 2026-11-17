@@ -228,3 +228,48 @@ def test_text_inside_a_heredoc_is_not_a_network_call():
     script = "python3 - <<'E'\nopen('a.js','w').write('curl https://github.com/x')\nE\necho done"
     assert "github" not in replay.shell_part(script)
     assert "echo done" in replay.shell_part(script)
+
+
+def test_a_review_stage_runs_in_the_same_copy_and_its_usage_adds_up(repo, tmp_path):
+    case = replay.mine(repo, since="2000-01-01")[0]
+    prompts = []
+
+    def runner(cmd, cwd, **kw):
+        prompts.append(cmd[2])
+        if len(prompts) == 2:  # only the reviewer fixes the bug the first stage left
+            return fake_agent(True)(cmd, cwd, **kw)
+        return fake_agent(False)(cmd, cwd, **kw)
+
+    rec = replay.run_agent(
+        repo,
+        case,
+        model="m",
+        rep=0,
+        out_dir=tmp_path / "o",
+        runner=runner,
+        harness="protocol-review",
+    )
+    assert len(prompts) == 2 and "reviewing" in prompts[1] and case.task in prompts[1]
+    assert rec["passed"] and rec["tokens"] == 30 and rec["turns"] == 6
+    assert rec["harness"] == "protocol-review"
+
+
+def test_a_crashed_first_stage_skips_the_review(repo, tmp_path):
+    case = replay.mine(repo, since="2000-01-01")[0]
+    calls = []
+
+    def crashed(cmd, cwd, **_):
+        calls.append(cmd)
+        out = stream({"is_error": True, "result": "You've hit your usage limit"})
+        return subprocess.CompletedProcess(cmd, 1, out, "")
+
+    rec = replay.run_agent(
+        repo,
+        case,
+        model="m",
+        rep=0,
+        out_dir=tmp_path / "o",
+        runner=crashed,
+        harness="protocol-review",
+    )
+    assert len(calls) == 1 and rec["agent_error"] and not rec["passed"]

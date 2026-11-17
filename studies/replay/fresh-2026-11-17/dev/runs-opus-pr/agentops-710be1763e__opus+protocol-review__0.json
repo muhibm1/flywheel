@@ -1,0 +1,16 @@
+{
+ "case": "agentops-710be1763e",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 105,
+ "turns": 18,
+ "tokens": 729880,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

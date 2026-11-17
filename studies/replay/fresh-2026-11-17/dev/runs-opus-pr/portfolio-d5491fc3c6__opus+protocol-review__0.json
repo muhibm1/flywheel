@@ -1,0 +1,18 @@
+{
+ "case": "portfolio-d5491fc3c6",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 111,
+ "turns": 12,
+ "tokens": 557176,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"cd /tmp/replay-portfolio-d5491fc3c6-xj4xg7o4; python3 - <<'EOF'\\np='src/data/portfolioData.js'; s=open(p).r"
+ ],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

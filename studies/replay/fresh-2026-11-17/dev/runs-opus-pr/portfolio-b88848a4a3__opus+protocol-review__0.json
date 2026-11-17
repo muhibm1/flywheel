@@ -1,0 +1,19 @@
+{
+ "case": "portfolio-b88848a4a3",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 207,
+ "turns": 15,
+ "tokens": 798690,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"npm run lint >/dev/null 2>&1; echo lint=$?; ls scripts | grep -i check; node scripts/check-forbidden-copy.m"
+ ],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": false,
+ "fail_tail": "env/portfolio/node_modules/@testing-library/dom/dist/query-helpers.js:52:17\n \u276f ../../home/user/replay-env/portfolio/node_modules/@testing-library/dom/dist/query-helpers.js:95:19\n \u276f src/components/SiteHeader.test.jsx:31:27\n     29|     ]);\n     30|     const banner = within(screen.getByRole('banner'));\n     31|     const github = banner.getByRole('link', { name: 'github.com/muhibm\u2026\n       |                           ^\n     32|     expect(github).toHaveAttribute('href', portfolioData.home.hero.cod\u2026\n     33|     expect(github).toHaveAttribute('target', '_blank');\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/1]\u23af\n\n"
+}

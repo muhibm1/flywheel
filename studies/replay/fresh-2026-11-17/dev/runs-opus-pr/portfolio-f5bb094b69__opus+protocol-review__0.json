@@ -1,0 +1,17 @@
+{
+ "case": "portfolio-f5bb094b69",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 292,
+ "turns": 21,
+ "tokens": 1058630,
+ "agent_error": true,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "error_text": "You've hit your 5-hour limit \u00b7 resets 2pm (UTC)",
+ "files_changed": 3,
+ "passed": false
+}

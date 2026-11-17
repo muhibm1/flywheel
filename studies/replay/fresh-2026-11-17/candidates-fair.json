@@ -1,0 +1,860 @@
+[
+ {
+  "repo": "fathom",
+  "fix": "7080b9ab194e3aefb86103b81566d766685b1afa",
+  "parent": "dcb1830a686e21160b6d0b8ff0e9ede96faba9c5",
+  "subject": "fix: sync names the missing dbt manifest and the command that builds it",
+  "task": "fix: sync names the missing dbt manifest and the command that builds it",
+  "tests": [
+   "tests/test_sync_missing_manifest.py"
+  ],
+  "code": [
+   "src/fathom/adapters/dbt.py",
+   "src/fathom/cli.py"
+  ],
+  "lines": 44,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "bbeff838ae9842808dd878a05cabc4024d2fb6eb",
+  "parent": "f2e56184ddeb64e746b995fb20dd96fe4789e775",
+  "subject": "fix: hash undecodable text after newline normalisation",
+  "task": "fix: hash undecodable text after newline normalisation\n\nA CRLF-to-LF swap in a file with a stray undecodable byte reads as no\nchange, like any other file.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py"
+  ],
+  "lines": 4,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "f2e56184ddeb64e746b995fb20dd96fe4789e775",
+  "parent": "92226d0452df16df5a43cae58570d40538fccfd6",
+  "subject": "fix: a file with undecodable bytes carries its hash, so edits stay visible",
+  "task": "fix: a file with undecodable bytes carries its hash, so edits stay visible\n\nReplacement characters alone let two different files read alike; the\ntext now ends with a line naming the file's SHA-256 whenever the locale\ncannot decode it.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py"
+  ],
+  "lines": 13,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "92226d0452df16df5a43cae58570d40538fccfd6",
+  "parent": "f1b170a0d4e226f7cc9cc74aa31652a456618bfe",
+  "subject": "fix: binary by NUL byte, text decoded exactly as text mode did",
+  "task": "fix: binary by NUL byte, text decoded exactly as text mode did\n\nBinary detection no longer depends on the locale: a NUL byte in the\nfirst 8000 bytes (git's own test) marks a binary, which reads as its\nSHA-256. Text keeps text mode's locale encoding and newline handling;\nan undecodable byte becomes one replacement character instead of\nstopping the run or hiding the file's content.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py"
+  ],
+  "lines": 19,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "f1b170a0d4e226f7cc9cc74aa31652a456618bfe",
+  "parent": "d1d86a1451f5dcebc8e2235519463dcb65c42f75",
+  "subject": "fix: undecodable files read as their hash, text keeps the locale fallback",
+  "task": "fix: undecodable files read as their hash, text keeps the locale fallback\n\nReplacement characters could make two different binaries read as the\nsame text, so a real edit dropped out of review and gate. A file is now\ndecoded as UTF-8, else the locale's encoding (as text mode did), and a\nfile neither decodes reads as a line naming its SHA-256.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py"
+  ],
+  "lines": 22,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "d1d86a1451f5dcebc8e2235519463dcb65c42f75",
+  "parent": "468f49dfd1d2c55213514f5a6b0abad51b7b46de",
+  "subject": "fix: keep newline normalisation when reading changed files as bytes",
+  "task": "fix: keep newline normalisation when reading changed files as bytes\n\nA CRLF base and an LF working tree read as the same text again, as they\ndid in text mode, so a line-ending-only change is not a full rewrite.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py"
+  ],
+  "lines": 28,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "468f49dfd1d2c55213514f5a6b0abad51b7b46de",
+  "parent": "356fbd5f67fc9c8491fe5554eb0265dfbdd02d0b",
+  "subject": "fix: a binary file in the diff no longer stops review and gate",
+  "task": "fix: a binary file in the diff no longer stops review and gate\n\ngit_changes decoded every changed file as strict UTF-8, so one image or\nfont in a branch made orion gate and orion review crash with a\nUnicodeDecodeError (seen on a web app change). Files are now read as bytes\nand decoded with replacement characters.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py"
+  ],
+  "lines": 28,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "90afb39e5b698dd2beb73fc8b05ace7688930f52",
+  "parent": "6cb3707eb2f87ee31cc4daee5f0a133a49312801",
+  "subject": "Verdict history: incidents and same-kind events only (#31)",
+  "task": "Verdict history: incidents and same-kind events only (#31)\n\n* Verdict history: keep incidents and same-kind events, move the rest to background\n\nUnrelated failed runs and missed SLAs on a touched asset were listed beside\nincidents, and the PipelineBench agents cited them as reasons to add checks\nto safe changes. Incident recency now counts only the same kind of change,\nand a repartition to the existing key is a no-op.\n\n* Read incidents apart from operational events so a run of failures cannot crowd them out\n\n* Read each history kind with its own limit so failed runs cannot crowd out a same-kind missed SLA\n\n* A cause matches an op kind of the same name when no family is listed\n\n* Read same-kind events by cause, so newer events of the same kind cannot crowd them out\n\n* Match causes case-insensitively in the store query too\n\n---------",
+  "tests": [
+   "tests/test_preflight.py"
+  ],
+  "code": [
+   "src/orion/risk.py",
+   "src/orion/store.py",
+   "src/orion/verdict.py"
+  ],
+  "lines": 147,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "6cb3707eb2f87ee31cc4daee5f0a133a49312801",
+  "parent": "3203e9b2508c9ea4394f6bcaf1853eda6cfec04f",
+  "subject": "Stop unmapped-path warnings on app repos, renames and removed schema entries (#32)",
+  "task": "Stop unmapped-path warnings on app repos, renames and removed schema entries (#32)\n\n* Stop unmapped-path warnings on application repos, renames and removed schema entries\n\nReplaying 41 merged changes from cal-itp, httpx, hono and cobra with the\ndeterministic review: every httpx/hono/cobra change was rated warn with no\nfinding, because an orion.yaml with no platform adapter left every file\nunmapped. Renamed files lost their old text, and a schema entry removed with\nits model's SQL file was reported as unmapped.\n\n* Settle a removed schema entry only beside its SQL file; keep the paths source when all are ignored\n\n---------",
+  "tests": [
+   "tests/test_preflight.py",
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py",
+   "src/orion/cli.py"
+  ],
+  "lines": 144,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "ae5203f0bbad444e564e96711c80c9f11c977c62",
+  "parent": "fa5c146ab2f0d5aa92f1b19b173114a4f36aca8b",
+  "subject": "Keep earlier model findings open when the model is unavailable (#28)",
+  "task": "Keep earlier model findings open when the model is unavailable (#28)\n\nA review whose model call failed (for example, an exhausted API balance) marked every earlier\nmodel finding as no longer raised and replied on each thread. They are now kept in state and\nlisted as not re-checked; only deterministic findings can be resolved by such a run.",
+  "tests": [
+   "tests/test_github.py"
+  ],
+  "code": [
+   "src/orion/github.py"
+  ],
+  "lines": 26,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "6468720324287f5e53452da2028182532b7e4800",
+  "parent": "28027a167638ba865e37cf5827d7af75147652f6",
+  "subject": "PipelineBench: refuse an empty graph for the rag and orion conditions (#25)",
+  "task": "PipelineBench: refuse an empty graph for the rag and orion conditions (#25)\n\n* PipelineBench: refuse to run graph-reading conditions on an empty graph\n\nA full run from a fresh worktree gave the rag and orion conditions nothing,\nbecause the worktree's graph was never synced, and still wrote a results\nfile. That run measured nothing for those conditions.\n\n* Expand 'all' anywhere in --condition and refuse unknown condition names\n\n---------",
+  "tests": [
+   "tests/test_bench.py"
+  ],
+  "code": [
+   "src/pipelinebench/cli.py"
+  ],
+  "lines": 35,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "28027a167638ba865e37cf5827d7af75147652f6",
+  "parent": "73b64095d08228d3cebeef703695756d0c5e4cc0",
+  "subject": "Review any repository without orion.yaml (#24)",
+  "task": "Review any repository without orion.yaml (#24)\n\n* Review any repository without orion.yaml; drop model findings that repeat a credential block\n\nA clean install showed orion review refused to run without orion.yaml, so\nthe baseline (review any diff) needed platform config. With no config it\nnow reviews with an empty graph and every path outside the platform, and\nsays so. A live run also showed the model repeating the credential scan's\nblock on the same line; that repeat is dropped.\n\n* Review: a model repeat of the credential block is rejected with a note, not dropped; narrower match\n\n---------",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/cli.py",
+   "src/orion/review.py"
+  ],
+  "lines": 66,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "18aa401fd164853b833706dca7112a90a7694b09",
+  "parent": "0fb2a7011ae9a30f6f57687f73c0a7d3cda5a46e",
+  "subject": "Post-flight on real dbt builds, and two fixes it exposed (#22)",
+  "task": "Post-flight on real dbt builds, and two fixes it exposed (#22)\n\n* Post-flight on real dbt builds; ignore run history and build output in diffs; merge an intent op the diff already shows\n\nA real dbt build loop (break, fail, revert, safe change, three clean builds)\ngave failed and clean outcomes as predicted. It also exposed two defects,\nfixed here with tests.\n\n* Match ignore globs as globs; merge an intent op whose details the diff's op already carries\n\n* Compare intent details by value, so list values cannot raise\n\n---------",
+  "tests": [
+   "tests/test_preflight.py"
+  ],
+  "code": [
+   "src/orion/changes.py",
+   "src/orion/cli.py"
+  ],
+  "lines": 75,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "6e3575878515c4855d29b1255ac83640f2826dcd",
+  "parent": "d90125a23c65041adf4d976565b2121a85bf9a97",
+  "subject": "Symbols: an indented export const still counts as a definition",
+  "task": "Symbols: an indented export const still counts as a definition",
+  "tests": [
+   "tests/test_symbols.py"
+  ],
+  "code": [
+   "src/orion/symbols.py"
+  ],
+  "lines": 8,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "d90125a23c65041adf4d976565b2121a85bf9a97",
+  "parent": "fecc6c53642bf34596b3ddf6ba14f49841156427",
+  "subject": "Symbols: function-local JS/TS variables are not definitions; partner run on hono and cobra",
+  "task": "Symbols: function-local JS/TS variables are not definitions; partner run on hono and cobra\n\nA design partner pass over 8 hono (TypeScript) and 8 cobra (Go) merged\nchanges listed function-local `const res = ...` lines as changed\ndefinitions, each with up to 50 unrelated references. A JS/TS\nconst/let/var now counts as a definition only at module level.\n\nResults of the pass, with Sonnet reviewing against commit messages, are in\npipelinebench/results/partner-hono-cobra-sonnet-5-5.md.",
+  "tests": [
+   "tests/test_symbols.py"
+  ],
+  "code": [
+   "src/orion/symbols.py"
+  ],
+  "lines": 78,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "00e03b11219d6de6cae27cdc4e1c9c268b3cb8d8",
+  "parent": "e3be7a4cd903780806a409ae6afcf07283e26d7e",
+  "subject": "review eval: precision per bug, not per finding",
+  "task": "review eval: precision per bug, not per finding\n\nOrion's review of this PR pointed out that several warn findings on one bug\neach counted as a true positive, inflating precision (0.938 on the baseline).\nPrecision is now caught bugs / (caught bugs + false alarms), and duplicate\nfindings are reported on their own. The baseline is regraded from its saved\nrows (0.905), with no new model calls.",
+  "tests": [
+   "tests/test_review_eval.py"
+  ],
+  "code": [
+   "src/pipelinebench/review_eval.py"
+  ],
+  "lines": 20,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "9b686f56e35675a60a1fd13662a42028ab6954d8",
+  "parent": "2e4df20121b3f3a51a502cb104904105a8184ec7",
+  "subject": "review: stop rejecting findings in dotfile paths",
+  "task": "review: stop rejecting findings in dotfile paths\n\nPath normalisation used str.lstrip(\"./\"), which strips characters, not a\nprefix, so .github/workflows/x.yml became github/workflows/x.yml and every\nmodel finding on a workflow, .gitignore or other dotfile was rejected as\noutside the diff. On PR #1 that dropped three real workflow findings per run.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/review.py"
+  ],
+  "lines": 33,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "605a983a9ee4d977fb01571c5548bcd922c110cb",
+  "parent": "daa436d9caae24139a3744bdb4b8f3a3b235c3c6",
+  "subject": "review: write the PR comment outside the checkout; structured errors from the review tool",
+  "task": "review: write the PR comment outside the checkout; structured errors from the review tool\n\nOrion's first model review of this PR flagged two real issues. The workflow\nwrote review.md into the checkout before reviewing, and the review includes\nuntracked files, so the comment reviewed its own output; it now writes to\nRUNNER_TEMP. The MCP review tool let a bad ref or diff escape as an\nunstructured error; it now returns {ok: false, error}.",
+  "tests": [
+   "tests/test_server.py"
+  ],
+  "code": [
+   "src/orion/server.py"
+  ],
+  "lines": 14,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "daa436d9caae24139a3744bdb4b8f3a3b235c3c6",
+  "parent": "2e4df20121b3f3a51a502cb104904105a8184ec7",
+  "subject": "Add a review MCP tool and a PR review comment workflow",
+  "task": "Add a review MCP tool and a PR review comment workflow\n\nThe review that ran only from the CLI is now available to agents over MCP\n(`review`, on a base ref or a unified diff) and to pull requests through\norion-review.yml, which posts the markdown review as one comment and edits\nit on each push. Model findings run when the ORION_ANTHROPIC_API_KEY repo\nsecret is set; otherwise the comment carries deterministic findings and\nsays how to turn the model on. The workflow is advisory and never fails\nthe PR.",
+  "tests": [
+   "tests/test_server.py"
+  ],
+  "code": [
+   "src/orion/server.py"
+  ],
+  "lines": 119,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "9d6fa6d17ef5b110b7b6640494588f59bb313bf2",
+  "parent": "dac972865f7e0493662aaa08e74e15d0b48d120e",
+  "subject": "review: keep model findings that point at a diff line; report token usage",
+  "task": "review: keep model findings that point at a diff line; report token usage\n\nThe first live run (Sonnet 5.5) found the real bug in a changed net_amount\nexpression (a percentage subtracted as an amount), but the dedupe step\ndropped it because it also cited the firing constraint CON-031. A model\nfinding now counts as a duplicate of a deterministic one only when it cites\nthe constraint and no hunk, i.e. when it restates the constraint and adds\nnothing. Pre-flight facts sent to the model now include each op's from/to\nexpression, and the review output carries the provider's token usage.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/cli.py",
+   "src/orion/providers.py",
+   "src/orion/review.py"
+  ],
+  "lines": 16,
+  "size_band": "500"
+ },
+ {
+  "repo": "erp-data-platform",
+  "fix": "bdf5de5af5457fe956d00ac1a9259fb4a9b7cda4",
+  "parent": "8392a9092fbb3b3f7097ed633d3a9539be314be6",
+  "subject": "Walkthrough: label step 4 by what ran, run it in CI (#26)",
+  "task": "Walkthrough: label step 4 by what ran, run it in CI (#26)",
+  "tests": [
+   "engagement/tests/test_walkthrough.py"
+  ],
+  "code": [
+   "engagement/walkthrough.py"
+  ],
+  "lines": 58,
+  "size_band": "500"
+ },
+ {
+  "repo": "erp-data-platform",
+  "fix": "0042380abcb0bc4c4de74bad81161dba45b6264f",
+  "parent": "c45b1918d186be8dcc2d3e87d29c662bb703c40c",
+  "subject": "Close two ways an agent's query could get round the read-only role and the privacy rule; run the analyst's tests in CI (#7)",
+  "task": "Close two ways an agent's query could get round the read-only role and the privacy rule; run the analyst's tests in CI (#7)\n\n- One check, edp.ask.unsafe_function, now refuses server functions that change settings (set_config could switch back to the admin role), read files, or run SQL from text (query_to_xml and its relatives). It matches names however they are written. The analyst also checks the function names it parses.\n- CI runs the analyst's tests against the finance warehouse and the ads demo, in their own environment. Installed on top of dbt, the analyst's pins pulled in a protobuf that dbt cannot run with.\n- The model command is configurable, and the eval's provider is now named cli.\n- An unused import and an unused variable are gone.",
+  "tests": [
+   "analyst/tests/test_analyst.py",
+   "tests/test_ask.py",
+   "tests/test_units.py"
+  ],
+  "code": [
+   "analyst/ask.py",
+   "analyst/eval/run.py",
+   "analyst/model.py",
+   "analyst/sql.py",
+   "eval/run.py"
+  ],
+  "lines": 136,
+  "size_band": "500"
+ },
+ {
+  "repo": "studbook",
+  "fix": "eeb05478cf82849d54748fe290a60c665066aeea",
+  "parent": "e85d213d657bc9f7e5ec78a9ecbc975e74ac6cab",
+  "subject": "feat(ingest): brief, ship and review doc types for WorkHorse 0.3",
+  "task": "feat(ingest): brief, ship and review doc types for WorkHorse 0.3\n\nMigration 0003 widens documents_doc_type_check to 21 values (the 18 of 0002\nverbatim plus brief, ship, review); applied with --migrations-only to production\nand the test project and read back from both catalogs. The tier is read from\nbrief.md's \"Risk tier: N\" line, falling back to intent.md for older changes.\nPaddock's parser carries the identical rules; paired tests prove parity.",
+  "tests": [
+   "tests/test_parser.py"
+  ],
+  "code": [
+   "ingest/parser.py"
+  ],
+  "lines": 114,
+  "size_band": "500"
+ },
+ {
+  "repo": "studbook",
+  "fix": "06d5117518f5f2392d9e1868d61e9bde2cf06afa",
+  "parent": "add3ebd55b72c2753c8c318a3504ce902c130b47",
+  "subject": "fix: bootstrap_db imports on Linux; pin CI actions to commit shas",
+  "task": "fix: bootstrap_db imports on Linux; pin CI actions to commit shas\n\nThe first Linux CI run could not import store/bootstrap_db.py: it imported the\nWindows-only winreg at module level. It is now imported where a generated password is\nstored in a Windows user environment variable, and off Windows that step refuses with a\nmessage rather than falling back to printing or writing the password. Test added.\n\nCI's actions move to their current majors (the Node 20 runtime is deprecated) and are\npinned to full commit shas, since a tag can be moved after review. test_ci_workflow.py\nnow fails on an unpinned action.",
+  "tests": [
+   "tests/test_bootstrap_db.py",
+   "tests/test_ci_workflow.py"
+  ],
+  "code": [
+   "store/bootstrap_db.py"
+  ],
+  "lines": 61,
+  "size_band": "500"
+ },
+ {
+  "repo": "studbook",
+  "fix": "6bc7f144f8ed537a470e58ad517ca2342376c515",
+  "parent": "b03b3076d7e4f669cb62ea4d38b2886cf6a205a1",
+  "subject": "eval: coverage@5, and where multi-document questions lose a document",
+  "task": "eval: coverage@5, and where multi-document questions lose a document\n\nRecall@5 counts a question found if any gold passage reaches the top 5. A cross-doc\nquestion needs every one of its documents: on dev, each cross-doc question given only\none of two was refused and scored 0, while recall counted it a hit.\n\ncoverage@5 counts a question only when every gold document has a quote in the top 5.\nDev, production config: recall@5 0.8529 (reproduces the published number), coverage@5\n0.7941; cross-doc recall 0.7143, coverage 0.4286.\n\neval/coverage.py follows each document of each multi-document question: of 14, 8\ncovered, 2 reranked to #6/#7, 2 fused below the rerank pool, 2 never retrieved. One\nranking against the whole question is the common cause (docs/cross-doc.md).",
+  "tests": [
+   "tests/test_metrics.py"
+  ],
+  "code": [
+   "eval/coverage.py",
+   "eval/metrics.py",
+   "eval/run.py"
+  ],
+  "lines": 218,
+  "size_band": "500"
+ },
+ {
+  "repo": "studbook",
+  "fix": "b03b3076d7e4f669cb62ea4d38b2886cf6a205a1",
+  "parent": "ee41d453ca5dba554509171473828635b9c5b9f3",
+  "subject": "fix(rewrite): undouble a final consonant, and pin the stemmer's logic by probe",
+  "task": "fix(rewrite): undouble a final consonant, and pin the stemmer's logic by probe\n\nTwo of the four guard trips across the rewrite eval runs were one flaw: \"pinning\" did\nnot stem to \"pin\", nor \"stopping\" to \"stop\", so a correctly grounded rewrite fell back\nto the concatenation. The stem now undoubles a final consonant.\n\nThe guard pin hashed only the word lists, so the stemmer's logic could drift between\nPython and Paddock unnoticed; it now also hashes the stems of a fixed probe list.\nRe-measured: rewrite 11/12 and 30/34, unchanged, with every follow-up now using its\nrewrite.",
+  "tests": [
+   "tests/test_rewrite.py"
+  ],
+  "code": [
+   "retrieve/rewrite.py"
+  ],
+  "lines": 26,
+  "size_band": "500"
+ },
+ {
+  "repo": "studbook",
+  "fix": "27fa2a2d9f6ba8c11b31297c820622ec8f34b0b6",
+  "parent": "464ad2fdbe4dad29d85060abe679fb5f604224fc",
+  "subject": "feat(eval): 60-question gold set, split 40 dev / 20 held-out test",
+  "task": "feat(eval): 60-question gold set, split 40 dev / 20 held-out test\n\nDrafted by three readers (one per change record, one for WorkHorse's history) plus six\nhand-written questions, then reviewed: one answerable \"trap\" became a factual question,\ntwo duplicate traps were replaced with terms confirmed absent by grep, and four quotes\nthat spanned line breaks were trimmed to exact lines. Every quote is checked verbatim\nagainst its source.\n\nThe test file is pinned by eval/test.sha256, and LF line endings are forced so a\nWindows checkout does not change its bytes.",
+  "tests": [
+   "tests/test_gold.py"
+  ],
+  "code": [
+   "eval/gold.py"
+  ],
+  "lines": 237,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "1cb5a186380fc888bf90614d60c19673b89e09e7",
+  "parent": "616b8aa3c13f61b45b4f1a1c3b36d9cea4edcc08",
+  "subject": "Fix Portfolio.positions concurrency race and unauthenticated docs routes",
+  "task": "Fix Portfolio.positions concurrency race and unauthenticated docs routes\n\nTwo residuals adjudicated after the scoped re-review of the final-review\nfix round -- both fixed directly rather than spun into another agent\nround, since they're small and mechanical:\n\n1. The re-review found a new Important: Portfolio.positions returns the\n   live self._positions dict (unlike SleeveAccount.positions, fixed in\n   this same branch's Task 2), so DashboardReadModel's concurrent\n   threadpool reads can hit RuntimeError: dictionary changed size during\n   iteration while apply_fill folds a new symbol elsewhere. Fixed with\n   the same MappingProxyType(replace(...)) pattern already used for\n   SleeveAccount.positions -- and found, while fixing it, that the copy\n   itself was still racy: a Python-level dict comprehension iterating\n   self._positions.items() directly can be preempted mid-copy by the\n   same concurrent mutation. Both properties now take an atomic\n   dict(self._positions) snapshot first (a single C-level loop that\n   never releases the GIL) before transforming it. Regression tests for\n   both add a background writer thread growing the dict while a reader\n   iterates positions(); sys.setswitchinterval(1e-6) makes the race\n   reliably reproducible rather than intermittent -- confirmed to fail\n   on the pre-fix code across three consecutive runs, restored after.\n\n2. The re-review's caveat on M4 (the auth-everywhere test): FastAPI\n   mounts /docs, /redoc, and /openapi.json itself, outside every\n   router's require_auth dependency, so M4's own OpenAPI-schema\n   enumeration structurally cannot see them -- they were reachable\n   unauthenticated by default. Disabled all three at app construction\n   (docs_url/redoc_url/openapi_url=None) rather than trying to guard\n   routes require_auth was never attached to. Corrected require_auth's\n   own docstring, which had claimed login/logout were the only\n   unauthenticated routes.\n\nBackend: 675 passed, ruff format/check + mypy + docstring lint +\nstrategy-purity lint + bandit all clean. Frontend: 28/28 passed, clean\nvite build.",
+  "tests": [
+   "tests/unit/test_main_dashboard.py",
+   "tests/unit/test_portfolio.py",
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/app/api/auth.py",
+   "src/shu/app/main_dashboard.py",
+   "src/shu/portfolio/portfolio.py",
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 192,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "ad0fb094f3fb49644d271b1921aeff01cdfb5fed",
+  "parent": "18d0fab88dab7ce4895c87792976e37bf83f061b",
+  "subject": "Fix reconciliation_safe: was 'has a pass ever run', not 'was it safe'",
+  "task": "Fix reconciliation_safe: was 'has a pass ever run', not 'was it safe'\n\nTask 11's own review traced this all the way back to Task 1: the heartbeat\ncomputed reconciliation_safe as `loop.last_reconciled_at is not None` --\n\"has a reconciliation pass ever run\", not \"was the most recent one safe\".\n_reconcile_continuously sets last_reconciled_at BEFORE checking the pass's\nown result, so a FAILED pass that halts the engine still left that same\niteration's heartbeat reporting reconciliation_safe=True. The Phase 6\ndashboard's Resume button reads this exact field to decide whether to\nenable itself -- reporting it wrong meant the UI could offer Resume in the\nsame instant the engine was actually halted on an unresolved break.\n\n_LoopState now tracks last_reconciliation_safe as its own field, set from\nreport.safe_to_resume directly, never derived from the timestamp. Mutation-\ntested: reverted to the original derivation, confirmed the new test fails\nwith reconciliation_safe=True on a broker holding an unresolved external\norder (the exact scenario the bug would misreport), reverted back.",
+  "tests": [
+   "tests/unit/test_main_engine.py"
+  ],
+  "code": [
+   "src/shu/app/main_engine.py"
+  ],
+  "lines": 33,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "4a3ccccadf363439952bbc1342e3888280c7ef22",
+  "parent": "48e4ba37e08c8bea07284c5e86202f24e9a759b0",
+  "subject": "Reject a non-positive refund amount with a clean 422, not a raw 500",
+  "task": "Reject a non-positive refund amount with a clean 422, not a raw 500\n\nTask 6's own review found this by direct testing: _RefundSleeveBody.amount\nhad no lower bound, so a zero or negative amount sailed past Pydantic and\nhit Command.__post_init__'s bare ValueError as an unexplained 500 -- fails\nclosed (nothing queued, no stack trace leaked) but violates CLAUDE.md's\n\"trust boundaries get input validation\" rule. Field(gt=0) closes it at the\nAPI boundary. Mutation-tested: reverted the constraint, confirmed the new\ntest reproduces the exact 500 the review found, reverted back.",
+  "tests": [
+   "tests/unit/test_dashboard_routes_commands.py"
+  ],
+  "code": [
+   "src/shu/app/api/routes_commands.py"
+  ],
+  "lines": 25,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "ac8097afb75fce4f886b90258086cf4be8221c8d",
+  "parent": "c4292e17319d1f08450f3d9aecdcc3c383fe7e62",
+  "subject": "Fix nested mutability gap in SleeveAccount.positions",
+  "task": "Fix nested mutability gap in SleeveAccount.positions\n\nAn automated security review of Task 2's commit flagged that\nMappingProxyType only blocks reassigning a key (positions[\"SPY\"] = x) --\nit does nothing about mutating the object a key points to. PositionView\nis a plain mutable dataclass (its own apply_fill mutates qty/avg_cost in\nplace), so positions[\"SPY\"].qty = x reached through the \"read-only\" proxy\nstraight into the sleeve's real bookkeeping, which committed_notional --\nand therefore every RiskEngine capital check -- depends on.\n\npositions now returns fresh dataclasses.replace() copies of each\nPositionView, wrapped in the same MappingProxyType. Mutation-tested:\nreverted to the reference-sharing version, confirmed the new test fails\nwith the exact corrupted qty, reverted back.",
+  "tests": [
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 42,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "8bd68bd2bad271f5169b3b17f3e1196c0e4e6c34",
+  "parent": "df6c447f090439de8d119d8e8ad8e29a62a3516c",
+  "subject": "Reconciler: make the over-fill halt survive later passes and a restart",
+  "task": "Reconciler: make the over-fill halt survive later passes and a restart\n\nReview finding F1, a fail-open bug: the two anomalous MISSED_FILL variants\n(a broker over-fill, and an unreadable fill price) only blocked resume on the\npass that discovered them. Both checks lived inside _replay_missed_fill, which\nwas reachable only from \"broker_filled > view.filled_qty\" -- and that same\nmethod adopted the missing quantity, closing the gap. The next scheduled pass,\nand any fresh process rebuilding projections from the log, then reported the\nsame over-filled order as safe_to_resume=True with no human involvement. That\nis exactly the auto-resume CLAUDE.md invariant 7 exists to prevent, and\nreconcile_continuous()'s own docstring claimed the opposite.\n\nSplit the method in two. _replay_missed_fill now only emits the catch-up\nOrderFilled and returns what it adopted; _classify_fill_state runs on every\npass and asks _fill_anomalies whether this order's cumulative state is still\nanomalous. Neither anomaly check reads view.filled_qty -- they compare the\nbroker's own current filled_qty and filled_avg_price against the order's\noriginal submitted_qty, none of which adoption moves -- so the same broker\nstate keeps producing the same finding forever. _read_fill_price holds the\nprice parse so it lives in one place.\n\nThe kind stays MISSED_FILL on the pass that replays a fill; later passes report\nPOSITION_BREAK, because nothing is missing by then and what remains is a broker\nrecord this engine cannot explain. Both are unresolved, so the resume decision\nis unchanged; only the operator-facing label moves. No new DiscrepancyKind, no\nmechanism for clearing a break (deliberately out of scope), and no second\nOrderFilled -- verified by replaying the log after four passes.\n\nAlso from the same review:\n\n- F2: capture view.filled_qty before _emit folds the replayed fill into that\n  same OrderView, so the detail names what was actually missing (\"against 4\n  locally; replayed the missing 6\") instead of the post-replay total.\n- F3: correct task-6-report.md 8.1 -- an unfolded Projections produces\n  ['external_order', 'position_break'], not NEVER_LANDED. Re-verified by\n  running it; it still fails closed either way. (That file is under the\n  gitignored .superpowers/ tree, so it is not part of this diff.)\n- F4: add the missing regression test pinning NEVER_LANDED for a locally-filled\n  order the broker has no record of (surviving mutant MU-H; logic already\n  correct, only the test was absent).\n- F5: disclose in _replay_missed_fill's docstring that ts_event and ts_init are\n  necessarily equal on a replayed fill, matching AlpacaExecutionClient.\n\n565 passed (was 558); mypy, ruff, docstring lint and bandit clean.",
+  "tests": [
+   "tests/unit/test_reconciler.py"
+  ],
+  "code": [
+   "src/shu/engine/reconciler.py"
+  ],
+  "lines": 390,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "0d1f48253fb62eb9643fd4b31eb24be921e9fdc6",
+  "parent": "13f5b54635c3345b0b2fe420db0973d565b43c1f",
+  "subject": "Fix C2-R6: clamp the reducing reference to the sleeve's realized position",
+  "task": "Fix C2-R6: clamp the reducing reference to the sleeve's realized position\n\nRound 4 asked `is_reducing` about `position_qty + working_qty`. Only the first\nhalf is realized -- `working_qty` is a prediction about orders that can still be\ncancelled. A separately-charged fill in the same symbol can carry `position_qty`\nthrough zero without touching a stale working entry, after which the two point\nthe SAME way and their sum exceeds anything the sleeve holds. An order sized to\nthat inflated figure was classified \"purely position-reducing\" while opening\nbrand-new, entirely unreserved exposure: four orders and zero denials put $5,000\non a $1,000 allocation, a five-order variant breached at a realistic 10%\nfat-finger band, and a HALTED sleeve was approved for an order that added\nexposure -- the exact outcome round 4's own carve-out ruling said it would never\npermit.\n\nNew `SleeveAccount.reducing_reference_qty()` clamps the combination into the\nclosed interval between zero and the realized position, so a still-working\nreduction can only ever shrink the allowance toward zero, never grow it or flip\nits sign. It is the single accessor `reserve()`, `_check_sleeve_capital` and\n`_check_sleeve_halted` all consume -- three hand-written copies of the same\nexpression drifting apart is the root cause this chain kept re-discovering.\n\nVerified by execution against every repro in the round-4 re-review (all four now\ndenied or correctly charged), against C2-R4's two-close repro and the round-4\nbrief's partial-fill scenario (both unchanged), and against round 2/3's five\nregression scenarios plus cross-sleeve leakage. Seven independent mutations of\nthe new code are each caught by a named test, including the re-review's V5\n(`_check_sleeve_halted` reading `position_qty` alone), which previously survived\nthe entire suite.\n\nC2-R5 is untouched by this commit and remains open; see the next one.",
+  "tests": [
+   "tests/unit/test_risk_checks.py",
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/risk/engine.py",
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 306,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "d066ea655659dc24768a418bd1c90f3bba314734",
+  "parent": "2cb45a53d7f392bbd1953e0cc853b63ba9468369",
+  "subject": "Fix M5: market_open's upper session bound is half-open",
+  "task": "Fix M5: market_open's upper session bound is half-open\n\n_check_market_open used bounds[0] <= now <= bounds[1], so an order stamped\nat exactly the session-close instant was incorrectly treated as inside the\nsession. Changed to bounds[0] <= now < bounds[1]: an order arriving the\nmoment the session ends has not traded during it.\n\nNew test: an order timestamped at the exact NYSE close for a given date is\ndenied with check == \"market_open\".",
+  "tests": [
+   "tests/unit/test_risk_checks.py"
+  ],
+  "code": [
+   "src/shu/risk/engine.py"
+  ],
+  "lines": 17,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "2cb45a53d7f392bbd1953e0cc853b63ba9468369",
+  "parent": "b24dd7eb06be6eff261839cc9bdced87140121a0",
+  "subject": "Fix M3+M4: reject a non-positive REFUND_SLEEVE amount; deterministic pending() order",
+  "task": "Fix M3+M4: reject a non-positive REFUND_SLEEVE amount; deterministic pending() order\n\nM3: Command.__post_init__ only checked that REFUND_SLEEVE's amount was not\nNone, not that it was positive -- SleeveAccount.refund() applies it\nunguarded (allocation += amount), so a negative amount would silently\nshrink a sleeve's allocation through a command whose entire purpose is to\ngrant capacity back. Rejected at construction now.\n\nM4: CommandQueue.pending() ordered only by submitted_at, which is real\nwall-clock time (not an injected Clock -- see .submit()'s own docstring),\nso two commands submitted in the same instant had no well-defined\nprocessing order. Added command_id as a secondary sort key.\n\nOne test each: a negative amount is rejected at construction; two commands\ninserted directly with an identical submitted_at (forcing the tie\n.submit() itself cannot arrange) come back ordered by command_id, with ids\nchosen to sort opposite to insertion order so the assertion actually proves\nthe tiebreak rather than coincidentally matching insertion order.",
+  "tests": [
+   "tests/unit/test_commands.py"
+  ],
+  "code": [
+   "src/shu/risk/commands.py"
+  ],
+  "lines": 71,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "a929d31db7c9d76f0510a77a048eccb8a1163402",
+  "parent": "5a5383f2223e6372445a5aa66e8f477723e77163",
+  "subject": "Fix I2: memoize MarketCalendar.session_bounds, 5.5ms/call to a dict hit",
+  "task": "Fix I2: memoize MarketCalendar.session_bounds, 5.5ms/call to a dict hit\n\nsession_bounds() rebuilt a pandas schedule DataFrame via\npandas_market_calendars on every single call -- measured at ~5.4ms and 98%\nof RiskEngine.check()'s own total cost, for data that never changes within\na single date. Memoized per date in a plain dict (both the real bounds and\na non-session day's None result), matching CLAUDE.md invariant 3's \"sessions\nare computed daily, not recomputed on every call.\"\n\nVerified the caching actually reduces per-call cost, not just that it\ncompiles: a cold call takes ~210ms in this environment (dominated by\npandas_market_calendars' own schedule computation, not just the theoretical\n5.4ms); a second call for the same date is ~0.0002ms, roughly a\nmillion-times speedup. Confirmed via a call-count spy on the underlying\nmcal calendar's schedule() method (patch.object(..., wraps=...), so the\nreal result is still computed and checked correct, not mocked away) that a\nrepeated call for the same date hits the cache and does not rebuild the\nschedule -- for both a real trading day and a non-trading day's None result.",
+  "tests": [
+   "tests/unit/test_calendar.py"
+  ],
+  "code": [
+   "src/shu/data/calendar.py"
+  ],
+  "lines": 57,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "5a5383f2223e6372445a5aa66e8f477723e77163",
+  "parent": "e7b4668c455cf397f2389d2b2a38f027c45ef4ce",
+  "subject": "Fix C2: sleeve capital tracks net exposure, not lifetime gross-traded volume",
+  "task": "Fix C2: sleeve capital tracks net exposure, not lifetime gross-traded volume\n\n_check_sleeve_capital computed projected = committed_notional + qty*price\nregardless of side -- a SELL that closes an existing long added its full\nnotional to projected exactly like a BUY opening new exposure, so a\nfully-committed sleeve could never get flat, violating CLAUDE.md invariant\n5's \"you can still get flat, you cannot dig deeper\" for the exact case it\nexists to protect. SleeveAccount.apply_fill() had the same bug: it only ever\naccumulated fill_notional, with no path to reduce it when a fill closes\nexposure.\n\nBoth now evaluate exposure DELTA -- (abs(resulting_qty) - abs(existing_qty))\n* price -- instead of gross notional:\n\n- SleeveFill gains symbol/side fields so a fill can be netted against the\n  sleeve's own existing position in that symbol; SleeveAccount tracks\n  per-symbol net qty and apply_fill's filled_notional now moves by the\n  signed exposure delta (negative when reducing, equal to the full fill\n  notional when opening fresh from flat -- a strict generalization, not a\n  behavior change for any position opened from flat, verified by hand\n  against the existing partial-fill tests and confirmed passing unchanged).\n- RiskEngine gains a shared _resulting_position_qty helper (used by both\n  _check_position_limit, pure refactor, and _check_sleeve_capital) and\n  _check_sleeve_capital now projects committed_notional + exposure_delta\n  against the allocation. .reserve() intentionally stays gross-notional\n  (conservative, documented scope limitation: over-counts a still-working\n  reducing order until it fills, the safe direction of error).\n\nNew tests: a fully-committed sleeve's SleeveAccount returns to full headroom\nafter a fully-closing fill; an adding fill counts only its incremental\ndelta; RiskEngine approves a reducing SELL that closes a fully-committed\nposition in both ACTIVE and REDUCING state; a SELL with no existing position\n(a new short) is still correctly denied.\n\nAlso I1: strengthens test_risk_properties.py's\ntest_no_sequence_of_approved_orders_can_breach_a_sleeve_allocation, which\npreviously reserved-and-fully-filled every approved order in the same step,\nso working_notional was always exactly 0 and the property never generated\nthe \"ten orders each fit individually, collectively breach it\" scenario\nSleeveAccount exists to guard. Each approved order now draws whether it\nfills fully, partially, or stays working unfilled.\n\nAsserts filled_notional + working_notional <= allocation directly, not the\nequivalent committed_notional property: mutation-testing (mutating\ncommitted_notional to filled_notional-only, as required) found that\nasserting via the composite property does NOT catch that mutation even with\nthe strengthened sequence, because RiskEngine._check_sleeve_capital reads\nthat same property to gate approvals, making it self-consistently satisfied\nby its own admission decisions regardless of the mutation. Asserting via the\ntwo independently-tracked components breaks that tautology and does fail\nagainst the mutation, confirmed directly.\n\nUpdated every SleeveFill(...) construction site across tests/ for the new\nrequired fields (grepped, not discovered via a failing run): test_sleeves.py,\ntest_risk_properties.py (two sites), and breakers.py's on_fill in production\ncode. test_sleeves.py's original 9 tests pass unchanged (11/11 with the 2\nnew ones); test_risk_checks.py's position_limit section confirmed\nbyte-identical behavior before/after the pure refactor.",
+  "tests": [
+   "tests/unit/test_risk_checks.py",
+   "tests/unit/test_risk_properties.py",
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/risk/breakers.py",
+   "src/shu/risk/engine.py",
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 292,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "c14d7fb1ab5e047402985a17eb6f2e2953219131",
+  "parent": "166adb7015e24e89ecf9f57fedea6e3c53b75df6",
+  "subject": "Phase 4.1 fix: SleeveAccount.apply_fill handles partial fills correctly",
+  "task": "Phase 4.1 fix: SleeveAccount.apply_fill handles partial fills correctly\n\napply_fill() released a reservation's entire notional the instant any fill\narrived, including a partial one, silently understating committed_notional\nfor the still-outstanding unfilled portion -- a capital-cap bypass reached\nvia fill granularity rather than order count. Now a fill reduces the\nremaining reservation by its own real notional (qty * price), clamped at\nzero, and only fully releases once cumulative fills reach the reserved\namount. No-op for a fill that exactly matches its reservation.",
+  "tests": [
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 49,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "d0aa93729692e76fccc8fdd88802f3bec2985b08",
+  "parent": "8861462f48f04895a3e9a9ecbda0804b0e8f2ec7",
+  "subject": "Fix I6: min_backtest_length is vacuous at N=1, weakest on a first evaluation",
+  "task": "Fix I6: min_backtest_length is vacuous at N=1, weakest on a first evaluation\n\nmin_backtest_length(1, ...) returns 0.0 by design -- one trial has no\nselection effect to correct for, and that part is correct and unchanged. But\n_min_backtest_length_check used the live n_trials directly as the\nthreshold's input, so the very first time a (strategy, dataset) pair is ever\nevaluated, this check passed on a dataset of any length at all -- exactly\nwhen a strategy is closest to being promoted to Sleeve B.\n\nFloors the trial count used for the threshold at 2 (max(n_trials, 2)),\nwithout changing n_trials itself (still the honest count reported on\nGateResult and used by deflated_sharpe). Deliberate, controller-ruled: a\nstrategy's dataset must clear at least the 2-trial bar even on its\nfirst-ever evaluation.\n\nNew test confirms a GateResult computed with n_trials=1 uses\nmin_backtest_length(2, ...)'s value as its threshold, not 0.0 -- verified it\nfails against the pre-fix code (threshold was 0.0, check trivially passed).",
+  "tests": [
+   "tests/unit/test_gate.py"
+  ],
+  "code": [
+   "src/shu/research/gate.py"
+  ],
+  "lines": 29,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "20d9f7779f309b805ace5c93a1c446e83b6392d1",
+  "parent": "b6bfd8e0dafb3c4870743c328fe55a15c3d5d3b2",
+  "subject": "Fix I4: multi-symbol backtests crash in Portfolio.mark",
+  "task": "Fix I4: multi-symbol backtests crash in Portfolio.mark\n\nrun_backtest marked with {bar.symbol: bar.close}, a single-entry dict\ncontaining only the current bar's symbol. On an interleaved multi-symbol bar\nstream, the symbol not in the current bar is exactly the previously-filled\nposition the portfolio is still holding, so Portfolio.mark's fail-loud\n\"no mark for this open position\" guard fired -- a real regression, since\nHistoricalDataSource(symbols=[...]) and run_backtest both already treat\nmulti-symbol streams as first-class.\n\nNow tracks the last-seen close per symbol across the whole bar stream and\nmarks against that accumulated dict, preserving the fail-loud guarantee for\na symbol the stream has genuinely never sent a bar for.\n\nNew test in test_kernel.py interleaves SPY/QQQ bars with a strategy that buys\nboth and holds; confirmed it reproduces the exact ValueError (on the first\nbar marked after both positions are open) before the fix, and that the final\nequity curve's positions_value reflects both positions after it.",
+  "tests": [
+   "tests/unit/test_kernel.py"
+  ],
+  "code": [
+   "src/shu/engine/kernel.py"
+  ],
+  "lines": 67,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "b6bfd8e0dafb3c4870743c328fe55a15c3d5d3b2",
+  "parent": "d348feb7d8931c5e3c2965dd555fba796a200dea",
+  "subject": "Fix I2: the -inf sentinel is not valid JSON, Postgres will reject it",
+  "task": "Fix I2: the -inf sentinel is not valid JSON, Postgres will reject it\n\n_INSUFFICIENT_DATA_SHARPE (float(\"-inf\")) was written straight into\nresearch_trials.metrics, a JSON column. -Infinity is not a legal JSON number\nunder RFC 8259; SQLite's permissive JSON1 extension (every test here runs\nagainst sqlite:///:memory:) accepts it, Postgres's stricter JSON/JSONB parser\ndoes not.\n\nTrialLog.record now sanitizes non-finite metric values to JSON null before\nthe insert (_json_safe_metrics), and _row_to_trial_record reverses null back\nto -inf on read (_floats_from_json_safe) -- the only non-finite value this\ncodebase ever produces, so the reversal is unambiguous. TrialRecord.metrics's\nPython-side type and every existing comparison stay exactly -inf/float; only\nthe on-disk representation changes.\n\nNo Postgres is provisioned in this environment, so this is verified at the\nstring level: a new test confirms the raw stored row (queried directly,\nbypassing TrialLog's own read-path reversal) has None where -inf was logged,\nand that re-serializing it contains neither \"Infinity\" nor \"NaN\" -- the\nliteral tokens Postgres's parser would reject. A live-Postgres round-trip\ntest is deferred until Postgres is provisioned (Phase 4/5 or CI), consistent\nwith every other persistence module in this codebase being SQLite-only-tested\ntoday, not a new gap.",
+  "tests": [
+   "tests/unit/test_trials.py"
+  ],
+  "code": [
+   "src/shu/research/trials.py"
+  ],
+  "lines": 91,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "be4298a24816878583eb839e5a7bff1ac14d82a2",
+  "parent": "1cb55dd3f5d285a26cb3d7c903f2f9b106f201c6",
+  "subject": "Fix C1: evaluate_gate crashes on a never-trading config",
+  "task": "Fix C1: evaluate_gate crashes on a never-trading config\n\nsharpe_ratio raises ValueError on zero-variance returns (a flat equity curve, e.g.\na config whose slow SMA never forms so it never trades). Two call sites only\nguarded the <2-observation case: run_trial (trials.py) and\n_deflated_sharpe_check's direct full-dataset backtest (gate.py), which crashed\nevaluate_gate outright instead of returning a GateResult whose min_trades check\nexists to catch exactly this configuration.\n\nBoth now catch the zero-variance ValueError and report it as a failing check\n(gate.py) or the existing -inf sentinel (trials.py), never letting the\nexception propagate out of evaluate_gate.",
+  "tests": [
+   "tests/unit/test_gate.py"
+  ],
+  "code": [
+   "src/shu/research/gate.py",
+   "src/shu/research/trials.py"
+  ],
+  "lines": 63,
+  "size_band": "500"
+ },
+ {
+  "repo": "shu",
+  "fix": "673b4d6b1bbf2a36277113d31be164593bbbd2a0",
+  "parent": "b0ca5669ad595ffa17a89c7d2809da3f7d9c8daf",
+  "subject": "Phase 3.3: prevent _aggregate_sharpe from splicing bars across a rolling-mode purge gap",
+  "task": "Phase 3.3: prevent _aggregate_sharpe from splicing bars across a rolling-mode purge gap\n\n_aggregate_sharpe previously ran one backtest over the flattened union of every\nfold's train (or test) indices. That's correct only when the union is a single\ncontiguous block (true for anchored mode, and rolling mode with label_horizon=0).\nRolling mode with label_horizon>0 purges label_horizon bars off the right edge of\neach fold's own train window, opening a real gap between consecutive folds' train\nwindows -- flattening across that gap spliced bar N to bar N+label_horizon+1 as if\ntemporally adjacent, silently blending pre-/post-gap prices in any strategy that\ncarries state across bars (e.g. MovingAverageCrossover's rolling close window).\n\nFix: split the index union into maximal contiguous runs (_contiguous_runs), run one\nindependent fresh-strategy backtest per run, and pool the resulting *returns* (never\nraw bars) before scoring one Sharpe. Degenerates to the previous single-backtest\nbehavior when the union is already one contiguous block, so both control tests'\nnumbers are bit-for-bit unchanged (confirmed by direct re-run). New regression test\nuses anchored=False with label_horizon=100 to exercise the multi-block path, and\nchecks run_walk_forward's is_sharpe against two independent reference computations\n(one per-block/pooled, one spliced) that provably disagree with each other.",
+  "tests": [
+   "tests/unit/test_walkforward.py"
+  ],
+  "code": [
+   "src/shu/research/walkforward.py"
+  ],
+  "lines": 181,
+  "size_band": "500"
+ },
+ {
+  "repo": "wasl",
+  "fix": "b967dbab641171ed4aac95bcd6c238958b61fc12",
+  "parent": "81e2eb6d9074430bb92bd3834bcb558d58a3b58c",
+  "subject": "feat: a slim notice shows while the browser is offline and hides when the connection returns",
+  "task": "feat: a slim notice shows while the browser is offline and hides when the connection returns",
+  "tests": [
+   "tests/unit/connectivity.test.ts"
+  ],
+  "code": [
+   "src/components/layout/AuthenticatedLayout.tsx",
+   "src/components/layout/PublicLayout.tsx",
+   "src/components/ui/OfflineBanner.tsx",
+   "src/hooks/useOnlineStatus.ts",
+   "src/lib/connectivity.ts"
+  ],
+  "lines": 115,
+  "size_band": "500"
+ },
+ {
+  "repo": "wasl",
+  "fix": "ea18b0e1ee3329881ad22b7cbdc1811d210e6a49",
+  "parent": "fe053cf2fa3a5b2de6959f263addec35c93205bc",
+  "subject": "feat: older dates read as weeks, months and years; under a minute reads \"just now\"",
+  "task": "feat: older dates read as weeks, months and years; under a minute reads \"just now\"",
+  "tests": [
+   "tests/unit/formatters.test.ts"
+  ],
+  "code": [
+   "src/utils/formatters.ts"
+  ],
+  "lines": 96,
+  "size_band": "500"
+ },
+ {
+  "repo": "wasl",
+  "fix": "1b1f10095b3d138ceeb7ab9163907ffae6e6c42b",
+  "parent": "c196826402a8f1bdde6411ec8cc4dd97c4a34548",
+  "subject": "fix: escape search terms in PostgREST or() filters",
+  "task": "fix: escape search terms in PostgREST or() filters\n\nThe directory search box was interpolated straight into an or() expression,\nwhich PostgREST parses by splitting on commas and parentheses. Searching for a\nname or a city containing a comma returned PGRST100 and a 400 -- the workhorse\nscreen of the app, broken by ordinary input. A crafted term could also append\nfilter clauses of its own; RLS still held, but the results were not what the\nquery intended.\n\nWrapping the value in double quotes is PostgREST's documented way to make those\ncharacters literal. Verified against the live API before and after.\n\nWildcards are stripped rather than escaped: ilike has no ESCAPE clause over the\nREST interface, so a literal percent sign cannot be expressed, and silently\nwidening someone's search is worse than ignoring a character they almost\ncertainly did not mean as a wildcard.\n\nsearchCommunities already had an ad-hoc version of this fix, stripping the same\ncharacters and losing the match in the process. Both call sites now share one\nhelper.",
+  "tests": [
+   "tests/unit/search.test.ts"
+  ],
+  "code": [
+   "src/lib/api/communitiesApi.ts",
+   "src/lib/api/profilesApi.ts",
+   "src/utils/search.ts"
+  ],
+  "lines": 88,
+  "size_band": "500"
+ },
+ {
+  "repo": "fathom",
+  "fix": "a4d5b0ba4da22ea432affb57dbcd35d50864dbb4",
+  "parent": "1f68191c90aa82f2970ff6923de256fba6b32ec3",
+  "subject": "Fathom 0.2.0: a second warehouse, verdicts that stay true, rules that never fail open (#1)",
+  "task": "Fathom 0.2.0: a second warehouse, verdicts that stay true, rules that never fail open (#1)\n\nRuns unchanged on erp-data-platform (results in pipelinebench/results/partner-erp-data-platform.md); sources resolve by warehouse schema; rename intents fire column locks. Reused verdicts render and their ids cover constraints, risk model, decisions and unresolved paths. Constraint load errors and unknown scopes are listed and fail the gate. scope.columns, window tz and unquoted YAML times are honoured; the newest decision wins; CLI choices are checked. Readable PR comments, the cli provider label, and Orion leftovers removed.",
+  "tests": [
+   "tests/test_api_cap.py",
+   "tests/test_codectx.py",
+   "tests/test_preflight.py",
+   "tests/test_store.py",
+   "tests/test_verdict_inputs.py"
+  ],
+  "code": [
+   "src/fathom/__init__.py",
+   "src/fathom/changes.py",
+   "src/fathom/cli.py",
+   "src/fathom/config.py",
+   "src/fathom/constraints.py",
+   "src/fathom/predicates.py",
+   "src/fathom/providers.py",
+   "src/fathom/rag/docs.py",
+   "src/fathom/rag/index.py",
+   "src/fathom/rag/scope.py",
+   "src/fathom/resolver.py",
+   "src/fathom/review_agent.py",
+   "src/fathom/risk.py",
+   "src/fathom/server.py",
+   "src/fathom/store.py",
+   "src/fathom/usage.py",
+   "src/fathom/verdict.py"
+  ],
+  "lines": 764,
+  "size_band": "501-1000"
+ },
+ {
+  "repo": "fathom",
+  "fix": "a4fc96a635de44cdda064d9bd4c49686f6eaf1ca",
+  "parent": "c3939c90460d632a1128db28caa4b6e63ca27290",
+  "subject": "Read real dbt projects without compiled SQL, and TaskFlow DAGs (#34)",
+  "task": "Read real dbt projects without compiled SQL, and TaskFlow DAGs (#34)\n\n* Read real dbt projects without compiled SQL, and TaskFlow DAGs\n\nHardening on a second real platform (datacoves/balboa: dbt on Snowflake, TaskFlow Airflow):\n- dejinja handles versioned and package refs, {{ this }}, and macro calls as expressions or CTE bodies\n- the Airflow adapter reads @dag/@task/@task_group DAGs, returned commands and data-passing dependencies\n- quoted multi-selector dbt arguments, and source tags as selector starting points\n- package files get a specific unmapped reason\n- default-model replay numbers and the balboa write-up\n\n* Report a macro standing for columns instead of reading no columns\n\n* TaskFlow: a nested helper's return is not the task's command\n\n---------",
+  "tests": [
+   "tests/test_airflow.py",
+   "tests/test_lineage.py",
+   "tests/test_preflight.py"
+  ],
+  "code": [
+   "src/orion/adapters/airflow.py",
+   "src/orion/adapters/dbt.py",
+   "src/orion/changes.py",
+   "src/orion/lineage.py"
+  ],
+  "lines": 945,
+  "size_band": "501-1000"
+ },
+ {
+  "repo": "fathom",
+  "fix": "9af77755ff18eb4c2c00ca99a7e43a8552e9cc91",
+  "parent": "9e15734e25ed93ae25507f43477649749524b01c",
+  "subject": "dbt at scale: fast sync and real schema files on a 625-model project (#18)",
+  "task": "dbt at scale: fast sync and real schema files on a 625-model project (#18)\n\n* Sync at scale: bulk writes, compiled SQL, faster cached lineage\n\nFound syncing cal-itp/data-infra (625 BigQuery models): row-at-a-time\nwrites and per-column lineage made sync take over 20 minutes.\n- Store.write_graph stages rows through NDJSON and merges in one transaction.\n- dbt lineage reads compiled_code (relations renamed to graph keys, ephemeral\n  CTEs detached) in the manifest's adapter dialect, computes all columns of a\n  model in one sqlglot pass over only the tables it reads, runs across\n  processes, and caches results between syncs.\n- Airflow: a bash command with unbalanced quotes no longer aborts the sync.\n\n* dbt on a real project: map schema files, singular tests and docs\n\ncal-itp/data-infra (625 models) showed every warning on 12 real commits came\nfrom paths Orion could not map: shared schema .yml files, hand-written tests\nand doc blocks. Schema .yml entries now map to the models they document, one\nop per entry the diff changed; singular test files map to the models they\nread; markdown is listed as ignored. A warning raised only because paths are\nunmapped now says so instead of reading as blast radius, and a graph with no\ntiers says that rather than 'none are tier 1'.\n\n* Results: cal-itp dbt sync and deterministic review\n\n* dbt lineage: distrust malformed cache entries, keep pool results on failure\n\n* Sync: note a lineage pool fallback, allow large property rows\n\n* Changes: a changed schema entry with no asset is unresolved; version the lineage cache\n\n* Write the lineage cache atomically\n\n---------",
+  "tests": [
+   "tests/test_airflow.py",
+   "tests/test_fixture_sync.py",
+   "tests/test_preflight.py",
+   "tests/test_review.py",
+   "tests/test_store.py"
+  ],
+  "code": [
+   "src/orion/adapters/airflow.py",
+   "src/orion/adapters/dbt.py",
+   "src/orion/changes.py",
+   "src/orion/lineage.py",
+   "src/orion/resolver.py",
+   "src/orion/review.py",
+   "src/orion/store.py",
+   "src/orion/sync.py",
+   "src/orion/verdict.py"
+  ],
+  "lines": 592,
+  "size_band": "501-1000"
+ },
+ {
+  "repo": "studbook",
+  "fix": "e4917208a1527b3345782f2958682c739124dffb",
+  "parent": "d8eead26e7ed947c2cc8b7895208bc85700711ad",
+  "subject": "feat(api): security headers on every response, and a page that needs no inline code",
+  "task": "feat(api): security headers on every response, and a page that needs no inline code\n\nThe page keeps the API key in sessionStorage, readable by any script running in it, and\nthe service sent no security headers. Every response now carries a CSP (scripts, styles\nand requests from this origin only, no framing, no object/base tricks), nosniff,\nno-referrer, a restrictive Permissions-Policy and X-Frame-Options. The page's inline\n<style> and <script> moved to /static/app.css and app.js so the policy needs no\n'unsafe-inline'. No HSTS: plain HTTP on localhost, stated in the code. No CORS on purpose.\n\nVerified live in a browser: headers present, the script ran and made its first request,\nstyles applied, zero CSP violations. Tests pin the headers on the page, a static file\nand a 401, the policy's lack of unsafe-*, and the page's lack of inline code.",
+  "tests": [
+   "tests/test_api.py"
+  ],
+  "code": [
+   "api/main.py"
+  ],
+  "lines": 527,
+  "size_band": "501-1000"
+ },
+ {
+  "repo": "shu",
+  "fix": "94b8e7be5d6315e4bacbdd03005aafb86b49553a",
+  "parent": "0d1f48253fb62eb9643fd4b31eb24be921e9fdc6",
+  "subject": "Fix C2-R5: an exemption's cover cannot be spent by a different order",
+  "task": "Fix C2-R5: an exemption's cover cannot be spent by a different order\n\nA reducing order is exempted from capital reservation because filling it can\nonly shrink exposure. That is true only while the position it was judged against\nis still there. A DIFFERENT order for the same symbol -- correctly judged\nnon-reducing, correctly charged its own honest notional -- could fill first and\ntake those shares, after which the stranded exemption opened brand-new exposure\nwith nothing reserved: $1,000.22 committed on a $1,000 cap in three orders.\n\nTwo rules, both scoped to the direction that can actually do the damage:\n\n  Rule A (`SleeveAccount.consumes_a_working_reduction`, denied in check 10):\n  refuse any order pointing the same way as an outstanding exemption that is not\n  itself small enough to be exempted out of what that exemption left over.\n  Charging such an order prices its own exposure honestly and says nothing about\n  the exemption it strands.\n\n  Rule B (`charged_qty_toward_zero`, folded into `reducing_reference_qty`):\n  grant no exemption at all while a charged order is already working toward the\n  same zero. This closes the mirror-image ordering -- the thief submitted FIRST,\n  where there is no exemption yet for Rule A to protect -- which is exactly the\n  counterexample that disproved Rule A on its own in round 4.\n\nTogether they keep an exemption and a same-direction charge from ever coexisting\nin one symbol, so total quantity working toward zero never exceeds the realized\nposition, so every outstanding exemption is still genuinely reducing when it\nfills. Charged orders need their own signed-quantity ledger for this;\n`working_notional` is deliberately left as `sum(self._reservations.values())`,\nbyte-identical.\n\nThe behavioural price, stated plainly: while a reducing order rests, a second\nsame-side order for that symbol is refused unless it fits the shares the first\nleft over. Two closes summing to no more than the position are still both\nexempted; a second FULL close while the first rests is not -- cancel it first,\nor size the new one to fit. Adding to a position while a protective close rests\nis untouched.\n\nVerified by execution: both C2-R5 orderings from the round-4 report now denied;\nthe round-4 brief's partial-fill case, the two-concurrent-exemptions case, the\nre-quote path, cross-symbol independence and cancel-then-resize all still behave;\n4,000 randomized orders show 0 check()/reserve() disagreements; a fuzzer that\nflushes every still-working order in EVERY permutation finds no breach. The\n`strict=True` C2-R5 xfail tripwire is now a passing regression test, and the\ndeferred-fill property's xfail came off with it.\n\nKnown residual, measured not assumed, and unchanged from rounds 3 and 4 (checked\nagainst 68fec7f and e452eb3): a broker OVER-fill can still strand a sibling\nexemption, because it moves the position by more than the working quantity it\nconsumes. Documented in `_check_sleeve_capital`.\n\nPart 4: the one-sleeve route round 4 opened to an unpriced BUY-to-cover reaching\n`buying_power` ungated is closed by round 5's clamp -- an exemption now requires\na realized sleeve position, and with one sleeve that implies a realized global\none. The two docstrings' \"two sleeves\" wording is accurate again; both now say\nso and say why.",
+  "tests": [
+   "tests/unit/test_risk_checks.py",
+   "tests/unit/test_risk_properties.py",
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/risk/engine.py",
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 706,
+  "size_band": "501-1000"
+ },
+ {
+  "repo": "shu",
+  "fix": "a45941e67ef64614867967565c7669a302281e7e",
+  "parent": "68fec7f485c1441b05aa81941a1a3e0433d5e854",
+  "subject": "Fix C2 round 4: working orders count against is_reducing; halted sleeve can get flat",
+  "task": "Fix C2 round 4: working orders count against is_reducing; halted sleeve can get flat\n\nTwo Criticals from the round-3 independent re-review.\n\nC2-R4: reserve() and _check_sleeve_capital both asked is_reducing against the\nFILLED position alone, so N ordinary closing orders queued before any of them\nfilled were each independently judged \"can only shrink the position\" against the\nsame stale number, each reserved nothing, and collectively flipped the position\nand breached the sleeve cap by an unbounded multiple with zero denials. Two\norders suffice -- a resting broker-side stop plus a strategy exit, CLAUDE.md\ninvariant 8's own prescribed shape. SleeveAccount now tracks a per-order,\nper-symbol signed working quantity for every order reserve() judged reducing,\nand both ledgers ask is_reducing against filled-plus-working. Verified: the\ntwo-close repro now denies the second order (committed 2000 on a 1000 cap\nbefore, 0 breach after); N=2,3,5,11,21 all deny at the second attempt; a\npartially-filled close's own remainder stays correctly exempt; and 20,000\nrandomized single orders still show 0 check()/reserve() disagreements.\n\nOnly reducing orders contribute to the new ledger. Folding a non-reducing\norder's hypothetical fill into the reducing test would recreate the identical\nbug one level up: a later order exempted against a position that evaporates if\nthe BUY it was counting on is cancelled instead of filling.\n\nC2-remainder (the original C2's untouched second half): check 2 denied EVERY\nintent for a halted sleeve, a pure close included -- reachable by design, since\ncheck 10 approves at exactly projected == allocation, is_exhausted is\nheadroom <= 0, and _evaluate_sleeve_exhaustion then halts the sleeve. CLAUDE.md\ninvariant 5's \"you can still get flat, you cannot dig deeper\" was false at\nSleeve A's own designed steady state. A halted sleeve now gets the same carve-out\nthe engine-wide REDUCING state gives everything else, judged against the sleeve's\nown filled-plus-working exposure rather than the global Portfolio.\n\napply_fill's working-quantity decrement clamps at zero rather than letting an\nover-fill flip the remainder's sign, mirroring the max(Decimal(0), ...) clamp the\nnotional decrement already applies -- verified that the unclamped form fabricates\nphantom exposure that exempts a later order from any reservation.\n\nAlso corrects four now-false docstrings: the module-level price-safety posture and\n_check_buying_power's unreachability claim (both falsified by round 3's no-price\nchange), _resulting_position_qty's \"shared with _check_sleeve_capital\", and the\nPortfolio-partitioning paragraph's omission of check 1 as a global reader.\n\n_check_position_limit is byte-identical to 68fec7f (sha256 of the extracted method\nbody), as are _check_trading_state, _check_gross_exposure and\n_check_order_rate_limit. Eight independent mutations of the new code are each\ncaught by a named test.",
+  "tests": [
+   "tests/unit/test_risk_checks.py",
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/risk/engine.py",
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 551,
+  "size_band": "501-1000"
+ }
+]
