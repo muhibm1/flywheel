@@ -1,0 +1,16 @@
+{
+ "case": "fathom-9d6fa6d17e",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 101,
+ "turns": 31,
+ "tokens": 1308913,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

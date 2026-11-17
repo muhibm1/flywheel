@@ -1,0 +1,15 @@
+{
+ "case": "fathom-bbeff838ae",
+ "model": "sonnet",
+ "rep": 0,
+ "seconds": 11,
+ "turns": 7,
+ "tokens": 268432,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 1,
+ "passed": true
+}

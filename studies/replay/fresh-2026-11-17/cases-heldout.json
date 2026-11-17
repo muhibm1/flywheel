@@ -11,8 +11,7 @@
   "code": [
    "src/orion/changes.py"
   ],
-  "lines": 4,
-  "size_band": "500"
+  "lines": 4
  },
  {
   "repo": "fathom",
@@ -26,8 +25,7 @@
   "code": [
    "src/orion/changes.py"
   ],
-  "lines": 13,
-  "size_band": "500"
+  "lines": 13
  },
  {
   "repo": "fathom",
@@ -41,8 +39,7 @@
   "code": [
    "src/orion/changes.py"
   ],
-  "lines": 19,
-  "size_band": "500"
+  "lines": 19
  },
  {
   "repo": "fathom",
@@ -56,8 +53,7 @@
   "code": [
    "src/orion/changes.py"
   ],
-  "lines": 28,
-  "size_band": "500"
+  "lines": 28
  },
  {
   "repo": "fathom",
@@ -71,8 +67,7 @@
   "code": [
    "src/orion/changes.py"
   ],
-  "lines": 28,
-  "size_band": "500"
+  "lines": 28
  },
  {
   "repo": "fathom",
@@ -86,8 +81,7 @@
   "code": [
    "src/pipelinebench/cli.py"
   ],
-  "lines": 35,
-  "size_band": "500"
+  "lines": 35
  },
  {
   "repo": "fathom",
@@ -101,8 +95,7 @@
   "code": [
    "src/orion/symbols.py"
   ],
-  "lines": 8,
-  "size_band": "500"
+  "lines": 8
  },
  {
   "repo": "fathom",
@@ -116,8 +109,7 @@
   "code": [
    "src/orion/symbols.py"
   ],
-  "lines": 78,
-  "size_band": "500"
+  "lines": 78
  },
  {
   "repo": "fathom",
@@ -131,8 +123,7 @@
   "code": [
    "src/pipelinebench/review_eval.py"
   ],
-  "lines": 20,
-  "size_band": "500"
+  "lines": 20
  },
  {
   "repo": "fathom",
@@ -146,8 +137,7 @@
   "code": [
    "src/orion/review.py"
   ],
-  "lines": 33,
-  "size_band": "500"
+  "lines": 33
  },
  {
   "repo": "fathom",
@@ -163,8 +153,7 @@
    "src/orion/providers.py",
    "src/orion/review.py"
   ],
-  "lines": 16,
-  "size_band": "500"
+  "lines": 16
  },
  {
   "repo": "erp-data-platform",
@@ -178,8 +167,7 @@
   "code": [
    "engagement/walkthrough.py"
   ],
-  "lines": 58,
-  "size_band": "500"
+  "lines": 58
  },
  {
   "repo": "studbook",
@@ -195,8 +183,7 @@
    "eval/metrics.py",
    "eval/run.py"
   ],
-  "lines": 218,
-  "size_band": "500"
+  "lines": 218
  },
  {
   "repo": "shu",
@@ -215,8 +202,7 @@
    "src/shu/portfolio/portfolio.py",
    "src/shu/risk/sleeves.py"
   ],
-  "lines": 192,
-  "size_band": "500"
+  "lines": 192
  },
  {
   "repo": "shu",
@@ -230,8 +216,7 @@
   "code": [
    "src/shu/app/main_engine.py"
   ],
-  "lines": 33,
-  "size_band": "500"
+  "lines": 33
  },
  {
   "repo": "shu",
@@ -245,8 +230,7 @@
   "code": [
    "src/shu/app/api/routes_commands.py"
   ],
-  "lines": 25,
-  "size_band": "500"
+  "lines": 25
  },
  {
   "repo": "shu",
@@ -260,8 +244,7 @@
   "code": [
    "src/shu/risk/sleeves.py"
   ],
-  "lines": 42,
-  "size_band": "500"
+  "lines": 42
  },
  {
   "repo": "shu",
@@ -275,8 +258,7 @@
   "code": [
    "src/shu/engine/reconciler.py"
   ],
-  "lines": 390,
-  "size_band": "500"
+  "lines": 390
  },
  {
   "repo": "shu",
@@ -292,8 +274,7 @@
    "src/shu/risk/engine.py",
    "src/shu/risk/sleeves.py"
   ],
-  "lines": 306,
-  "size_band": "500"
+  "lines": 306
  },
  {
   "repo": "shu",
@@ -307,8 +288,7 @@
   "code": [
    "src/shu/risk/engine.py"
   ],
-  "lines": 17,
-  "size_band": "500"
+  "lines": 17
  },
  {
   "repo": "shu",
@@ -322,8 +302,7 @@
   "code": [
    "src/shu/risk/commands.py"
   ],
-  "lines": 71,
-  "size_band": "500"
+  "lines": 71
  },
  {
   "repo": "shu",
@@ -337,8 +316,7 @@
   "code": [
    "src/shu/data/calendar.py"
   ],
-  "lines": 57,
-  "size_band": "500"
+  "lines": 57
  },
  {
   "repo": "shu",
@@ -356,8 +334,7 @@
    "src/shu/risk/engine.py",
    "src/shu/risk/sleeves.py"
   ],
-  "lines": 292,
-  "size_band": "500"
+  "lines": 292
  },
  {
   "repo": "shu",
@@ -371,8 +348,7 @@
   "code": [
    "src/shu/risk/sleeves.py"
   ],
-  "lines": 49,
-  "size_band": "500"
+  "lines": 49
  },
  {
   "repo": "shu",
@@ -386,8 +362,7 @@
   "code": [
    "src/shu/research/gate.py"
   ],
-  "lines": 29,
-  "size_band": "500"
+  "lines": 29
  },
  {
   "repo": "shu",
@@ -401,8 +376,7 @@
   "code": [
    "src/shu/engine/kernel.py"
   ],
-  "lines": 67,
-  "size_band": "500"
+  "lines": 67
  },
  {
   "repo": "shu",
@@ -416,8 +390,7 @@
   "code": [
    "src/shu/research/trials.py"
   ],
-  "lines": 91,
-  "size_band": "500"
+  "lines": 91
  },
  {
   "repo": "shu",
@@ -432,8 +405,7 @@
    "src/shu/research/gate.py",
    "src/shu/research/trials.py"
   ],
-  "lines": 63,
-  "size_band": "500"
+  "lines": 63
  },
  {
   "repo": "shu",
@@ -447,8 +419,7 @@
   "code": [
    "src/shu/research/walkforward.py"
   ],
-  "lines": 181,
-  "size_band": "500"
+  "lines": 181
  },
  {
   "repo": "shu",
@@ -464,7 +435,6 @@
    "src/shu/risk/engine.py",
    "src/shu/risk/sleeves.py"
   ],
-  "lines": 551,
-  "size_band": "501-1000"
+  "lines": 551
  }
 ]

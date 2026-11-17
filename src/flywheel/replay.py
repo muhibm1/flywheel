@@ -471,7 +471,7 @@ def run_agent(
     out_file = out_dir / f"{case.id}__{label}__{rep}.json"
     if out_file.exists():
         old = json.loads(out_file.read_text())
-        if not old.get("agent_error"):
+        if not crashed(old):
             return old
     work = Path(tempfile.mkdtemp(prefix=f"replay-{case.id}-"))
     started = time.time()
@@ -612,13 +612,21 @@ def real_flags(record: dict) -> list[str]:
     return [f for f in record.get("flags") or [] if not FLAG_FROM_HEREDOC.match(f)]
 
 
+def crashed(record: dict) -> bool:
+    """An agent run that never got to work (usage limit, sign-in): re-run, never scored.
+
+    A run that hit the time limit did get to work and ran out of time, so it counts as a failure.
+    """
+    return bool(record.get("agent_error")) and not record.get("timed_out")
+
+
 def summarize(results: list[dict]) -> dict[str, dict]:
     """Per model: runs, passes, pass rate with interval, mean tokens and seconds, flagged runs."""
     out: dict[str, dict] = {}
     for model in sorted({r["model"] for r in results}):
         rows = [r for r in results if r["model"] == model]
-        broken = [r for r in rows if r.get("agent_error") and not real_flags(r)]
-        clean = [r for r in rows if not real_flags(r) and not r.get("agent_error")]
+        broken = [r for r in rows if crashed(r) and not real_flags(r)]
+        clean = [r for r in rows if not real_flags(r) and not crashed(r)]
         passed = sum(1 for r in clean if r.get("passed"))
         low, high = wilson(passed, len(clean))
         out[model] = {
@@ -643,7 +651,7 @@ def per_case(results: list[dict]) -> dict[str, dict[str, str]]:
     """For each case and model, the passes out of runs, such as '2/3'."""
     table: dict[str, dict[str, str]] = {}
     for r in results:
-        if r.get("agent_error") and not real_flags(r):
+        if crashed(r) and not real_flags(r):
             continue
         cell = table.setdefault(r["case"], {})
         a, b = (int(x) for x in cell.get(r["model"], "0/0").split("/"))

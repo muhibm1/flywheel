@@ -1,0 +1,16 @@
+{
+ "case": "erp-data-platform-bdf5de5af5",
+ "model": "sonnet+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 83,
+ "turns": 19,
+ "tokens": 692972,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

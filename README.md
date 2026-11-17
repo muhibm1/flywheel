@@ -77,7 +77,11 @@ twice, and a blind review keeps only cases whose task text says enough to pass. 
 real changes from seven repositories, scored once with three runs each, Opus passed 85%, Sonnet 78%
 and Haiku 76%, with Sonnet using about half of Opus's tokens
 ([report](docs/results/replay-full-2026-11-14.md); the first 20-case pilot is
-[here](docs/results/replay-pilot-2026-11-12.md)).
+[here](docs/results/replay-pilot-2026-11-12.md)). On 30 fresh changes from five repositories no
+agent had seen, scored once, Sonnet passed 93% and Opus 87%. A working method plus a
+review-and-repair pass (`--harness protocol-review`) made no measurable difference; the task text
+did: these commit messages say what to build
+([report](docs/results/replay-fresh-2026-11-17.md)).
 
 `flywheel finish-check` is a Claude Code hook that will not let a turn end on code that was edited
 and never checked. Replay measured it: it made no measurable difference to Sonnet's pass rate, so it is offered as a

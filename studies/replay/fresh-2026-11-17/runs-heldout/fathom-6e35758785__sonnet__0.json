@@ -1,0 +1,16 @@
+{
+ "case": "fathom-6e35758785",
+ "model": "sonnet",
+ "rep": 0,
+ "seconds": 27,
+ "turns": 13,
+ "tokens": 534561,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 1,
+ "passed": false,
+ "fail_tail": "mespace Api {\\n  export const VERSION = 1;\\n}\\n\"\n        new = \"export namespace Api {\\n  export const VERSION = 2;\\n}\\n\"\n>       [sc] = changed_definitions(parse(Change(\"web/api.ts\", old, new).diff())[0], new)\n        ^^^^\nE       ValueError: not enough values to unpack (expected 1, got 0)\n\ntests/test_symbols.py:83: ValueError\n=========================== short test summary info ============================\nFAILED tests/test_symbols.py::test_function_local_variables_are_not_definitions\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 2 passed in 0.20s\n"
+}

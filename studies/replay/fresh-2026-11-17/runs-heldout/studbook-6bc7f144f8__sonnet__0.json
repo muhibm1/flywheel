@@ -1,0 +1,15 @@
+{
+ "case": "studbook-6bc7f144f8",
+ "model": "sonnet",
+ "rep": 0,
+ "seconds": 114,
+ "turns": 21,
+ "tokens": 1065591,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 6,
+ "passed": true
+}

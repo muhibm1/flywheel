@@ -1,0 +1,16 @@
+{
+ "case": "fathom-f2e56184dd",
+ "model": "sonnet+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 31,
+ "turns": 17,
+ "tokens": 541183,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

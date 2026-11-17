@@ -273,3 +273,18 @@ def test_a_crashed_first_stage_skips_the_review(repo, tmp_path):
         harness="protocol-review",
     )
     assert len(calls) == 1 and rec["agent_error"] and not rec["passed"]
+
+
+def test_a_timed_out_run_counts_as_a_failure_and_is_not_rerun(repo, tmp_path):
+    case = replay.mine(repo, since="2000-01-01")[0]
+
+    def slow(cmd, **_):
+        raise subprocess.TimeoutExpired(cmd, 1)
+
+    out = tmp_path / "o"
+    rec = replay.run_agent(repo, case, model="m", rep=0, out_dir=out, runner=slow)
+    assert rec["timed_out"] and not rec["passed"]
+    summary = replay.summarize([rec])["m"]
+    assert summary["scored"] == 1 and summary["passed"] == 0 and summary["agent_errors"] == 0
+    again = replay.run_agent(repo, case, model="m", rep=0, out_dir=out, runner=fake_agent(True))
+    assert not again["passed"]

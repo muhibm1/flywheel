@@ -1,0 +1,16 @@
+{
+ "case": "fathom-468f49dfd1",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 97,
+ "turns": 29,
+ "tokens": 1221867,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

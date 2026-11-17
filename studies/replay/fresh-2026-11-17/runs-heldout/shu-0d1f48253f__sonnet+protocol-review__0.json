@@ -1,0 +1,16 @@
+{
+ "case": "shu-0d1f48253f",
+ "model": "sonnet+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 847,
+ "turns": 19,
+ "tokens": 714833,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}
