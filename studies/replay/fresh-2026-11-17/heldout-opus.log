@@ -1,0 +1,37 @@
+fathom-f2e56184dd opus+protocol-review #0: pass 79s
+fathom-bbeff838ae opus+protocol-review #0: pass 77s
+fathom-92226d0452 opus+protocol-review #0: pass 122s
+fathom-d1d86a1451 opus+protocol-review #0: pass 82s
+fathom-468f49dfd1 opus+protocol-review #0: pass 97s
+fathom-6468720324 opus+protocol-review #0: fail 88s
+fathom-6e35758785 opus+protocol-review #0: pass 77s
+fathom-d90125a23c opus+protocol-review #0: pass 97s
+fathom-9b686f56e3 opus+protocol-review #0: pass 108s
+fathom-00e03b1121 opus+protocol-review #0: fail 159s
+fathom-9d6fa6d17e opus+protocol-review #0: pass 101s
+erp-data-platform-bdf5de5af5 opus+protocol-review #0: pass 147s
+studbook-6bc7f144f8 opus+protocol-review #0: pass 356s
+shu-ad0fb094f3 opus+protocol-review #0: pass 754s
+shu-4a3ccccadf opus+protocol-review #0: pass 716s
+shu-8bd68bd2ba opus+protocol-review #0: fail 19s
+| Model | Scored runs | Passed | Pass rate (95% interval) | Mean tokens | Mean seconds | Flagged and left out | Agent errors, left out | Finished with code checked |
+| --- | ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| opus+protocol-review | 15 | 13 | 87% (62% to 96%) | 1,108,093 | 204 | 0 | 1 | 6 of 15 edited runs |
+
+| Case | opus+protocol-review |
+| --- | --- |
+| erp-data-platform-bdf5de5af5 | 1/1 |
+| fathom-00e03b1121 | 0/1 |
+| fathom-468f49dfd1 | 1/1 |
+| fathom-6468720324 | 0/1 |
+| fathom-6e35758785 | 1/1 |
+| fathom-92226d0452 | 1/1 |
+| fathom-9b686f56e3 | 1/1 |
+| fathom-9d6fa6d17e | 1/1 |
+| fathom-bbeff838ae | 1/1 |
+| fathom-d1d86a1451 | 1/1 |
+| fathom-d90125a23c | 1/1 |
+| fathom-f2e56184dd | 1/1 |
+| shu-4a3ccccadf | 1/1 |
+| shu-ad0fb094f3 | 1/1 |
+| studbook-6bc7f144f8 | 1/1 |

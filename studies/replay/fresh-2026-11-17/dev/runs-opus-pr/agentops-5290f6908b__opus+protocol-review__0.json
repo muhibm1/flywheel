@@ -1,0 +1,17 @@
+{
+ "case": "agentops-5290f6908b",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 174,
+ "turns": 27,
+ "tokens": 1126254,
+ "agent_error": true,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "error_text": "You've hit your 5-hour limit \u00b7 resets 2pm (UTC)",
+ "files_changed": 3,
+ "passed": false
+}

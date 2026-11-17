@@ -1,0 +1,16 @@
+{
+ "case": "auspex-de701efb49",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 61,
+ "turns": 15,
+ "tokens": 714083,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

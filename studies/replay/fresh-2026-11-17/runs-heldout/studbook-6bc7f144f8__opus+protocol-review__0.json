@@ -1,0 +1,16 @@
+{
+ "case": "studbook-6bc7f144f8",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 356,
+ "turns": 33,
+ "tokens": 2040135,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 8,
+ "passed": true
+}

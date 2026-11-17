@@ -1,0 +1,2005 @@
+[
+ {
+  "repo": "verity",
+  "fix": "4a8f1dc4232e79c26ea118402cd21da63c9a30b2",
+  "parent": "aa62b0f53aeaa77eaa61dc317a3945f4f7e23b41",
+  "subject": "revert: drop the firm and possible warning tiers (never scored); answer ranges replace them",
+  "task": "revert: drop the firm and possible warning tiers (never scored); answer ranges replace them",
+  "tests": [
+   "tests/test_core.py"
+  ],
+  "code": [
+   "scripts/eval_scope.py",
+   "verity/agent.py",
+   "verity/gates.py",
+   "verity/scope.py"
+  ],
+  "lines": 87
+ },
+ {
+  "repo": "verity",
+  "fix": "025089f3f66904d4ea6666efb5bddfa0e1c0c8a4",
+  "parent": "7c9fb95da4e99d1368f659e3b99203d2f0f53945",
+  "subject": "feat: firm and possible warning tiers (draft, not yet scored blind)",
+  "task": "feat: firm and possible warning tiers (draft, not yet scored blind)",
+  "tests": [
+   "tests/test_core.py"
+  ],
+  "code": [
+   "scripts/eval_scope.py",
+   "verity/agent.py",
+   "verity/gates.py",
+   "verity/scope.py"
+  ],
+  "lines": 87
+ },
+ {
+  "repo": "verity",
+  "fix": "cc6dc6f075a5f79e5f23391faafa9385298d7c93",
+  "parent": "28ef85271dadbbbe1b2870f265080ad4b055932e",
+  "subject": "feat: checks v8 scope each warning to the figures and days a fault can change",
+  "task": "feat: checks v8 scope each warning to the figures and days a fault can change\n\nOn the 46 faults seen so far, warnings on unaffected answers fall from 256 to 105 and\nevery affected answer caught before is still caught (122 of 130).",
+  "tests": [
+   "tests/test_core.py"
+  ],
+  "code": [
+   "scripts/eval_scope.py",
+   "verity/gates.py",
+   "verity/scope.py",
+   "verity/score.py"
+  ],
+  "lines": 216
+ },
+ {
+  "repo": "verity",
+  "fix": "1139020433d8ab6e4aeb0feb6dfc10c0b8cc7504",
+  "parent": "09f0de1c9d3990c5e09abf04e17ea68b45c2c021",
+  "subject": "feat: blind fault batch, warning grader and data repairs",
+  "task": "feat: blind fault batch, warning grader and data repairs\n\n- faults_blind: six held-out faults written without reading the checks\n- notes: code check that a warning or refusal names the actual problem\n- repair: fixes diagnosed from the data (duplicate load, stale marts, renamed\n  column, unit change, decimal shift, time shift); repaired copies are\n  re-checked and the agent is told which months were repaired",
+  "tests": [
+   "tests/test_core.py"
+  ],
+  "code": [
+   "verity/agent.py",
+   "verity/faults.py",
+   "verity/notes.py",
+   "verity/questions.py",
+   "verity/repair.py",
+   "verity/report.py",
+   "verity/run.py"
+  ],
+  "lines": 498
+ },
+ {
+  "repo": "fathom",
+  "fix": "05ce6379d673e13ac48979a492c64d599369eca5",
+  "parent": "e8fff9761c808ef48d5e48e282259910b5c48826",
+  "subject": "Remove em and en dashes from output text and docs (#14)",
+  "task": "Remove em and en dashes from output text and docs (#14)",
+  "tests": [
+   "tests/test_bench.py"
+  ],
+  "code": [
+   "src/changelens/cli.py",
+   "src/changelens/verdict.py"
+  ],
+  "lines": 20
+ },
+ {
+  "repo": "fathom",
+  "fix": "a5cc83e15eebce75d1f3de7ad7086de4bef7396a",
+  "parent": "7080b9ab194e3aefb86103b81566d766685b1afa",
+  "subject": "fix: parse BigQuery COUNT(DISTINCT x WHERE ...)",
+  "task": "fix: parse BigQuery COUNT(DISTINCT x WHERE ...)",
+  "tests": [
+   "tests/test_bigquery_aggregate_filter.py"
+  ],
+  "code": [
+   "src/fathom/changes.py",
+   "src/fathom/lineage.py"
+  ],
+  "lines": 258
+ },
+ {
+  "repo": "fathom",
+  "fix": "7080b9ab194e3aefb86103b81566d766685b1afa",
+  "parent": "dcb1830a686e21160b6d0b8ff0e9ede96faba9c5",
+  "subject": "fix: sync names the missing dbt manifest and the command that builds it",
+  "task": "fix: sync names the missing dbt manifest and the command that builds it",
+  "tests": [
+   "tests/test_sync_missing_manifest.py"
+  ],
+  "code": [
+   "src/fathom/adapters/dbt.py",
+   "src/fathom/cli.py"
+  ],
+  "lines": 44
+ },
+ {
+  "repo": "fathom",
+  "fix": "1f68191c90aa82f2970ff6923de256fba6b32ec3",
+  "parent": "f6b53043c168c0e8d9627338102753c54f71fa72",
+  "subject": "docs: describe the coding agent generically",
+  "task": "docs: describe the coding agent generically",
+  "tests": [
+   "tests/test_codectx.py"
+  ],
+  "code": [
+   "src/fathom/providers.py",
+   "src/fathom/usage.py"
+  ],
+  "lines": 20
+ },
+ {
+  "repo": "fathom",
+  "fix": "1b8194bca818da97b4fa7fb307de86a0e83966ae",
+  "parent": "7355d48ba91441918ce8cef590cdb01b4f1c6312",
+  "subject": "feat(providers): a dollar cap and a ledger on every Anthropic API call",
+  "task": "feat(providers): a dollar cap and a ledger on every Anthropic API call\n\nThe anthropic provider now refuses to start unless ORION_API_CAP names a\ndollar cap, and refuses a model with no listed price. Every call goes through\nFlywheel's budget guard (flywheel.spend, pinned by commit): it is added to\n~/.orion/api-ledger.jsonl with its tokens, cache reads and list price, and\nonce the total reaches the cap every later call is refused, in that run and\nthe next. A refusal is a provider error, so a review keeps its deterministic\nfindings. The reviewer workflow runs each review under a 25-cent cap and\nprints what it spent. Tests remove the key variables and run their faked\ncalls under a one-dollar cap in a temporary ledger.",
+  "tests": [
+   "tests/test_api_cap.py",
+   "tests/test_bench.py"
+  ],
+  "code": [
+   "src/orion/providers.py",
+   "src/pipelinebench/agents.py"
+  ],
+  "lines": 158
+ },
+ {
+  "repo": "fathom",
+  "fix": "cead53330391bd66b866e401b2d9de8e56db738e",
+  "parent": "74467dcd0bcdf2ce7952f59270e26a63ca1f9025",
+  "subject": "End-to-end test of the context layer, and the integration bugs it found (#58)",
+  "task": "End-to-end test of the context layer, and the integration bugs it found (#58)\n\ntests/test_e2e.py runs the whole path on two small repositories with history:\ningest the record (git + markdown), sync the code graph across both, index code\nand record for retrieval, then call context, impact, search, read and\nfile_history over MCP on a sample change. It checks that every cited id reads\nback, the blast radius crosses into the other repository, answers fit their\nbudgets, and a repeated call is served from the cache with the same tokens.\nNo model, no network, hash embedder; about 10 s.\n\nFixed along the way (orion/agent.py unless noted):\n- Without an orion.yaml the tools never saw the code graph that\n  `orion codegraph sync --repo` writes to .orion/graph.duckdb. They now open it\n  for each call (and close it, so a sync can still write).\n- A server held the retrieval index open read-only for its whole life, which\n  DuckDB treats as a lock: `orion rag index` failed while any session was open.\n  The index now closes 5 s after the last call; the embedding model is kept.\n- The code graph was queried without the checkout's repository, so a path or\n  name could resolve in another repo; its unresolved notes came out as dict\n  reprs; files it covers were listed twice (graph edge and text-match import).\n- read of a symbol:/file:/route: id returned the platform store's generic asset\n  view instead of the code graph's dependants and dependencies.\n- One document could fill several slots with its chunks, and the same passage\n  came back twice when both the record section index and the retrieval index\n  held it. One passage per document now, and near-identical passages merge.\n- A code-graph-only store no longer counts as a data platform.\n- store.py: .orion/ gets a .gitignore, so Orion's own files never show up as\n  part of a change (they did, in impact with a base ref).",
+  "tests": [
+   "tests/test_e2e.py"
+  ],
+  "code": [
+   "src/orion/store.py"
+  ],
+  "lines": 240
+ },
+ {
+  "repo": "fathom",
+  "fix": "7ec60951fdabc75244ad11dbf14bd10ca57b833c",
+  "parent": "85182eaeb999eca7b147ec3f5568e8abc583f2cf",
+  "subject": "Agentic review: code_search tool over the change-scoped hybrid code index (#51)",
+  "task": "Agentic review: code_search tool over the change-scoped hybrid code index (#51)\n\n* feat: agent code_search tool over the hybrid, change-scoped code index (orion.rag)\n\n* fix: code_search holds the index only for one call, and uses a checkout's own index when another review holds the shared one\n\n* docs: agentic review write-up notes code_search and scopes the one-warn finding to free focus\n\n* fix: code_search skips hits past a file's end and keeps its fallback index in the user's cache, not the shared temp dir\n\n* fix: code_search says when it cuts a long block and where the block ends\n\n* fix: code_search numbers a hit's lines on newlines only, as the indexer does\n\n* fix: code_search shows each hit with at least one line, and says how many hits the output limit left out\n\n---------",
+  "tests": [
+   "tests/test_review_agent.py"
+  ],
+  "code": [
+   "src/orion/review_agent.py"
+  ],
+  "lines": 122
+ },
+ {
+  "repo": "fathom",
+  "fix": "b901a9fca7b073e82519c78168ac97a21ab6b504",
+  "parent": "d292924628ea39f2cdb3726563285bff7241876c",
+  "subject": "Agent context API: context, impact, search, read, file_history, and the harness setup (#43)",
+  "task": "Agent context API: context, impact, search, read, file_history, and the harness setup (#43)\n\n* Agent context API: context, impact, search, read and file_history over MCP, and the harness setup\n\nToken-budgeted, cited, cached tools for agents, plus orion setup harness, a plugin, a SessionStart hook and a cloud setup script.\n\n* Agent API on the retrieval core: read-only index reopened when it changes, change-scoped search seeded with this repository, index writes invalidate the cache\n\n---------",
+  "tests": [
+   "tests/test_server.py"
+  ],
+  "code": [
+   "src/orion/cli.py",
+   "src/orion/server.py"
+  ],
+  "lines": 168
+ },
+ {
+  "repo": "fathom",
+  "fix": "4f3fa1b8f752616d56fbf7a3ffff03965135f05e",
+  "parent": "3ae908fcec609ed3be576f9649d87513957b6dd0",
+  "subject": "History replay compares the escalation policies from one model run (#48)",
+  "task": "History replay compares the escalation policies from one model run (#48)\n\n* History replay compares the escalation policies from one model run\n\nUnder `--escalation model` each model warning now records `backing`: the\nsystem evidence the gate would rest on. The history replay uses it with\n`files[].mapped` to score the same reviews as `evidence` and `platform` would\nhave returned them (warnings, false alarms per week, bugs flagged, reusing the\njudge's matches), so the cal-itp model replay costs one run, not three.\n\n* Replay: a per-policy rejudge cannot overwrite the judged outcome; say where evidence lowers disproved cases\n\n---------",
+  "tests": [
+   "tests/test_history_replay.py",
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/review.py",
+   "src/pipelinebench/history_replay.py"
+  ],
+  "lines": 79
+ },
+ {
+  "repo": "fathom",
+  "fix": "833c5f7c124f92b76f022a57d54f972617e2206a",
+  "parent": "000f3a7b8e35a9a22b7e67ab54d3038bb3b55503",
+  "subject": "Platform escalation policy: gate only files mapped to a data-platform asset (#47)",
+  "task": "Platform escalation policy: gate only files mapped to a data-platform asset (#47)\n\nThe evidence gate lowers held-out warn recall from 0.615 to 0.148 because on\napp repositories Orion records almost nothing, so \"no evidence\" is ignorance,\nnot a fact. `--escalation platform` gates model findings only on files that\nresolve to a data-platform asset, where readers, constraints and incidents are\nrecorded in full, and keeps the model's severity elsewhere. The model-severity\nreplay of 26 httpx, hono and cobra changes had 0 noise warnings, which is the\nprecision evidence for app files. Review JSON `files[]` gains `mapped`.\n\nDefault stays `evidence` until the policy choice is made.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/cli.py",
+   "src/orion/config.py",
+   "src/orion/review.py"
+  ],
+  "lines": 53
+ },
+ {
+  "repo": "fathom",
+  "fix": "bbeff838ae9842808dd878a05cabc4024d2fb6eb",
+  "parent": "f2e56184ddeb64e746b995fb20dd96fe4789e775",
+  "subject": "fix: hash undecodable text after newline normalisation",
+  "task": "fix: hash undecodable text after newline normalisation\n\nA CRLF-to-LF swap in a file with a stray undecodable byte reads as no\nchange, like any other file.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py"
+  ],
+  "lines": 4
+ },
+ {
+  "repo": "fathom",
+  "fix": "f2e56184ddeb64e746b995fb20dd96fe4789e775",
+  "parent": "92226d0452df16df5a43cae58570d40538fccfd6",
+  "subject": "fix: a file with undecodable bytes carries its hash, so edits stay visible",
+  "task": "fix: a file with undecodable bytes carries its hash, so edits stay visible\n\nReplacement characters alone let two different files read alike; the\ntext now ends with a line naming the file's SHA-256 whenever the locale\ncannot decode it.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py"
+  ],
+  "lines": 13
+ },
+ {
+  "repo": "fathom",
+  "fix": "92226d0452df16df5a43cae58570d40538fccfd6",
+  "parent": "f1b170a0d4e226f7cc9cc74aa31652a456618bfe",
+  "subject": "fix: binary by NUL byte, text decoded exactly as text mode did",
+  "task": "fix: binary by NUL byte, text decoded exactly as text mode did\n\nBinary detection no longer depends on the locale: a NUL byte in the\nfirst 8000 bytes (git's own test) marks a binary, which reads as its\nSHA-256. Text keeps text mode's locale encoding and newline handling;\nan undecodable byte becomes one replacement character instead of\nstopping the run or hiding the file's content.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py"
+  ],
+  "lines": 19
+ },
+ {
+  "repo": "fathom",
+  "fix": "f1b170a0d4e226f7cc9cc74aa31652a456618bfe",
+  "parent": "d1d86a1451f5dcebc8e2235519463dcb65c42f75",
+  "subject": "fix: undecodable files read as their hash, text keeps the locale fallback",
+  "task": "fix: undecodable files read as their hash, text keeps the locale fallback\n\nReplacement characters could make two different binaries read as the\nsame text, so a real edit dropped out of review and gate. A file is now\ndecoded as UTF-8, else the locale's encoding (as text mode did), and a\nfile neither decodes reads as a line naming its SHA-256.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py"
+  ],
+  "lines": 22
+ },
+ {
+  "repo": "fathom",
+  "fix": "d1d86a1451f5dcebc8e2235519463dcb65c42f75",
+  "parent": "468f49dfd1d2c55213514f5a6b0abad51b7b46de",
+  "subject": "fix: keep newline normalisation when reading changed files as bytes",
+  "task": "fix: keep newline normalisation when reading changed files as bytes\n\nA CRLF base and an LF working tree read as the same text again, as they\ndid in text mode, so a line-ending-only change is not a full rewrite.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py"
+  ],
+  "lines": 28
+ },
+ {
+  "repo": "fathom",
+  "fix": "468f49dfd1d2c55213514f5a6b0abad51b7b46de",
+  "parent": "356fbd5f67fc9c8491fe5554eb0265dfbdd02d0b",
+  "subject": "fix: a binary file in the diff no longer stops review and gate",
+  "task": "fix: a binary file in the diff no longer stops review and gate\n\ngit_changes decoded every changed file as strict UTF-8, so one image or\nfont in a branch made orion gate and orion review crash with a\nUnicodeDecodeError (seen on a web app change). Files are now read as bytes\nand decoded with replacement characters.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py"
+  ],
+  "lines": 28
+ },
+ {
+  "repo": "fathom",
+  "fix": "90afb39e5b698dd2beb73fc8b05ace7688930f52",
+  "parent": "6cb3707eb2f87ee31cc4daee5f0a133a49312801",
+  "subject": "Verdict history: incidents and same-kind events only (#31)",
+  "task": "Verdict history: incidents and same-kind events only (#31)\n\n* Verdict history: keep incidents and same-kind events, move the rest to background\n\nUnrelated failed runs and missed SLAs on a touched asset were listed beside\nincidents, and the PipelineBench agents cited them as reasons to add checks\nto safe changes. Incident recency now counts only the same kind of change,\nand a repartition to the existing key is a no-op.\n\n* Read incidents apart from operational events so a run of failures cannot crowd them out\n\n* Read each history kind with its own limit so failed runs cannot crowd out a same-kind missed SLA\n\n* A cause matches an op kind of the same name when no family is listed\n\n* Read same-kind events by cause, so newer events of the same kind cannot crowd them out\n\n* Match causes case-insensitively in the store query too\n\n---------",
+  "tests": [
+   "tests/test_preflight.py"
+  ],
+  "code": [
+   "src/orion/risk.py",
+   "src/orion/store.py",
+   "src/orion/verdict.py"
+  ],
+  "lines": 147
+ },
+ {
+  "repo": "fathom",
+  "fix": "6cb3707eb2f87ee31cc4daee5f0a133a49312801",
+  "parent": "3203e9b2508c9ea4394f6bcaf1853eda6cfec04f",
+  "subject": "Stop unmapped-path warnings on app repos, renames and removed schema entries (#32)",
+  "task": "Stop unmapped-path warnings on app repos, renames and removed schema entries (#32)\n\n* Stop unmapped-path warnings on application repos, renames and removed schema entries\n\nReplaying 41 merged changes from cal-itp, httpx, hono and cobra with the\ndeterministic review: every httpx/hono/cobra change was rated warn with no\nfinding, because an orion.yaml with no platform adapter left every file\nunmapped. Renamed files lost their old text, and a schema entry removed with\nits model's SQL file was reported as unmapped.\n\n* Settle a removed schema entry only beside its SQL file; keep the paths source when all are ignored\n\n---------",
+  "tests": [
+   "tests/test_preflight.py",
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py",
+   "src/orion/cli.py"
+  ],
+  "lines": 144
+ },
+ {
+  "repo": "fathom",
+  "fix": "ce516353bea4644b35fe17aab8d2e4bb1848d306",
+  "parent": "ae5203f0bbad444e564e96711c80c9f11c977c62",
+  "subject": "Review and pre-flight diff from where the branch left the base, not the base's tip (#29)",
+  "task": "Review and pre-flight diff from where the branch left the base, not the base's tip (#29)\n\nA PR opened before main moved on was reviewed against the new main, so main's own later\ncommits appeared as the PR reverting them (seen on #28 after #27 merged). --git now\ndiffs from git merge-base, like 'git diff base...'.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/changes.py",
+   "src/orion/review.py"
+  ],
+  "lines": 38
+ },
+ {
+  "repo": "fathom",
+  "fix": "ae5203f0bbad444e564e96711c80c9f11c977c62",
+  "parent": "fa5c146ab2f0d5aa92f1b19b173114a4f36aca8b",
+  "subject": "Keep earlier model findings open when the model is unavailable (#28)",
+  "task": "Keep earlier model findings open when the model is unavailable (#28)\n\nA review whose model call failed (for example, an exhausted API balance) marked every earlier\nmodel finding as no longer raised and replied on each thread. They are now kept in state and\nlisted as not re-checked; only deterministic findings can be resolved by such a run.",
+  "tests": [
+   "tests/test_github.py"
+  ],
+  "code": [
+   "src/orion/github.py"
+  ],
+  "lines": 26
+ },
+ {
+  "repo": "fathom",
+  "fix": "afce436cf5bdba8a0a2b63b4d97728b2aca85b0b",
+  "parent": "6468720324287f5e53452da2028182532b7e4800",
+  "subject": "Skip unparseable DAG files; type Go tuple bindings; bare calls match free functions only (#26)",
+  "task": "Skip unparseable DAG files; type Go tuple bindings; bare calls match free functions only (#26)\n\n* Skip unparseable DAG files with a note; type Go tuple bindings; bare calls match only free functions\n\nA DAG file with a syntax error or a non-UTF-8 encoding no longer aborts the Airflow sync:\nit is skipped and named in the sync notes. Go's c, err := newClient() now types c from\nthe function's first result, and a call with no receiver is typed only by a free\nfunction, never by a method of another class in the same file.\n\n* Type only the first name of a tuple binding from the call's result\n\n---------",
+  "tests": [
+   "tests/test_airflow.py",
+   "tests/test_symbols.py"
+  ],
+  "code": [
+   "src/orion/adapters/airflow.py",
+   "src/orion/symbols.py"
+  ],
+  "lines": 60
+ },
+ {
+  "repo": "fathom",
+  "fix": "6468720324287f5e53452da2028182532b7e4800",
+  "parent": "28027a167638ba865e37cf5827d7af75147652f6",
+  "subject": "PipelineBench: refuse an empty graph for the rag and orion conditions (#25)",
+  "task": "PipelineBench: refuse an empty graph for the rag and orion conditions (#25)\n\n* PipelineBench: refuse to run graph-reading conditions on an empty graph\n\nA full run from a fresh worktree gave the rag and orion conditions nothing,\nbecause the worktree's graph was never synced, and still wrote a results\nfile. That run measured nothing for those conditions.\n\n* Expand 'all' anywhere in --condition and refuse unknown condition names\n\n---------",
+  "tests": [
+   "tests/test_bench.py"
+  ],
+  "code": [
+   "src/pipelinebench/cli.py"
+  ],
+  "lines": 35
+ },
+ {
+  "repo": "fathom",
+  "fix": "28027a167638ba865e37cf5827d7af75147652f6",
+  "parent": "73b64095d08228d3cebeef703695756d0c5e4cc0",
+  "subject": "Review any repository without orion.yaml (#24)",
+  "task": "Review any repository without orion.yaml (#24)\n\n* Review any repository without orion.yaml; drop model findings that repeat a credential block\n\nA clean install showed orion review refused to run without orion.yaml, so\nthe baseline (review any diff) needed platform config. With no config it\nnow reviews with an empty graph and every path outside the platform, and\nsays so. A live run also showed the model repeating the credential scan's\nblock on the same line; that repeat is dropped.\n\n* Review: a model repeat of the credential block is rejected with a note, not dropped; narrower match\n\n---------",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/cli.py",
+   "src/orion/review.py"
+  ],
+  "lines": 66
+ },
+ {
+  "repo": "fathom",
+  "fix": "73b64095d08228d3cebeef703695756d0c5e4cc0",
+  "parent": "18aa401fd164853b833706dca7112a90a7694b09",
+  "subject": "PipelineBench: model agent through Orion's provider, no SDK (#23)",
+  "task": "PipelineBench: model agent through Orion's provider, no SDK (#23)\n\n* PipelineBench: run the model agent through Orion's provider, drop the SDK, record token use\n\nThe benchmark agent called the anthropic SDK, which is not installed and\nwhich CLAUDE.md keeps out of review logic. It now uses AnthropicProvider\nwith a decision schema; a provider error is graded as a proceed so an\noutage cannot look safe; token use is summed into the results file.\n\n* PipelineBench: count provider errors and print them with token use in the report\n\n---------",
+  "tests": [
+   "tests/test_bench.py"
+  ],
+  "code": [
+   "src/pipelinebench/agents.py",
+   "src/pipelinebench/runner.py"
+  ],
+  "lines": 72
+ },
+ {
+  "repo": "fathom",
+  "fix": "18aa401fd164853b833706dca7112a90a7694b09",
+  "parent": "0fb2a7011ae9a30f6f57687f73c0a7d3cda5a46e",
+  "subject": "Post-flight on real dbt builds, and two fixes it exposed (#22)",
+  "task": "Post-flight on real dbt builds, and two fixes it exposed (#22)\n\n* Post-flight on real dbt builds; ignore run history and build output in diffs; merge an intent op the diff already shows\n\nA real dbt build loop (break, fail, revert, safe change, three clean builds)\ngave failed and clean outcomes as predicted. It also exposed two defects,\nfixed here with tests.\n\n* Match ignore globs as globs; merge an intent op whose details the diff's op already carries\n\n* Compare intent details by value, so list values cannot raise\n\n---------",
+  "tests": [
+   "tests/test_preflight.py"
+  ],
+  "code": [
+   "src/orion/changes.py",
+   "src/orion/cli.py"
+  ],
+  "lines": 75
+ },
+ {
+  "repo": "fathom",
+  "fix": "0fb2a7011ae9a30f6f57687f73c0a7d3cda5a46e",
+  "parent": "1f3e4f8756943ffa244082bd97ce0fc659ea9e1b",
+  "subject": "Airflow: read gusty YAML DAGs and DAG subfolders (#21)",
+  "task": "Airflow: read gusty YAML DAGs and DAG subfolders (#21)\n\n* Results: cal-itp Airflow coverage after reading gusty DAGs\n\n* Results: cal-itp review with a model, one warning confirmed by the next upstream commit\n\n* Airflow: keep same-named task files in different task groups; tolerate odd dependency shapes\n\n* Airflow: note a DAG id defined by both a Python file and a gusty folder\n\n---------",
+  "tests": [
+   "tests/test_airflow.py",
+   "tests/test_preflight.py"
+  ],
+  "code": [
+   "src/orion/adapters/airflow.py",
+   "src/orion/changes.py",
+   "src/orion/sync.py",
+   "src/orion/verdict.py"
+  ],
+  "lines": 323
+ },
+ {
+  "repo": "fathom",
+  "fix": "1f3e4f8756943ffa244082bd97ce0fc659ea9e1b",
+  "parent": "d8a9aeb4768be630153cb7516c50e37caef37d1d",
+  "subject": "Symbols: type receivers by fields and declared return types (#20)",
+  "task": "Symbols: type receivers by fields and declared return types (#20)\n\n* Symbols: type receivers by field declarations and declared returns\n\nA removed method's callers were linked only when the receiver was the class,\na construction of it, or a name annotated or constructed in the same\nfunction. Now a field of self/this (or of a Go method's receiver) is typed by\nits declaration, constructor parameter or assignment, and a name bound to a\ncall is typed by the return type the called function declares in that file.\nConflicting declarations leave the type unknown. On httpx, hono and cobra\npartner commits this types 10 more references and links none falsely.\n\n* Symbols: look up a field's parameter type only in its own function\n\n* Symbols: look up self/this members in the enclosing class only\n\n---------",
+  "tests": [
+   "tests/test_symbols.py"
+  ],
+  "code": [
+   "src/orion/symbols.py"
+  ],
+  "lines": 141
+ },
+ {
+  "repo": "fathom",
+  "fix": "6e3575878515c4855d29b1255ac83640f2826dcd",
+  "parent": "d90125a23c65041adf4d976565b2121a85bf9a97",
+  "subject": "Symbols: an indented export const still counts as a definition",
+  "task": "Symbols: an indented export const still counts as a definition",
+  "tests": [
+   "tests/test_symbols.py"
+  ],
+  "code": [
+   "src/orion/symbols.py"
+  ],
+  "lines": 8
+ },
+ {
+  "repo": "fathom",
+  "fix": "d90125a23c65041adf4d976565b2121a85bf9a97",
+  "parent": "fecc6c53642bf34596b3ddf6ba14f49841156427",
+  "subject": "Symbols: function-local JS/TS variables are not definitions; partner run on hono and cobra",
+  "task": "Symbols: function-local JS/TS variables are not definitions; partner run on hono and cobra\n\nA design partner pass over 8 hono (TypeScript) and 8 cobra (Go) merged\nchanges listed function-local `const res = ...` lines as changed\ndefinitions, each with up to 50 unrelated references. A JS/TS\nconst/let/var now counts as a definition only at module level.\n\nResults of the pass, with Sonnet reviewing against commit messages, are in\npipelinebench/results/partner-hono-cobra-sonnet-5-5.md.",
+  "tests": [
+   "tests/test_symbols.py"
+  ],
+  "code": [
+   "src/orion/symbols.py"
+  ],
+  "lines": 78
+ },
+ {
+  "repo": "fathom",
+  "fix": "04b51fce13dd1e39f201bff05dda36f647755e0c",
+  "parent": "f7b723b1eb69cd97d16eaaafaab35809b5c2900d",
+  "subject": "Review: a removed method called on a receiver typed as its class is a finding (#14)",
+  "task": "Review: a removed method called on a receiver typed as its class is a finding (#14)\n\n* Review: a removed method called on a receiver typed as its class is linked\n\nA removed or re-signed method now carries its owner (the class, impl,\ntrait or module it sits in; the receiver type for Go). A member access in\nanother file is linked when that file types the receiver as the owner, from\nan annotation, a construction or a Go parameter, and the owner resolves to\nthe definition's module through the same import resolution as names. A\nreceiver typed as another class is reported to the model as not this\ndefinition; an untyped one stays a fact that may or may not be.\n\nTypeScript class methods are now recognised as definitions, and a file in\nanother language is never taken to import the definition.\n\nTwo hand-written eval cases cover a typed caller elsewhere and an unrelated\nobject with its own method; Haiku 5.5 and Sonnet 5.5 both score recall 1.0\nwith 0 false alarms on them.\n\n* Symbol references: a receiver's type is read between its enclosing definition and the access\n\nA binding such as `c: Client` in one function no longer types `c` in\nevery other function of the file; the nearest binding above the access,\ninside the enclosing definition, wins.\n\n* Symbol references: the TypeScript method pattern excludes more statement keywords; lines are split once per file\n\n`with`, `else`, `super`, `await` and the like no longer read as a method\ndefinition, and receiver typing reuses the file's split lines instead of\nsplitting the text per occurrence.\n\n* Symbol references: receivers are typed only when the definition has a class to compare with\n\n---------",
+  "tests": [
+   "tests/test_symbols.py"
+  ],
+  "code": [
+   "src/orion/review.py",
+   "src/orion/symbols.py"
+  ],
+  "lines": 474
+ },
+ {
+  "repo": "fathom",
+  "fix": "f7b723b1eb69cd97d16eaaafaab35809b5c2900d",
+  "parent": "56316c012270e6e5e076c3278f935de31ffab461",
+  "subject": "Review: resolve imports of a changed name to the module they name (#13)",
+  "task": "Review: resolve imports of a changed name to the module they name (#13)\n\n* Review: resolve an import of a changed name to the module it names\n\nfrom other.http import fetch, a relative import from another package,\nimport { fetch } from \"./http\" in a different directory, and\nuse crate::other::fetch no longer count as importing the changed\ndefinition: the reference is scoped imports_other and reaches the model\nas a fact instead of the deterministic finding. Relative imports are\nresolved against the importing file; absolute ones match by trailing\nsegments since the import root is not known.\n\n* Symbol references: a wildcard import of the changed module links its uses\n\nfrom app.http import * and use crate::http::* bind the name when they\nresolve to the definition's module, so a bare call in such a file is a\nlinked reference. Carried over from the last self-review round on #11.\n\n* Symbol references: a definition in a package file is imported by the package's name\n\napp/__init__.py, lib/index.ts and http/mod.rs stand for their directory,\nso from app import fetch and import { fetch } from \"./lib\" resolve to\nthem. Raised by Orion's own review of #13.\n\n* Symbol references: an import that names no module keeps counting as an import of the symbol\n\nA file whose binding import cannot be resolved (Go, Ruby, or a shape the\nparser does not handle) is scoped imports_it even when another import in\nthe same file resolves elsewhere. Raised by Orion's own review of #13.\n\n* README: say how imports are resolved\n\n* Symbol references: Rust super and self resolve against the importing file's own module\n\n`use super::x` and `use self::x` now resolve relative to the module the\nimporting file belongs to (a file is its own module; mod.rs stands for its\ndirectory), instead of the file's parent directory.\n\n* Symbol references: wildcard imports are checked before an import from elsewhere settles the scope; `import x as name` names module x\n\nA file with `from other import fetch` and `from app.http import *` may\nrebind fetch to ours, so the wildcard source is resolved before the named\nimport from elsewhere demotes the file to imports_other. A Python\n`import x as fetch` now carries module x as its source instead of counting\nas an unsourced (fail-open) import of fetch.\n\n* Symbol references: `import x as name` binds a module, not a name from one\n\nA plain import aliased to the symbol's name is no longer an import of the\nsymbol. Calls through the alias (`fetch.fetch()` after `import app.http\nas fetch`) are still linked via the module-qualified path.\n\n---------",
+  "tests": [
+   "tests/test_symbols.py"
+  ],
+  "code": [
+   "src/orion/review.py",
+   "src/orion/symbols.py",
+   "src/orion/syntax.py"
+  ],
+  "lines": 183
+ },
+ {
+  "repo": "fathom",
+  "fix": "5f718ac56736b18972bf07bcdad9358c6e4fccd4",
+  "parent": "6ac71ad33f15c4e7fc956c0eea458bfe0c7a06ec",
+  "subject": "feat: the record, Studbook's search over the projects' written record, inside Orion",
+  "task": "feat: the record, Studbook's search over the projects' written record, inside Orion\n\nPort of studbook-agent's no-model search (BM25 over design notes, decisions, retros and\nmy build pipeline's lessons, ledger and runs) into a stdlib-only orion.record package, with\npython3 -m orion.record and orion record commands and the search_record and read_record\nMCP tools under the same names and section ids agents already use. Step 1 of making\nOrion the one context layer; Studbook is unchanged until it is retired.",
+  "tests": [
+   "tests/test_server.py"
+  ],
+  "code": [
+   "src/orion/cli.py",
+   "src/orion/server.py"
+  ],
+  "lines": 74
+ },
+ {
+  "repo": "fathom",
+  "fix": "00e03b11219d6de6cae27cdc4e1c9c268b3cb8d8",
+  "parent": "e3be7a4cd903780806a409ae6afcf07283e26d7e",
+  "subject": "review eval: precision per bug, not per finding",
+  "task": "review eval: precision per bug, not per finding\n\nOrion's review of this PR pointed out that several warn findings on one bug\neach counted as a true positive, inflating precision (0.938 on the baseline).\nPrecision is now caught bugs / (caught bugs + false alarms), and duplicate\nfindings are reported on their own. The baseline is regraded from its saved\nrows (0.905), with no new model calls.",
+  "tests": [
+   "tests/test_review_eval.py"
+  ],
+  "code": [
+   "src/pipelinebench/review_eval.py"
+  ],
+  "lines": 20
+ },
+ {
+  "repo": "fathom",
+  "fix": "9b686f56e35675a60a1fd13662a42028ab6954d8",
+  "parent": "2e4df20121b3f3a51a502cb104904105a8184ec7",
+  "subject": "review: stop rejecting findings in dotfile paths",
+  "task": "review: stop rejecting findings in dotfile paths\n\nPath normalisation used str.lstrip(\"./\"), which strips characters, not a\nprefix, so .github/workflows/x.yml became github/workflows/x.yml and every\nmodel finding on a workflow, .gitignore or other dotfile was rejected as\noutside the diff. On PR #1 that dropped three real workflow findings per run.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/review.py"
+  ],
+  "lines": 33
+ },
+ {
+  "repo": "fathom",
+  "fix": "605a983a9ee4d977fb01571c5548bcd922c110cb",
+  "parent": "daa436d9caae24139a3744bdb4b8f3a3b235c3c6",
+  "subject": "review: write the PR comment outside the checkout; structured errors from the review tool",
+  "task": "review: write the PR comment outside the checkout; structured errors from the review tool\n\nOrion's first model review of this PR flagged two real issues. The workflow\nwrote review.md into the checkout before reviewing, and the review includes\nuntracked files, so the comment reviewed its own output; it now writes to\nRUNNER_TEMP. The MCP review tool let a bad ref or diff escape as an\nunstructured error; it now returns {ok: false, error}.",
+  "tests": [
+   "tests/test_server.py"
+  ],
+  "code": [
+   "src/orion/server.py"
+  ],
+  "lines": 14
+ },
+ {
+  "repo": "fathom",
+  "fix": "daa436d9caae24139a3744bdb4b8f3a3b235c3c6",
+  "parent": "2e4df20121b3f3a51a502cb104904105a8184ec7",
+  "subject": "Add a review MCP tool and a PR review comment workflow",
+  "task": "Add a review MCP tool and a PR review comment workflow\n\nThe review that ran only from the CLI is now available to agents over MCP\n(`review`, on a base ref or a unified diff) and to pull requests through\norion-review.yml, which posts the markdown review as one comment and edits\nit on each push. Model findings run when the ORION_ANTHROPIC_API_KEY repo\nsecret is set; otherwise the comment carries deterministic findings and\nsays how to turn the model on. The workflow is advisory and never fails\nthe PR.",
+  "tests": [
+   "tests/test_server.py"
+  ],
+  "code": [
+   "src/orion/server.py"
+  ],
+  "lines": 119
+ },
+ {
+  "repo": "fathom",
+  "fix": "9d6fa6d17ef5b110b7b6640494588f59bb313bf2",
+  "parent": "dac972865f7e0493662aaa08e74e15d0b48d120e",
+  "subject": "review: keep model findings that point at a diff line; report token usage",
+  "task": "review: keep model findings that point at a diff line; report token usage\n\nThe first live run (Sonnet 5.5) found the real bug in a changed net_amount\nexpression (a percentage subtracted as an amount), but the dedupe step\ndropped it because it also cited the firing constraint CON-031. A model\nfinding now counts as a duplicate of a deterministic one only when it cites\nthe constraint and no hunk, i.e. when it restates the constraint and adds\nnothing. Pre-flight facts sent to the model now include each op's from/to\nexpression, and the review output carries the provider's token usage.",
+  "tests": [
+   "tests/test_review.py"
+  ],
+  "code": [
+   "src/orion/cli.py",
+   "src/orion/providers.py",
+   "src/orion/review.py"
+  ],
+  "lines": 16
+ },
+ {
+  "repo": "marginalia",
+  "fix": "ae641c0f75afd0856c2b773326acb3fab0b7fae0",
+  "parent": "ac7b985f232ef3b94be36328b3cdce1c1dd41322",
+  "subject": "Use American spelling in prose and comments (#3)",
+  "task": "Use American spelling in prose and comments (#3)",
+  "tests": [
+   "tests/test_access.py",
+   "tests/test_retrieve.py"
+  ],
+  "code": [
+   "sourcelens/bm25.py",
+   "sourcelens/cli.py",
+   "sourcelens/embed.py",
+   "sourcelens/eval/access.py",
+   "sourcelens/retrieve.py"
+  ],
+  "lines": 36
+ },
+ {
+  "repo": "marginalia",
+  "fix": "ac7b985f232ef3b94be36328b3cdce1c1dd41322",
+  "parent": "d8f0f52b30436deaa275d11b3ec809c4bf471a22",
+  "subject": "chore: rename to SourceLens",
+  "task": "chore: rename to SourceLens",
+  "tests": [
+   "tests/test_access.py",
+   "tests/test_answers.py",
+   "tests/test_chunking.py",
+   "tests/test_cli_guards.py",
+   "tests/test_freshness.py",
+   "tests/test_gold_metrics.py",
+   "tests/test_retrieve.py",
+   "tests/test_store.py"
+  ],
+  "code": [
+   "scripts/draft_gold.py",
+   "scripts/rank_variants.py",
+   "sourcelens/__init__.py"
+  ],
+  "lines": 160
+ },
+ {
+  "repo": "erp-data-platform",
+  "fix": "bdf5de5af5457fe956d00ac1a9259fb4a9b7cda4",
+  "parent": "8392a9092fbb3b3f7097ed633d3a9539be314be6",
+  "subject": "Walkthrough: label step 4 by what ran, run it in CI (#26)",
+  "task": "Walkthrough: label step 4 by what ran, run it in CI (#26)",
+  "tests": [
+   "engagement/tests/test_walkthrough.py"
+  ],
+  "code": [
+   "engagement/walkthrough.py"
+  ],
+  "lines": 58
+ },
+ {
+  "repo": "erp-data-platform",
+  "fix": "0dc816d9b2c7ecd65746227e43fe075cc0ae896a",
+  "parent": "f4ac081bbac92596f7ca42c19f1b83979adc8fc8",
+  "subject": "fix: grant SET on the reader role on Postgres 16; step 4 says what the drill shows",
+  "task": "fix: grant SET on the reader role on Postgres 16; step 4 says what the drill shows",
+  "tests": [
+   "tests/test_units.py"
+  ],
+  "code": [
+   "analyst/ads/simulate.py",
+   "clearledger/ask.py",
+   "engagement/walkthrough.py"
+  ],
+  "lines": 32
+ },
+ {
+  "repo": "erp-data-platform",
+  "fix": "b8fdf9dc029becec0544eee5889b3d2405bd8afd",
+  "parent": "dd48b70a681ee65f0b30d15e0b71db41842ec4aa",
+  "subject": "feat: engagement walkthrough command",
+  "task": "feat: engagement walkthrough command",
+  "tests": [
+   "analyst/tests/test_walkthrough_step.py",
+   "engagement/tests/test_walkthrough.py"
+  ],
+  "code": [
+   "engagement/__main__.py",
+   "engagement/analyst_step.py",
+   "engagement/walkthrough.py"
+  ],
+  "lines": 473
+ },
+ {
+  "repo": "erp-data-platform",
+  "fix": "0042380abcb0bc4c4de74bad81161dba45b6264f",
+  "parent": "c45b1918d186be8dcc2d3e87d29c662bb703c40c",
+  "subject": "Close two ways an agent's query could get round the read-only role and the privacy rule; run the analyst's tests in CI (#7)",
+  "task": "Close two ways an agent's query could get round the read-only role and the privacy rule; run the analyst's tests in CI (#7)\n\n- One check, edp.ask.unsafe_function, now refuses server functions that change settings (set_config could switch back to the admin role), read files, or run SQL from text (query_to_xml and its relatives). It matches names however they are written. The analyst also checks the function names it parses.\n- CI runs the analyst's tests against the finance warehouse and the ads demo, in their own environment. Installed on top of dbt, the analyst's pins pulled in a protobuf that dbt cannot run with.\n- The model command is configurable, and the eval's provider is now named cli.\n- An unused import and an unused variable are gone.",
+  "tests": [
+   "analyst/tests/test_analyst.py",
+   "tests/test_ask.py",
+   "tests/test_units.py"
+  ],
+  "code": [
+   "analyst/ask.py",
+   "analyst/eval/run.py",
+   "analyst/model.py",
+   "analyst/sql.py",
+   "eval/run.py"
+  ],
+  "lines": 136
+ },
+ {
+  "repo": "erp-data-platform",
+  "fix": "95bd13b14bd894cfcdb0dea03aaff11269f3303d",
+  "parent": "2a810ccd81ccf6744eb36177fbfb98a159ed3b8f",
+  "subject": "refactor: rename the project to erp-data-platform and the command to edp",
+  "task": "refactor: rename the project to erp-data-platform and the command to edp",
+  "tests": [
+   "tests/test_units.py",
+   "tests/test_warehouse.py"
+  ],
+  "code": [
+   "eval/build.py"
+  ],
+  "lines": 60
+ },
+ {
+  "repo": "studbook",
+  "fix": "33225e541921ef3e0d4ef71172f22262bb5b3ab0",
+  "parent": "6cc0beb46e94c93d7e17bfa1e26e1d0fffc44869",
+  "subject": "Refresh single documents in the local record (--only) (#15)",
+  "task": "Refresh single documents in the local record (--only) (#15)\n\nlocalrecord.sync gains --only PATH: the same parse, chunk and embed steps as a full sync, applied to the named files, so WorkHorse 0.6.1's streaming indexer leaves the record as a full sync would. Search ties are broken by passage id.",
+  "tests": [
+   "tests/test_localrecord.py"
+  ],
+  "code": [
+   "localrecord/retrieve.py",
+   "localrecord/sync.py"
+  ],
+  "lines": 202
+ },
+ {
+  "repo": "studbook",
+  "fix": "eeb05478cf82849d54748fe290a60c665066aeea",
+  "parent": "e85d213d657bc9f7e5ec78a9ecbc975e74ac6cab",
+  "subject": "feat(ingest): brief, ship and review doc types for WorkHorse 0.3",
+  "task": "feat(ingest): brief, ship and review doc types for WorkHorse 0.3\n\nMigration 0003 widens documents_doc_type_check to 21 values (the 18 of 0002\nverbatim plus brief, ship, review); applied with --migrations-only to production\nand the test project and read back from both catalogs. The tier is read from\nbrief.md's \"Risk tier: N\" line, falling back to intent.md for older changes.\nPaddock's parser carries the identical rules; paired tests prove parity.",
+  "tests": [
+   "tests/test_parser.py"
+  ],
+  "code": [
+   "ingest/parser.py"
+  ],
+  "lines": 114
+ },
+ {
+  "repo": "studbook",
+  "fix": "1a7cc0b99a483e5b997026ce2b48e7dc22799291",
+  "parent": "e5407e92278c36427ec5c503d9785d956b8f5ef9",
+  "subject": "feat: changelogs are documents; fix a migration runner that skipped every migration after 0001",
+  "task": "feat: changelogs are documents; fix a migration runner that skipped every migration after 0001\n\nChangelogs: the parser reads CHANGELOG.md at a repository's root or one folder down as\ndoc_type 'changelog' (migration 0002 widens the check, all 17 existing values kept\nverbatim). Retrieval now finds the release-order entry wh-15 needed at rank 1; the\nmodel still answers it wrong in five runs, so it is a generation failure with the\nevidence present. Dev recall/coverage/precision unchanged, MRR 0.6385 -> 0.6282,\nmeasured on the test project first and reproduced exactly on production.\n\nA latent bug the first second migration exposed: backfill_if_already_applied, a\none-time recovery for 0001, matched every unrecorded migration once the documents\ntable existed, so 0002 was recorded as applied on both projects without running. Now\n0001-only, with a test; the two false ledger rows were removed and 0002 applied for\nreal (constraint read back from the catalog: 18 values).\n\nbootstrap_db gains --migrations-only, so a schema change never rotates role passwords\n(Paddock keeps its own encrypted copy of the reader's connection string); production\nconnection strings fingerprinted before and after -- unchanged.",
+  "tests": [
+   "tests/test_bootstrap_db.py",
+   "tests/test_parser.py"
+  ],
+  "code": [
+   "ingest/parser.py",
+   "store/bootstrap_db.py"
+  ],
+  "lines": 146
+ },
+ {
+  "repo": "studbook",
+  "fix": "e5407e92278c36427ec5c503d9785d956b8f5ef9",
+  "parent": "73939b1a97379a97e10ce1cc590f72882cc06772",
+  "subject": "fix(store): bootstrap_db --target test, so a test project cannot overwrite production",
+  "task": "fix(store): bootstrap_db --target test, so a test project cannot overwrite production\n\nbootstrap_db.py had one hard-coded table of env var names, so following docs/ci.md\nagainst a test project would have replaced the production connection strings with the\ntest project's. `--target test` reads STUDBOOK_TEST_ADMIN_DATABASE_URL and writes only\nSTUDBOOK_TEST_DATABASE_URL / STUDBOOK_TEST_INGEST_DATABASE_URL, and refuses if its admin\nconnection names the same Supabase project as the production reader. Tests hold that\nthe two targets share no variable and that the test names are the ones CI reads.\n\nUsed to stand up studbook-test (gnvyiwbvogneyhjypdct): migrations applied, roles\ncreated, RLS on, 175 documents / 530 passages ingested, secrets set. Verified after:\nproduction variables still point at the production project.\n\nAlso fixes a variable shadowed by the policy-printing loop, which crashed the run's\nlast line after every step had succeeded.",
+  "tests": [
+   "tests/test_bootstrap_db.py"
+  ],
+  "code": [
+   "store/bootstrap_db.py"
+  ],
+  "lines": 122
+ },
+ {
+  "repo": "studbook",
+  "fix": "d835f2e152782b5e4f77dbc856f65bbea850b7e6",
+  "parent": "747e0b8863e1ebd46a28031c4774f55dd2bf0d32",
+  "subject": "fix(retrieve): a scoped vector search could return nothing at scale",
+  "task": "fix(retrieve): a scoped vector search could return nothing at scale\n\nSupabase's performance advisor flagged the HNSW index as never used. That is correct\nat ~500 passages (a sort is cheaper), and the index is still eligible for the\nproduction query. But forcing the index path showed the scope filter is applied after\nHNSW returns ef_search (40) candidates: workhorse passages nearest a paddock-demo\npassage came back 0 of 20. pgvector 0.8.2's hnsw.iterative_scan = strict_order returns\n20 of 20 in exact order.\n\nstore/connect.py READER_SESSION now sets both the search path and the iterative scan,\nand prepare_session() replaces twenty hand-written copies of the search-path statement,\nnone of which could have carried the new setting. A live test forces the index path and\nasserts every result comes back, with a control run proving it reached that path.\nDev eval unchanged to four places; 218 tests pass with credentials.\n\nAlso corrects store/connect.py's \"silent ... for months\" (it was the project's first\ntwo days).",
+  "tests": [
+   "tests/test_connect.py",
+   "tests/test_hybrid.py"
+  ],
+  "code": [
+   "api/main.py",
+   "cli.py",
+   "eval/ceiling.py",
+   "eval/check_answers.py",
+   "eval/coverage.py",
+   "eval/decompose.py",
+   "eval/diversity.py",
+   "eval/dual_query.py",
+   "eval/expand.py",
+   "eval/hyde.py",
+   "eval/rewrite.py",
+   "eval/run.py",
+   "eval/run_generation.py",
+   "eval/scale_benchmark.py",
+   "eval/thread_answers.py",
+   "eval/threads.py",
+   "eval/unrelated.py",
+   "gate/dump_python_side.py",
+   "ingest/sync.py",
+   "store/connect.py"
+  ],
+  "lines": 161
+ },
+ {
+  "repo": "studbook",
+  "fix": "06d5117518f5f2392d9e1868d61e9bde2cf06afa",
+  "parent": "add3ebd55b72c2753c8c318a3504ce902c130b47",
+  "subject": "fix: bootstrap_db imports on Linux; pin CI actions to commit shas",
+  "task": "fix: bootstrap_db imports on Linux; pin CI actions to commit shas\n\nThe first Linux CI run could not import store/bootstrap_db.py: it imported the\nWindows-only winreg at module level. It is now imported where a generated password is\nstored in a Windows user environment variable, and off Windows that step refuses with a\nmessage rather than falling back to printing or writing the password. Test added.\n\nCI's actions move to their current majors (the Node 20 runtime is deprecated) and are\npinned to full commit shas, since a tag can be moved after review. test_ci_workflow.py\nnow fails on an unpinned action.",
+  "tests": [
+   "tests/test_bootstrap_db.py",
+   "tests/test_ci_workflow.py"
+  ],
+  "code": [
+   "store/bootstrap_db.py"
+  ],
+  "lines": 61
+ },
+ {
+  "repo": "studbook",
+  "fix": "0433648d75e9597f09a678e10ffb6604eba6d6c5",
+  "parent": "ab6ca7a04be88dafbdbbab9dd129fc95280087bb",
+  "subject": "ci: lint, unit tests, dependency audit on every push; live suite by hand, test project only",
+  "task": "ci: lint, unit tests, dependency audit on every push; live suite by hand, test project only\n\n.github/workflows/ci.yml. `checks` runs with no credentials: ruff (pyflakes rules and\nsyntax errors), the unit suite with an asserted floor on tests actually run (181 run,\n30 live tests skip), and pip-audit. `live` runs only when dispatched, reads\nSTUDBOOK_TEST_* secrets with no fallback to production, fails if any is missing, and\nfails if any test skips. No test project exists yet; docs/ci.md says how to make one.\n\nWhat it found on the way in:\n- ruff: eval/ceiling.py printed an undefined name on its last line, so it crashed after\n  computing everything whenever a question's gold passage was never retrieved (always,\n  on dev). Fixed; the tool now finishes and names version-06 and version-14.\n- pip-audit: 66 advisories. transformers 4.42.4 -> 5.17.0 and sentence-transformers\n  3.0.1 -> 6.1.0 (the old import regression no longer reproduces); torch 2.4.1 -> 2.8.0,\n  bisected as the newest build that loads on this machine. Outputs identical (embedding\n  diff 0.0, rerank diff 1.6e-10); dev retrieval reproduces every published number to four\n  places; both Paddock gates pass. Eight torch advisories remain, each accepted by id\n  with its reason in docs/ci.md; the one that could matter (a crafted .pth escaping\n  weights_only) is made unreachable by loading both models with use_safetensors=True at\n  a pinned upstream revision, which tests/test_model_pins.py holds in place.\n\nFull suite with credentials: 211 tests, none skipped, all pass.",
+  "tests": [
+   "tests/test_model_pins.py"
+  ],
+  "code": [
+   "eval/ceiling.py",
+   "eval/hyde.py",
+   "eval/run_generation.py",
+   "eval/threads.py",
+   "gate/dump_python_side.py",
+   "gate/numerics.py",
+   "ingest/embed.py",
+   "retrieve/rerank.py"
+  ],
+  "lines": 322
+ },
+ {
+  "repo": "studbook",
+  "fix": "ab6ca7a04be88dafbdbbab9dd129fc95280087bb",
+  "parent": "0355a809580da6af15fe4fa483c8f26cf269c082",
+  "subject": "eval: hypothetical passage search (HyDE) for cross-doc -- measured, rejected",
+  "task": "eval: hypothetical passage search (HyDE) for cross-doc -- measured, rejected\n\nHaiku writes the passage that would answer the question in the record's style; it is\nused only to retrieve, never shown or given to the generator. The prompt names the\nrecord's document types generally, and a test fails if it mentions test counts or\npass/fail (one hinting word was removed from the draft).\n\nDev, arms fixed before the run: adding the passage as a third or fourth ranking lowers\ncoverage@5 (27/34 -> 24, 25); replacing the question's embedding with the passage's\nholds 27/34 by gaining two and losing two -- noise, at a model call per question.\n\nversion-14's passage was a pytest listing, Haiku's idea of a test record, not this\nrecord's npm test / \"# pass 47\". A model that has not seen the record's conventions\ncannot write in them. docs/cross-doc.md now concludes that the remaining lever is how\nWorkHorse writes its verification reports, not Studbook's retrieval.",
+  "tests": [
+   "tests/test_hypothetical.py"
+  ],
+  "code": [
+   "eval/hyde.py",
+   "eval/hypothetical.py"
+  ],
+  "lines": 254
+ },
+ {
+  "repo": "studbook",
+  "fix": "0355a809580da6af15fe4fa483c8f26cf269c082",
+  "parent": "ff403aa5c86b20aa903cc63e10fd9fab2dba4ea6",
+  "subject": "eval: synonym-aware lexical search for cross-doc -- measured, rejected",
+  "task": "eval: synonym-aware lexical search for cross-doc -- measured, rejected\n\nA third full-text ranking over synonyms of the question's words, fused with the\nexisting arms: corpus-vocabulary neighbours by the bge embedding (cosine 0.70 / 0.80,\nfixed before the run) and Haiku-proposed terms. On dev no question gained coverage@5\nin any arm and every arm lost some (27/34 -> 23, 24, 21). RRF gives the expansion an\nequal vote, so its noise displaced good passages.\n\nAn oracle check shows what kind of gap version-14 is: full text finds both gold\ndocuments at #5 and #1 given \"verification npm test pass fail\", and only at #28/#19\ngiven true synonyms of \"size\". The bridge is the record's convention for where test\ncounts live, not synonymy, so this approach cannot close it by construction.\n\nCode moves under eval/ marked rejected; docs/cross-doc.md has the tables.",
+  "tests": [
+   "tests/test_expand.py"
+  ],
+  "code": [
+   "eval/expand.py",
+   "eval/expansion.py"
+  ],
+  "lines": 356
+ },
+ {
+  "repo": "studbook",
+  "fix": "ff403aa5c86b20aa903cc63e10fd9fab2dba4ea6",
+  "parent": "6bc7f144f8ed537a470e58ad517ca2342376c515",
+  "subject": "eval: decomposition and per-document caps for cross-doc -- both measured, both rejected",
+  "task": "eval: decomposition and per-document caps for cross-doc -- both measured, both rejected\n\nDecomposition (Haiku splits the question, the rewrite's guard on each part, one\nranking per part, round-robin into the top 5): coverage@5 on dev 27/34 -> 23/34, and\ncross-doc not lifted (3/7 -> 2/7). It split 13 of 34 questions, mostly single-document\nones; the guard rejected the cross-doc splits that mattered; and where it split\ncorrectly the parts still missed (version-14's documents share no words with it).\n\nPer-document cap on the top 5: cap 2 changes nothing, cap 1 lowers cross-doc to 1/7.\n\nNeither ships. The decomposition code moves under eval/ marked rejected, so the result\nis reproducible without leaving an unused module in retrieve/. docs/cross-doc.md\nrecords the three equal causes of the coverage gap and why neither fix reaches them.",
+  "tests": [
+   "tests/test_decompose.py"
+  ],
+  "code": [
+   "eval/decompose.py",
+   "eval/decomposition.py",
+   "eval/diversity.py"
+  ],
+  "lines": 418
+ },
+ {
+  "repo": "studbook",
+  "fix": "6bc7f144f8ed537a470e58ad517ca2342376c515",
+  "parent": "b03b3076d7e4f669cb62ea4d38b2886cf6a205a1",
+  "subject": "eval: coverage@5, and where multi-document questions lose a document",
+  "task": "eval: coverage@5, and where multi-document questions lose a document\n\nRecall@5 counts a question found if any gold passage reaches the top 5. A cross-doc\nquestion needs every one of its documents: on dev, each cross-doc question given only\none of two was refused and scored 0, while recall counted it a hit.\n\ncoverage@5 counts a question only when every gold document has a quote in the top 5.\nDev, production config: recall@5 0.8529 (reproduces the published number), coverage@5\n0.7941; cross-doc recall 0.7143, coverage 0.4286.\n\neval/coverage.py follows each document of each multi-document question: of 14, 8\ncovered, 2 reranked to #6/#7, 2 fused below the rerank pool, 2 never retrieved. One\nranking against the whole question is the common cause (docs/cross-doc.md).",
+  "tests": [
+   "tests/test_metrics.py"
+  ],
+  "code": [
+   "eval/coverage.py",
+   "eval/metrics.py",
+   "eval/run.py"
+  ],
+  "lines": 218
+ },
+ {
+  "repo": "studbook",
+  "fix": "b03b3076d7e4f669cb62ea4d38b2886cf6a205a1",
+  "parent": "ee41d453ca5dba554509171473828635b9c5b9f3",
+  "subject": "fix(rewrite): undouble a final consonant, and pin the stemmer's logic by probe",
+  "task": "fix(rewrite): undouble a final consonant, and pin the stemmer's logic by probe\n\nTwo of the four guard trips across the rewrite eval runs were one flaw: \"pinning\" did\nnot stem to \"pin\", nor \"stopping\" to \"stop\", so a correctly grounded rewrite fell back\nto the concatenation. The stem now undoubles a final consonant.\n\nThe guard pin hashed only the word lists, so the stemmer's logic could drift between\nPython and Paddock unnoticed; it now also hashes the stems of a fixed probe list.\nRe-measured: rewrite 11/12 and 30/34, unchanged, with every follow-up now using its\nrewrite.",
+  "tests": [
+   "tests/test_rewrite.py"
+  ],
+  "code": [
+   "retrieve/rewrite.py"
+  ],
+  "lines": 26
+ },
+ {
+  "repo": "studbook",
+  "fix": "ee41d453ca5dba554509171473828635b9c5b9f3",
+  "parent": "09c4ea9558eb22548d419f1241e6968db1795dce",
+  "subject": "eval: review the thread pairs, and score follow-up answers, not just retrieval",
+  "task": "eval: review the thread pairs, and score follow-up answers, not just retrieval\n\nReview: all twelve follow-up pairs read against their gold passages in full. t-07's\ndraft asked what the reviewers recommended, but its gold passage is the findings table\n(the recommendation is decision D1, elsewhere in the packet), so its hits found a\npassage that did not answer it; reworded to \"Was it ever fixed?\". t-08 kept, marked\nweak. Retrieval re-run after the review: rewrite 11/12 and 30/34, unchanged.\n\nAnswers: eval/thread_answers.py scores the follow-up the reader sees with the same judge\nas run_generation, against reference answers written from each passage. Stateless:\ncorrectness 0.17, 11/12 refused, 2 refusals unfaithful because the model guessed a\ndifferent subject. Thread (what Paddock 0.4.4 does): correctness 1.67, 9/12 fully\ncorrect, 12/12 faithful, nothing invented.\n\nTo run it, the reference implementation gains Paddock's thread path: generate_answer\ntakes history, and FOLLOW_UP_NOTE / build_messages are ported from answer.ts. With no\nhistory the request is byte-identical to before. The system prompt and the note are\nnow pinned by sha256 on both sides, having been checked identical first.",
+  "tests": [
+   "tests/test_prompts.py"
+  ],
+  "code": [
+   "answer/generate.py",
+   "answer/prompts.py",
+   "eval/thread_answers.py",
+   "eval/threads.py"
+  ],
+  "lines": 319
+ },
+ {
+  "repo": "studbook",
+  "fix": "09c4ea9558eb22548d419f1241e6968db1795dce",
+  "parent": "66e3e54459488ec4ba189ebdea1f11cfd2581213",
+  "subject": "feat(retrieve): rewrite a follow-up into a standalone question before retrieving",
+  "task": "feat(retrieve): rewrite a follow-up into a standalone question before retrieving\n\nConcatenating the previous question helped genuine follow-ups (2/12 -> 8/12) and hurt\nchanges of subject (29/34 -> 20/34), and could not tell them apart. retrieve/rewrite.py\nasks Haiku 4.5 at temperature 0 for a standalone question built from the thread's own\nwords, or the question unchanged. A guard rejects any rewrite with a content word the\nthread's questions do not contain, falling back to the concatenation, as does a failed\ncall.\n\neval/rewrite.py, same two sets: follow-ups 11/12 (the fully-specified originals'\nceiling), changes of subject 30/34 (better than the question alone). Every rewrite was\nread; the guard fired twice, both false positives that still hit via the fallback.\ndocs/follow-ups.md also records what the guard cannot catch: a pronoun resolved to the\nwrong referent using only words the user typed, seen in the first live thread.\n\nPrompt and guard are pinned by sha256 here and in Paddock's rewrite.ts.",
+  "tests": [
+   "tests/test_rewrite.py"
+  ],
+  "code": [
+   "eval/rewrite.py",
+   "retrieve/rewrite.py"
+  ],
+  "lines": 431
+ },
+ {
+  "repo": "studbook",
+  "fix": "66e3e54459488ec4ba189ebdea1f11cfd2581213",
+  "parent": "e2a56400d3859775c02f5118e199b5986004c573",
+  "subject": "eval: measure what carrying the previous question costs on a change of subject",
+  "task": "eval: measure what carrying the previous question costs on a change of subject\n\ndocs/follow-ups.md named this failure mode and could not measure it. eval/unrelated.py\ndoes, with no new labels: each dev gold question gets an unrelated gold question as\nits \"previous turn\" (the next one round-robin with disjoint gold documents, so the\npairing is mechanical and all 34 are measured). Carrying it drops recall@5 from 29/34\nto 20/34 -- ten questions that work alone stop working.\n\neval/dual_query.py tests the hedge: fuse the bare and carried queries' four rankings\nin the same RRF, same ten-candidate rerank pool. It splits the difference (follow-ups\n7/12 against 8/12 today; change of subject 25/34 against 20/34) and is recorded, not\nshipped: which side wins depends on how often a turn really is a follow-up, and the\none follow-up it loses is noise-sized in an unreviewed twelve-pair set.",
+  "tests": [
+   "tests/test_unrelated.py"
+  ],
+  "code": [
+   "eval/dual_query.py",
+   "eval/unrelated.py"
+  ],
+  "lines": 336
+ },
+ {
+  "repo": "studbook",
+  "fix": "94e6841c44ccbaf65fed787fad2a1b3bce76254d",
+  "parent": "daf39ec6e182def211a2736de15574810c914dfb",
+  "subject": "Scope every eval query to the corpus's own repositories",
+  "task": "Scope every eval query to the corpus's own repositories\n\nThe product and the eval share one store, and Paddock's \"Refresh the record\"\nadds every repository it registers. The first refresh added hello-service and\nthe published numbers happened not to move; a repository whose passages\ncompeted would have moved them with no eval change to show for it.\n\nScope gains a `repos` set -- `d.repo = any(...)`, an empty set matching nothing\nrather than everything -- and every eval entry point retrieves through\neval/scope.py's corpus_scope(): exactly corpus.json's repositories. The service\nand the CLI deliberately do not, and answer over the whole record. The set is\npart of the logged config, so a run over a different corpus never shares a\nconfig_hash with one over this.\n\nRe-measured under the scope: recall@5 0.8235, mrr@10 0.6485, precision@5\n0.1824 -- the published triple, and the same through Paddock's gate with the\nmatching filter. chunk_size_ablation.py is in-memory over corpus.json and\nneeded nothing.",
+  "tests": [
+   "tests/test_api.py"
+  ],
+  "code": [
+   "eval/ceiling.py",
+   "eval/check_answers.py",
+   "eval/run.py",
+   "eval/run_generation.py",
+   "eval/scope.py",
+   "gate/dump_python_side.py",
+   "retrieve/hybrid.py"
+  ],
+  "lines": 91
+ },
+ {
+  "repo": "studbook",
+  "fix": "71eb90893dcbf440d7dc0f232d6167e59f6532d5",
+  "parent": "849ce69453421de62f2b0812f5c192aa589b6dc7",
+  "subject": "Verify every database connection against Supabase's pinned root",
+  "task": "Verify every database connection against Supabase's pinned root\n\nUntil now every connection this project made used psycopg's default\nsslmode=prefer: encrypted, never authenticated. Nothing noticed for the whole\nlife of the project; a Node client refused the pooler's chain in the Paddock\nparity gate, which is the only reason it surfaced (docs/paddock-gate.md).\n\nstore/connect.py is now the one place a connection is opened. Sixteen\npsycopg.connect call sites across twelve files go through it, and it sets\nsslmode=verify-full and sslrootcert=store/supabase-ca.pem as keyword arguments,\nwhich psycopg applies over anything in the conninfo -- so neither a connection\nstring nor an environment variable can downgrade it. A missing CA file refuses\nto connect rather than connecting unverified: silent-and-consequential is the\none failure shape the baseline forbids, and here it would be silent in exactly\nthe way it already was.\n\nThe root is Supabase's own (\"Supabase Root 2021 CA\", SHA-256 80:70:25:AD:...),\ntaken from the pooler's handshake -- trust-on-first-use; cross-check against\nthe dashboard's downloadable CA.\n\nTests, deny-side first: the same host and credentials against a genuine but\nunrelated self-signed root (tests/fixtures/unrelated-root.pem, made with\nopenssl) fail the handshake with a certificate error. Only then is the pinned\nroot shown to be accepted, with libpq's own ssl_in_use on the client\nconnection. pg_stat_ssl was the wrong instrument: Supavisor terminates TLS, so\nthe backend's row describes the pooler's internal hop and reads false even when\nthe client hop is verified -- the first version of the test asserted that and\nfailed for the right reason. 151 tests.",
+  "tests": [
+   "tests/test_connect.py",
+   "tests/test_hybrid.py",
+   "tests/test_rls.py"
+  ],
+  "code": [
+   "api/main.py",
+   "cli.py",
+   "eval/ceiling.py",
+   "eval/check_answers.py",
+   "eval/run.py",
+   "eval/run_generation.py",
+   "eval/scale_benchmark.py",
+   "gate/dump_python_side.py",
+   "ingest/sync.py",
+   "store/bootstrap_db.py",
+   "store/connect.py"
+  ],
+  "lines": 217
+ },
+ {
+  "repo": "studbook",
+  "fix": "754c4e5aea241cb1f3cc4c2688242bbd4d062a5d",
+  "parent": "a065dc138a98f2d24892dce061537b6f3e762903",
+  "subject": "Require a bearer key on every data route",
+  "task": "Require a bearer key on every data route\n\nThe corpus holds client-shaped material and named people behind /repos,\n/search and /ask, which until now anyone reaching the port could read. The\nthree data routes now take `Authorization: Bearer <STUDBOOK_API_KEY>`; /healthz\n(counts and model names, nothing from the record) and the static shell at /\nstay open, and the page can fetch nothing until a key is entered.\n\nWhat the design refuses to do, and why:\n\n  - It does not fall back to \"no auth\" when the key is unset. The server\n    refuses to start, before loading models, with a message that says how to\n    generate one. A failure that is silent and consequential is the one shape\n    the security baseline forbids, and \"runs fine, just open\" is exactly that.\n  - It does not say which part was wrong. Missing header, wrong scheme and\n    wrong key get one 401 with one detail and a WWW-Authenticate: Bearer\n    challenge; the comparison is constant-time.\n  - It does not validate the body first. The key is checked before the 422s,\n    so an unauthenticated caller cannot learn the request schema.\n  - The page keeps the key in sessionStorage -- gone with the tab, never\n    persisted -- and every storage access is guarded for private windows.\n\nTests are deny-side first: the startup refusal is asserted as a raise, every\ndata route is asserted 401 without a key with no passage text in the body, and\nonly then are the admit-side cases run under a dedicated test key so the suite\nnever depends on the operator's real one. The .env.example entry and the M5\nwrite-up record the scope honestly: one shared key is right for one operator on\nlocalhost; more than one caller needs identity, rate limiting and an audit log,\nnone of which this is. 146 tests.",
+  "tests": [
+   "tests/test_api.py"
+  ],
+  "code": [
+   "api/main.py"
+  ],
+  "lines": 250
+ },
+ {
+  "repo": "studbook",
+  "fix": "fe56810bf5c8bd5744dfdf096597f256b60886b8",
+  "parent": "2d917c3ad3ab4bb159660a20ac2f5c15faa6af3a",
+  "subject": "Measure the retrieval ceiling; showing the model more does not help",
+  "task": "Measure the retrieval ceiling; showing the model more does not help\n\neval/ceiling.py asks what recall is even available before the generator sees\nanything. On dev, fusion puts a gold chunk in the production pool of 20 for\n0.9118 of answerable questions, and only two (version-06, version-14) have none\nanywhere -- so reachability is not the problem, and query rewriting, chunking or\na lexical-config change cannot be the fix. The loss splits evenly: 0.0882 never\nenters the pool, 0.0882 enters and does not survive the cut to five. The gold\nchunk is never below reranked rank 10, so it is being placed just outside the\ncut rather than scattered.\n\nThat suggested an obvious cheap change -- give the generator 10 passages instead\nof 5, recovering 0.8235 -> 0.9118 recall for nothing but input tokens. Measured\nend to end, it does nothing: correctness 1.500 either way, faithfulness 0.900\neither way, one fewer refusal, and thirteen of forty questions changing verdict\nwith three better and six worse. The extra passages are distraction in about the\nmeasure they are signal. Production stays at 5.\n\nWorth keeping as a result rather than a failed experiment: recall@k is a weak\nproxy for answer quality on this corpus. A gold chunk arriving at rank 7 is not\nthe same as a gold chunk being used.\n\nAlso fixes a trap in the tool itself. The first run had each arm return 100\ncandidates rather than the production 20 and reported a different fusion recall\n(@10: 0.8529 against 0.8824) -- rank fusion sees every candidate, so arm depth\nreorders the fused list to the top; it is a different configuration, not a\ndeeper look at the same one. --arm-k now defaults to production and refuses\ndepths beyond it, and the production-faithful run reproduces M4's published\n0.8235 exactly, which is what says it measures the real pipeline.\n\nrun_generation gains --top-k so this is re-runnable without editing a constant.",
+  "tests": [
+   "tests/test_ceiling.py"
+  ],
+  "code": [
+   "eval/ceiling.py",
+   "eval/run_generation.py"
+  ],
+  "lines": 312
+ },
+ {
+  "repo": "studbook",
+  "fix": "ba11a628976e5cfc373d83d8312bde7ce40b8d6e",
+  "parent": "d65b41c6456a6edab8ceff54618bff462d51d9ce",
+  "subject": "Add eval/compare.py: tell a real effect from run-to-run churn",
+  "task": "Add eval/compare.py: tell a real effect from run-to-run churn\n\nDiffs two --dump files question by question. The headline mean was not enough\nto read tonight's prompt change off: two variants of it differed by 0.025\ncorrectness, which is the same observation as \"nothing happened\". What separates\nthem is direction -- baseline to revision moved 8 questions better and 3 worse;\none variant to the other moved 2 better and 4 worse, and the tool says so out\nloud rather than leaving the reader to infer it from a mean.\n\nWritten because the same throwaway comparison was typed inline three times\nwhile measuring one change.",
+  "tests": [
+   "tests/test_compare.py"
+  ],
+  "code": [
+   "eval/compare.py"
+  ],
+  "lines": 154
+ },
+ {
+  "repo": "studbook",
+  "fix": "d65b41c6456a6edab8ceff54618bff462d51d9ce",
+  "parent": "b8252bbeb3fca6a8b6a1e805c521e151ec66fc4e",
+  "subject": "Pin the generator's sampling, then halve over-refusal",
+  "task": "Pin the generator's sampling, then halve over-refusal\n\nTwo findings, the second only visible once the first was fixed.\n\n1. Generation ran at the API default temperature. For a tool whose product\nis a citation that is wrong on its own terms -- the same question against the\nsame passages could come back with different receipts -- and it made the\ninstrument noisy: two runs of the same dev split disagreed by 0.175 correctness\nand five over-refusals, none of it signal. Pinning it turned up three things,\nnone of them expected:\n\n  - anthropic 1.6.0 removed `temperature` from Messages.create()'s signature;\n    passing it raises TypeError. It goes through extra_body instead.\n  - It is honoured -- verified, not assumed: three samples of a high-entropy\n    prompt came back identical at 0 and all different at the default.\n  - It is model-dependent. Haiku 4.5 takes it; Sonnet 5 answers 400\n    `\"temperature\" is deprecated for this model`. So answers are reproducible\n    and judge verdicts are not, and judge.py says so instead of pretending.\n    generate_answer retries once without it and prints that answers from that\n    model are no longer reproducible.\n\nThe TypeError passed every existing test, because they all use a fake client\nthat accepts any keyword, and surfaced 40 questions into a paid run. A test now\nbinds the request we build against the installed SDK's real signature.\nDeterminism is reduced, not absolute: one of three answers still differed in\nwording on a re-run, with identical scores.\n\n2. M4 called over-refusal the largest lever left and diagnosed it from a sample\nof six. run_generation --dump now records every answer, verdict and where a gold\npassage landed, and eval/diagnose.py splits refusals into retrieval (nothing\ngold was retrieved -- refusing was right) and generation (it had the passage and\nrefused anyway). Exhaustively: 11 of 34 answerable dev questions refused, 7 with\nthe gold passage in front of them, from three distinct causes. The prompt now\nanswers a \"this change\" ambiguity for both changes instead of refusing, permits\none cited inferential step marked as inference, and bans the self-contradicting\nrefusal -- wh-06 quoted the rationale from [1] and then called it absent. A\nfourth clause follows from the trap audit: a passage recording that something\ndoes not exist is an answer, cited as normal, not a refusal.\n\n  dev, pinned:  correctness 1.30 -> 1.50, fully correct 0.60 -> 0.70,\n                over-refusals 11/34 -> 5/34, traps 6/6 with nothing invented,\n                faithfulness 0.95 -> 0.90.\n\nTwo variants were measured; seven of forty questions flip between them, which is\nthe clearest evidence here that a 0.025 difference is noise. Both halve\nover-refusal, and the one kept is the one whose rules do not contradict each\nother, not the one that scored higher. The faithfulness cost is real: the\nlicence to infer is what buys the refusals back and also what lets wh-11\noverreach.\n\neval_runs now records a hash of both prompts, so two runs differing only in how\nthe system was asked can no longer share a config_hash.\n\nThe held-out split is deliberately NOT re-run. Re-scoring it after a deliberate\ntuning change is what the score-it-once rule exists to prevent; the README and\nM4 now say the published held-out numbers describe the previous prompt, and that\na fresh measurement is owed once. 126 tests, no skips.",
+  "tests": [
+   "tests/test_diagnose.py",
+   "tests/test_generate.py"
+  ],
+  "code": [
+   "answer/generate.py",
+   "answer/prompts.py",
+   "eval/diagnose.py",
+   "eval/judge.py",
+   "eval/run_generation.py"
+  ],
+  "lines": 456
+ },
+ {
+  "repo": "studbook",
+  "fix": "b8252bbeb3fca6a8b6a1e805c521e151ec66fc4e",
+  "parent": "659fe1522964fee387501f3f07c760057ff00a1e",
+  "subject": "Audit the nine unanswerable traps; one was partly answerable",
+  "task": "Audit the nine unanswerable traps; one was partly answerable\n\nSpot-checked every trap question against the 491 ingested chunks -- the store\nitself, not the source repos, since what the retriever can see is what matters.\nAll nine hold: no passage supplies the fact each one asks for. Two findings.\n\nhealth-16 asked for \"the compliance officer or reviewer who signed off\", and the\nsecond disjunct has an answer: release.md records the G4 approval by name and\nconstraints.md says the operator is the only reviewer and approver. A model\nanswering that correctly would have been scored as a broken trap, because the\njudge sets is_refusal false for an answer that substantively answers. It is a\ndev question, so it is rewritten to ask what the GDPR review concluded -- which\nnothing in the record can answer -- with the old phrasing kept in its notes.\n\nThe other eight are not one kind of question. For six of them the record\naffirmatively states the thing does not exist (\"There is no reverse proxy, no\nTLS, and no auth in front of it\"), so the best answer is a grounded negative\nciting that passage, not a bare refusal -- and the old rule scored that as a\nfailed trap. Only version-18, wh-19 and wh-20 test genuine silence.\n\n  - trap_kind (silence|denial) is now required on every unanswerable question,\n    and a denial carries denial_evidence: the passage doing the denying,\n    validated verbatim exactly like a gold quote. Kept separate from `gold` so\n    M2 and M4's retrieval denominators do not move.\n  - invented_entity is a new judge field -- did the answer assert a vendor,\n    tool, person or number no passage establishes? That is the property the\n    trap set exists to measure, and it is independent of refusing.\n  - trap_safety and trap_pass_rate join refusal_accuracy, which keeps its old\n    definition so runs logged before today stay comparable.\n  - run_generation --ids scores a handful of questions without logging a\n    partial split as a run.\n\nNo reported number changes: re-scoring the six dev traps returns the same six\npasses at correctness 2, and the held-out split was deliberately not re-run.\neval/test.sha256 is re-frozen; all 20 test rows are identical on id, type,\nquestion, reference_answer and gold, diffed field by field rather than assumed.\n\nAlso fixes a latent test bug: test_rls tried to delete its own eval_runs probe\nrow, which the reader role has no grant for. That is the append-only property,\nso it is now asserted as a deny-side test instead. 116 tests, no skips.",
+  "tests": [
+   "tests/test_gold.py",
+   "tests/test_judge.py",
+   "tests/test_rls.py",
+   "tests/test_run_generation.py"
+  ],
+  "code": [
+   "eval/check_answers.py",
+   "eval/gold.py",
+   "eval/judge.py",
+   "eval/run_generation.py"
+  ],
+  "lines": 496
+ },
+ {
+  "repo": "studbook",
+  "fix": "27fa2a2d9f6ba8c11b31297c820622ec8f34b0b6",
+  "parent": "464ad2fdbe4dad29d85060abe679fb5f604224fc",
+  "subject": "feat(eval): 60-question gold set, split 40 dev / 20 held-out test",
+  "task": "feat(eval): 60-question gold set, split 40 dev / 20 held-out test\n\nDrafted by three readers (one per change record, one for WorkHorse's history) plus six\nhand-written questions, then reviewed: one answerable \"trap\" became a factual question,\ntwo duplicate traps were replaced with terms confirmed absent by grep, and four quotes\nthat spanned line breaks were trimmed to exact lines. Every quote is checked verbatim\nagainst its source.\n\nThe test file is pinned by eval/test.sha256, and LF line endings are forced so a\nWindows checkout does not change its bytes.",
+  "tests": [
+   "tests/test_gold.py"
+  ],
+  "code": [
+   "eval/gold.py"
+  ],
+  "lines": 237
+ },
+ {
+  "repo": "shu",
+  "fix": "1cb5a186380fc888bf90614d60c19673b89e09e7",
+  "parent": "616b8aa3c13f61b45b4f1a1c3b36d9cea4edcc08",
+  "subject": "Fix Portfolio.positions concurrency race and unauthenticated docs routes",
+  "task": "Fix Portfolio.positions concurrency race and unauthenticated docs routes\n\nTwo residuals adjudicated after the scoped re-review of the final-review\nfix round -- both fixed directly rather than spun into another agent\nround, since they're small and mechanical:\n\n1. The re-review found a new Important: Portfolio.positions returns the\n   live self._positions dict (unlike SleeveAccount.positions, fixed in\n   this same branch's Task 2), so DashboardReadModel's concurrent\n   threadpool reads can hit RuntimeError: dictionary changed size during\n   iteration while apply_fill folds a new symbol elsewhere. Fixed with\n   the same MappingProxyType(replace(...)) pattern already used for\n   SleeveAccount.positions -- and found, while fixing it, that the copy\n   itself was still racy: a Python-level dict comprehension iterating\n   self._positions.items() directly can be preempted mid-copy by the\n   same concurrent mutation. Both properties now take an atomic\n   dict(self._positions) snapshot first (a single C-level loop that\n   never releases the GIL) before transforming it. Regression tests for\n   both add a background writer thread growing the dict while a reader\n   iterates positions(); sys.setswitchinterval(1e-6) makes the race\n   reliably reproducible rather than intermittent -- confirmed to fail\n   on the pre-fix code across three consecutive runs, restored after.\n\n2. The re-review's caveat on M4 (the auth-everywhere test): FastAPI\n   mounts /docs, /redoc, and /openapi.json itself, outside every\n   router's require_auth dependency, so M4's own OpenAPI-schema\n   enumeration structurally cannot see them -- they were reachable\n   unauthenticated by default. Disabled all three at app construction\n   (docs_url/redoc_url/openapi_url=None) rather than trying to guard\n   routes require_auth was never attached to. Corrected require_auth's\n   own docstring, which had claimed login/logout were the only\n   unauthenticated routes.\n\nBackend: 675 passed, ruff format/check + mypy + docstring lint +\nstrategy-purity lint + bandit all clean. Frontend: 28/28 passed, clean\nvite build.",
+  "tests": [
+   "tests/unit/test_main_dashboard.py",
+   "tests/unit/test_portfolio.py",
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/app/api/auth.py",
+   "src/shu/app/main_dashboard.py",
+   "src/shu/portfolio/portfolio.py",
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 192
+ },
+ {
+  "repo": "shu",
+  "fix": "ad0fb094f3fb49644d271b1921aeff01cdfb5fed",
+  "parent": "18d0fab88dab7ce4895c87792976e37bf83f061b",
+  "subject": "Fix reconciliation_safe: was 'has a pass ever run', not 'was it safe'",
+  "task": "Fix reconciliation_safe: was 'has a pass ever run', not 'was it safe'\n\nTask 11's own review traced this all the way back to Task 1: the heartbeat\ncomputed reconciliation_safe as `loop.last_reconciled_at is not None` --\n\"has a reconciliation pass ever run\", not \"was the most recent one safe\".\n_reconcile_continuously sets last_reconciled_at BEFORE checking the pass's\nown result, so a FAILED pass that halts the engine still left that same\niteration's heartbeat reporting reconciliation_safe=True. The Phase 6\ndashboard's Resume button reads this exact field to decide whether to\nenable itself -- reporting it wrong meant the UI could offer Resume in the\nsame instant the engine was actually halted on an unresolved break.\n\n_LoopState now tracks last_reconciliation_safe as its own field, set from\nreport.safe_to_resume directly, never derived from the timestamp. Mutation-\ntested: reverted to the original derivation, confirmed the new test fails\nwith reconciliation_safe=True on a broker holding an unresolved external\norder (the exact scenario the bug would misreport), reverted back.",
+  "tests": [
+   "tests/unit/test_main_engine.py"
+  ],
+  "code": [
+   "src/shu/app/main_engine.py"
+  ],
+  "lines": 33
+ },
+ {
+  "repo": "shu",
+  "fix": "f8b2c858a86fcfbd3b6f751cc82766ba7f4b63ae",
+  "parent": "8173bc22b59fca0eb3e1aa67af36b4fe7f63f149",
+  "subject": "Wire the dashboard FastAPI app and shu-dashboard entrypoint",
+  "task": "Wire the dashboard FastAPI app and shu-dashboard entrypoint\n\nAssembles auth + read + commands + websocket routers over one shared\nDashboardReadModel and CommandQueue. Refuses to start without a configured\npassword hash or session secret, mirroring main_engine.py's own\nrefuse-to-start-without-credentials posture. SessionMiddleware is instantiated\nwith https_only=True and same_site=\"lax\", closing the cookie-security gap\nTask 3's own review deferred to this task.",
+  "tests": [
+   "tests/unit/test_main_dashboard.py"
+  ],
+  "code": [
+   "src/shu/app/main_dashboard.py"
+  ],
+  "lines": 138
+ },
+ {
+  "repo": "shu",
+  "fix": "8173bc22b59fca0eb3e1aa67af36b4fe7f63f149",
+  "parent": "03397486cac75035b934c4b7a13ae064efbeca52",
+  "subject": "Detect a WebSocket disconnect immediately, not only via a failed send",
+  "task": "Detect a WebSocket disconnect immediately, not only via a failed send\n\nTask 7's own review traced through uvicorn's real behavior: the poll loop\nonly ever learned of a disconnect as a side effect of a later failed\nsend(), and a send only happens when last_seq has actually advanced. A\nclient that disconnects during a quiet stretch -- no new events, so no\nsend ever attempted -- left the server-side task polling the database\nevery 2s forever, an unbounded per-connection resource leak. The existing\ntest suite couldn't catch this because Starlette's TestClient force-\ncancels the server-side task on disconnect regardless of app behavior, a\ntest-only artifact with no production equivalent.\n\n_sleep_or_disconnect races receive() against the poll sleep so a\ndisconnect message ends the wait immediately. Tested directly against the\nextracted helper (a _Receivable Protocol, narrower than WebSocket, so a\nfake stand-in can exercise it without a real ASGI connection) rather than\nthrough the full route, sidestepping the TestClient masking issue\nentirely. Mutation-tested: reverted to the original bare-sleep behavior,\nconfirmed the new disconnect test times out exactly as the bug predicts,\nreverted back.",
+  "tests": [
+   "tests/unit/test_dashboard_websocket.py"
+  ],
+  "code": [
+   "src/shu/app/api/websocket.py"
+  ],
+  "lines": 89
+ },
+ {
+  "repo": "shu",
+  "fix": "9374b6a4ebf48722e2b07222dbba45ffff8ba200",
+  "parent": "67f5ead6480a4168e1418fb7192f070595644540",
+  "subject": "Add dashboard WebSocket push endpoint",
+  "task": "Add dashboard WebSocket push endpoint\n\nPolls DashboardReadModel.catch_up() every 2s and pushes a snapshot on\nconnect plus an update whenever new events landed. Closes unauthenticated\nconnections with code 4401. Checks websocket.session directly for auth\ninstead of Depends(require_auth), since WebSocket routes can't reliably\nuse FastAPI's Depends the same way HTTP routes do on this project's\npinned Starlette/FastAPI versions.",
+  "tests": [
+   "tests/unit/test_dashboard_websocket.py"
+  ],
+  "code": [
+   "src/shu/app/api/websocket.py"
+  ],
+  "lines": 191
+ },
+ {
+  "repo": "shu",
+  "fix": "4a3ccccadf363439952bbc1342e3888280c7ef22",
+  "parent": "48e4ba37e08c8bea07284c5e86202f24e9a759b0",
+  "subject": "Reject a non-positive refund amount with a clean 422, not a raw 500",
+  "task": "Reject a non-positive refund amount with a clean 422, not a raw 500\n\nTask 6's own review found this by direct testing: _RefundSleeveBody.amount\nhad no lower bound, so a zero or negative amount sailed past Pydantic and\nhit Command.__post_init__'s bare ValueError as an unexplained 500 -- fails\nclosed (nothing queued, no stack trace leaked) but violates CLAUDE.md's\n\"trust boundaries get input validation\" rule. Field(gt=0) closes it at the\nAPI boundary. Mutation-tested: reverted the constraint, confirmed the new\ntest reproduces the exact 500 the review found, reverted back.",
+  "tests": [
+   "tests/unit/test_dashboard_routes_commands.py"
+  ],
+  "code": [
+   "src/shu/app/api/routes_commands.py"
+  ],
+  "lines": 25
+ },
+ {
+  "repo": "shu",
+  "fix": "4f3d5a586a03656b6a22d8eb05c26dc992c5c8e7",
+  "parent": "c11fd18aacdcb97927ee864eece44e71a2cdde3a",
+  "subject": "Add dashboard command (kill-switch) write endpoints",
+  "task": "Add dashboard command (kill-switch) write endpoints\n\nHALT/RESUME/FLATTEN_ALL/REFUND_SLEEVE, each inserting one Command into the\nsame CommandQueue the engine already polls. This process never writes to\nevents directly, per CLAUDE.md's process topology. Every command requires\na non-empty reason, enforced by Pydantic (422, not a silent default) --\nCLAUDE.md's own rule that an unexplained kill switch in the audit log is a\ndead end during an incident.",
+  "tests": [
+   "tests/unit/test_dashboard_routes_commands.py"
+  ],
+  "code": [
+   "src/shu/app/api/routes_commands.py"
+  ],
+  "lines": 204
+ },
+ {
+  "repo": "shu",
+  "fix": "c11fd18aacdcb97927ee864eece44e71a2cdde3a",
+  "parent": "ded64a4d4f1ebcb80c51c571b1508feb085f8ecd",
+  "subject": "Add dashboard REST read endpoints",
+  "task": "Add dashboard REST read endpoints\n\nHealth, state, sleeves, equity curve, positions, activity -- all behind\nrequire_auth, all reading DashboardReadModel. unrealized_pnl is an honest\n0.00 everywhere: no live price feed reaches this API yet, matching the gap\nalready disclosed in CLAUDE.md for the live risk gate.\n\nTest fixtures use an in-memory SQLite engine pinned to StaticPool with\ncheck_same_thread=False -- FastAPI dispatches sync route handlers to a\nworker thread, and SQLite's default per-thread pool would otherwise hand\nthat thread a fresh, schema-less :memory: database on every request.",
+  "tests": [
+   "tests/unit/test_dashboard_routes_read.py"
+  ],
+  "code": [
+   "src/shu/app/api/routes_read.py",
+   "src/shu/app/api/schemas.py"
+  ],
+  "lines": 485
+ },
+ {
+  "repo": "shu",
+  "fix": "ded64a4d4f1ebcb80c51c571b1508feb085f8ecd",
+  "parent": "f61dd276d3c1c78d4b6a0f6a55087dbeea4e983a",
+  "subject": "Carry symbol/side/qty/sleeve on OrderDenied; fix silently-dropped denials",
+  "task": "Carry symbol/side/qty/sleeve on OrderDenied; fix silently-dropped denials\n\nTask 4's own independent review found this by execution, not inspection: a\nreal denial has no preceding OrderSubmitted -- _route_live_intent\n(main_engine.py) denies and returns before ever calling\nAlpacaExecutionClient.submit(), the sole writer of that event. The\ndashboard read-model's activity feed cross-references OrderSubmitted to\nrecover symbol/sleeve for terminal events that don't carry them, so every\nreal denial was silently dropped, logged only as a warning -- exactly the\nfeature the mockup's own activity feed was built to show.\n\nOrderDenied now carries symbol/side/qty/sleeve directly, optional and\ndefaulted (mirroring OrderFilled.sleeve's own precedent), populated from\nthe TradeIntent already in scope at all five denial call sites in\nmain_engine.py and the equivalent one in engine/kernel.py's backtest\nrouter. DashboardReadModel reads OrderDenied's own fields directly instead\nof going through the OrderSubmitted-keyed pending-order lookup.\n\nAlso closes the review's second finding: added a direct regression test\nfor the Projections.apply crash fix (EquityMarked/EngineHeartbeat no-op\nbranches) in test_projections.py, following the exact pattern already\nestablished there for every other no-op branch (Bar, TradingStateChanged,\nSymbolLocked). Mutation-tested myself: reverted the fix, confirmed this\nexact new test reproduces the ValueError the live engine would have hit,\nreverted back.",
+  "tests": [
+   "tests/unit/test_dashboard_read_model.py",
+   "tests/unit/test_projections.py"
+  ],
+  "code": [
+   "src/shu/app/api/read_model.py",
+   "src/shu/app/main_engine.py",
+   "src/shu/core/events.py",
+   "src/shu/engine/kernel.py"
+  ],
+  "lines": 142
+ },
+ {
+  "repo": "shu",
+  "fix": "279ca28edf176ebfba2a885c2496a8d86ee9816d",
+  "parent": "ac8097afb75fce4f886b90258086cf4be8221c8d",
+  "subject": "Add single-operator dashboard authentication",
+  "task": "Add single-operator dashboard authentication\n\nOne password, hashed with bcrypt and stored as SHU_DASHBOARD_PASSWORD_HASH,\nnever plaintext. A signed session cookie (Starlette's own SessionMiddleware,\nitsdangerous under the hood -- added as an explicit dependency, not left to\na transitive install) is the only session mechanism: no user table, no\nserver-side session store, matching this project's single-operator scope.\nrequire_auth gates every route except /api/auth/login.",
+  "tests": [
+   "tests/unit/test_dashboard_auth.py"
+  ],
+  "code": [
+   "src/shu/app/api/auth.py",
+   "src/shu/config.py"
+  ],
+  "lines": 159
+ },
+ {
+  "repo": "shu",
+  "fix": "ac8097afb75fce4f886b90258086cf4be8221c8d",
+  "parent": "c4292e17319d1f08450f3d9aecdcc3c383fe7e62",
+  "subject": "Fix nested mutability gap in SleeveAccount.positions",
+  "task": "Fix nested mutability gap in SleeveAccount.positions\n\nAn automated security review of Task 2's commit flagged that\nMappingProxyType only blocks reassigning a key (positions[\"SPY\"] = x) --\nit does nothing about mutating the object a key points to. PositionView\nis a plain mutable dataclass (its own apply_fill mutates qty/avg_cost in\nplace), so positions[\"SPY\"].qty = x reached through the \"read-only\" proxy\nstraight into the sleeve's real bookkeeping, which committed_notional --\nand therefore every RiskEngine capital check -- depends on.\n\npositions now returns fresh dataclasses.replace() copies of each\nPositionView, wrapped in the same MappingProxyType. Mutation-tested:\nreverted to the reference-sharing version, confirmed the new test fails\nwith the exact corrupted qty, reverted back.",
+  "tests": [
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 42
+ },
+ {
+  "repo": "shu",
+  "fix": "c4292e17319d1f08450f3d9aecdcc3c383fe7e62",
+  "parent": "794f5464454773dceb087ec7c489a1ccb272af74",
+  "subject": "Expose SleeveAccount.positions for per-sleeve P&L",
+  "task": "Expose SleeveAccount.positions for per-sleeve P&L\n\nMirrors Portfolio.positions exactly. Nothing outside the class could read\nthe per-sleeve position bookkeeping it already tracked internally -- needed\nby the dashboard's per-sleeve summary cards.\n\nWrapped in MappingProxyType rather than returned as the live dict (unlike\nPortfolio.positions, which returns its dict typed as Mapping only):\nconfirmed empirically that a plain dict does not raise on item assignment,\nso a proxy is what actually makes the read-only guarantee true.",
+  "tests": [
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 31
+ },
+ {
+  "repo": "shu",
+  "fix": "794f5464454773dceb087ec7c489a1ccb272af74",
+  "parent": "7b9cab06bc8028a835ab1b079e9aa6ca9a1bb572",
+  "subject": "Persist equity marks and an engine heartbeat as events",
+  "task": "Persist equity marks and an engine heartbeat as events\n\nThe dashboard is a second process that only ever reads the event log\n(CLAUDE.md's topology) -- neither the equity curve nor \"is reconciliation\nstill fresh\" had any persisted signal for it to read. Portfolio.mark()'s\nresult now also lands in the log as EquityMarked; a 10s heartbeat carries\nengine_started_at and the last reconciliation outcome. Also registers both\nnew event types in EVENT_TYPES and aggregate_id_of -- required for\nEventStore.append/replay to handle them at all, a gap the plan's own code\nsample omitted.",
+  "tests": [
+   "tests/unit/test_events.py",
+   "tests/unit/test_main_engine.py"
+  ],
+  "code": [
+   "src/shu/app/main_engine.py",
+   "src/shu/core/events.py"
+  ],
+  "lines": 241
+ },
+ {
+  "repo": "shu",
+  "fix": "af16099f18e08ce5e494118e08ca0e3e9fdd876d",
+  "parent": "c9bc34356a1216a3e11065a64f3ff02c5d6e5deb",
+  "subject": "Pin cross-sleeve reduce_only scoping, disclose two rebuild-time residuals",
+  "task": "Pin cross-sleeve reduce_only scoping, disclose two rebuild-time residuals\n\nTask 9's review found reduce_only's sleeve-scoping was unpinned by any\ntest -- a mutant reading the global Portfolio instead of the owning\nsleeve's own position survived the entire suite, since both existing\ntests use single-sleeve history where the two readings agree. Added a\ntwo-sleeve regression test; confirmed the mutation is caught (the\ndiscriminating signal is the protective-stop denial itself, not\norder_class or working_notional, both of which are computed\nindependently of this function's own reduce_only variable).\n\nAlso disclosed two findings directly in the rebuild code's own\ndocstrings rather than leaving them only in the task report: two or\nmore unpriceable working orders re-reserved at restart can produce a\ndurable SleeveHalted that only an explicit REFUND_SLEEVE clears; and\nthe rebuild bypasses CircuitBreakers.on_fill, so consecutive-stop\ntracking resets on every restart. Fixed a stale docstring claim that\nthe event log carries bars (it doesn't -- BarStore does).",
+  "tests": [
+   "tests/unit/test_main_engine.py"
+  ],
+  "code": [
+   "src/shu/app/main_engine.py"
+  ],
+  "lines": 58
+ },
+ {
+  "repo": "shu",
+  "fix": "64b82cc6958d9bbce8a4b626cc8f3c68cb703039",
+  "parent": "e5e5471932013b683db2a7a09366bd82ec39b375",
+  "subject": "Phase 5.6: parity test -- backtest replaying itself, the harness Phase 7's real paper soak will run through",
+  "task": "Phase 5.6: parity test -- backtest replaying itself, the harness Phase 7's real paper soak will run through\n\nBacktestResult now exposes order_events (raw OrderSubmitted/OrderFilled/OrderDenied, in the\nchronological order run_backtest actually produced them), purely additive, needed because\nProjections/OrderView folds away order_type and timestamp. shu.research.replay.bars_from_event_log\nextracts bars back out of a recorded EventStore, asserting ts_close order rather than silently\nre-sorting. The parity test builds a genuine \"recorded session\" from one real, deterministic\nbacktest run, persists it into a real EventStore, then replays its bars through a fresh\nrun_backtest and compares the two runs' order signatures -- proving the replay machinery itself is\ncorrect. Per CLAUDE.md invariant 1's own framing, this does not yet prove live matches backtest (no\nlive session exists until Task 9 ships); it proves backtest replaying itself, which is what a real\nrecorded live session will be run through once Phase 7's paper soak exists.",
+  "tests": [
+   "tests/parity/test_live_backtest_parity.py"
+  ],
+  "code": [
+   "src/shu/engine/kernel.py",
+   "src/shu/research/replay.py"
+  ],
+  "lines": 378
+ },
+ {
+  "repo": "shu",
+  "fix": "e5e5471932013b683db2a7a09366bd82ec39b375",
+  "parent": "8bd68bd2bad271f5169b3b17f3e1196c0e4e6c34",
+  "subject": "Reconciler: pin the unfilled-order price boundary, fix two stale claims",
+  "task": "Reconciler: pin the unfilled-order price boundary, fix two stale claims\n\nTask 6's fix-review found three Minor gaps: the broker_filled > 0 gate that\nexempts an unfilled order's malformed price field was unpinned by any test\n(a mutation removing it left all tests green); the persistent-break detail\nmessage asserted \"adopting the quantity did not explain this\" even when\nnothing was ever adopted (an order whose fills all arrived live never\nadopts anything); and _break's docstring still named _replay_missed_fill\nas its caller after the split into _classify_fill_state.",
+  "tests": [
+   "tests/unit/test_reconciler.py"
+  ],
+  "code": [
+   "src/shu/engine/reconciler.py"
+  ],
+  "lines": 23
+ },
+ {
+  "repo": "shu",
+  "fix": "8bd68bd2bad271f5169b3b17f3e1196c0e4e6c34",
+  "parent": "df6c447f090439de8d119d8e8ad8e29a62a3516c",
+  "subject": "Reconciler: make the over-fill halt survive later passes and a restart",
+  "task": "Reconciler: make the over-fill halt survive later passes and a restart\n\nReview finding F1, a fail-open bug: the two anomalous MISSED_FILL variants\n(a broker over-fill, and an unreadable fill price) only blocked resume on the\npass that discovered them. Both checks lived inside _replay_missed_fill, which\nwas reachable only from \"broker_filled > view.filled_qty\" -- and that same\nmethod adopted the missing quantity, closing the gap. The next scheduled pass,\nand any fresh process rebuilding projections from the log, then reported the\nsame over-filled order as safe_to_resume=True with no human involvement. That\nis exactly the auto-resume CLAUDE.md invariant 7 exists to prevent, and\nreconcile_continuous()'s own docstring claimed the opposite.\n\nSplit the method in two. _replay_missed_fill now only emits the catch-up\nOrderFilled and returns what it adopted; _classify_fill_state runs on every\npass and asks _fill_anomalies whether this order's cumulative state is still\nanomalous. Neither anomaly check reads view.filled_qty -- they compare the\nbroker's own current filled_qty and filled_avg_price against the order's\noriginal submitted_qty, none of which adoption moves -- so the same broker\nstate keeps producing the same finding forever. _read_fill_price holds the\nprice parse so it lives in one place.\n\nThe kind stays MISSED_FILL on the pass that replays a fill; later passes report\nPOSITION_BREAK, because nothing is missing by then and what remains is a broker\nrecord this engine cannot explain. Both are unresolved, so the resume decision\nis unchanged; only the operator-facing label moves. No new DiscrepancyKind, no\nmechanism for clearing a break (deliberately out of scope), and no second\nOrderFilled -- verified by replaying the log after four passes.\n\nAlso from the same review:\n\n- F2: capture view.filled_qty before _emit folds the replayed fill into that\n  same OrderView, so the detail names what was actually missing (\"against 4\n  locally; replayed the missing 6\") instead of the post-replay total.\n- F3: correct task-6-report.md 8.1 -- an unfolded Projections produces\n  ['external_order', 'position_break'], not NEVER_LANDED. Re-verified by\n  running it; it still fails closed either way. (That file is under the\n  gitignored .superpowers/ tree, so it is not part of this diff.)\n- F4: add the missing regression test pinning NEVER_LANDED for a locally-filled\n  order the broker has no record of (surviving mutant MU-H; logic already\n  correct, only the test was absent).\n- F5: disclose in _replay_missed_fill's docstring that ts_event and ts_init are\n  necessarily equal on a replayed fill, matching AlpacaExecutionClient.\n\n565 passed (was 558); mypy, ruff, docstring lint and bandit clean.",
+  "tests": [
+   "tests/unit/test_reconciler.py"
+  ],
+  "code": [
+   "src/shu/engine/reconciler.py"
+  ],
+  "lines": 390
+ },
+ {
+  "repo": "shu",
+  "fix": "f45dfcbdb4985c9cf1741b3990b5d6b8f21d4def",
+  "parent": "7867df61bd615f203b7c1d31f70207c51037c84e",
+  "subject": "Round-5 polish: pin two mutation gaps, correct three stale docstrings",
+  "task": "Round-5 polish: pin two mutation gaps, correct three stale docstrings\n\nTwo new tests, each mutation-tested against the exact mutant the round-5\nre-review found surviving all 487 prior tests (confirmed to fail under the\nmutant, then reverted before this commit):\n\n- test_reducing_reference_qty_clamp_keeps_the_realized_positions_sign pins\n  the sign half of reducing_reference_qty's clamp (GAP-1): a magnitude-only\n  clamp would let an over-fill's negative combined figure through on a long\n  position, wrongly exempting a follow-up BUY.\n- test_a_charged_orders_quantity_shrinks_on_a_buy_fill_too pins the charged\n  ledger's decrement on a BUY fill (GAP-2): guarding it to SELL-only would\n  strand the charged entry forever, reverting to the original C2 defect\n  (\"a fully-committed sleeve can never close its own position\") through a\n  different door.\n\nThree docstring corrections, no production logic changed:\n\n- consumes_a_working_reduction no longer claims opposite-sign exemptions\n  \"cannot arise\" -- they can, via a broker over-fill, and the code already\n  locks both directions correctly in that state (verified by execution).\n- _check_sleeve_capital now discloses that Rule A also denies a same-id\n  re-quote of a resting order (check() and reserve() now disagree on that\n  one case, since TradeIntent carries no client_order_id).\n- _check_sleeve_capital's known over-fill residual is widened to name two\n  more triggers that need no broker fault (a cancel/fill race; a fill for\n  an order the ledger never reserved, e.g. reconciliation replay into a\n  freshly-built SleeveAccount at startup), with the open startup-rebuild\n  question carried forward explicitly for Task 6, naming progress.md and\n  the round-5 re-review report by path.\n\nFull suite: 516 passed, 0 failed, 0 skipped. Quality gate clean (ruff\nformat/check, mypy --strict, docstring lint, strategy-purity lint; bandit's\none pre-existing Low finding in synthetic.py is unrelated and unchanged).",
+  "tests": [
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/risk/engine.py",
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 155
+ },
+ {
+  "repo": "shu",
+  "fix": "7867df61bd615f203b7c1d31f70207c51037c84e",
+  "parent": "075a1afb4f44a3932d65ff8a92d9383a7d1c8821",
+  "subject": "Phase 5.3: broker-side protective stops attached at entry",
+  "task": "Phase 5.3: broker-side protective stops attached at entry\n\nCLAUDE.md invariant 8 (\"every equity entry carries a broker-side stop\") becomes a\nsubmission-time requirement, not a convention. AlpacaExecutionClient gains a keyword-only\nrequire_protective_stop constructor parameter (default False, so every existing Task 3\nconstruction site is unaffected); when set, submit() raises ValueError before OrderSubmitted\nis persisted and before the broker is contacted if the command is neither reduce-only nor\ncarrying its own stop_loss -- a malformed submission request is a programming error at the\ncall site, not an order that was attempted and failed, so it must never reach the event log.\n\n_payload_for now builds a real Alpaca bracket payload (order_class: \"bracket\", with nested\nstop_loss={\"stop_price\": ...}/take_profit={\"limit_price\": ...}) whenever either leg is present,\nand an explicit order_class: \"simple\" otherwise -- FakeBroker never defaults a missing\norder_class, so the key is always set explicitly rather than omitted.\n\nSubmitOrder (exec/client.py) gains stop_loss/take_profit/reduce_only, all optional and\ndefaulted -- purely additive, confirmed by the full 514-test suite passing unchanged.\nTradeIntent (engine/intents.py) gains stop_loss/take_profit only, per the plan; reduce_only is\ndeliberately NOT added there -- whether an order ends up reduce-only depends on the live\nposition at submission time (via risk/reducing.py's is_reducing), which a pure strategy has no\nlegitimate way to know, so it must be computed at the TradeIntent -> SubmitOrder translation\npoint (Task 9), not asserted upfront by the strategy. See task-4-report.md for the full\nreasoning, the recommended require_protective_stop=True production default for main_engine.py,\nand both mutation tests (validation-ordering and the bracket-vs-simple branch), each\ndeliberately broken, confirmed caught, then reverted.\n\n7 tests in tests/unit/test_bracket_orders.py (the plan's own 3, verbatim, plus 4 more: the\ntake-profit counterpart, both legs together, the opt-in default, and the no-persist-on-failure\nguarantee).",
+  "tests": [
+   "tests/unit/test_bracket_orders.py"
+  ],
+  "code": [
+   "src/shu/engine/intents.py",
+   "src/shu/exec/alpaca_client.py",
+   "src/shu/exec/client.py"
+  ],
+  "lines": 275
+ },
+ {
+  "repo": "shu",
+  "fix": "0d1f48253fb62eb9643fd4b31eb24be921e9fdc6",
+  "parent": "13f5b54635c3345b0b2fe420db0973d565b43c1f",
+  "subject": "Fix C2-R6: clamp the reducing reference to the sleeve's realized position",
+  "task": "Fix C2-R6: clamp the reducing reference to the sleeve's realized position\n\nRound 4 asked `is_reducing` about `position_qty + working_qty`. Only the first\nhalf is realized -- `working_qty` is a prediction about orders that can still be\ncancelled. A separately-charged fill in the same symbol can carry `position_qty`\nthrough zero without touching a stale working entry, after which the two point\nthe SAME way and their sum exceeds anything the sleeve holds. An order sized to\nthat inflated figure was classified \"purely position-reducing\" while opening\nbrand-new, entirely unreserved exposure: four orders and zero denials put $5,000\non a $1,000 allocation, a five-order variant breached at a realistic 10%\nfat-finger band, and a HALTED sleeve was approved for an order that added\nexposure -- the exact outcome round 4's own carve-out ruling said it would never\npermit.\n\nNew `SleeveAccount.reducing_reference_qty()` clamps the combination into the\nclosed interval between zero and the realized position, so a still-working\nreduction can only ever shrink the allowance toward zero, never grow it or flip\nits sign. It is the single accessor `reserve()`, `_check_sleeve_capital` and\n`_check_sleeve_halted` all consume -- three hand-written copies of the same\nexpression drifting apart is the root cause this chain kept re-discovering.\n\nVerified by execution against every repro in the round-4 re-review (all four now\ndenied or correctly charged), against C2-R4's two-close repro and the round-4\nbrief's partial-fill scenario (both unchanged), and against round 2/3's five\nregression scenarios plus cross-sleeve leakage. Seven independent mutations of\nthe new code are each caught by a named test, including the re-review's V5\n(`_check_sleeve_halted` reading `position_qty` alone), which previously survived\nthe entire suite.\n\nC2-R5 is untouched by this commit and remains open; see the next one.",
+  "tests": [
+   "tests/unit/test_risk_checks.py",
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/risk/engine.py",
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 306
+ },
+ {
+  "repo": "shu",
+  "fix": "886815b5ea7c0d5f3284a47c4cd16709d7ee6e2a",
+  "parent": "74c715b7a2b3c6031a7680973e3f0138b804f9dd",
+  "subject": "Phase 5.4: live websocket source with transport and data watchdogs",
+  "task": "Phase 5.4: live websocket source with transport and data watchdogs\n\nLiveDataSource wraps an injected websocket-shaped transport with two independent\nwatchdogs: transport_stale() catches a dead socket (no frame, heartbeat or bar,\nwithin 3x the heartbeat interval); stale_symbols() catches a healthy socket\ncarrying nothing for one symbol (per-symbol last-bar-ts stale by more than\nmax_stale_bars minutes, gated to market hours). reconnect() runs the fixed\nbackoff -> re-auth -> re-subscribe-full-symbol-list -> REST-backfill -> upsert\nsequence, upserting idempotently via BarStore so overlapping backfill windows\nnever duplicate.\n\n`stream` (the injected transport) and `stream()` (the DataSource Protocol method)\ncan't both be plain attribute/method on one instance -- Python only has one\nnamespace slot for the name. Resolved with a small _TransportHandle facade that\nis both callable (drives the real watchdog-updating pump) and attribute-\nforwarding (so `source.stream.subscribed` still reaches the wrapped transport\ndirectly, per the plan's own verbatim test). Verified structurally sound under\nmypy --strict via an added test that uses LiveDataSource through a `DataSource`-\ntyped variable.\n\nMutation-tested both watchdog thresholds (weakened the 3x heartbeat multiplier,\nwidened the max_stale_bars threshold) and confirmed the targeted test in each\ncase failed, then reverted.\n\nTests: 7 in tests/unit/test_live_source.py (the plan's 6 verbatim + 1 added for\nProtocol conformance). Full suite: 164 passed. mypy --strict, ruff check, ruff\nformat --check, lint_docstrings.py, and bandit all clean.",
+  "tests": [
+   "tests/unit/test_live_source.py"
+  ],
+  "code": [
+   "src/shu/data/live_source.py"
+  ],
+  "lines": 415
+ },
+ {
+  "repo": "shu",
+  "fix": "d066ea655659dc24768a418bd1c90f3bba314734",
+  "parent": "2cb45a53d7f392bbd1953e0cc853b63ba9468369",
+  "subject": "Fix M5: market_open's upper session bound is half-open",
+  "task": "Fix M5: market_open's upper session bound is half-open\n\n_check_market_open used bounds[0] <= now <= bounds[1], so an order stamped\nat exactly the session-close instant was incorrectly treated as inside the\nsession. Changed to bounds[0] <= now < bounds[1]: an order arriving the\nmoment the session ends has not traded during it.\n\nNew test: an order timestamped at the exact NYSE close for a given date is\ndenied with check == \"market_open\".",
+  "tests": [
+   "tests/unit/test_risk_checks.py"
+  ],
+  "code": [
+   "src/shu/risk/engine.py"
+  ],
+  "lines": 17
+ },
+ {
+  "repo": "shu",
+  "fix": "2cb45a53d7f392bbd1953e0cc853b63ba9468369",
+  "parent": "b24dd7eb06be6eff261839cc9bdced87140121a0",
+  "subject": "Fix M3+M4: reject a non-positive REFUND_SLEEVE amount; deterministic pending() order",
+  "task": "Fix M3+M4: reject a non-positive REFUND_SLEEVE amount; deterministic pending() order\n\nM3: Command.__post_init__ only checked that REFUND_SLEEVE's amount was not\nNone, not that it was positive -- SleeveAccount.refund() applies it\nunguarded (allocation += amount), so a negative amount would silently\nshrink a sleeve's allocation through a command whose entire purpose is to\ngrant capacity back. Rejected at construction now.\n\nM4: CommandQueue.pending() ordered only by submitted_at, which is real\nwall-clock time (not an injected Clock -- see .submit()'s own docstring),\nso two commands submitted in the same instant had no well-defined\nprocessing order. Added command_id as a secondary sort key.\n\nOne test each: a negative amount is rejected at construction; two commands\ninserted directly with an identical submitted_at (forcing the tie\n.submit() itself cannot arrange) come back ordered by command_id, with ids\nchosen to sort opposite to insertion order so the assertion actually proves\nthe tiebreak rather than coincidentally matching insertion order.",
+  "tests": [
+   "tests/unit/test_commands.py"
+  ],
+  "code": [
+   "src/shu/risk/commands.py"
+  ],
+  "lines": 71
+ },
+ {
+  "repo": "shu",
+  "fix": "2b7bb6ea886e7169b09b85d0fc5b18777343fc18",
+  "parent": "940d15b2f506db49d0c5ce1c3784096760342221",
+  "subject": "Fix I4+I5: sleeve and denial-check name stop getting dropped at the kernel",
+  "task": "Fix I4+I5: sleeve and denial-check name stop getting dropped at the kernel\n\nTwo related findings in kernel.py's _route_intent, the one place this\nphase's own diff touches order routing: both TradeIntent/OrderSubmitted/\nOrderFilled's optional sleeve field (Task 1) and Denied/OrderDenied's check\nfield (Task 4) were being silently dropped when constructing the events\n_route_intent publishes.\n\nI4: SimExecutionClient only ever sees SubmitOrder, never the original\nTradeIntent, and SubmitOrder had no sleeve field at all -- so propagating\nsleeve through to the OrderFilled sim_client eventually publishes needed one\nmore additive field than the brief's literal file list named. Added\nSubmitOrder.sleeve (exec/client.py, optional, defaulted None, mirroring\nOrderSubmitted/OrderFilled's own precedent), wired it through\n_route_intent's SubmitOrder construction, and propagated it into\nsim_client.py's OrderFilled construction. This does not yet make\nCircuitBreakers.on_fill's sleeve-exhaustion path reachable in a real\nbacktest -- nothing constructs a TradeIntent with a sleeve today either,\nper the Phase 4 ledger's own ruling -- it just stops silently dropping the\nfield at this layer.\n\nI5: OrderDenied gains check: str = \"\" (core/events.py), defaulted exactly\nlike Denied.check's own precedent so existing construction sites are\nunaffected (grepped first, confirmed). _route_intent now passes\ncheck=decision.check when constructing it, fulfilling the plan's Global\nConstraints verbatim: \"Every denial emits an OrderDenied carrying the\nfailing check's name.\"\n\nOne test per fix, both calling _route_intent directly (a Strategy has no\nsleeve concept of its own) with hand-rolled gate stubs: a TradeIntent with\nsleeve set produces a matching OrderSubmitted; a Denied with a specific\ncheck name produces a matching OrderDenied. Plus one test confirming\nSubmitOrder.sleeve survives onto SimExecutionClient's own OrderFilled.",
+  "tests": [
+   "tests/unit/test_kernel.py",
+   "tests/unit/test_sim_client.py"
+  ],
+  "code": [
+   "src/shu/core/events.py",
+   "src/shu/engine/kernel.py",
+   "src/shu/exec/client.py",
+   "src/shu/exec/sim_client.py"
+  ],
+  "lines": 127
+ },
+ {
+  "repo": "shu",
+  "fix": "a929d31db7c9d76f0510a77a048eccb8a1163402",
+  "parent": "5a5383f2223e6372445a5aa66e8f477723e77163",
+  "subject": "Fix I2: memoize MarketCalendar.session_bounds, 5.5ms/call to a dict hit",
+  "task": "Fix I2: memoize MarketCalendar.session_bounds, 5.5ms/call to a dict hit\n\nsession_bounds() rebuilt a pandas schedule DataFrame via\npandas_market_calendars on every single call -- measured at ~5.4ms and 98%\nof RiskEngine.check()'s own total cost, for data that never changes within\na single date. Memoized per date in a plain dict (both the real bounds and\na non-session day's None result), matching CLAUDE.md invariant 3's \"sessions\nare computed daily, not recomputed on every call.\"\n\nVerified the caching actually reduces per-call cost, not just that it\ncompiles: a cold call takes ~210ms in this environment (dominated by\npandas_market_calendars' own schedule computation, not just the theoretical\n5.4ms); a second call for the same date is ~0.0002ms, roughly a\nmillion-times speedup. Confirmed via a call-count spy on the underlying\nmcal calendar's schedule() method (patch.object(..., wraps=...), so the\nreal result is still computed and checked correct, not mocked away) that a\nrepeated call for the same date hits the cache and does not rebuild the\nschedule -- for both a real trading day and a non-trading day's None result.",
+  "tests": [
+   "tests/unit/test_calendar.py"
+  ],
+  "code": [
+   "src/shu/data/calendar.py"
+  ],
+  "lines": 57
+ },
+ {
+  "repo": "shu",
+  "fix": "5a5383f2223e6372445a5aa66e8f477723e77163",
+  "parent": "e7b4668c455cf397f2389d2b2a38f027c45ef4ce",
+  "subject": "Fix C2: sleeve capital tracks net exposure, not lifetime gross-traded volume",
+  "task": "Fix C2: sleeve capital tracks net exposure, not lifetime gross-traded volume\n\n_check_sleeve_capital computed projected = committed_notional + qty*price\nregardless of side -- a SELL that closes an existing long added its full\nnotional to projected exactly like a BUY opening new exposure, so a\nfully-committed sleeve could never get flat, violating CLAUDE.md invariant\n5's \"you can still get flat, you cannot dig deeper\" for the exact case it\nexists to protect. SleeveAccount.apply_fill() had the same bug: it only ever\naccumulated fill_notional, with no path to reduce it when a fill closes\nexposure.\n\nBoth now evaluate exposure DELTA -- (abs(resulting_qty) - abs(existing_qty))\n* price -- instead of gross notional:\n\n- SleeveFill gains symbol/side fields so a fill can be netted against the\n  sleeve's own existing position in that symbol; SleeveAccount tracks\n  per-symbol net qty and apply_fill's filled_notional now moves by the\n  signed exposure delta (negative when reducing, equal to the full fill\n  notional when opening fresh from flat -- a strict generalization, not a\n  behavior change for any position opened from flat, verified by hand\n  against the existing partial-fill tests and confirmed passing unchanged).\n- RiskEngine gains a shared _resulting_position_qty helper (used by both\n  _check_position_limit, pure refactor, and _check_sleeve_capital) and\n  _check_sleeve_capital now projects committed_notional + exposure_delta\n  against the allocation. .reserve() intentionally stays gross-notional\n  (conservative, documented scope limitation: over-counts a still-working\n  reducing order until it fills, the safe direction of error).\n\nNew tests: a fully-committed sleeve's SleeveAccount returns to full headroom\nafter a fully-closing fill; an adding fill counts only its incremental\ndelta; RiskEngine approves a reducing SELL that closes a fully-committed\nposition in both ACTIVE and REDUCING state; a SELL with no existing position\n(a new short) is still correctly denied.\n\nAlso I1: strengthens test_risk_properties.py's\ntest_no_sequence_of_approved_orders_can_breach_a_sleeve_allocation, which\npreviously reserved-and-fully-filled every approved order in the same step,\nso working_notional was always exactly 0 and the property never generated\nthe \"ten orders each fit individually, collectively breach it\" scenario\nSleeveAccount exists to guard. Each approved order now draws whether it\nfills fully, partially, or stays working unfilled.\n\nAsserts filled_notional + working_notional <= allocation directly, not the\nequivalent committed_notional property: mutation-testing (mutating\ncommitted_notional to filled_notional-only, as required) found that\nasserting via the composite property does NOT catch that mutation even with\nthe strengthened sequence, because RiskEngine._check_sleeve_capital reads\nthat same property to gate approvals, making it self-consistently satisfied\nby its own admission decisions regardless of the mutation. Asserting via the\ntwo independently-tracked components breaks that tautology and does fail\nagainst the mutation, confirmed directly.\n\nUpdated every SleeveFill(...) construction site across tests/ for the new\nrequired fields (grepped, not discovered via a failing run): test_sleeves.py,\ntest_risk_properties.py (two sites), and breakers.py's on_fill in production\ncode. test_sleeves.py's original 9 tests pass unchanged (11/11 with the 2\nnew ones); test_risk_checks.py's position_limit section confirmed\nbyte-identical behavior before/after the pure refactor.",
+  "tests": [
+   "tests/unit/test_risk_checks.py",
+   "tests/unit/test_risk_properties.py",
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/risk/breakers.py",
+   "src/shu/risk/engine.py",
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 292
+ },
+ {
+  "repo": "shu",
+  "fix": "e7b4668c455cf397f2389d2b2a38f027c45ef4ce",
+  "parent": "e80b530cf259a04bb3318489f91beb72b479f6ce",
+  "subject": "Fix C1: CircuitBreakers shares state_projection, no longer goes deaf after RESUME",
+  "task": "Fix C1: CircuitBreakers shares state_projection, no longer goes deaf after RESUME\n\nCircuitBreakers constructed its own private TradingStateProjection, but\napply_command mutates whatever projection its caller hands it -- a different\ninstance in any real composition (RiskEngine + CircuitBreakers + the command\nqueue all wired separately). A RESUME command applied to the \"real\",\nengine-facing projection never reached breakers' own copy, so the severity\nratchet in _trip_global stayed permanently stuck believing the engine was\nstill HALTED, silently suppressing every later trip with no event, no log\nline, no failure. The identical shape broke sleeve re-halting after a\nREFUND_SLEEVE.\n\nCircuitBreakers now takes state_projection as a required constructor input\ninstead of constructing its own, reversing Task 5's original documented\ndesign decision (rewritten in the module docstring, with the reasoning for\nthe reversal). Verified by direct probe (a new integration test: hard\ndaily-loss breach -> HALTED, RESUME via apply_command on the SAME shared\nprojection, second breach -> HALTED again, state_change_count == 2) and by\ntemporarily reverting the constructor change to confirm the new test fails\nwithout the fix.\n\nAlso fixes M2 while already editing this file's _breakers() helper: 3 mypy\narg-type errors from Task 9 widening on_event's type hint without updating\nthree call sites, 2 consequential union-attr errors, and 2 further\npre-existing no-untyped-def errors on the hypothesis property tests' own\nparameters -- test_breakers.py now type-checks clean under\n`mypy tests/unit/test_breakers.py`, the explicit bar this finding sets.\n\n18 pre-existing tests confirmed unaffected (still 18/18 passing); 19/19 with\nthe new integration test added.",
+  "tests": [
+   "tests/unit/test_breakers.py"
+  ],
+  "code": [
+   "src/shu/risk/breakers.py"
+  ],
+  "lines": 175
+ },
+ {
+  "repo": "shu",
+  "fix": "af9771c88685b2fdb43e6782fdded8e8c48f8886",
+  "parent": "d6de0053429f59d981f319d2243fa03630cc8e5c",
+  "subject": "Phase 4.7: Symbol locks are event-sourced and enforced by RiskEngine",
+  "task": "Phase 4.7: Symbol locks are event-sourced and enforced by RiskEngine\n\nTask 5's own review found the gap this closes: CircuitBreakers tracked\nlocked_symbols (consecutive stop-outs, per-symbol staleness) in a bare\nin-memory set, and RiskEngine.check() never consulted it -- a locked\nsymbol had zero real effect on trading, and a crash forgot the lock\nentirely.\n\nSymbolLocked is a new event, given the same three-part treatment as\nTradingStateChanged/SleeveHalted/SleeveRefunded: registered in\nEVENT_TYPES, aggregate_id_of routes it to its own risk:symbol:* stream\n(distinct from bar:* and risk:sleeve:*), and Projections.apply()'s\nno-op branch tolerates it. TradingStateProjection folds it into a\nthird piece of state, .locked_symbols, alongside .state and\n.halted_sleeves; _TradingStateView gains the matching Protocol member.\n\nCircuitBreakers now emits SymbolLocked via a new _trip_symbol_lock\n(mirroring _trip_sleeve) instead of mutating a bare set, and its\nre-trip guards read state_projection.locked_symbols instead of the\nold set. Its own locked_symbols property is unchanged in observable\nbehavior -- confirmed by running test_breakers.py alone before and\nafter this change (16/16 passing both times, then 18/18 once two new\ntests covering the event-emission path were added).\n\nRiskEngine.check() gains a thirteenth check, symbol_locked, inserted\nright after sleeve_halted and before symbol_tradable: cheap, no price\nlookup, denies before any later check runs. The other twelve checks'\nnames and relative order are unchanged.\n\nPhase 4 is complete. CLAUDE.md and README.md updated accordingly.",
+  "tests": [
+   "tests/unit/test_breakers.py",
+   "tests/unit/test_projections.py",
+   "tests/unit/test_risk_checks.py",
+   "tests/unit/test_risk_state.py"
+  ],
+  "code": [
+   "src/shu/core/events.py",
+   "src/shu/persist/projections.py",
+   "src/shu/risk/breakers.py",
+   "src/shu/risk/engine.py",
+   "src/shu/risk/state.py"
+  ],
+  "lines": 430
+ },
+ {
+  "repo": "shu",
+  "fix": "d6de0053429f59d981f319d2243fa03630cc8e5c",
+  "parent": "6615d247a34ee2e99db16667a2d9d3c39f75ff77",
+  "subject": "Phase 4.6: Sleeve B refuses strategies without a matching passing gate",
+  "task": "Phase 4.6: Sleeve B refuses strategies without a matching passing gate\n\nassert_promotable is the enforcement the architecture spec promises but\nnothing in Phase 3 or the rest of Phase 4 ever wired up: Sleeve A trades\nunconditionally (that's the point of the unvalidated, hard-capped sleeve),\nSleeve B only if a GateResult whose strategy_fingerprint matches the code's\nCURRENT source both exists and passed. Editing a strategy after it passed\nsilently invalidates the validation -- only re-deriving the fingerprint at\nload time catches that, so it is never trusted from a label on the record.\n\nAlso closes a real gap flagged during Phase 3's final review (I8) and again\nduring this plan's pre-flight scan: evaluate_gate computes and returns a\nGateResult but never persists one anywhere, so \"persisted passing GateResult\"\nwas a phrase in the spec with no code behind it. GateResultStore (mirroring\nTrialLog's already-reviewed write-once/read-back-by-fingerprint shape) plus\nthe new gate_results table close it. evaluate_gate itself is deliberately\nleft untouched -- persisting a GateResult is a separate, deliberate act, not\na side effect of every exploratory gate evaluation, and auto-wiring it would\nalso make research/ depend on risk/, reversing this codebase's layering.",
+  "tests": [
+   "tests/unit/test_promotion.py"
+  ],
+  "code": [
+   "src/shu/persist/tables.py",
+   "src/shu/risk/promotion.py"
+  ],
+  "lines": 307
+ },
+ {
+  "repo": "shu",
+  "fix": "44f0c0f8996f4eba3a6cfee668c7bb6085c5cd68",
+  "parent": "901b53fa9bb636bb1d2d0698124860c9ac28023f",
+  "subject": "Phase 4.2: exhaustive REDUCING semantics, deny rather than clip",
+  "task": "Phase 4.2: exhaustive REDUCING semantics, deny rather than clip",
+  "tests": [
+   "tests/unit/test_reducing.py"
+  ],
+  "code": [
+   "src/shu/risk/reducing.py"
+  ],
+  "lines": 62
+ },
+ {
+  "repo": "shu",
+  "fix": "901b53fa9bb636bb1d2d0698124860c9ac28023f",
+  "parent": "c14d7fb1ab5e047402985a17eb6f2e2953219131",
+  "subject": "Phase 4.2: trading state as an event-sourced, crash-safe projection",
+  "task": "Phase 4.2: trading state as an event-sourced, crash-safe projection\n\nTradingStateProjection (risk/state.py) folds TradingStateChanged/SleeveHalted events\ninto .state/.halted_sleeves instead of holding them as mutable fields, so a halt\nsurvives a crash: replaying the log after a restart lands back on HALTED, never\nsilently resuming into the condition that caused it (CLAUDE.md invariant 4).\n\nTradingStateChanged.from_state/.to_state are typed str, not TradingState, deliberately:\nimporting TradingState (shu.engine.risk_engine) into core/events.py would be a real\ncircular import (engine/intents.py already imports OrderType/Side from core/events.py),\nconfirmed empirically with an isolated repro. TradingState is a StrEnum, so passing a\nreal TradingState member still works unchanged at every call site; TradingStateProjection\ncoerces back to the real enum when folding, since it sits above both core/ and engine/.\n\nAlso required, since neither is exercised by a test that only touches\nTradingStateProjection in isolation:\n- core/events.py's aggregate_id_of() gains branches for both new event types (a fixed\n  \"risk:trading_state\" stream; per-sleeve \"risk:sleeve:{id}\") -- without this,\n  EventStore.append() crashes immediately on either event, not just on replay.\n- persist/projections.py's Projections.apply() gains a no-op branch for both, mirroring\n  the existing Bar case -- without this, fold_events() crashes the moment either event\n  appears in a mixed replay log.",
+  "tests": [
+   "tests/unit/test_projections.py",
+   "tests/unit/test_risk_state.py"
+  ],
+  "code": [
+   "src/shu/core/events.py",
+   "src/shu/persist/projections.py",
+   "src/shu/risk/state.py"
+  ],
+  "lines": 316
+ },
+ {
+  "repo": "shu",
+  "fix": "c14d7fb1ab5e047402985a17eb6f2e2953219131",
+  "parent": "166adb7015e24e89ecf9f57fedea6e3c53b75df6",
+  "subject": "Phase 4.1 fix: SleeveAccount.apply_fill handles partial fills correctly",
+  "task": "Phase 4.1 fix: SleeveAccount.apply_fill handles partial fills correctly\n\napply_fill() released a reservation's entire notional the instant any fill\narrived, including a partial one, silently understating committed_notional\nfor the still-outstanding unfilled portion -- a capital-cap bypass reached\nvia fill granularity rather than order count. Now a fill reduces the\nremaining reservation by its own real notional (qty * price), clamped at\nzero, and only fully releases once cumulative fills reach the reserved\namount. No-op for a fill that exactly matches its reservation.",
+  "tests": [
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 49
+ },
+ {
+  "repo": "shu",
+  "fix": "166adb7015e24e89ecf9f57fedea6e3c53b75df6",
+  "parent": "ad7d50e3c52dee419b53dc6f82e8d40ae48bdb0c",
+  "subject": "Phase 4.1: sleeves, limits, and committed-capital accounting",
+  "task": "Phase 4.1: sleeves, limits, and committed-capital accounting\n\nNew src/shu/risk package: SleeveLimits + RiskConfig (limits.py, frozen, loaded from\nsettings -- Sleeve A rejects allow_margin=True at construction, since its bounded\nabsolute-dollar allocation is what makes its loss bounded at all) and SleeveAccount\n(sleeves.py, capital accounting where committed_notional = filled + working). Working\norders reserve capital at submission and release it only on a terminal outcome (fill or\ncancel/reject) -- a cap counted only against fills is bypassable by queueing orders that\neach individually fit under the remaining allocation and collectively breach it once they\nall fill (architecture spec decision 3).\n\nSleeveId(StrEnum) added to core/ids.py as the closed two-value set (A_MOONSHOT,\nB_VALIDATED), not a NewType like this module's other ids, since sleeves aren't freely\ngenerated. sleeve: SleeveId | None = None added to OrderSubmitted, OrderFilled, and\nTradeIntent -- optional and defaulted, not required as the plan's literal Interfaces block\nreads, per the dispatch brief's controller ruling: a required field would have broken 46\ncombined existing construction sites across Phase 1-3 (7 TradeIntent, 39\nOrderSubmitted/OrderFilled), including every real backtest through MovingAverageCrossover\nvia Strategy.submit(), which this task deliberately does not touch -- a strategy has no\nsleeve concept of its own (CLAUDE.md invariant 2). Real sleeve assignment is external\nwiring left for a later phase.\n\nRegression-tested explicitly (not just via the full suite): test_projections.py,\ntest_events.py, and test_strategy_base.py all still pass unchanged, plus new tests\nconfirming TradeIntent/OrderSubmitted/OrderFilled default sleeve to None.",
+  "tests": [
+   "tests/unit/test_events.py",
+   "tests/unit/test_intents.py",
+   "tests/unit/test_limits.py",
+   "tests/unit/test_sleeves.py"
+  ],
+  "code": [
+   "src/shu/core/events.py",
+   "src/shu/core/ids.py",
+   "src/shu/engine/intents.py",
+   "src/shu/risk/__init__.py",
+   "src/shu/risk/limits.py",
+   "src/shu/risk/sleeves.py"
+  ],
+  "lines": 408
+ },
+ {
+  "repo": "shu",
+  "fix": "d0aa93729692e76fccc8fdd88802f3bec2985b08",
+  "parent": "8861462f48f04895a3e9a9ecbda0804b0e8f2ec7",
+  "subject": "Fix I6: min_backtest_length is vacuous at N=1, weakest on a first evaluation",
+  "task": "Fix I6: min_backtest_length is vacuous at N=1, weakest on a first evaluation\n\nmin_backtest_length(1, ...) returns 0.0 by design -- one trial has no\nselection effect to correct for, and that part is correct and unchanged. But\n_min_backtest_length_check used the live n_trials directly as the\nthreshold's input, so the very first time a (strategy, dataset) pair is ever\nevaluated, this check passed on a dataset of any length at all -- exactly\nwhen a strategy is closest to being promoted to Sleeve B.\n\nFloors the trial count used for the threshold at 2 (max(n_trials, 2)),\nwithout changing n_trials itself (still the honest count reported on\nGateResult and used by deflated_sharpe). Deliberate, controller-ruled: a\nstrategy's dataset must clear at least the 2-trial bar even on its\nfirst-ever evaluation.\n\nNew test confirms a GateResult computed with n_trials=1 uses\nmin_backtest_length(2, ...)'s value as its threshold, not 0.0 -- verified it\nfails against the pre-fix code (threshold was 0.0, check trivially passed).",
+  "tests": [
+   "tests/unit/test_gate.py"
+  ],
+  "code": [
+   "src/shu/research/gate.py"
+  ],
+  "lines": 29
+ },
+ {
+  "repo": "shu",
+  "fix": "20d9f7779f309b805ace5c93a1c446e83b6392d1",
+  "parent": "b6bfd8e0dafb3c4870743c328fe55a15c3d5d3b2",
+  "subject": "Fix I4: multi-symbol backtests crash in Portfolio.mark",
+  "task": "Fix I4: multi-symbol backtests crash in Portfolio.mark\n\nrun_backtest marked with {bar.symbol: bar.close}, a single-entry dict\ncontaining only the current bar's symbol. On an interleaved multi-symbol bar\nstream, the symbol not in the current bar is exactly the previously-filled\nposition the portfolio is still holding, so Portfolio.mark's fail-loud\n\"no mark for this open position\" guard fired -- a real regression, since\nHistoricalDataSource(symbols=[...]) and run_backtest both already treat\nmulti-symbol streams as first-class.\n\nNow tracks the last-seen close per symbol across the whole bar stream and\nmarks against that accumulated dict, preserving the fail-loud guarantee for\na symbol the stream has genuinely never sent a bar for.\n\nNew test in test_kernel.py interleaves SPY/QQQ bars with a strategy that buys\nboth and holds; confirmed it reproduces the exact ValueError (on the first\nbar marked after both positions are open) before the fix, and that the final\nequity curve's positions_value reflects both positions after it.",
+  "tests": [
+   "tests/unit/test_kernel.py"
+  ],
+  "code": [
+   "src/shu/engine/kernel.py"
+  ],
+  "lines": 67
+ },
+ {
+  "repo": "shu",
+  "fix": "b6bfd8e0dafb3c4870743c328fe55a15c3d5d3b2",
+  "parent": "d348feb7d8931c5e3c2965dd555fba796a200dea",
+  "subject": "Fix I2: the -inf sentinel is not valid JSON, Postgres will reject it",
+  "task": "Fix I2: the -inf sentinel is not valid JSON, Postgres will reject it\n\n_INSUFFICIENT_DATA_SHARPE (float(\"-inf\")) was written straight into\nresearch_trials.metrics, a JSON column. -Infinity is not a legal JSON number\nunder RFC 8259; SQLite's permissive JSON1 extension (every test here runs\nagainst sqlite:///:memory:) accepts it, Postgres's stricter JSON/JSONB parser\ndoes not.\n\nTrialLog.record now sanitizes non-finite metric values to JSON null before\nthe insert (_json_safe_metrics), and _row_to_trial_record reverses null back\nto -inf on read (_floats_from_json_safe) -- the only non-finite value this\ncodebase ever produces, so the reversal is unambiguous. TrialRecord.metrics's\nPython-side type and every existing comparison stay exactly -inf/float; only\nthe on-disk representation changes.\n\nNo Postgres is provisioned in this environment, so this is verified at the\nstring level: a new test confirms the raw stored row (queried directly,\nbypassing TrialLog's own read-path reversal) has None where -inf was logged,\nand that re-serializing it contains neither \"Infinity\" nor \"NaN\" -- the\nliteral tokens Postgres's parser would reject. A live-Postgres round-trip\ntest is deferred until Postgres is provisioned (Phase 4/5 or CI), consistent\nwith every other persistence module in this codebase being SQLite-only-tested\ntoday, not a new gap.",
+  "tests": [
+   "tests/unit/test_trials.py"
+  ],
+  "code": [
+   "src/shu/research/trials.py"
+  ],
+  "lines": 91
+ },
+ {
+  "repo": "shu",
+  "fix": "d348feb7d8931c5e3c2965dd555fba796a200dea",
+  "parent": "37b5e84c35648b98e0d5c31a6e3918abe3370151",
+  "subject": "Fix I1: profitable_at_pessimistic checked Sharpe's sign, not P&L",
+  "task": "Fix I1: profitable_at_pessimistic checked Sharpe's sign, not P&L\n\nA Sharpe ratio's sign matches its arithmetic-mean return's sign, not its\ncompounded (geometric) return's sign: alternating +50%/-40% daily returns have\npositive mean (+5%/day, Sharpe > 0) but compound to 0.9**3 = 0.729x starting\nequity, a 27% realized loss. The old check would have passed that as\n\"profitable.\"\n\n- blocks.py: extract pooled_returns() from sharpe_over_blocks (pure refactor,\n  byte-identical output for every existing caller -- confirmed by running\n  test_blocks.py alone before touching anything else).\n- walkforward.py: add WalkForwardResult.oos_total_return (the pooled\n  out-of-sample compounded growth factor minus one), computed once alongside\n  oos_sharpe from the same pooled_returns() call. Also documents (M7) why\n  _daily_returns_for_slice doesn't need the same gap-safe pooling the\n  aggregate path does.\n- gate.py: _profitable_at_pessimistic_check now reads oos_total_return\n  instead of oos_sharpe's sign.\n\ntest_walkforward.py's WalkForwardResult(...) fixture in\ntest_efficiency_is_zero_when_in_sample_sharpe_is_not_positive needed\noos_total_return added now that it's a required field; the value doesn't\naffect that test's own assertion (which is about efficiency). Added the\nreview's exact counterexample as a new regression test. No existing test\nasserted profitable_at_pessimistic's pass/fail value directly (confirmed by\ngrep), so nothing else needed updating -- the positive/negative control\nfixtures in test_validation_controls.py were re-run and still pass unchanged.",
+  "tests": [
+   "tests/unit/test_walkforward.py"
+  ],
+  "code": [
+   "src/shu/research/blocks.py",
+   "src/shu/research/gate.py",
+   "src/shu/research/walkforward.py"
+  ],
+  "lines": 147
+ },
+ {
+  "repo": "shu",
+  "fix": "37b5e84c35648b98e0d5c31a6e3918abe3370151",
+  "parent": "be4298a24816878583eb839e5a7bff1ac14d82a2",
+  "subject": "Fix I3: expected_max_sharpe crashes on the -inf sentinel C1 makes reachable",
+  "task": "Fix I3: expected_max_sharpe crashes on the -inf sentinel C1 makes reachable\n\nstatistics.stdev raises AttributeError (not ValueError) the moment\ntrial_sharpes contains a non-finite value -- a case C1's fix now makes real\nand reachable (a prior degenerate trial logged with\n_INSUFFICIENT_DATA_SHARPE). Sanitize non-finite entries to 0.0 (\"no edge\nmeasured\") for the variance estimate only; N (the exponent term) still uses\nthe full, unfiltered trial count per CLAUDE.md invariant 10.",
+  "tests": [
+   "tests/unit/test_deflated.py"
+  ],
+  "code": [
+   "src/shu/research/deflated.py"
+  ],
+  "lines": 51
+ },
+ {
+  "repo": "shu",
+  "fix": "be4298a24816878583eb839e5a7bff1ac14d82a2",
+  "parent": "1cb55dd3f5d285a26cb3d7c903f2f9b106f201c6",
+  "subject": "Fix C1: evaluate_gate crashes on a never-trading config",
+  "task": "Fix C1: evaluate_gate crashes on a never-trading config\n\nsharpe_ratio raises ValueError on zero-variance returns (a flat equity curve, e.g.\na config whose slow SMA never forms so it never trades). Two call sites only\nguarded the <2-observation case: run_trial (trials.py) and\n_deflated_sharpe_check's direct full-dataset backtest (gate.py), which crashed\nevaluate_gate outright instead of returning a GateResult whose min_trades check\nexists to catch exactly this configuration.\n\nBoth now catch the zero-variance ValueError and report it as a failing check\n(gate.py) or the existing -inf sentinel (trials.py), never letting the\nexception propagate out of evaluate_gate.",
+  "tests": [
+   "tests/unit/test_gate.py"
+  ],
+  "code": [
+   "src/shu/research/gate.py",
+   "src/shu/research/trials.py"
+  ],
+  "lines": 63
+ },
+ {
+  "repo": "shu",
+  "fix": "b5221e5cd96f00b971f4f50b27eb1dcf461c012c",
+  "parent": "517f367ea77af952410317369274ec72f47dcf36",
+  "subject": "Phase 3.7: synthetic controls -- the harness is proven on known answers",
+  "task": "Phase 3.7: synthetic controls -- the harness is proven on known answers\n\nExtends shu.research.synthetic's noise_bars/trending_bars with an additive,\nkeyword-only bar_spacing parameter (default timedelta(minutes=1), zero\nbehavior change for every existing caller -- confirmed via zero regressions\non test_synthetic.py's full 7-test suite before and after). Daily spacing\n(bar_spacing=timedelta(days=1)) is what tests/unit/test_validation_controls.py\nuses: at the brief's literal n=3000 one-minute bars (~8 trading days), the\ngate's min_backtest_length check cannot clear its own bar at any n_trials\nthese tests produce, making the positive control mathematically impossible\nto pass regardless of injected edge size, since GateResult.passed is a\nconjunction of all six checks. One bar per UTC calendar day is a direct fit\nto daily_returns()'s day-bucketing convention and keeps evaluate_gate's\n~20-30 internal backtest executions per call fast.\n\nThree controls, each with a predetermined correct verdict:\n- Negative control: MovingAverageCrossover against pure noise fails the gate\n  (n=700 daily bars, seed=101) -- confirmed: 4 of 6 checks fail as expected,\n  only min_trades and min_backtest_length pass (pure sample-size checks,\n  unrelated to whether the edge is real).\n- Positive control: MovingAverageCrossover against noise plus an injected\n  drift passes the gate (n=800 daily bars, seed=202, edge_bps_per_bar=3) --\n  all six checks pass with margin (e.g. min_trades observed=45 vs\n  threshold=30, deflated_sharpe observed=1.00 vs threshold=0.50).\n- Overfit control: the best of 60 noise configurations still fails\n  specifically on deflated_sharpe (n=1700 daily bars, seed=303) --\n  confirmed: deflated_sharpe observed=0.1966 vs threshold=0.50, alongside\n  three other checks failing too (walk_forward_efficiency, pbo,\n  min_backtest_length), consistent with this being pure noise throughout.\n\nPositive control tuning, per this task's explicit instruction to raise the\nedge and investigate rather than weaken a threshold: raising edge_bps_per_bar\nalone (tried 1/2/3/5/8/15/25/40 at n=150) was insufficient -- and, at the\nhigher end, actively counterproductive. MovingAverageCrossover(5,15) only\ntrades on an SMA crossover, and a larger edge produces a *cleaner* trend\nthat crosses the two SMAs *fewer* times: at edge_bps_per_bar=15/25/40 the\nstrategy buys once and holds for the whole dataset (min_trades observed=1.0\nagainst a threshold of 30, every time, regardless of how much larger the\nedge got from there). Multiple crossovers need the noise (a fixed +-0.25\nabsolute range, independent of price or edge) to stay comparable to the\nper-bar drift long enough to whipsaw the SMAs repeatedly -- antagonistic to\na single large edge. The reconciling combination, found by sweeping both\nedge and dataset length and confirmed robust across n=700..900 at this edge\n(not a knife-edge coincidence of one bar count): edge_bps_per_bar=3 with\nn=800, comfortably clearing every check. No GateThresholds value and no\ncheck's logic were touched -- only the injected synthetic drift's size and\nthe synthetic dataset's length, exactly the class of adjustment this task\nauthorized.\n\nFull quality gate: 230 unit tests pass (227 baseline + 3 new), mypy --strict\nclean (46 src files), ruff check + format clean, both custom lints clean\n(lint_strategy_purity.py unaffected; lint_docstrings.py's one violation in\ntest_clock.py predates this change), bandit clean on src (one pre-existing\nLow finding in synthetic.py's random.Random usage, already flagged\n`# noqa: S311` since Task 5 and untouched by this diff).",
+  "tests": [
+   "tests/unit/test_validation_controls.py"
+  ],
+  "code": [
+   "src/shu/research/synthetic.py"
+  ],
+  "lines": 249
+ },
+ {
+  "repo": "shu",
+  "fix": "67806e6e0d698026379744927dfdf65b87b169f0",
+  "parent": "624dd8437b3c4079c8f7ccaea971dbc18f4739e9",
+  "subject": "Phase 3.5: the research trial log -- N is recorded, not remembered",
+  "task": "Phase 3.5: the research trial log -- N is recorded, not remembered\n\nrun_trial is the only entry point through which a backtest may be evaluated: it runs\nthe backtest and writes the trial row in the same call, so there is no way to log a\nconfig's Sharpe without it counting toward Task 3's deflated-Sharpe N (CLAUDE.md\ninvariant 10). Trials are keyed by (strategy_fingerprint, dataset_fingerprint) from\nTask 7, never pooled across different code or different data.\n\nparams crosses the JSON boundary as plain str/int/etc; _build_strategy coerces values\nback into whatever type the strategy's own constructor annotates (Decimal for qty)\nby inspecting strategy_cls.__init__'s type hints, not by special-casing \"qty\" -- so\nit works for any Strategy subclass, not just MovingAverageCrossover.\n\nCorrects the brief's own test_trials_on_different_datasets_are_not_pooled, which\ncalled run_trial(..., params={}, ...) -- MovingAverageCrossover's constructor has no\ndefaults for fast_period/slow_period/qty, so that would throw before the test's\nassertion. Uses valid params instead, per the controller's pre-flight ruling.",
+  "tests": [
+   "tests/unit/test_trials.py"
+  ],
+  "code": [
+   "src/shu/persist/tables.py",
+   "src/shu/research/trials.py"
+  ],
+  "lines": 464
+ },
+ {
+  "repo": "shu",
+  "fix": "624dd8437b3c4079c8f7ccaea971dbc18f4739e9",
+  "parent": "5bf53cbca1ac1bf87119b0d55dd3f594e32fbd86",
+  "subject": "Phase 3.5: strategy and dataset fingerprinting",
+  "task": "Phase 3.5: strategy and dataset fingerprinting\n\nstrategy_fingerprint hashes a strategy class's literal source text\n(inspect.getsource), so two different implementations -- or the same\none edited after being validated -- never share a fingerprint.\ndataset_fingerprint hashes each bar's (symbol, ts_close, OHLCV, feed)\nsorted into a canonical order first, so the same set of bars\nfingerprints identically regardless of the order the caller's\nsequence lists them in. Both truncate a sha256 hex digest to 16\nchars. Feeds Task 8's trial log, which needs to know a logged\ntrial's exact strategy code and dataset before treating two rows as\ncomparable.",
+  "tests": [
+   "tests/unit/test_fingerprint.py"
+  ],
+  "code": [
+   "src/shu/research/fingerprint.py"
+  ],
+  "lines": 151
+ },
+ {
+  "repo": "shu",
+  "fix": "76f93f8c7d257c7b361f48d8e819a7af7fb11372",
+  "parent": "594e13d1abd15982899ec17178347d65948e6c84",
+  "subject": "Phase 3.4: CPCV paths and probability of backtest overfitting",
+  "task": "Phase 3.4: CPCV paths and probability of backtest overfitting\n\nrun_cpcv (Part B): scores every C(n_groups, k_test) raw CPCV split's test set\nvia shu.research.blocks.sharpe_over_blocks -- never a single flattened backtest,\nbecause a split's test set is the union of k_test groups which, for k_test >= 2,\nneed not be adjacent, so its bar indices can have the same kind of real temporal\ngap walk-forward's rolling-mode fold unions can. Empirically confirmed on the\nn_groups=6, k_test=2 default: 10 of the 15 raw splits have a non-adjacent test\nset (a real gap), so this is the common case, not an edge case. Scope note\ndocumented in the module docstring: this computes one Sharpe per raw split\n(len(path_sharpes) == C(n_groups, k_test), 15 for the defaults), not the fuller\n5-reconstructed-path CPCV the architecture spec and literature describe -- a\ndeliberate, documented scope reduction for this task.\n\nprobability_of_backtest_overfitting (Part C): CSCV over an already-computed\nS-subsets x M-configs performance matrix -- no bars, no strategy, self-contained.\nFor each of the C(S, S//2) train/test partitions of the S subsets, finds the\nconfig with the best mean train-half performance and checks whether that same\nconfig's out-of-sample rank among all M configs falls in the bottom half.",
+  "tests": [
+   "tests/unit/test_cpcv.py"
+  ],
+  "code": [
+   "src/shu/research/cpcv.py"
+  ],
+  "lines": 220
+ },
+ {
+  "repo": "shu",
+  "fix": "594e13d1abd15982899ec17178347d65948e6c84",
+  "parent": "673b4d6b1bbf2a36277113d31be164593bbbd2a0",
+  "subject": "Phase 3.4: extract contiguous-block Sharpe computation into a shared module",
+  "task": "Phase 3.4: extract contiguous-block Sharpe computation into a shared module\n\nwalkforward.py's _contiguous_runs and the per-run backtest/pooling logic inside\n_aggregate_sharpe were private to that module, but CPCV (Task 6) needs the exact\nsame guarantee: a CPCV split's test set is the union of k_test groups, which for\nk_test >= 2 can be non-adjacent, so a split's test indices can have the same kind\nof real gap that rolling-mode purging opens between walk-forward folds. Extract\ninto shu.research.blocks (contiguous_runs, sharpe_over_blocks) and refactor\nwalkforward.py to call it instead of maintaining a second copy.\n\nVerified zero regression: both control tests in test_walkforward.py reproduce\ntheir exact pre-refactor efficiency (0.6140703883377724 and 0.020819324146695403,\nfull float precision matches too) after the refactor. Added tests/unit/test_blocks.py\nfor the new module's own direct coverage (contiguous_runs on plain index lists,\nplus a blocked-vs-spliced reference test for sharpe_over_blocks, in the same style\nas test_walkforward.py's existing gap-regression test).",
+  "tests": [
+   "tests/unit/test_blocks.py",
+   "tests/unit/test_walkforward.py"
+  ],
+  "code": [
+   "src/shu/research/blocks.py",
+   "src/shu/research/walkforward.py"
+  ],
+  "lines": 333
+ },
+ {
+  "repo": "shu",
+  "fix": "673b4d6b1bbf2a36277113d31be164593bbbd2a0",
+  "parent": "b0ca5669ad595ffa17a89c7d2809da3f7d9c8daf",
+  "subject": "Phase 3.3: prevent _aggregate_sharpe from splicing bars across a rolling-mode purge gap",
+  "task": "Phase 3.3: prevent _aggregate_sharpe from splicing bars across a rolling-mode purge gap\n\n_aggregate_sharpe previously ran one backtest over the flattened union of every\nfold's train (or test) indices. That's correct only when the union is a single\ncontiguous block (true for anchored mode, and rolling mode with label_horizon=0).\nRolling mode with label_horizon>0 purges label_horizon bars off the right edge of\neach fold's own train window, opening a real gap between consecutive folds' train\nwindows -- flattening across that gap spliced bar N to bar N+label_horizon+1 as if\ntemporally adjacent, silently blending pre-/post-gap prices in any strategy that\ncarries state across bars (e.g. MovingAverageCrossover's rolling close window).\n\nFix: split the index union into maximal contiguous runs (_contiguous_runs), run one\nindependent fresh-strategy backtest per run, and pool the resulting *returns* (never\nraw bars) before scoring one Sharpe. Degenerates to the previous single-backtest\nbehavior when the union is already one contiguous block, so both control tests'\nnumbers are bit-for-bit unchanged (confirmed by direct re-run). New regression test\nuses anchored=False with label_horizon=100 to exercise the multi-block path, and\nchecks run_walk_forward's is_sharpe against two independent reference computations\n(one per-block/pooled, one spliced) that provably disagree with each other.",
+  "tests": [
+   "tests/unit/test_walkforward.py"
+  ],
+  "code": [
+   "src/shu/research/walkforward.py"
+  ],
+  "lines": 181
+ },
+ {
+  "repo": "shu",
+  "fix": "6bd8b8f380fcf49a734a9b95776daebafd69f17c",
+  "parent": "bf04abc6b0ebc7960014534c16b94967314f88f4",
+  "subject": "Phase 3.3: walk-forward analysis and efficiency ratio",
+  "task": "Phase 3.3: walk-forward analysis and efficiency ratio\n\nrun_walk_forward slices bars into each purged fold's in-sample/out-of-sample\nwindows (shu.research.splits.walk_forward_splits), runs a fresh strategy\ninstance through run_backtest on each side, and reports per-fold plus pooled\nSharpe (concatenating each side's daily returns across folds, not averaging\nper-fold Sharpes -- more robust to folds with too little data to score alone).\nWalkForwardResult.efficiency = oos_sharpe / is_sharpe, clamped to 0.0 when\nis_sharpe <= 0.\n\nVerified empirically against the two synthetic control cases: a genuine\nstationary edge (trending_bars) generalizes (efficiency 1.12), a strategy\ngrid-searched against one noise series (noise_bars) collapses out of sample\n(efficiency 0.016).",
+  "tests": [
+   "tests/unit/test_walkforward.py"
+  ],
+  "code": [
+   "src/shu/research/walkforward.py"
+  ],
+  "lines": 291
+ },
+ {
+  "repo": "shu",
+  "fix": "bf04abc6b0ebc7960014534c16b94967314f88f4",
+  "parent": "a6de202b96b26c118224a2e62be14f6cc15745cd",
+  "subject": "Phase 3.3: synthetic bar generators for validation-harness tests",
+  "task": "Phase 3.3: synthetic bar generators for validation-harness tests\n\nPulled forward from Task 10 because Task 5's walk-forward tests need known-answer\nprice series first: noise_bars (driftless random walk) and trending_bars (random\nwalk plus a known constant per-bar drift), so later tests can assert the harness\ncorrectly tells a real edge apart from luck. Shared across Tasks 5, 6, and 10.",
+  "tests": [
+   "tests/unit/test_synthetic.py"
+  ],
+  "code": [
+   "src/shu/research/synthetic.py"
+  ],
+  "lines": 134
+ },
+ {
+  "repo": "shu",
+  "fix": "a6de202b96b26c118224a2e62be14f6cc15745cd",
+  "parent": "580a9f79be1c8a602e975795f209533a2bb94f35",
+  "subject": "Phase 3.2: purged and embargoed train/test splits",
+  "task": "Phase 3.2: purged and embargoed train/test splits\n\nSplit, purge_and_embargo, walk_forward_splits, and cpcv_splits -- the index\narithmetic that Tasks 5 (walk-forward) and 6 (CPCV) build their runners on.\npurge_and_embargo generalizes to non-contiguous test-index sets (applying\npurge/embargo per maximal contiguous run) so cpcv_splits can reuse it\nunchanged for every combinatorial fold instead of reimplementing the\nexclusion rule. walk_forward_splits layers a past-only window restriction\n(anchored: from 0; rolling: a fixed-size slide) on top of it.\n\nFixed one test-mechanics bug inherited from the plan's literal brief text:\nzip(splits, splits[1:], strict=True) always raises ValueError regardless of\ncorrectness, since splits[1:] is by construction exactly one element shorter\nthan splits. Replaced with itertools.pairwise, which expresses the intended\n\"walk consecutive pairs\" check directly and sidesteps the strict= question\nentirely. See task-4-report.md for the empirical proof this is independent\nof n_folds and of the implementation under test.",
+  "tests": [
+   "tests/unit/test_splits.py"
+  ],
+  "code": [
+   "src/shu/research/splits.py"
+  ],
+  "lines": 221
+ },
+ {
+  "repo": "shu",
+  "fix": "b2e815c04b635252f99fb2b26164a9f34d9e353b",
+  "parent": "8c912043479d8fb22a95fe616fd7d7e7a17710e8",
+  "subject": "Phase 3.2: probabilistic and deflated Sharpe ratios, minimum backtest length",
+  "task": "Phase 3.2: probabilistic and deflated Sharpe ratios, minimum backtest length\n\nprobabilistic_sharpe_ratio, expected_max_sharpe, and deflated_sharpe_ratio are implemented\nbyte-for-byte to the task-3 brief's given formulas (verified: every Sharpe crossing the\nmodule boundary stays per-observation, never annualized).\n\nmin_backtest_length has no explicit equation in the architecture spec (only \"MinBTL(N)\" is\nnamed, not defined) -- derived it from first principles by inverting the same expected-\nmax-Sharpe relationship used by expected_max_sharpe, then verified numerically against the\nsource paper's (Bailey, Borwein, Lopez de Prado & Zhu 2014) own published example: N=45\ntrials at target Sharpe 1 needs ~5 years of data, which this implementation reproduces as\n4.9981 years.\n\nOne brief-given test (test_dsr_falls_as_more_trials_are_reported) is marked xfail with a\nfull inline explanation rather than silently forced to pass or deleted: it's a construction\nflaw in the test itself (mixing one real, differently-scaled Sharpe into a 5-point sample\nbefore estimating stdev, which lets that single outlier dominate), not a formula bug --\nconfirmed with byte-for-byte comparison against the brief's reference code and a 30-seed\nsweep (the test's asserted direction holds for only 5/30 seeds). Full derivation and\ndiagnosis in task-3-report.md.",
+  "tests": [
+   "tests/unit/test_deflated.py"
+  ],
+  "code": [
+   "src/shu/research/deflated.py"
+  ],
+  "lines": 223
+ },
+ {
+  "repo": "shu",
+  "fix": "8c912043479d8fb22a95fe616fd7d7e7a17710e8",
+  "parent": "e85eac0f54cb4c9aa1b66f0eb00c171135aea832",
+  "subject": "Phase 3.1: core backtest metrics on daily returns",
+  "task": "Phase 3.1: core backtest metrics on daily returns\n\nAdds shu.research.metrics: daily_returns collapses an equity curve to one\nclose-over-close simple return per UTC calendar day (Decimal -> float boundary\nlives here, documented explicitly); sharpe_ratio is per-observation, never\nannualized, per architecture decision 9 -- annualized_sharpe is the only\nfunction that scales by sqrt(periods_per_year), so Task 3's Probabilistic/\nDeflated Sharpe can't accidentally consume the wrong one. kurtosis is raw\n(normal ~= 3.0), not excess, matching the PSR formula it will feed.\n\nAdds scipy>=1.14 for skew/kurtosis, plus a mypy override for it (no py.typed\nmarker, same situation as the existing pandas_market_calendars override).",
+  "tests": [
+   "tests/unit/test_metrics.py"
+  ],
+  "code": [
+   "src/shu/research/metrics.py"
+  ],
+  "lines": 200
+ },
+ {
+  "repo": "shu",
+  "fix": "e85eac0f54cb4c9aa1b66f0eb00c171135aea832",
+  "parent": "74c715b7a2b3c6031a7680973e3f0138b804f9dd",
+  "subject": "Phase 3.0: Portfolio, mark-to-market, and the equity curve",
+  "task": "Phase 3.0: Portfolio, mark-to-market, and the equity curve\n\nAdds Portfolio (src/shu/portfolio/portfolio.py): folds OrderFilled events into cash and\npositions (reusing PositionView's tested weighted-average-cost accounting), and marks open\npositions to given prices to produce an EquityPoint per call. This is the returns-series\nfoundation Phase 3's statistical tests and Phase 4's circuit breakers both need; neither\nexisted before, since Projections tracks only realized cash_flow with no mark-to-market.\n\nWires Portfolio into run_backtest (src/shu/engine/kernel.py): every fill is applied to the\nportfolio alongside projections, and it is marked once per bar at that bar's close. Both\nBacktestResult.portfolio and run_backtest's new starting_cash parameter default to $10,000\nso existing callers (main_backtest.py, research/stats.py's tests) keep working unchanged.\n\nSleeve partitioning is deliberately not built here -- Phase 4 adds it once the risk engine\nneeds it.",
+  "tests": [
+   "tests/unit/test_kernel.py",
+   "tests/unit/test_portfolio.py"
+  ],
+  "code": [
+   "src/shu/engine/kernel.py",
+   "src/shu/portfolio/__init__.py",
+   "src/shu/portfolio/portfolio.py"
+  ],
+  "lines": 265
+ },
+ {
+  "repo": "shu",
+  "fix": "1eb76fa0ce7688f5e595056759c108be23a80522",
+  "parent": "c65fecfc9688a6ec6df606f2ece5ecc6427cbe91",
+  "subject": "Add docstring convention, security scanning, and Dependabot",
+  "task": "Add docstring convention, security scanning, and Dependabot\n\nCLAUDE.md: require a one-line docstring on every function/method (enforced\nby a new scripts/lint_docstrings.py, mirroring the existing strategy-purity\nlinter), add Testing standards and Security sections, and a note that\nresponses in this repo should stay short and plain-spoken.\n\nCI: add a security job (bandit static analysis, pip-audit dependency scan,\ntrufflehog secret scan) and a docstring-lint step. Enable ruff's flake8-bandit\n(S) rules for fast in-editor security feedback. Add Dependabot for pip and\ngithub-actions.\n\nRetrofitted the existing lint script and its tests to carry docstrings.",
+  "tests": [
+   "tests/unit/test_docstring_lint.py",
+   "tests/unit/test_strategy_purity_lint.py"
+  ],
+  "code": [
+   "scripts/lint_docstrings.py",
+   "scripts/lint_strategy_purity.py"
+  ],
+  "lines": 312
+ },
+ {
+  "repo": "wasl",
+  "fix": "b967dbab641171ed4aac95bcd6c238958b61fc12",
+  "parent": "81e2eb6d9074430bb92bd3834bcb558d58a3b58c",
+  "subject": "feat: a slim notice shows while the browser is offline and hides when the connection returns",
+  "task": "feat: a slim notice shows while the browser is offline and hides when the connection returns",
+  "tests": [
+   "tests/unit/connectivity.test.ts"
+  ],
+  "code": [
+   "src/components/layout/AuthenticatedLayout.tsx",
+   "src/components/layout/PublicLayout.tsx",
+   "src/components/ui/OfflineBanner.tsx",
+   "src/hooks/useOnlineStatus.ts",
+   "src/lib/connectivity.ts"
+  ],
+  "lines": 115
+ },
+ {
+  "repo": "wasl",
+  "fix": "ea18b0e1ee3329881ad22b7cbdc1811d210e6a49",
+  "parent": "fe053cf2fa3a5b2de6959f263addec35c93205bc",
+  "subject": "feat: older dates read as weeks, months and years; under a minute reads \"just now\"",
+  "task": "feat: older dates read as weeks, months and years; under a minute reads \"just now\"",
+  "tests": [
+   "tests/unit/formatters.test.ts"
+  ],
+  "code": [
+   "src/utils/formatters.ts"
+  ],
+  "lines": 96
+ },
+ {
+  "repo": "wasl",
+  "fix": "47b5a18a36fedd9cde048095e4a17de9272162af",
+  "parent": "6445f92b00c75710eebc79f7da9a9c938be3333a",
+  "subject": "fix: type guard in listAppeals so the app type-checks and builds again",
+  "task": "fix: type guard in listAppeals so the app type-checks and builds again\n\nThe filter narrowed rows to AppealWithProfile & { actedBy?: undefined }, which\nTypeScript reduces to never because actedBy already has a different type. Narrow\nto the row as fetched instead; actedBy is added by the map below as before.\nAdds unit tests that pin listAppeals' behaviour (null profile embeds dropped,\nactedBy from the newest matching log entry) and gives the test project the\nvite/client types it needs to import app code that reads import.meta.env.",
+  "tests": [
+   "tests/unit/appeals.test.ts"
+  ],
+  "code": [
+   "src/lib/api/moderationApi.ts"
+  ],
+  "lines": 82
+ },
+ {
+  "repo": "wasl",
+  "fix": "75399e869b1dd20830942ca4581bb24c7eb777bc",
+  "parent": "f1034791604cabbbef6ad49cc949ce3240713ac6",
+  "subject": "fix: close the seams between the intents, moderation and posts branches",
+  "task": "fix: close the seams between the intents, moderation and posts branches\n\nThree branches merged clean, but each was written without sight of the other\ntwo. These are the defects and gaps that only exist in the space between them.\n\nAn organizer could rewrite a member's comment. The UPDATE policy on\npost_comments has to admit organizers so they can tombstone one, and row-level\nsecurity is per row rather than per column, so nothing stopped the body being\nchanged. \u00a76.1 grants organizers \"delete anyone's comment\" and nothing more.\nBeing misquoted in a community where people see each other at jumu'ah is worse\nthan being unheard, and worse than the shadow banning \u00a76.4 rules out. Postgres\ncannot express a per-column policy, so a trigger enforces it, and a test now\nasserts the denial rather than trusting the data layer to call the right update.\n\nRemoving a post or a comment left no audit trail. \u00a76.4 requires every\nmoderation action to write to the append-only log, but record_moderation_action\nis deliberately un-granted so only a SECURITY DEFINER function can reach it,\nand the posts data layer had no such function to call. Neither branch could\nclose this alone: one owns the content, the other owns the log. Soft-delete and\nthe log entry now happen inside one function, so a removal cannot be recorded\nin the content table without also being recorded in the log. An audit trail you\ncan forget to write is not an audit trail.\n\nThat split deleteComment in two, because the same word covered two different\nacts. An author retracting their own comment is not moderation and is not\nlogged; an organizer removing someone else's is both. The caller now says which\nit is.\n\nA muted member met a bare database rejection. The mute is enforced in the\ncomment policy, but the composer had no way to explain itself \u2014 the posts\nbranch had no mutes table to read and left a TODO. The banner and the in-place\ncomposer notice are now wired to the viewer's own mute, so the member is told\nwhat \u00a76.4 requires them to be told: the community, the expiry or \"until an\norganizer lifts it\", and the reason verbatim, never who did it.\n\nThe posts branch also carried two local shims \u2014 its own isActiveMember and a\nstring-compare role check written to survive either side of the admin \u2192\norganizer rename. Both are replaced by the shared, typed helpers now that the\nrename has landed.\n\nAdds the five assertions that could only be written after integration: the\ncomment-body trigger in both directions, and the three \u00a78.2 minimums about\nmutes that needed the moderation table to exist. Seven todos remain, all of\nthem messaging.\n\nAlso stops the linter walking into .claude/worktrees \u2014 it is a copy of this\nrepo, and every file was being reported three times.",
+  "tests": [
+   "tests/unit/pending-policies.test.ts"
+  ],
+  "code": [
+   "src/features/communities/CommunityDetailPage.tsx",
+   "src/features/posts/CommentList.tsx",
+   "src/features/posts/PostDetail.tsx",
+   "src/features/posts/usePosts.ts",
+   "src/lib/api/postsApi.ts"
+  ],
+  "lines": 379
+ },
+ {
+  "repo": "wasl",
+  "fix": "1b1f10095b3d138ceeb7ab9163907ffae6e6c42b",
+  "parent": "c196826402a8f1bdde6411ec8cc4dd97c4a34548",
+  "subject": "fix: escape search terms in PostgREST or() filters",
+  "task": "fix: escape search terms in PostgREST or() filters\n\nThe directory search box was interpolated straight into an or() expression,\nwhich PostgREST parses by splitting on commas and parentheses. Searching for a\nname or a city containing a comma returned PGRST100 and a 400 -- the workhorse\nscreen of the app, broken by ordinary input. A crafted term could also append\nfilter clauses of its own; RLS still held, but the results were not what the\nquery intended.\n\nWrapping the value in double quotes is PostgREST's documented way to make those\ncharacters literal. Verified against the live API before and after.\n\nWildcards are stripped rather than escaped: ilike has no ESCAPE clause over the\nREST interface, so a literal percent sign cannot be expressed, and silently\nwidening someone's search is worse than ignoring a character they almost\ncertainly did not mean as a wildcard.\n\nsearchCommunities already had an ad-hoc version of this fix, stripping the same\ncharacters and losing the match in the process. Both call sites now share one\nhelper.",
+  "tests": [
+   "tests/unit/search.test.ts"
+  ],
+  "code": [
+   "src/lib/api/communitiesApi.ts",
+   "src/lib/api/profilesApi.ts",
+   "src/utils/search.ts"
+  ],
+  "lines": 88
+ }
+]

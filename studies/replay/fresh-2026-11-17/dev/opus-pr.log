@@ -1,0 +1,46 @@
+portfolio-02ed3bf67c opus+protocol-review #0: pass 125s
+agentops-75b77ef6d7 opus+protocol-review #0: pass 156s
+portfolio-b88848a4a3 opus+protocol-review #0: fail 207s
+tannhauser-gate-e010b19181 opus+protocol-review #0: fail 213s
+portfolio-66467c3231 opus+protocol-review #0: pass 236s
+portfolio-8933dceea0 opus+protocol-review #0: pass 240s
+agentops-15ff24efab opus+protocol-review #0: pass 211s
+agentops-58916f28b5 opus+protocol-review #0: pass 222s
+portfolio-8666788dc1 opus+protocol-review #0: pass 148s
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/user/flywheel/src/flywheel/__main__.py", line 7, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/user/flywheel/src/flywheel/cli.py", line 575, in main
+    return cmd_replay(args)
+  File "/home/user/flywheel/src/flywheel/cli.py", line 404, in cmd_replay
+    results = replay.run_all(
+        specs,
+    ...<13 lines>...
+        ),
+    )
+  File "/home/user/flywheel/src/flywheel/replay.py", line 583, in run_all
+    record = future.result()
+  File "/usr/local/lib/python3.13/concurrent/futures/_base.py", line 453, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/concurrent/futures/_base.py", line 402, in __get_result
+    raise self._exception
+  File "/usr/local/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/user/flywheel/src/flywheel/replay.py", line 482, in run_agent
+    materialize(spec, case, work, at="parent", tests=False)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/flywheel/src/flywheel/replay.py", line 171, in materialize
+    archive = subprocess.run(
+              ~~~~~~~~~~~~~~^
+        ["git", "-C", spec.path, "archive", rev], capture_output=True, check=True
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).stdout
+    ^
+  File "/usr/local/lib/python3.13/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', '-C', 'agentops', 'archive', '2072d09346f9f5cf26d357b9da3f7b169a998edf']' returned non-zero exit status 128.

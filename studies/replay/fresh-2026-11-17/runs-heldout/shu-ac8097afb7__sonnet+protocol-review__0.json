@@ -1,0 +1,16 @@
+{
+ "case": "shu-ac8097afb7",
+ "model": "sonnet+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 438,
+ "turns": 3,
+ "tokens": 166815,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

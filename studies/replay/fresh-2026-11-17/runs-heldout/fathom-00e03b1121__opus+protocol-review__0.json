@@ -1,0 +1,17 @@
+{
+ "case": "fathom-00e03b1121",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 159,
+ "turns": 44,
+ "tokens": 2015656,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 6,
+ "passed": false,
+ "fail_tail": "     assert s[\"inform_only\"] == 1\n        assert s[\"false_alarms\"] == 1 and s[\"clean_cases_flagged\"] == \"1/1\"\n>       assert s[\"precision\"] == 0.5 and s[\"duplicate_findings\"] == 0\n                                         ^^^^^^^^^^^^^^^^^^^^^^^\nE       KeyError: 'duplicate_findings'\n\ntests/test_review_eval.py:40: KeyError\n=========================== short test summary info ============================\nFAILED tests/test_review_eval.py::test_grading_counts_catches_inform_and_false_alarms\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 1 passed in 5.78s\n"
+}

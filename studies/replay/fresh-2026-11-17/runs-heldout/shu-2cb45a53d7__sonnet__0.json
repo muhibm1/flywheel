@@ -1,0 +1,15 @@
+{
+ "case": "shu-2cb45a53d7",
+ "model": "sonnet",
+ "rep": 0,
+ "seconds": 37,
+ "turns": 24,
+ "tokens": 729896,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

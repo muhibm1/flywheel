@@ -1,0 +1,18 @@
+{
+ "case": "shu-1cb5a18638",
+ "model": "sonnet+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "timed_out": true,
+ "seconds": 1328,
+ "turns": 1,
+ "tokens": 70853,
+ "agent_error": true,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "error_text": "",
+ "files_changed": 7,
+ "passed": false
+}

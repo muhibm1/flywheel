@@ -1,0 +1,16 @@
+{
+ "case": "shu-be4298a248",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 133,
+ "turns": 38,
+ "tokens": 1112068,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

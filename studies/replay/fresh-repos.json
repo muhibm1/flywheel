@@ -1,0 +1,163 @@
+[
+  {
+    "name": "verity",
+    "path": "verity",
+    "test_command": "\"$VERITY_PY\" -m pytest -q -x -p no:cacheprovider {tests}",
+    "code_globs": [
+      "verity/**/*.py",
+      "scripts/**/*.py"
+    ],
+    "test_globs": [
+      "tests/test_*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}"
+    },
+    "agent_path": "$VERITY_BIN"
+  },
+  {
+    "name": "foothold",
+    "path": "foothold",
+    "test_command": "\"$FOOTHOLD_PY\" -m pytest -q -x -p no:cacheprovider -m \"not postgres\" {tests}",
+    "code_globs": [
+      "src/**/*.py"
+    ],
+    "test_globs": [
+      "tests/test_*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}/src"
+    },
+    "agent_path": "$FOOTHOLD_BIN"
+  },
+  {
+    "name": "fathom",
+    "path": "fathom",
+    "test_command": "PATH=\"$FATHOM_BIN:$PATH\" \"$FATHOM_PY\" -m pytest -q -x -p no:cacheprovider {tests}",
+    "code_globs": [
+      "src/**/*.py",
+      "fixture/**/*.py"
+    ],
+    "test_globs": [
+      "tests/**/test_*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}/src"
+    },
+    "agent_path": "$FATHOM_BIN"
+  },
+  {
+    "name": "marginalia",
+    "path": "marginalia",
+    "test_command": "\"$MARGINALIA_PY\" -m pytest -q -x -p no:cacheprovider {tests}",
+    "code_globs": [
+      "sourcelens/**/*.py",
+      "scripts/**/*.py",
+      "replay/**/*.py"
+    ],
+    "test_globs": [
+      "tests/test_*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}"
+    },
+    "agent_path": "$MARGINALIA_BIN"
+  },
+  {
+    "name": "erp-data-platform",
+    "path": "erp-data-platform",
+    "test_command": "\"$ERP_PY\" -m pytest -q -x -p no:cacheprovider {tests}",
+    "code_globs": [
+      "clearledger/**/*.py",
+      "remit/**/*.py",
+      "voight/**/*.py",
+      "analyst/**/*.py",
+      "engagement/**/*.py",
+      "crm/**/*.py",
+      "voice/**/*.py",
+      "eval/**/*.py"
+    ],
+    "test_globs": [
+      "tests/test_*.py",
+      "*/tests/test_*.py",
+      "*/test_*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}"
+    },
+    "agent_path": "$ERP_BIN"
+  },
+  {
+    "name": "studbook",
+    "path": "studbook",
+    "test_command": "\"$STUDBOOK_PY\" -m unittest {tests}",
+    "code_globs": [
+      "answer/**/*.py",
+      "api/**/*.py",
+      "ingest/**/*.py",
+      "retrieve/**/*.py",
+      "eval/**/*.py",
+      "gate/**/*.py",
+      "store/**/*.py",
+      "localrecord/**/*.py",
+      "mcp_server/**/*.py",
+      "cli.py",
+      "scripts/**/*.py"
+    ],
+    "test_globs": [
+      "tests/test_*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}"
+    },
+    "agent_path": "$STUDBOOK_BIN"
+  },
+  {
+    "name": "shu",
+    "path": "shu",
+    "test_command": "\"$SHU_PY\" -m pytest -q -x -p no:cacheprovider -m \"not integration\" {tests}",
+    "code_globs": [
+      "src/**/*.py",
+      "scripts/**/*.py"
+    ],
+    "test_globs": [
+      "tests/unit/**/test_*.py",
+      "tests/parity/**/test_*.py",
+      "tests/fakes/**/*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}/src"
+    },
+    "agent_path": "$SHU_BIN"
+  },
+  {
+    "name": "wasl",
+    "path": "wasl",
+    "test_command": "npx vitest run --project unit {tests}",
+    "code_globs": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "test_globs": [
+      "tests/unit/**/*.test.ts"
+    ],
+    "links": {
+      "node_modules": "$WASL_NM"
+    }
+  },
+  {
+    "name": "studbook-agent",
+    "path": "studbook-agent",
+    "test_command": "\"$STUDBOOK_AGENT_PY\" -m pytest -q -x -p no:cacheprovider {tests}",
+    "code_globs": [
+      "src/**/*.py"
+    ],
+    "test_globs": [
+      "tests/test_*.py"
+    ],
+    "env": {
+      "PYTHONPATH": "{work}/src"
+    },
+    "agent_path": "$STUDBOOK_AGENT_BIN"
+  }
+]

@@ -1,0 +1,18 @@
+{
+ "case": "shu-8bd68bd2ba",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "timed_out": true,
+ "seconds": 901,
+ "turns": null,
+ "tokens": 0,
+ "agent_error": true,
+ "flags": [],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "error_text": "",
+ "files_changed": 2,
+ "passed": false
+}

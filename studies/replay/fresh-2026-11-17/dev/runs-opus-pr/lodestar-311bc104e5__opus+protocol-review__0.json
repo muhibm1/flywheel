@@ -1,0 +1,17 @@
+{
+ "case": "lodestar-311bc104e5",
+ "model": "opus+protocol-review",
+ "rep": 0,
+ "harness": "protocol-review",
+ "seconds": 252,
+ "turns": 32,
+ "tokens": 1698501,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": false,
+ "fail_tail": "sed) == 1 and refused[0].reason == \"in_flight\" and refused[0].status == 409\nE       assert (1 == 1 and 'not_waiting' == 'in_flight'\nE        +  where 1 = len([Refused(\"run '1ce50fe2cfcc' is running, not waiting\")])\nE         \nE         - in_flight\nE         + not_waiting)\n\ntests/test_service.py:360: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_service.py::test_two_decisions_on_one_run_take_turns - asse...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 21 passed, 2 skipped in 14.69s\n"
+}
