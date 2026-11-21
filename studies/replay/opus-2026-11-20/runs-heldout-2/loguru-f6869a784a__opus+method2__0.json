@@ -1,0 +1,16 @@
+{
+ "case": "loguru-f6869a784a",
+ "model": "opus+method2",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 173,
+ "turns": 14,
+ "tokens": 576504,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

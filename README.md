@@ -81,7 +81,10 @@ and Haiku 76%, with Sonnet using about half of Opus's tokens
 agent had seen, scored once, Sonnet passed 93% and Opus 87%. A working method plus a
 review-and-repair pass (`--harness protocol-review`) made no measurable difference; the task text
 did: these commit messages say what to build
-([report](docs/results/replay-fresh-2026-11-17.md)).
+([report](docs/results/replay-fresh-2026-11-17.md)). On 45 real changes from ten public
+open-source Python projects (click, attrs, pluggy, werkzeug and others) that no agent had seen,
+scored once with a frozen setup, Opus passed 98% (44 of 45)
+([report](docs/results/replay-opus-oss-2026-11-21.md)).
 
 `flywheel finish-check` is a Claude Code hook that will not let a turn end on code that was edited
 and never checked. Replay measured it: it made no measurable difference to Sonnet's pass rate, so it is offered as a

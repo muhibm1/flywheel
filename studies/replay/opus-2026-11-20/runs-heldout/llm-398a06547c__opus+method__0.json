@@ -1,0 +1,17 @@
+{
+ "case": "llm-398a06547c",
+ "model": "opus+method",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 247,
+ "turns": 16,
+ "tokens": 677867,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": false,
+ "fail_tail": "     AssertionError: assert {'title': 'An...'A document'}} == {'default': {...'A document'}}\nE         \nE         Omitting 1 identical items, use -vv to show\nE         Left contains 1 more item:\nE         {'title': 'Annotation'}\nE         Use -v to get more diff\n\ntests/test_tools.py:1609: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_tools.py::test_schema_title_removal_walks_keyword_named_schemas[default-dependencies]\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 76 passed in 5.73s\n"
+}

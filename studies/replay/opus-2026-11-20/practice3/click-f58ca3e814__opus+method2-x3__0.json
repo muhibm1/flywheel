@@ -1,0 +1,25 @@
+{
+ "case": "click-f58ca3e814",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 3,
+ "seconds": 129,
+ "tokens": 1103066,
+ "attempt_passed": [
+  true,
+  true,
+  true
+ ],
+ "agent_error": false,
+ "flags": [],
+ "chosen": 0,
+ "vote_scores": [
+  46,
+  46,
+  46
+ ],
+ "timed_out": false,
+ "passed": true,
+ "edited_code": true,
+ "verified_finish": true
+}

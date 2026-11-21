@@ -1,0 +1,25 @@
+{
+ "case": "marshmallow-76bc28ae74",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 3,
+ "seconds": 104,
+ "tokens": 950656,
+ "attempt_passed": [
+  true,
+  true,
+  true
+ ],
+ "agent_error": false,
+ "flags": [],
+ "chosen": 1,
+ "vote_scores": [
+  934,
+  935,
+  934
+ ],
+ "timed_out": false,
+ "passed": true,
+ "edited_code": true,
+ "verified_finish": true
+}

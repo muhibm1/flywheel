@@ -1,0 +1,16 @@
+{
+ "case": "tenacity-389aab8b26",
+ "model": "opus+method2",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 80,
+ "turns": 28,
+ "tokens": 958623,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 6,
+ "passed": true
+}

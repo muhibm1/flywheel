@@ -180,14 +180,33 @@ def materialize(spec: RepoSpec, case: Case, dest: Path, *, at: str, tests: bool)
         overlay_tests(spec, case, dest)
 
 
+def test_assets(spec: RepoSpec, case: Case) -> list[str]:
+    """The case's test files plus every other file the change touched in the same test folders.
+
+    A test can read a fixture the change added next to it (a sample source file, a data file);
+    without it the real tests fail whatever the agent does.
+    """
+    roots = {t.split("/")[0] for t in case.tests if "/" in t}
+    changed = _git(spec.path, "diff", "--name-only", case.parent, case.fix, check=False).split()
+    extra = [
+        f
+        for f in changed
+        if f.split("/")[0] in roots
+        and f not in case.tests
+        and f not in case.code
+        and not _matches(f, spec.code_globs)
+    ]
+    return list(case.tests) + extra
+
+
 def overlay_tests(spec: RepoSpec, case: Case, dest: Path) -> None:
-    """Copy the fix commit's version of each of the case's test files into `dest`."""
-    for rel in case.tests:
+    """Copy the fix commit's version of the case's test files and test fixtures into `dest`."""
+    for rel in test_assets(spec, case):
         shown = subprocess.run(
             ["git", "-C", spec.path, "show", f"{case.fix}:{rel}"], capture_output=True
         )
         if shown.returncode:
-            continue  # the change deleted this test file
+            continue  # the change deleted this file
         target = dest / rel
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(shown.stdout)
@@ -406,11 +425,45 @@ Task:
 {task}
 """
 
+METHOD_PROMPT = """You are working in a copy of a software repository. It has no history and no \
+network. Make the change described in the task below, the way the repository's own maintainer did.
+
+The task is the message of the real commit. Tests written with that commit will check your work \
+afterwards. Work like this:
+
+1. Read the repository's own instructions (CLAUDE.md, README, CONTRIBUTING) and the code and \
+existing tests around everything the task touches. Find how similar things are already done.
+2. List every concrete requirement in the task. Exact words in the task (quoted text, names, \
+flags, message wording, labels, numbers) are exact requirements: use them verbatim.
+3. Where the task describes something new without naming it (a field, key, option, function, \
+message or status), name it from the task's own words in the code's existing style, for example \
+"duplicate findings are reported" becomes a `duplicate_findings` key next to the existing keys. \
+Where the task says the program refuses, rejects or fails on something, do it the way the \
+neighbouring code already refuses things: the same exception type, exit code and message style.
+4. Where the task says tests were added or changed, write those tests yourself in the existing \
+test files and style, then implement until they pass. Think through the cases the change implies \
+and test them too: duplicates, empty values, nesting, ordering, and names or values that look \
+like the keywords the code treats specially. Keep existing behaviour and tests unless \
+the task says they change; when it says an expectation changes, update that test.
+5. Run the test files for what you touched, as often as you need. Run the repository's whole test \
+suite once, near the end, with output trimmed (for example `-q -x` and `| tail`); if it is slow, \
+run the test folders nearest your change instead of repeating it.
+6. Before finishing, reread the task line by line against `git diff`. Fix anything missing or \
+only partly done, then stop.
+
+Do not ask questions. Do not use git history commands (stash, checkout, reset, log) or the \
+network.
+
+Task:
+{task}
+"""
+
 HARNESSES = {
     # name: the prompts run one after another in the same working copy
     "plain": (PROMPT,),
     "protocol": (PROTOCOL_PROMPT,),
     "protocol-review": (PROTOCOL_PROMPT, REVIEW_PROMPT),
+    "method": (METHOD_PROMPT,),
 }
 
 EXTRA_TOOLS = (
@@ -459,6 +512,7 @@ def run_agent(
     settings: str | None = None,
     clean: bool = False,
     harness: str = "plain",
+    capture: bool = False,
 ) -> dict:
     """One replay: the agent works on the rewound copy, then the real tests judge it.
 
@@ -542,11 +596,13 @@ def run_agent(
             record["error_text"] = (str(final.get("result") or "") or stderr)[-400:]
         changed = _git(work, "status", "--porcelain", check=False).strip().splitlines()
         record["files_changed"] = len(changed)
+        if capture:
+            record["files"] = changed_files(work)
         overlay_tests(spec, case, work)
         ok, tail = run_tests(spec, case, work)
         record["passed"] = bool(ok) and not record["agent_error"]
         if not ok:
-            record["fail_tail"] = tail[-600:]
+            record["fail_tail"] = failure_summary(tail)
     finally:
         shutil.rmtree(work, ignore_errors=True)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -554,7 +610,198 @@ def run_agent(
     return record
 
 
+def failure_summary(output: str, limit: int = 1500) -> str:
+    """The lines that say why the tests failed, not the warnings that pytest prints last."""
+    keep = [
+        line
+        for line in output.splitlines()
+        if re.match(r"(FAILED|ERROR|E  )|\S+Error\b|.*(assert|Traceback)", line)
+    ]
+    return ("\n".join(keep) or output)[-limit:]
+
+
+def changed_files(work: Path) -> dict[str, str | None]:
+    """Every file the agent changed since the snapshot: base64 content, or None when deleted."""
+    import base64
+
+    _git(work, "add", "-A", check=False)
+    names = _git(work, "diff", "--cached", "--name-only", "--no-renames", check=False).split()
+    out: dict[str, str | None] = {}
+    for name in names:
+        path = work / name
+        out[name] = base64.b64encode(path.read_bytes()).decode() if path.is_file() else None
+    return out
+
+
+def _is_test_path(spec: RepoSpec, path: str) -> bool:
+    """A test file or a file in a test folder (a fixture), as opposed to code."""
+    return _matches(path, spec.test_globs) or path.split("/")[0] in {"tests", "testing", "test"}
+
+
+def _write_files(dest: Path, files: dict[str, str | None]) -> None:
+    """Write captured files into a copy (None deletes)."""
+    import base64
+
+    for name, content in files.items():
+        target = dest / name
+        if content is None:
+            target.unlink(missing_ok=True)
+            continue
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(base64.b64decode(content))
+
+
+PASSED_LINE = re.compile(r"^PASSED (\S+)", re.M)
+
+
+def _passing_tests(spec: RepoSpec, case: Case, code: dict, tests: dict, scratch: Path) -> set[str]:
+    """Which of one attempt's own tests pass on another attempt's code (pytest node ids)."""
+    runnable = [n for n, c in tests.items() if c is not None and _matches(n, spec.test_globs)]
+    if not runnable:
+        return set()
+    work = Path(tempfile.mkdtemp(prefix=f"vote-{case.id}-", dir=scratch))
+    try:
+        materialize(spec, case, work, at="parent", tests=False)
+        _write_files(work, code)
+        _write_files(work, tests)
+        cmd = (
+            spec.test_command.replace(" -x", "").format(
+                tests=" ".join(shlex.quote(t) for t in runnable)
+            )
+            + " -rA"
+        )
+        env = {**os.environ, **{k: v.format(work=work) for k, v in spec.env.items()}}
+        try:
+            done = subprocess.run(
+                cmd, shell=True, cwd=work, env=env, capture_output=True, text=True, timeout=600
+            )
+        except subprocess.TimeoutExpired:
+            return set()
+        return set(PASSED_LINE.findall(done.stdout))
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+
+
+def choose_by_tests(spec: RepoSpec, case: Case, attempts: list[dict]) -> tuple[int, list[int], int]:
+    """Pick the attempt whose code passes the most of every attempt's own tests.
+
+    Each attempt wrote tests for the task. A test counts only if it passes on its own author's
+    code. An attempt scores one point for each such test, from any attempt, that its code also
+    passes. The hidden tests are never read. Ties go to the earliest attempt.
+    """
+    split = []
+    for a in attempts:
+        files = a.get("files") or {}
+        code = {n: c for n, c in files.items() if not _is_test_path(spec, n)}
+        tests = {n: c for n, c in files.items() if _is_test_path(spec, n)}
+        split.append((code, tests))
+    scratch = Path(tempfile.mkdtemp(prefix=f"vote-{case.id}-"))
+    try:
+        valid = [_passing_tests(spec, case, code, tests, scratch) for code, tests in split]
+        scores = []
+        for i, (code_i, _) in enumerate(split):
+            score = 0
+            for j, (_, tests_j) in enumerate(split):
+                if not valid[j]:
+                    continue
+                passed = (
+                    valid[j] if i == j else _passing_tests(spec, case, code_i, tests_j, scratch)
+                )
+                score += len(passed & valid[j])
+            scores.append(score)
+    finally:
+        shutil.rmtree(scratch, ignore_errors=True)
+    best = max(range(len(scores)), key=lambda k: (scores[k], -k))
+    return best, scores, sum(len(v) for v in valid)
+
+
+def run_ensemble(
+    spec: RepoSpec,
+    case: Case,
+    *,
+    model: str,
+    rep: int,
+    out_dir: Path,
+    attempts: int = 3,
+    setup: str = "",
+    **options,
+) -> dict:
+    """Several independent attempts; the agents' own tests vote; the chosen attempt is scored.
+
+    Each attempt is an ordinary replay run (kept in `out_dir/attempts/`). The choice uses only
+    the tests the attempts wrote themselves, never the real change's tests; the record's `passed`
+    is the chosen attempt's result on the real tests. Attempts that crashed make the whole run a
+    crash, to be re-run; attempts flagged for reaching outside their copy cannot be chosen.
+    When the first two attempts' code each pass every test either one wrote, no third is run.
+    """
+    label = f"{model}+{setup}" if setup else model
+    out_file = out_dir / f"{case.id}__{label}__{rep}.json"
+    if out_file.exists():
+        old = json.loads(out_file.read_text())
+        if not crashed(old):
+            return old
+    tries: list[dict] = []
+    for k in range(attempts):
+        tries.append(
+            run_agent(
+                spec,
+                case,
+                model=model,
+                rep=rep * attempts + k,
+                out_dir=out_dir / "attempts",
+                setup=f"{setup}-attempt",
+                capture=True,
+                **options,
+            )
+        )
+        if k == 1 and not any(crashed(t) or real_flags(t) for t in tries):
+            # Two attempts whose code passes every test either one wrote: a third adds little.
+            _, scores, total = choose_by_tests(spec, case, tries)
+            if total and all(score == total for score in scores):
+                break
+    record: dict = {
+        "case": case.id,
+        "model": label,
+        "rep": rep,
+        "attempts": len(tries),
+        "seconds": sum(t.get("seconds") or 0 for t in tries),
+        "tokens": sum(t.get("tokens") or 0 for t in tries),
+        "attempt_passed": [bool(t.get("passed")) for t in tries],
+    }
+    broken = [t for t in tries if crashed(t)]
+    if broken:
+        record.update(agent_error=True, error_text=broken[0].get("error_text", ""), flags=[])
+        record["passed"] = False
+    else:
+        usable = [k for k, t in enumerate(tries) if not real_flags(t)]
+        if not usable:
+            record.update(agent_error=False, flags=real_flags(tries[0]), passed=False)
+        else:
+            pick, scores, _ = choose_by_tests(spec, case, [tries[k] for k in usable])
+            chosen = tries[usable[pick]]
+            record.update(
+                agent_error=False,
+                flags=[],
+                chosen=usable[pick],
+                vote_scores=scores,
+                timed_out=bool(chosen.get("timed_out")),
+                passed=bool(chosen.get("passed")),
+                edited_code=chosen.get("edited_code"),
+                verified_finish=chosen.get("verified_finish"),
+            )
+            if not chosen.get("passed"):
+                record["fail_tail"] = chosen.get("fail_tail", "")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_file.write_text(json.dumps(record, indent=1))
+    return record
+
+
 LIMIT = re.compile(r"hit your .*limit|usage limit|rate limit", re.I)
+
+
+def _single(spec: RepoSpec, case: Case, *, attempts: int = 1, **options) -> dict:
+    """One ordinary replay run (`attempts` is only for run_ensemble)."""
+    return run_agent(spec, case, **options)
 
 
 def run_all(
@@ -573,7 +820,13 @@ def run_all(
     with ThreadPoolExecutor(max_workers=workers) as pool:
         futures = [
             pool.submit(
-                run_agent, specs[c.repo], c, model=m, rep=r, out_dir=out_dir, **agent_options
+                run_ensemble if agent_options.get("attempts", 1) > 1 else _single,
+                specs[c.repo],
+                c,
+                model=m,
+                rep=r,
+                out_dir=out_dir,
+                **agent_options,
             )
             for c, m, r in jobs
         ]

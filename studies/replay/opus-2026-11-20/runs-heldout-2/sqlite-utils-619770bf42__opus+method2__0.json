@@ -1,0 +1,16 @@
+{
+ "case": "sqlite-utils-619770bf42",
+ "model": "opus+method2",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 46,
+ "turns": 13,
+ "tokens": 562242,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

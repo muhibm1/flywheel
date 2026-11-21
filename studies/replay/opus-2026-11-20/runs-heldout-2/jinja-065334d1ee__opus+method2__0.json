@@ -1,0 +1,16 @@
+{
+ "case": "jinja-065334d1ee",
+ "model": "opus+method2",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 38,
+ "turns": 9,
+ "tokens": 322180,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

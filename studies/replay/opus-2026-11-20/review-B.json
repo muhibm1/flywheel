@@ -1,0 +1,282 @@
+[
+  {
+    "id": "attrs-48b8611c27",
+    "verdict": "DROP",
+    "reason": "Test matches the new error message 'Passed object must be a class or attrs instance.', which the task never gives."
+  },
+  {
+    "id": "attrs-937b1e2328",
+    "verdict": "KEEP",
+    "reason": "Task states values given to __init__ must always reach __attrs_pre_init__, which is exactly what the test checks."
+  },
+  {
+    "id": "click-c53d3732b9",
+    "verdict": "DROP",
+    "reason": "Subject line only; tests also pin a new error-hint format for sequence envvars ('WEATHER_UNITS', 'UNITS') that the task does not describe."
+  },
+  {
+    "id": "click-fc518e4121",
+    "verdict": "DROP",
+    "reason": "One-line task for a multi-behaviour change; tests pin specific exit-code policy and a double sys.exit call ([0, 0]) never stated."
+  },
+  {
+    "id": "click-f316d5cb3a",
+    "verdict": "KEEP",
+    "reason": "Task says the progress bar must land on its final position; test checks pos == length and the final 'n/n' render."
+  },
+  {
+    "id": "marshmallow-7dff08fcb7",
+    "verdict": "KEEP",
+    "reason": "Task says NaN in TimeDelta must raise ValidationError, which the test checks."
+  },
+  {
+    "id": "marshmallow-252090c7c7",
+    "verdict": "KEEP",
+    "reason": "Task explains the prefix must use attr_name instead of data_key, matching the test."
+  },
+  {
+    "id": "marshmallow-2b84b56e9a",
+    "verdict": "KEEP",
+    "reason": "Task names the bug (missing constant failing Length validation) and the test only checks that missing passes through."
+  },
+  {
+    "id": "pluggy-742393e78e",
+    "verdict": "KEEP",
+    "reason": "Task describes splitlines() for both checks and quoting a single trailing newline; expected output follows existing tracer format."
+  },
+  {
+    "id": "pluggy-2e3774328e",
+    "verdict": "KEEP",
+    "reason": "Task says register(None) should be ignored instead of raising, which the test checks."
+  },
+  {
+    "id": "pluggy-1b23f2e17e",
+    "verdict": "KEEP",
+    "reason": "Task gives the helper names, repr-vs-str split, backslashreplace escaping and the pytest saferepr marker shape the tests assert."
+  },
+  {
+    "id": "pluggy-c1c39fee94",
+    "verdict": "KEEP",
+    "reason": "Task states getattr_static discovery, skipping descriptors and supporting hookimpl above classmethod/staticmethod, all of which the tests check."
+  },
+  {
+    "id": "werkzeug-2e1d359cdc",
+    "verdict": "KEEP",
+    "reason": "Task asks to deprecate Response.stream; tests only check a DeprecationWarning is raised on access."
+  },
+  {
+    "id": "llm-9b9ff80b24",
+    "verdict": "KEEP",
+    "reason": "Task says fragment aliases must be preserved when filtering by query; test checks all aliases are listed."
+  },
+  {
+    "id": "llm-1b0b36ea5a",
+    "verdict": "DROP",
+    "reason": "Test asserts the exact tool error text 'Tool call arguments were not valid JSON: ...', which the task never gives."
+  },
+  {
+    "id": "llm-1bf6323c23",
+    "verdict": "KEEP",
+    "reason": "Task states the helpers return None for empty input and the CLI reports 'Could not determine mimetype of ...', as tested."
+  },
+  {
+    "id": "llm-3f66aa6490",
+    "verdict": "KEEP",
+    "reason": "Task says a file of exactly '[]' is replaced with a block-style list, which the test checks."
+  },
+  {
+    "id": "loguru-4e7762bcb4",
+    "verdict": "KEEP",
+    "reason": "Task asks to fix the greedy markup regex reDoS; test is a timing check on a pathological input."
+  },
+  {
+    "id": "loguru-d3c590573e",
+    "verdict": "DROP",
+    "reason": "Test matches the new message 'Duration out of range while parsing duration: ...', which the task does not give."
+  },
+  {
+    "id": "loguru-5ec8d0034e",
+    "verdict": "DROP",
+    "reason": "Tests match the exact new message 'Failed to format log record: key ... not found.', which the task only calls 'more generic'."
+  },
+  {
+    "id": "loguru-ffe1617122",
+    "verdict": "KEEP",
+    "reason": "Task says a standard Handler's level must be respected; test checks setLevel filters records."
+  },
+  {
+    "id": "more-itertools-f89d7a3331",
+    "verdict": "KEEP",
+    "reason": "Task says ichunked must match chunked for n=0 and negative n; chunked already raises 'n must be at least 0'."
+  },
+  {
+    "id": "more-itertools-752799b5c8",
+    "verdict": "KEEP",
+    "reason": "Task says reversed numeric_range must preserve values; test compares reversed() with the reversed forward list."
+  },
+  {
+    "id": "more-itertools-0e6acdf9b6",
+    "verdict": "KEEP",
+    "reason": "Task gives the exact message 'n must be at least 0' that the test checks."
+  },
+  {
+    "id": "sqlite-utils-88b48fa167",
+    "verdict": "KEEP",
+    "reason": "Task says TRUE/FALSE/NULL defaults must be introspected correctly; tests check True/False/None and no needless rebuild."
+  },
+  {
+    "id": "sqlite-utils-2303b80aef",
+    "verdict": "DROP",
+    "reason": "One-line task for a large change; tests pin column-rename rewriting inside CHECK expressions, quoting rules and comment handling never described."
+  },
+  {
+    "id": "sqlite-utils-d2ac3765ed",
+    "verdict": "KEEP",
+    "reason": "Task names the --type column-name type option for insert/upsert, which the test uses."
+  },
+  {
+    "id": "tenacity-26f719dc73",
+    "verdict": "KEEP",
+    "reason": "Task says direct calls with enabled=False run once and propagate the original exception, as tested."
+  },
+  {
+    "id": "attrs-a572c3a4c5",
+    "verdict": "KEEP",
+    "reason": "Task says frozen classes must allow on_setattr=NO_OP; test only checks class creation succeeds."
+  },
+  {
+    "id": "attrs-577c782c32",
+    "verdict": "DROP",
+    "reason": "Task 'update ruff' says nothing about the VersionInfo __hash__ behaviour the test checks."
+  },
+  {
+    "id": "click-f8c5a8efc1",
+    "verdict": "DROP",
+    "reason": "Subject only; tests require the control byte to be stripped from input, a newline after the caret and not counting as a line, none of which is stated."
+  },
+  {
+    "id": "click-f58ca3e814",
+    "verdict": "KEEP",
+    "reason": "Task asks copy/deepcopy/pickle of Sentinel members to work; test checks identity is preserved, the natural meaning for singletons."
+  },
+  {
+    "id": "click-a2ac5839f2",
+    "verdict": "KEEP",
+    "reason": "Task says open the pager temp file in text mode; tests check writing str works through that path."
+  },
+  {
+    "id": "marshmallow-902f99c415",
+    "verdict": "KEEP",
+    "reason": "Task explains allowing a fragment after an empty path and a bare '#frag' in relative mode, as tested."
+  },
+  {
+    "id": "marshmallow-65374df0c3",
+    "verdict": "KEEP",
+    "reason": "Task says OneOf.options() must not emit entries beyond the choices, which the test checks."
+  },
+  {
+    "id": "marshmallow-76bc28ae74",
+    "verdict": "KEEP",
+    "reason": "Task asks for file URL handling with optional hostnames; invalid cases follow existing validator rules."
+  },
+  {
+    "id": "pluggy-00ae36aebb",
+    "verdict": "KEEP",
+    "reason": "Task says check enums before strings so a StrEnum shows its member name, using the existing enum repr format."
+  },
+  {
+    "id": "pluggy-6abdcf6ca1",
+    "verdict": "KEEP",
+    "reason": "Task says warn for deprecated hookimpl arguments with defaults; test checks the existing warning is emitted."
+  },
+  {
+    "id": "pluggy-d74375236b",
+    "verdict": "DROP",
+    "reason": "Test matches the message 'plugin must not be None', which the task never gives."
+  },
+  {
+    "id": "structlog-79032b3f93",
+    "verdict": "KEEP",
+    "reason": "Task says to make WRITE_LOCKS a WeakKeyDictionary; test checks entries vanish after GC."
+  },
+  {
+    "id": "werkzeug-594452f6a4",
+    "verdict": "KEEP",
+    "reason": "Task says put the sign in the right place for small negative floats; test checks '-0.00001' round-trips."
+  },
+  {
+    "id": "llm-6b436a84a9",
+    "verdict": "KEEP",
+    "reason": "Task names the inherited Toolbox config capture bug; the expected outer-constructor config follows from the existing capture code."
+  },
+  {
+    "id": "llm-c969e7af00",
+    "verdict": "KEEP",
+    "reason": "Task explains running async tools in a worker thread only when a loop is running and preserving context, as tested."
+  },
+  {
+    "id": "llm-f4cbfe8e2d",
+    "verdict": "KEEP",
+    "reason": "Task says serialize YAML dates in list --json; ISO format output is the natural encoding."
+  },
+  {
+    "id": "llm-067f65f887",
+    "verdict": "KEEP",
+    "reason": "Task says --format blob writes raw bytes with no trailing newline, which the test checks."
+  },
+  {
+    "id": "loguru-874aa41019",
+    "verdict": "DROP",
+    "reason": "Task only says 'Document', yet tests require new OSError wrapping whose message contains 'same filename pattern'."
+  },
+  {
+    "id": "loguru-5672e7d0ad",
+    "verdict": "KEEP",
+    "reason": "Task says fix negative timestamp formatting; expected values follow from flooring the timestamp."
+  },
+  {
+    "id": "loguru-b782e56fcf",
+    "verdict": "DROP",
+    "reason": "Tests require KeyError text with 'logger.bind(key=value)', 'extra[key]' and the list of record keys, none of which the task gives."
+  },
+  {
+    "id": "more-itertools-c629214760",
+    "verdict": "KEEP",
+    "reason": "Task says fix numeric_range equality and hashing above sys.maxsize; tests compare with built-in range."
+  },
+  {
+    "id": "more-itertools-3eb4053e1a",
+    "verdict": "KEEP",
+    "reason": "Task says bound zero-cache seekable lookahead storage; test checks memory stays bounded and items are not lost."
+  },
+  {
+    "id": "more-itertools-6b1907de29",
+    "verdict": "KEEP",
+    "reason": "Task says peek/bool must not drop items when maxlen is 0, which the tests check."
+  },
+  {
+    "id": "more-itertools-069b30002a",
+    "verdict": "DROP",
+    "reason": "Task gives only an issue number; tests require range-mirroring equality and hashing semantics (e.g. (2,3,1) == (2,3,5)) never described."
+  },
+  {
+    "id": "sqlite-utils-e6be6267a4",
+    "verdict": "KEEP",
+    "reason": "Task says use quote_identifier() in the PRAGMA statements; tests check identifiers containing double quotes."
+  },
+  {
+    "id": "sqlite-utils-f726ea4a65",
+    "verdict": "DROP",
+    "reason": "Tests pin exact traced SQL 'PRAGMA legacy_alter_table=ON;/OFF;' around the rename, which the task never mentions."
+  },
+  {
+    "id": "sqlite-utils-569608e40f",
+    "verdict": "DROP",
+    "reason": "Subject only; tests check rows() function/iterable semantics and several exact error messages never given."
+  },
+  {
+    "id": "tenacity-389aab8b26",
+    "verdict": "KEEP",
+    "reason": "Task describes all three regressions and their fixes in detail, matching the tests."
+  }
+]

@@ -1,0 +1,25 @@
+{
+ "case": "werkzeug-21b45dbd33",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 3,
+ "seconds": 108,
+ "tokens": 1007314,
+ "attempt_passed": [
+  true,
+  true,
+  true
+ ],
+ "agent_error": false,
+ "flags": [],
+ "chosen": 0,
+ "vote_scores": [
+  243,
+  243,
+  243
+ ],
+ "timed_out": false,
+ "passed": true,
+ "edited_code": false,
+ "verified_finish": false
+}

@@ -1,0 +1,18 @@
+{
+ "case": "loguru-2a2c59e1c4",
+ "model": "opus+method",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 196,
+ "turns": 12,
+ "tokens": 370628,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"cd /tmp/replay-loguru-2a2c59e1c4-u_rewuvp; sed -i 's/38;2;241;47;18m/38;2;255;17;34m/; s/48;2;190;235;238m/"
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

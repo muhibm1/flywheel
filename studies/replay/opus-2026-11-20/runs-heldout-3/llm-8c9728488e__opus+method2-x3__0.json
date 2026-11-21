@@ -1,0 +1,24 @@
+{
+ "case": "llm-8c9728488e",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 2,
+ "seconds": 339,
+ "tokens": 1303858,
+ "attempt_passed": [
+  false,
+  false
+ ],
+ "agent_error": false,
+ "flags": [],
+ "chosen": 0,
+ "vote_scores": [
+  176,
+  176
+ ],
+ "timed_out": false,
+ "passed": false,
+ "edited_code": true,
+ "verified_finish": true,
+ "fail_tail": "        assert result.exit_code == 1\n>       assert result.output == \"Error: Unknown embedding model: not-a-model\\n\"\nE       assert \"Error: 'Unkn...ot-a-model'\\n\" == 'Error: Unkno...not-a-model\\n'\nE         \nE         - Error: Unknown embedding model: not-a-model\nE         ?                ----------\nE         + Error: 'Unknown model: not-a-model'\nE         ?        +                          +\nFAILED tests/test_embed_cli.py::test_embed_unknown_model_error[args0-None] - ..."
+}

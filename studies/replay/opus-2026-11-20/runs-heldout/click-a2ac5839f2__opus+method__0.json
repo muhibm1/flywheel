@@ -1,0 +1,16 @@
+{
+ "case": "click-a2ac5839f2",
+ "model": "opus+method",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 31,
+ "turns": 11,
+ "tokens": 444771,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

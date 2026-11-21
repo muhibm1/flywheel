@@ -412,6 +412,8 @@ def cmd_replay(args: argparse.Namespace) -> int:
         settings=args.settings,
         clean=args.clean_settings,
         harness=args.harness,
+        timeout=args.timeout,
+        attempts=args.attempts,
         progress=lambda r: print(
             f"{r['case']} {r['model']} #{r['rep']}: "
             f"{'pass' if r.get('passed') else 'fail'} {r.get('seconds')}s",
@@ -537,8 +539,17 @@ def parser() -> argparse.ArgumentParser:
     rr.add_argument(
         "--harness",
         default="plain",
-        choices=("plain", "protocol", "protocol-review"),
+        choices=("plain", "protocol", "protocol-review", "method"),
         help="the prompts the agent gets: the task, a working protocol, or that plus a review",
+    )
+    rr.add_argument(
+        "--timeout", type=int, default=900, help="seconds each agent call may take before it fails"
+    )
+    rr.add_argument(
+        "--attempts",
+        type=int,
+        default=1,
+        help="independent attempts per run; the agents' own tests choose one (see run_ensemble)",
     )
     rp_report = rsub.add_parser("report", help="print the pass-rate table")
     rp_report.add_argument("results", help="results folder")

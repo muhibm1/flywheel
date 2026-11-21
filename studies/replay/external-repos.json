@@ -1,0 +1,276 @@
+[
+ {
+  "name": "attrs",
+  "path": "ext/attrs",
+  "test_command": "\"/home/user/replay-env/ext-attrs/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "src/attr/**/*.py",
+   "src/attrs/**/*.py",
+   "src/attr/*.py",
+   "src/attrs/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}/src"
+  },
+  "agent_path": "/home/user/replay-env/ext-attrs/bin"
+ },
+ {
+  "name": "click",
+  "path": "ext/click",
+  "test_command": "\"/home/user/replay-env/ext-click/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "src/click/**/*.py",
+   "src/click/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}/src"
+  },
+  "agent_path": "/home/user/replay-env/ext-click/bin"
+ },
+ {
+  "name": "filelock",
+  "path": "ext/filelock",
+  "test_command": "\"/home/user/replay-env/ext-filelock/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "src/filelock/**/*.py",
+   "src/filelock/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}/src"
+  },
+  "agent_path": "/home/user/replay-env/ext-filelock/bin"
+ },
+ {
+  "name": "humanize",
+  "path": "ext/humanize",
+  "test_command": "\"/home/user/replay-env/ext-humanize/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "src/humanize/**/*.py",
+   "src/humanize/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}/src"
+  },
+  "agent_path": "/home/user/replay-env/ext-humanize/bin"
+ },
+ {
+  "name": "jinja",
+  "path": "ext/jinja",
+  "test_command": "\"/home/user/replay-env/ext-jinja/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "src/jinja2/**/*.py",
+   "src/jinja2/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}/src"
+  },
+  "agent_path": "/home/user/replay-env/ext-jinja/bin"
+ },
+ {
+  "name": "marshmallow",
+  "path": "ext/marshmallow",
+  "test_command": "\"/home/user/replay-env/ext-marshmallow/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "src/marshmallow/**/*.py",
+   "src/marshmallow/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}/src"
+  },
+  "agent_path": "/home/user/replay-env/ext-marshmallow/bin"
+ },
+ {
+  "name": "platformdirs",
+  "path": "ext/platformdirs",
+  "test_command": "\"/home/user/replay-env/ext-platformdirs/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "src/platformdirs/**/*.py",
+   "src/platformdirs/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}/src"
+  },
+  "agent_path": "/home/user/replay-env/ext-platformdirs/bin"
+ },
+ {
+  "name": "pluggy",
+  "path": "ext/pluggy",
+  "test_command": "\"/home/user/replay-env/ext-pluggy/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "src/pluggy/**/*.py",
+   "src/pluggy/*.py"
+  ],
+  "test_globs": [
+   "testing/**/test_*.py",
+   "testing/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}/src"
+  },
+  "agent_path": "/home/user/replay-env/ext-pluggy/bin"
+ },
+ {
+  "name": "structlog",
+  "path": "ext/structlog",
+  "test_command": "\"/home/user/replay-env/ext-structlog/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "src/structlog/**/*.py",
+   "src/structlog/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}/src"
+  },
+  "agent_path": "/home/user/replay-env/ext-structlog/bin"
+ },
+ {
+  "name": "werkzeug",
+  "path": "ext/werkzeug",
+  "test_command": "\"/home/user/replay-env/ext-werkzeug/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "src/werkzeug/**/*.py",
+   "src/werkzeug/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}/src"
+  },
+  "agent_path": "/home/user/replay-env/ext-werkzeug/bin"
+ },
+ {
+  "name": "httpx",
+  "path": "ext/httpx",
+  "test_command": "\"/home/user/replay-env/ext-httpx/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "httpx/**/*.py",
+   "httpx/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}"
+  },
+  "agent_path": "/home/user/replay-env/ext-httpx/bin"
+ },
+ {
+  "name": "llm",
+  "path": "ext/llm",
+  "test_command": "\"/home/user/replay-env/ext-llm/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "llm/**/*.py",
+   "llm/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}"
+  },
+  "agent_path": "/home/user/replay-env/ext-llm/bin"
+ },
+ {
+  "name": "loguru",
+  "path": "ext/loguru",
+  "test_command": "\"/home/user/replay-env/ext-loguru/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "loguru/**/*.py",
+   "loguru/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}"
+  },
+  "agent_path": "/home/user/replay-env/ext-loguru/bin"
+ },
+ {
+  "name": "more-itertools",
+  "path": "ext/more-itertools",
+  "test_command": "\"/home/user/replay-env/ext-more-itertools/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "more_itertools/**/*.py",
+   "more_itertools/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}"
+  },
+  "agent_path": "/home/user/replay-env/ext-more-itertools/bin"
+ },
+ {
+  "name": "sqlite-utils",
+  "path": "ext/sqlite-utils",
+  "test_command": "\"/home/user/replay-env/ext-sqlite-utils/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "sqlite_utils/**/*.py",
+   "sqlite_utils/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}"
+  },
+  "agent_path": "/home/user/replay-env/ext-sqlite-utils/bin"
+ },
+ {
+  "name": "tenacity",
+  "path": "ext/tenacity",
+  "test_command": "\"/home/user/replay-env/ext-tenacity/bin/python\" -m pytest -q -x -p no:cacheprovider {tests}",
+  "code_globs": [
+   "tenacity/**/*.py",
+   "tenacity/*.py"
+  ],
+  "test_globs": [
+   "tests/**/test_*.py",
+   "tests/test_*.py"
+  ],
+  "env": {
+   "PYTHONPATH": "{work}"
+  },
+  "agent_path": "/home/user/replay-env/ext-tenacity/bin"
+ }
+]

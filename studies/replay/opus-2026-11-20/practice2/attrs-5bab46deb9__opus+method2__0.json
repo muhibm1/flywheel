@@ -1,0 +1,16 @@
+{
+ "case": "attrs-5bab46deb9",
+ "model": "opus+method2",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 44,
+ "turns": 9,
+ "tokens": 382401,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

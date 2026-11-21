@@ -1,0 +1,18 @@
+{
+ "case": "loguru-4e7762bcb4",
+ "model": "opus+method2",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 318,
+ "turns": 17,
+ "tokens": 876659,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"python - <<'EOF'\\np='tests/test_filesink_rotation.py'\\ns=open(p).read()\\ns+='''\\n\\n@pytest.mark.parametrize"
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 5,
+ "passed": true
+}

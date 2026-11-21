@@ -1,0 +1,16 @@
+{
+ "case": "pluggy-f75132c15d",
+ "model": "opus+method2",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 71,
+ "turns": 24,
+ "tokens": 977239,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 6,
+ "passed": true
+}

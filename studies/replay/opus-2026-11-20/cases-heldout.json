@@ -1,0 +1,572 @@
+[
+ {
+  "repo": "llm",
+  "fix": "398a06547cb9d9aef77a158af7e8e56048bb2a18",
+  "parent": "2b481e7991786a16a6a02a690c5c077c96618821",
+  "subject": "Preserve title keys inside literal JSON values in tool schemas (#1886)",
+  "task": "Preserve title keys inside literal JSON values in tool schemas (#1886)\n\n_remove_titles_recursively descended into default, const, enum and\nexamples, deleting title keys from literal data. Skip those keywords and\nwalk named child schemas explicitly, so keyword-shaped property names\nstill get annotation cleanup.\n\nRefs #1885",
+  "tests": [
+   "tests/test_tools.py"
+  ],
+  "code": [
+   "llm/models.py"
+  ],
+  "lines": 77
+ },
+ {
+  "repo": "llm",
+  "fix": "f74075cd7aa5bb304634d74c0a21ec69031d147f",
+  "parent": "398a06547cb9d9aef77a158af7e8e56048bb2a18",
+  "subject": "fix: support async OpenAI response debug logging (#1896)",
+  "task": "fix: support async OpenAI response debug logging (#1896)\n\n* fix: support async OpenAI response debug logging",
+  "tests": [
+   "tests/test_openai_logging.py"
+  ],
+  "code": [
+   "llm/default_plugins/openai_models.py",
+   "llm/utils.py"
+  ],
+  "lines": 110
+ },
+ {
+  "repo": "attrs",
+  "fix": "97f8d175656bc03c373a1c9038048a4d312c307c",
+  "parent": "6851ab593cd25f3c14393e9355d57d22bec2a074",
+  "subject": "Fix ClassVar forward reference detection (#1593)",
+  "task": "Fix ClassVar forward reference detection (#1593)\n\nfix: detect ClassVar forward refs",
+  "tests": [
+   "tests/test_annotations.py"
+  ],
+  "code": [
+   "src/attr/_make.py"
+  ],
+  "lines": 20
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "0e6acdf9b60765ecf9634d6f5c132ac1bebc616b",
+  "parent": "516f0a80fb7c2c8562dbb5e318fc2a3d44f4171f",
+  "subject": "Raise a clear ValueError for negative n in chunked()",
+  "task": "Raise a clear ValueError for negative n in chunked()\n\nchunked() was the only sizing function without an n < 0 guard: a\nnegative n leaked islice's internal message\n(\"Stop argument for islice() must be None or an integer...\").\nValidate n up front and raise \"n must be at least 0\", matching\nsliced() and tail(). n=None (single chunk) and n=0 are unchanged.",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 12
+ },
+ {
+  "repo": "pluggy",
+  "fix": "8051a4dd7612aaf91944d1e16f8b644da3372184",
+  "parent": "8242055e7a41a0a8f3cde5cde059a19383af4489",
+  "subject": "Raise TypeError/ValueError from unregister() instead of assert",
+  "task": "Raise TypeError/ValueError from unregister() instead of assert\n\nassert is skipped under python -O, so unregister() with no arguments\nreturned None and unregister(unregistered_plugin) returned the plugin.\nRaise TypeError when neither name nor plugin is given, and ValueError\nwhen the given plugin is not registered.\n\nFixes #762",
+  "tests": [
+   "testing/test_pluginmanager.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py"
+  ],
+  "lines": 17
+ },
+ {
+  "repo": "llm",
+  "fix": "067f65f8873aa90dc45f014d2c4226e803fdf31d",
+  "parent": "6b1d1f877fd0d51c00978ff242f40e3d88a9fb44",
+  "subject": "Don't append newline to llm embed --format blob output (#1848)",
+  "task": "Don't append newline to llm embed --format blob output (#1848)\n\n- `llm embed --format blob` now writes raw bytes with no trailing newline,\n  fixes output corruption when piping or comparing binary embeddings\n- Test asserts exact float32 bytes and length via stdout_bytes",
+  "tests": [
+   "tests/test_embed_cli.py"
+  ],
+  "code": [
+   "llm/cli.py"
+  ],
+  "lines": 21
+ },
+ {
+  "repo": "loguru",
+  "fix": "48acf77ac2b3296acc67069511b99cc3ca3d0c41",
+  "parent": "d3c590573edb41884feb206823a47c3a9e14aa68",
+  "subject": "Fix \"@logger.catch()\" ignoring errors raised by \"athrow()\" (#1510)",
+  "task": "Fix \"@logger.catch()\" ignoring errors raised by \"athrow()\" (#1510)",
+  "tests": [
+   "tests/test_exceptions_formatting.py"
+  ],
+  "code": [
+   "loguru/_logger.py"
+  ],
+  "lines": 102
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "def2dabea858b6ecb84ee0c52e6e07929f2c409c",
+  "parent": "9ed3dbb0ae527230cd156d91d0af305478558fba",
+  "subject": "Fix one()/only() dropping a falsy user-supplied exception",
+  "task": "Fix one()/only() dropping a falsy user-supplied exception\n\n`one(it, too_long=exc)` and `only(it, too_long=exc)` used\n`raise too_long or ValueError(msg)`, so a `too_long`/`too_short` whose\ninstances are falsy (e.g. an Exception subclass overriding `__bool__`)\nwas discarded and the default `ValueError` raised instead.\n\nSwitch to explicit `is not None` checks, and only build the default\nmessage when no custom exception is supplied so a faulty `__repr__` on\nthe iterable's items can't shadow the requested exception.",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 64
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "7847d4324a581da8d0919734a8e50b2a6573b780",
+  "parent": "bc8be1013ac90fe3c1df8aae646b02605d578818",
+  "subject": "Don't mask TypeError raised while iterating in value_chain",
+  "task": "Don't mask TypeError raised while iterating in value_chain\n\nvalue_chain used `yield from value` inside a `try/except TypeError`\nguard. Because `yield from` consumes lazily, the guard stayed active\nfor the whole consumption rather than only classifying the argument,\nso a TypeError raised from inside the argument was swallowed and the\npartially-consumed object was emitted after the items it had already\nproduced:\n\n    >>> list(value_chain(map(len, ['ab', 'cde', 5])))\n    [2, 3, <map object at 0x...>]\n\nClassify the argument with iter() and consume it outside the guard.\nArguments that cannot be iterated at all are still emitted as-is.",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 26
+ },
+ {
+  "repo": "click",
+  "fix": "047adef258fc25566163ffc3efd14effc0ef7352",
+  "parent": "00e592cea702e0b2caa0dee42489fdb1c22cd845",
+  "subject": "Preserve declaration order of help option names",
+  "task": "Preserve declaration order of help option names",
+  "tests": [
+   "tests/test_commands.py"
+  ],
+  "code": [
+   "src/click/core.py"
+  ],
+  "lines": 67
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "7dff08fcb7fb40d2772728bb8d8a76b5beff3200",
+  "parent": "2d30a962a0a104f340e1c69d62b8bba0558027a0",
+  "subject": "Raise ValidationError (not ValueError) for NaN in TimeDelta (#3004)",
+  "task": "Raise ValidationError (not ValueError) for NaN in TimeDelta (#3004)",
+  "tests": [
+   "tests/test_deserialization.py"
+  ],
+  "code": [
+   "src/marshmallow/fields.py"
+  ],
+  "lines": 8
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "5761beab3985d654d712f9326e08bfb2e2ec9c4c",
+  "parent": "d08471b17880c62b789971ada638707a11d3f8d4",
+  "subject": "Fix Pluck handling of empty data_key",
+  "task": "Fix Pluck handling of empty data_key",
+  "tests": [
+   "tests/test_fields.py"
+  ],
+  "code": [
+   "src/marshmallow/fields.py"
+  ],
+  "lines": 20
+ },
+ {
+  "repo": "tenacity",
+  "fix": "389aab8b2688f7a1df41c2dd7797eeb18c8baff9",
+  "parent": "a09999688c8d3bb3d4ca1716748009954cc7c4d0",
+  "subject": "fix: restore support for falsy wait values and callable + strategy (#694)",
+  "task": "fix: restore support for falsy wait values and callable + strategy (#694)\n\nThree runtime regressions from the mypy-strictness stack (#679, #677), all\nA/B verified against a2af454. None were caught by the test suite, and all\nthree only fire once a retry actually happens, so happy-path callers see\nnothing until production.\n\n1. `Retrying(wait=None)`, `wait=0` and `wait=sum([])` now raise\n   `TypeError: 'NoneType' object is not callable` from inside `iter()`.\n   #679 removed the `if self.wait:` guard on the grounds that `truthy-bool`\n   proved it always true -- but that only holds for the *declared* type.\n   Untyped callers pass `None`/`0` to mean \"no wait\", and `sum([])` over an\n   empty strategy list returns the int 0. The `TypeError` is raised outside\n   the attempt's try/except, so it escapes uncaught and destroys the caller's\n   real exception. Restore the guard with a local `truthy-bool` suppression\n   explaining why the \"impossible\" branch is reachable. `before`, `after`,\n   `before_sleep` and `retry_error_callback` all kept their `is not None`\n   guards; `wait` was the only one dropped.\n\n2. `plain_callable + wait_strategy` now raises `TypeError`. `WaitBaseT`\n   admits plain callables, and a function has no `__add__`, so this went\n   through `wait_base.__radd__` -- which #677 narrowed to `int`. Widen it to\n   `WaitBaseT | int` and build the `wait_combine` again. `5 + strategy` is\n   still rejected, now via `NotImplemented` rather than a combination that\n   fails later. The parameter stays `int` rather than `Literal[0]` because\n   typeshed's `sum()` protocol requires `__radd__(x: int)`; narrowing it\n   would make every `sum()` over strategies need a `type: ignore`.\n\n3. `wait_combine.__call__` passed the state as `retry_state=`, which crashes\n   on any `WaitBaseT` callable whose parameter has another name. Pass it\n   positionally, as `BaseRetrying._run_wait` already does.\n\nAdds regression tests for all three plus the async path -- the original\nchange shipped with no test covering any of them.\n\nChange-Id: Ia40c32a22cdac09cbfba4280fb0a7f0c2cb7b7e0",
+  "tests": [
+   "tests/test_asyncio.py",
+   "tests/test_tenacity.py"
+  ],
+  "code": [
+   "tenacity/__init__.py",
+   "tenacity/asyncio/__init__.py",
+   "tenacity/wait.py"
+  ],
+  "lines": 128
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "e426d256b90bcef9aa4509ea345fca68ff21ae0c",
+  "parent": "9ed3dbb0ae527230cd156d91d0af305478558fba",
+  "subject": "Reuse input iterators in zip_broadcast",
+  "task": "Reuse input iterators in zip_broadcast",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 36
+ },
+ {
+  "repo": "pluggy",
+  "fix": "a4df832005f9cc7a46546d70c394b756267d84e9",
+  "parent": "629246ad8a650049869c942f2bbe7466dd460d8d",
+  "subject": "Verify hookimpls whose spec appears during historic replay",
+  "task": "Verify hookimpls whose spec appears during historic replay\n\nThe first pass verifies before any historic replay runs. If replaying\none impl calls add_hookspecs for a hook that a later impl of the same\nplugin implements, that impl was never checked. The single-pass loop\ncaught this whenever dir() order put the replayed impl first.\n\nVerify such impls in the second pass, before they are added.",
+  "tests": [
+   "testing/test_pluginmanager.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py"
+  ],
+  "lines": 43
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "88b48fa1674c396bfda330d1c609bc7108f952f2",
+  "parent": "e6be6267a4eda2d35e57a50400208fe1bb66d6d3",
+  "subject": "Fixed introspection of default values TRUE / FALSE / NULL",
+  "task": "Fixed introspection of default values TRUE / FALSE / NULL\n\nCloses #836",
+  "tests": [
+   "tests/test_create.py",
+   "tests/test_introspect.py"
+  ],
+  "code": [
+   "sqlite_utils/db.py"
+  ],
+  "lines": 42
+ },
+ {
+  "repo": "pluggy",
+  "fix": "742393e78e441a6e05249237295a79f3a37dbe01",
+  "parent": "00ae36aebba6ac22386fa202df7987575eaa2332",
+  "subject": "Treat every line break in a traced value as one",
+  "task": "Treat every line break in a traced value as one\n\nRendering tested for \\r while the block decision split on \\n only, so\na bare CR went out inline, where the terminal returns to column 0 and\nthe value overwrites its key, and \\r\\n left a stray CR in the block.\nUse splitlines() for both, which also quotes a string with a single\ntrailing newline instead of drawing a block with an empty last line.",
+  "tests": [
+   "testing/test_tracer.py"
+  ],
+  "code": [
+   "src/pluggy/_tracing.py"
+  ],
+  "lines": 38
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "67fcf640477c78605580f5ee703a54c73c1e7a8a",
+  "parent": "1ea82a711c69f590054987b5cb194157f8ce8ac4",
+  "subject": "fix: honour a falsey validator in bucket (#1308)",
+  "task": "fix: honour a falsey validator in bucket (#1308)\n\n`bucket` chose its validator with `validator or (lambda x: True)`, so a\nfalsey but valid callable (e.g. an empty `set` subclass defining\n`__call__`) was silently replaced by the default that accepts every key.\nSelecting such a bucket then returned items the validator rejected, and\nmembership tests wrongly reported them present.\n\nUse an `is None` check instead.",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 20
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "670b715b307adfe5d2fca08a87ca562cb8bfea2c",
+  "parent": "d634820be7a23b6a85441ee67051530fb0a8a960",
+  "subject": "Validate running window sizes through the index protocol",
+  "task": "Validate running window sizes through the index protocol",
+  "tests": [
+   "tests/test_recipes.py"
+  ],
+  "code": [
+   "more_itertools/recipes.py"
+  ],
+  "lines": 54
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "fbd55137fe47b44f55190c3714c75f1b21bf834d",
+  "parent": "4aeb4338ae1407d8da9723e86da99efeb446f719",
+  "subject": "fix: validate the chunk size in chunked_even",
+  "task": "fix: validate the chunk size in chunked_even\n\nA negative or zero n reached islice: negative leaked its index error,\nzero leaked its step error and consumed two source items first. Match\nchunked/ichunked/sliced: reject n < 0 before touching the source and\nyield nothing for n == 0.",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 18
+ },
+ {
+  "repo": "click",
+  "fix": "a1d87858abd77fa8e3ffc204670ccd75b96c4781",
+  "parent": "2103e157683c5e4cadc8ee1838df526a54bde9a4",
+  "subject": "Add support of `pathlib.Path` to `edit`",
+  "task": "Add support of `pathlib.Path` to `edit`\n\nCloses #2869",
+  "tests": [
+   "tests/test_termui.py"
+  ],
+  "code": [
+   "src/click/_termui_impl.py",
+   "src/click/termui.py"
+  ],
+  "lines": 58
+ },
+ {
+  "repo": "tenacity",
+  "fix": "b6201eceedfc719e996dcbc3f6c17f21011fb236",
+  "parent": "4a74682e0186b5f2d25906aa190cd639c705a958",
+  "subject": "fix: only treat None and 0 as \"no wait\" (#741)",
+  "task": "fix: only treat None and 0 as \"no wait\" (#741)\n\nBaseRetrying skipped the wait strategy whenever it was falsy, so a\ncallable strategy that is an empty container or defines __bool__ was\nnever called. Match the \"no wait\" values (None, 0, and sum([]) over no\nstrategies) explicitly, and replace them with wait_none() at construction\nso both the sync and async loops just call the strategy. This drops the\ntruthy-bool type: ignore in both _run_wait.\n\nSupersedes #731.\n\n\nChange-Id: Ic5b013f36c168a6c387ad912840c4ab944c72f4b",
+  "tests": [
+   "tests/test_tenacity.py"
+  ],
+  "code": [
+   "tenacity/__init__.py",
+   "tenacity/asyncio/__init__.py"
+  ],
+  "lines": 54
+ },
+ {
+  "repo": "pluggy",
+  "fix": "1b23f2e17e84177909a20145c8811cc31b779634",
+  "parent": "080b7d31074f773540c9e66f9d4c00a47159a35f",
+  "subject": "Make hook tracing defensive about repr and surrogates",
+  "task": "Make hook tracing defensive about repr and surrogates\n\nTracing could turn a working hook call into a failing one in two ways:\nan object whose __repr__/__str__ raises propagated that exception out of\nthe hook call (#424), and a lone surrogate in a hook argument or return\nvalue produced a message the writer could not encode (#681).\n\nBoth are now handled in one place. _safe_repr()/_safe_str() catch\nException from the conversion and render an unpresentable-object marker\nin the shape of pytest's saferepr, naming the exception, or only its\ntype when the exception's own repr fails too, so no user code runs in the\nlast fallback. Anything outside Exception -- KeyboardInterrupt,\nSystemExit, pytest's outcome exceptions -- propagates: a __str__ or\n__repr__ that raises one of those is a bug in that object, not something\ntracing should hide. Lone surrogates are escaped with backslashreplace\nafterwards, which also covers surrogates that come out of an object's\nown __repr__.\n\nTraced values -- hook kwargs and the hook result -- now use repr() so\ntheir type is visible in the log; structural labels such as the hook\nname and the finish/--> markers keep using str() and stay unquoted.\n\nSupersedes #627, #666, #684 and #716.",
+  "tests": [
+   "testing/test_pluginmanager.py",
+   "testing/test_tracer.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py",
+   "src/pluggy/_tracing.py"
+  ],
+  "lines": 206
+ },
+ {
+  "repo": "pluggy",
+  "fix": "44474dd303ede8f22db180ca0a74e255b1fcfb2e",
+  "parent": "0b7e46a29a5bc853b9b465f235175464fef740a0",
+  "subject": "Fully unregister falsy plugin objects",
+  "task": "Fully unregister falsy plugin objects\n\nunregister() and load_setuptools_entrypoints() tested registry entries\nby truthiness, so a plugin defining __len__ returning 0 lost its\nhookimpls but kept its registry entry. Compare against None instead.",
+  "tests": [
+   "testing/test_pluginmanager.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py"
+  ],
+  "lines": 26
+ },
+ {
+  "repo": "pluggy",
+  "fix": "aa6e1f43a240b4aea292c576994d214d5aa1d4ff",
+  "parent": "21186ba2b7146ef20b1c2f8fe95d4cd138235da3",
+  "subject": "Do not bind callables stored on the plugin instance",
+  "task": "Do not bind callables stored on the plugin instance\n\ngetattr() hands out values found in an instance __dict__ or a __slots__\nslot as they are, without running the descriptor protocol. The\ngetattr_static rewrite bound them anyway, so a hookimpl assigned in\n__init__ was called with the plugin as its first argument, and a\nhookimpl in a slot was dropped entirely because getattr_static returns\nthe member descriptor rather than the stored function.\n\nBoth regressions were silent: the first produced a wrong result, the\nsecond no hook call at all.\n\n_get_hookable and _hook_marker_holder duplicated the same type dispatch\nand could disagree; _get_hookable returned None on a path that was\nunreachable behind an assert. They are now one _static_hook_attr()\nreturning both the marker holder and the callable, so the two can no\nlonger drift and every branch is reachable.\n\nAlso exercise the hook bodies in test_get_hookcallers_no_duplicates,\nwhich were the only uncovered lines left in the test suite.",
+  "tests": [
+   "testing/test_pluginmanager.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py"
+  ],
+  "lines": 245
+ },
+ {
+  "repo": "llm",
+  "fix": "8b475ffdfc2d33aa86c9518baff3ac94bcea409e",
+  "parent": "f5571169271ba26ac59522f50300791934a05392",
+  "subject": "Fix streamed tool calls that omit index (#1862)",
+  "task": "Fix streamed tool calls that omit index (#1862)\n\n* fix: handle streamed tool calls that omit index\n\nSome OpenAI-compatible endpoints omit `index` on streamed tool call\ndeltas. All fragments then shared the key None, so several calls were\nmerged into one. Treat a chunk with an id or name as a new call and\nother chunks as a continuation of the latest one, in both the sync and\nasync chat models.\n\n\n* fix: keep one streamed tool call when the id repeats\n\nCompatible endpoints such as Gemini omit index and repeat id and name\non every argument fragment. A chunk with an id already seen continues\nthat call; only a new id, or a name with no id, starts another one.\n\n* Annotate streamed tool_calls dicts for mypy",
+  "tests": [
+   "tests/test_tools_streaming.py"
+  ],
+  "code": [
+   "llm/default_plugins/openai_models.py"
+  ],
+  "lines": 102
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "1fd388bc237923e92574ae272cd8c71eab4b886c",
+  "parent": "b656ecc0a64e328549a9858af1c4b609f9922b07",
+  "subject": "Validate running window sizes through the index protocol",
+  "task": "Validate running window sizes through the index protocol",
+  "tests": [
+   "tests/test_recipes.py"
+  ],
+  "code": [
+   "more_itertools/recipes.py"
+  ],
+  "lines": 54
+ },
+ {
+  "repo": "loguru",
+  "fix": "1d5e40bdc556c59da4450e1cf8158cd1dd1ab241",
+  "parent": "7861e103ad168632cbe532c5e4a6f7d23dc071a6",
+  "subject": "Add new `template` attribute to logged record (#1413)",
+  "task": "Add new `template` attribute to logged record (#1413)",
+  "tests": [
+   "tests/test_formatting.py"
+  ],
+  "code": [
+   "loguru/_handler.py",
+   "loguru/_logger.py"
+  ],
+  "lines": 29
+ },
+ {
+  "repo": "loguru",
+  "fix": "2a2c59e1c47d02c6f28e92cd0161e3f01fd74b31",
+  "parent": "36da8cca14457f6e1d1bbca25fb29ba42b2d70cb",
+  "subject": "Fix hex color short code expansion (#1425)",
+  "task": "Fix hex color short code expansion (#1425)",
+  "tests": [
+   "tests/test_ansimarkup_extended.py"
+  ],
+  "code": [
+   "loguru/_colorizer.py"
+  ],
+  "lines": 37
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "f89d7a3331ba6b5421273e556c0a738e3dd1dd35",
+  "parent": "790bb0bb2c03e7a07282e5f16f4b1fde35b8fcf5",
+  "subject": "Issue 1304: make ichunked match chunked for n=0 and negative n",
+  "task": "Issue 1304: make ichunked match chunked for n=0 and negative n",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 20
+ },
+ {
+  "repo": "click",
+  "fix": "a2ac5839f29f61cf7f3f229c67b97d07988e479b",
+  "parent": "9c4dfdaebe0e6b2aabc566eb81f6f10eb5cd6ea1",
+  "subject": "Open the pager temp file in text mode",
+  "task": "Open the pager temp file in text mode",
+  "tests": [
+   "tests/test_termui.py"
+  ],
+  "code": [
+   "src/click/_termui_impl.py"
+  ],
+  "lines": 78
+ },
+ {
+  "repo": "attrs",
+  "fix": "5bab46deb916520b153892d73400978ccb08ef96",
+  "parent": "000c563473400aa086f6486a9c38ace0e77ea219",
+  "subject": "Allow deep_iterable and deep_mapping take lists/tuples (#1449)",
+  "task": "Allow deep_iterable and deep_mapping take lists/tuples (#1449)\n\n* Allow deep_iterable and deep_mapping take lists/tuples\n\nFixes #1243\n\n* Fix docstring",
+  "tests": [
+   "tests/test_validators.py"
+  ],
+  "code": [
+   "src/attr/validators.py"
+  ],
+  "lines": 90
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "902f99c4151d1f0c4c3b8e8dfbafc7b6a76aeaa6",
+  "parent": "3207be31474530f7c0685dfbd7b4faca5b35fbf5",
+  "subject": "Fix URL validator rejecting a fragment after an empty path (#3016)",
+  "task": "Fix URL validator rejecting a fragment after an empty path (#3016)\n\n* Fix URL validator rejecting a fragment after an empty path\n\n`validate.URL` rejected absolute URLs whose fragment follows an empty\npath with no query, such as `https://example.com#frag`. RFC 3986 permits\na fragment after an empty path, and anchor links to a domain root are\ncommon in practice.\n\nAllow `#` to introduce the URL tail so the fragment is accepted. This\nalso makes a bare `#frag` valid in relative mode, matching the existing\nhandling of a bare `?query`.\n\n* Add changelog entry for URL fragment fix (:pr:`3016`)\n\n* Remove explanatory comment per review\n\n* credit\n\n---------",
+  "tests": [
+   "tests/test_validate.py"
+  ],
+  "code": [
+   "src/marshmallow/validate.py"
+  ],
+  "lines": 12
+ },
+ {
+  "repo": "click",
+  "fix": "22177f857a34e3c35ba957553853a37f23feb37e",
+  "parent": "7944461a80b780d060899c8835acab3c273a04a6",
+  "subject": "`path_type` narrows the converted value's type for `convert` and `prompt`",
+  "task": "`path_type` narrows the converted value's type for `convert` and `prompt`\n\nCloses #3822",
+  "tests": [
+   "tests/test_types/test_Path.py"
+  ],
+  "code": [
+   "src/click/types.py"
+  ],
+  "lines": 84
+ },
+ {
+  "repo": "llm",
+  "fix": "f4cbfe8e2d1ebdfd25237250f03ce70c518e9155",
+  "parent": "fae0583631ff0046819f9ec3f1fe352efc90b2ae",
+  "subject": "Serialize YAML dates in openai endpoint list --json (#1850)",
+  "task": "Serialize YAML dates in openai endpoint list --json (#1850)",
+  "tests": [
+   "tests/test_openai_endpoint_add.py"
+  ],
+  "code": [
+   "llm/default_plugins/openai_models.py"
+  ],
+  "lines": 31
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "f07eadc87dfac25ed505d5cd9d186920f2682733",
+  "parent": "4acb783c73130f762aa5b0df6b65ff7685d5ff2c",
+  "subject": "Fix validate.Email to accept IDNs (#2937)",
+  "task": "Fix validate.Email to accept IDNs (#2937)\n\n* Fix validate.Email to accept IDNs\n\n* Fix typo",
+  "tests": [
+   "tests/test_validate.py"
+  ],
+  "code": [
+   "src/marshmallow/validate.py"
+  ],
+  "lines": 68
+ },
+ {
+  "repo": "llm",
+  "fix": "50faebf3df185b78e98e9064a93525813670654d",
+  "parent": "b699b5aaabab0267ee47076688477d31dab40e52",
+  "subject": "Show an error instead of a traceback when llm templates edit leaves an invalid template (#1852)",
+  "task": "Show an error instead of a traceback when llm templates edit leaves an invalid template (#1852)",
+  "tests": [
+   "tests/test_templates.py"
+  ],
+  "code": [
+   "llm/cli.py"
+  ],
+  "lines": 17
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "25c632fbbc286b6e5d622a975a2231c12ce6837c",
+  "parent": "ebb04a97de765ce5f0b6d1149c992062fa25629a",
+  "subject": "Handle empty input in rows_from_file",
+  "task": "Handle empty input in rows_from_file\n\nCloses #808",
+  "tests": [
+   "tests/test_rows_from_file.py"
+  ],
+  "code": [
+   "sqlite_utils/utils.py"
+  ],
+  "lines": 9
+ },
+ {
+  "repo": "llm",
+  "fix": "59dfb3d3d520a943113789628e12f618431ba761",
+  "parent": "1b0b36ea5a7a40b385d821bfdd228a875822e54a",
+  "subject": "Match batch embedding deduplication by ID and content hash (#1867)",
+  "task": "Match batch embedding deduplication by ID and content hash (#1867)",
+  "tests": [
+   "tests/test_embed.py"
+  ],
+  "code": [
+   "llm/embeddings.py"
+  ],
+  "lines": 59
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "2d3c6b9a1e5068fcee6923c9ed74cbd158ee9db4",
+  "parent": "b37b8cf8c83515a022e7ec0b1599004bb2f7eb55",
+  "subject": "Escape tokenize argument in enable_fts (#828)",
+  "task": "Escape tokenize argument in enable_fts (#828)\n\nThe tokenize value passed to Table.enable_fts() was interpolated directly\ninto the CREATE VIRTUAL TABLE statement inside a single-quoted string\nliteral. A value containing a single quote could break out of that literal\nand inject arbitrary SQL, which executes via executescript(). This is\nreachable from the CLI via 'enable-fts --tokenize'.\n\nRoute the value through the existing Database.quote() helper so SQLite\nitself escapes it. Legitimate tokenizers such as 'porter' are unaffected.\nAdds a regression test.",
+  "tests": [
+   "tests/test_fts.py"
+  ],
+  "code": [
+   "sqlite_utils/db.py"
+  ],
+  "lines": 16
+ }
+]

@@ -1,0 +1,23 @@
+{
+ "case": "more-itertools-3eb4053e1a",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 2,
+ "seconds": 110,
+ "tokens": 417962,
+ "attempt_passed": [
+  true,
+  true
+ ],
+ "agent_error": false,
+ "flags": [],
+ "chosen": 0,
+ "vote_scores": [
+  1238,
+  1238
+ ],
+ "timed_out": false,
+ "passed": true,
+ "edited_code": false,
+ "verified_finish": false
+}

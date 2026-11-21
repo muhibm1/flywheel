@@ -1,0 +1,17 @@
+{
+ "case": "llm-6b1d1f877f",
+ "model": "opus+method2",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 193,
+ "turns": 2,
+ "tokens": 128609,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": false,
+ "fail_tail": "a zero length blob and a null content both report no content\n        assert empty_content[\"content\"] is None\n        assert empty_content[\"content_length\"] is None\n        assert no_content[\"content\"] is None\n>       assert no_content[\"content_length\"] is None\nE       assert 0 is None\n\ntests/test_llm_logs.py:1498: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_llm_logs.py::test_logs_legacy_tool_result_attachment_bytes\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 91 passed in 31.25s\n"
+}
