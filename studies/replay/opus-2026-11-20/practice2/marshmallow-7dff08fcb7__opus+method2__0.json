@@ -1,0 +1,16 @@
+{
+ "case": "marshmallow-7dff08fcb7",
+ "model": "opus+method2",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 18,
+ "turns": 5,
+ "tokens": 222685,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

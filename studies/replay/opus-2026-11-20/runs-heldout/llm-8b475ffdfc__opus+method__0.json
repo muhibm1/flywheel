@@ -1,0 +1,16 @@
+{
+ "case": "llm-8b475ffdfc",
+ "model": "opus+method",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 191,
+ "turns": 20,
+ "tokens": 901683,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

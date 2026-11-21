@@ -1,0 +1,16 @@
+{
+ "case": "pluggy-1b23f2e17e",
+ "model": "opus+method2",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 95,
+ "turns": 22,
+ "tokens": 884199,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

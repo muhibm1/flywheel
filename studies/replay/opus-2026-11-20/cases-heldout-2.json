@@ -1,0 +1,570 @@
+[
+ {
+  "repo": "werkzeug",
+  "fix": "21b45dbd33501e9dc576292f7ff1afe3e1559a97",
+  "parent": "665e760ca6325a348ce03e5cf780b17e4be01848",
+  "subject": "deprecate `Response.freeze`",
+  "task": "deprecate `Response.freeze`",
+  "tests": [
+   "tests/test_wrappers.py"
+  ],
+  "code": [
+   "src/werkzeug/wrappers/response.py"
+  ],
+  "lines": 78
+ },
+ {
+  "repo": "click",
+  "fix": "f58ca3e81424a35626c8a475eb59ab95589008ce",
+  "parent": "420c8fb44eeadb537cae69d2fee3796e808558dd",
+  "subject": "Fix `copy`, `deepcopy` and `pickle` of `Sentinel` members",
+  "task": "Fix `copy`, `deepcopy` and `pickle` of `Sentinel` members",
+  "tests": [
+   "tests/test_utils/test_sentinel.py"
+  ],
+  "code": [
+   "src/click/_utils.py"
+  ],
+  "lines": 60
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "6a456830ca33eb5edaa634a9b0febe5d71bea2be",
+  "parent": "a7b734946f95341f52d866321c183e3532ac0aad",
+  "subject": "Fix _decode_default_value to unescape doubled single quotes in string defaults (#811)",
+  "task": "Fix _decode_default_value to unescape doubled single quotes in string defaults (#811)\n\n* Fix _decode_default_value to unescape doubled single quotes in string defaults\n\nSQLite stores string defaults with single quotes doubled (e.g. DEFAULT 'O''Brien'\nis stored as the literal \"'O''Brien'\" in sqlite_master). The previous code\nstripped the outer quotes with value[1:-1] but never converted '' back to ',\nso default_values returned the raw escaped form instead of the true string value.\n\n* Test for doubled single quotes in string defaults",
+  "tests": [
+   "tests/test_introspect.py"
+  ],
+  "code": [
+   "sqlite_utils/db.py"
+  ],
+  "lines": 15
+ },
+ {
+  "repo": "llm",
+  "fix": "3f66aa64900be7c25ab1233029093fd0a36e960f",
+  "parent": "067f65f8873aa90dc45f014d2c4226e803fdf31d",
+  "subject": "Rewrite an empty extra-openai-models.yaml list in block style",
+  "task": "Rewrite an empty extra-openai-models.yaml list in block style\n\nRemoving the last saved endpoint leaves \"[]\" in\nextra-openai-models.yaml. Since #1845 the next llm openai endpoint add\ninserts into that flow-style list, so the file and every later addition\nended up on one long line. A file containing exactly \"[]\" is now\nreplaced with a block style list instead. Bracketed lists with any\nother content, such as comments, still use the flow-style insertion\nthat preserves them.",
+  "tests": [
+   "tests/test_openai_endpoint_add.py"
+  ],
+  "code": [
+   "llm/default_plugins/openai_models.py"
+  ],
+  "lines": 19
+ },
+ {
+  "repo": "pluggy",
+  "fix": "f75132c15dc7106e5f82a9b5bc2c3f3d90238e6c",
+  "parent": "1b23f2e17e84177909a20145c8811cc31b779634",
+  "subject": "Keep trace output str-based",
+  "task": "Keep trace output str-based\n\nThe previous commit also switched traced values from str() to repr(),\nfollowing the design distilled in #681. That is a user visible change to\npytest's --debug output, and it makes that output worse to read.\n\nThe worst case is a value that is meant to be read as a block. With\nenable_assertion_pass_hook, pytest passes the assertion explanation to\npytest_assertion_pass as a multi line string. Under str() the trace\nshows it as written:\n\n    expl: {'x': [0, 1, ...} == {'x': [0, 1, ...}\n\n      Omitting 2 identical items, use -vv to show\n      Use -v to get more diff\n\nUnder repr() the same value becomes one escaped line:\n\n    expl: \"{'x': [0, 1, ...} == {'x': [0, 1, ...}\\n  \\n  Omitting 2 identical items, use -vv to show\\n  Use -v to get more diff\"\n\nThe rest is quieter but hits every run: of 439 traced kwarg values in a\nreal pytest --debug run, 123 render differently, and 115 of those are\nnothing but quotes added around strings that were already readable --\nevery plugin registration line turns plugin_name: lfplugin into a\nquoted string. 105 of the 674 lines in the sampled trace change, so\nanything parsing that output breaks as well.\n\nThe trace is pytest UX. A fix for a crash that nobody hits in normal use\nmust not degrade the daily reading experience of everyone who does not\nhit it. The cases where repr() genuinely helps are real -- PosixPath vs\npy.path.local for two arguments that print the same path, ExitCode vs a\nbare int -- but they are 15 lines out of 674, and they do not pay for\nthe other 115 plus the escaped blocks.\n\nThe crash fixes never depended on repr(): _safe_str() guards the\nconversion and escapes lone surrogates just as well, so #424 and #681\nstay fixed while pytest --debug output is byte for byte what it was\nbefore (verified: 674 trace lines, 0 differences). The type visibility\nidea is not rejected, only unbundled -- it can be argued on its own in",
+  "tests": [
+   "testing/test_pluginmanager.py",
+   "testing/test_tracer.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py",
+   "src/pluggy/_tracing.py"
+  ],
+  "lines": 70
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "71e070b35d8c136484e91189719c2a4eccd36fc3",
+  "parent": "81c21a8db1c922260cd673841257fb9b112c1318",
+  "subject": "fix: honour a falsey key in all_unique",
+  "task": "fix: honour a falsey key in all_unique\n\nall_unique applied the key with `map(key, iterable) if key else iterable`, so a falsey callable was silently ignored. it now checks `key is not None` like the other key functions, same fix as #1309.",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 16
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "6bc1d33d583c54bd69fbdd2071117e2d38c354a1",
+  "parent": "85b1be10c81d9dd3567e36faf8dd411e4a8789bd",
+  "subject": "Fix resource leaks caused by buffered readers",
+  "task": "Fix resource leaks caused by buffered readers\n\nSpotted running 'just test -Wall' on the LLM project.",
+  "tests": [
+   "tests/test_rows_from_file.py"
+  ],
+  "code": [
+   "sqlite_utils/utils.py"
+  ],
+  "lines": 76
+ },
+ {
+  "repo": "attrs",
+  "fix": "937b1e232803cc4ec9b9375ef525fc57c24ec498",
+  "parent": "94caa57142c057ce52504cdf239ae0ed3168f9b5",
+  "subject": "Fixes issue #1427 (#1428)",
+  "task": "Fixes issue #1427 (#1428)\n\n* fixes #1427\n\nValues given to `__init__` should now always be propogated to `__attrs_pre_init__`, regardless of default configuration.\n\n* [pre-commit.ci] auto fixes from pre-commit.com hooks\n\nfor more information, see https://pre-commit.ci\n\n---------",
+  "tests": [
+   "tests/test_make.py"
+  ],
+  "code": [
+   "src/attr/_make.py"
+  ],
+  "lines": 56
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "72ac4a04208ff24df0a9694d9b03b78b1c5a2e6a",
+  "parent": "024b5d09e9f026f0f96d220e243be69346687ce0",
+  "subject": "Reject booleans in from_timestamp_ms, consistent with from_timestamp (#2904)",
+  "task": "Reject booleans in from_timestamp_ms, consistent with from_timestamp (#2904)\n\n* Reject booleans in from_timestamp_ms, consistent with from_timestamp\n\nfrom_timestamp explicitly rejects True/False before converting to float,\nbut from_timestamp_ms calls float(value) first, converting booleans to\n1.0/0.0 before from_timestamp ever sees them. This means the boolean\ncheck in from_timestamp is bypassed.\n\nAdd the same boolean guard to from_timestamp_ms so that\nDateTime(format=\"timestamp_ms\") rejects booleans just like\nDateTime(format=\"timestamp\") does.\n\n* Add tests for from_timestamp_ms boolean rejection\n\n* [pre-commit.ci] auto fixes from pre-commit.com hooks\n\nfor more information, see https://pre-commit.ci\n\n* Update changelog\n\n---------",
+  "tests": [
+   "tests/test_deserialization.py",
+   "tests/test_utils.py"
+  ],
+  "code": [
+   "src/marshmallow/utils.py"
+  ],
+  "lines": 30
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "60811e730509667f702bc08f9bf5fc3fe13b7f45",
+  "parent": "d314d04215f7337d42c847214861ec7ffe0bf757",
+  "subject": "Fix rowid pk and last_rowid regressions in insert/upsert",
+  "task": "Fix rowid pk and last_rowid regressions in insert/upsert\n\nCloses #781, #783\n\nRefs https://github.com/simonw/sqlite-utils/issues/769#issuecomment-4900618685\n\n* Fix rowid pk and last_rowid regressions in insert/upsert\n\nTwo behaviour regressions in the 4.0 insert/upsert rewrite broke callers\n(notably Datasette's write API) that operate on tables without an explicit\nprimary key. Both are fixed here with regression tests.\n\n1. rowid (and its aliases _rowid_/oid) were rejected as a primary key.\n   Table.pks already reports [\"rowid\"] for a rowid table, but the new pk\n   validation raised InvalidColumns because rowid is not listed among the\n   table's columns, and the insert success path then raised KeyError when\n   looking up the pk value. rowid aliases are now accepted for rowid tables\n   and resolve directly to the rowid.\n\n2. An ignored insert (INSERT OR IGNORE that matched an existing row) no\n   longer populated last_rowid, and only set last_pk when an explicit pk=\n   was passed. It now locates the existing conflicting row by its primary\n   key values and reports that row's rowid and pk, rather than relying on\n   the connection's last inserted rowid.\n\nAdd a shared ROWID_ALIASES constant for the rowid alias names.",
+  "tests": [
+   "tests/test_create.py"
+  ],
+  "code": [
+   "sqlite_utils/db.py"
+  ],
+  "lines": 187
+ },
+ {
+  "repo": "attrs",
+  "fix": "3b0378dd66d33ebddb52be85b8c4aac6a914b1a2",
+  "parent": "19943b775d40c018e844f2cb1728442f58112a3b",
+  "subject": "Cope with `field_transformer` being a generator (#1417)",
+  "task": "Cope with `field_transformer` being a generator (#1417)\n\n* Cope with `field_transformer` being a generator\n\nThis worked on 25.1.0 but was inadvertently broken by #1401\n\n* Update src/attr/_make.py\n\n\n---------",
+  "tests": [
+   "tests/test_hooks.py"
+  ],
+  "code": [
+   "src/attr/_make.py"
+  ],
+  "lines": 18
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "2b84b56e9a80d07b65d74811673e8e5cf46cd0f1",
+  "parent": "fc8726244820b9f08fb7d02e007ed8d378a46c7b",
+  "subject": "(fix) missing constant with len validation (#2861)",
+  "task": "(fix) missing constant with len validation (#2861)\n\n* (fix) missing constant with len validation\n\n* [pre-commit.ci] auto fixes from pre-commit.com hooks\n\nfor more information, see https://pre-commit.ci\n\n* Add test case\n\n* Update authors and changelog\n\n---------",
+  "tests": [
+   "tests/test_deserialization.py"
+  ],
+  "code": [
+   "src/marshmallow/constants.py"
+  ],
+  "lines": 15
+ },
+ {
+  "repo": "llm",
+  "fix": "1bf6323c2304b139c8f67e081045ad7cb68d7383",
+  "parent": "786f8db946c400cb0b71a9691db78cd5e34c27cd",
+  "subject": "Empty attachments are a usage error, not a traceback (#1854)",
+  "task": "Empty attachments are a usage error, not a traceback (#1854)\n\n`llm -a -` with empty stdin, or `-a` with an empty file, crashed with\npuremagic's \"Input was empty\": for empty input puremagic raises a\nValueError subclass, not PureError, so it got past both mimetype\nhelpers. They now return None for it, and the CLI reports \"Could not\ndetermine mimetype of ...\" as it does for any unrecognised content.\n\nFixes #1853",
+  "tests": [
+   "tests/test_attachments.py"
+  ],
+  "code": [
+   "llm/utils.py"
+  ],
+  "lines": 33
+ },
+ {
+  "repo": "attrs",
+  "fix": "0f758fe54a8742110f730ebbaf146e79f3937c8d",
+  "parent": "57b314c0dc8e0b80c0ed8f61c0be81965137ea41",
+  "subject": "Expose converter as a decorator (#1541)",
+  "task": "Expose converter as a decorator (#1541)\n\n* Expose converter as a decorator\n\n* Update docs/init.md\n\n* Update docs/init.md\n\n* Update src/attr/_make.py\n\n* Update src/attr/_make.py\n\n* Update src/attr/_make.py\n\n* Add missing import\n\n---------",
+  "tests": [
+   "tests/test_make.py"
+  ],
+  "code": [
+   "src/attr/_make.py"
+  ],
+  "lines": 108
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "ebafb84c93bd3666e0e6acd24bfafe070f25cdee",
+  "parent": "aa300942bfcba0bd788951db0b9070cf291c193a",
+  "subject": "Allow sqlite-utils upsert to infer --pk from existing table",
+  "task": "Allow sqlite-utils upsert to infer --pk from existing table",
+  "tests": [
+   "tests/test_cli.py"
+  ],
+  "code": [
+   "sqlite_utils/cli.py"
+  ],
+  "lines": 36
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "c1e727e16bed9851c6e77dde0119ee2d4f1ba08d",
+  "parent": "28f911b1240f127cc37b0d400a47e3ae5d573faa",
+  "subject": "Add support for IDNs to validate.URL (#2928)",
+  "task": "Add support for IDNs to validate.URL (#2928)",
+  "tests": [
+   "tests/test_validate.py"
+  ],
+  "code": [
+   "src/marshmallow/validate.py"
+  ],
+  "lines": 65
+ },
+ {
+  "repo": "llm",
+  "fix": "8adb00753d88934e69052f5c6ad87680a79fb328",
+  "parent": "1bf6323c2304b139c8f67e081045ad7cb68d7383",
+  "subject": "Never send the OpenAI key to a custom api_base",
+  "task": "Never send the OpenAI key to a custom api_base\n\nModels with an api_base no longer fall back to OPENAI_API_KEY when\ntheir api_key_name key is not stored, and Responses models run with\n-o chat_completions 1 now pass their key settings to the Chat delegate\ninstead of using the default openai key.",
+  "tests": [
+   "tests/test_openai_key_leaks.py"
+  ],
+  "code": [
+   "llm/default_plugins/openai_models.py"
+  ],
+  "lines": 315
+ },
+ {
+  "repo": "tenacity",
+  "fix": "26f719dc73d3c5612b9c1b8d18a7883837790ad8",
+  "parent": "949dcfa6c0a4f0109dbbd019ff58208a580d185b",
+  "subject": "Respect enabled=False on the direct-call path (#645)",
+  "task": "Respect enabled=False on the direct-call path (#645)\n\n* fix: respect enabled=False when calling the controller directly\n\n`Retrying.__call__` and `AsyncRetrying.__call__` ignored the `enabled`\nflag: calling a controller created with `enabled=False` still ran the\nfull retry loop, so a failing function was retried and the original\nexception was wrapped in a `RetryError`.\n\nThis makes the direct-call protocol consistent with the decorator\n(`@retry(enabled=False)`) and the iterator protocols\n(`__iter__`/`__aiter__`, fixed in #643): with `enabled=False` the\nfunction is executed exactly once and any exception propagates\nunchanged.\n\n* fix(types): correct type-ignore codes in asyncio early-return path",
+  "tests": [
+   "tests/test_asyncio.py",
+   "tests/test_tenacity.py"
+  ],
+  "code": [
+   "tenacity/__init__.py",
+   "tenacity/asyncio/__init__.py"
+  ],
+  "lines": 84
+ },
+ {
+  "repo": "pluggy",
+  "fix": "51ec4486b9d47da944725b0326a412cf9b7518bf",
+  "parent": "59bab5b63d72d9c05a3e5a3aae04e5eda605a1d7",
+  "subject": "Change precedence of hook call value, hookspec default, hookimpl default",
+  "task": "Change precedence of hook call value, hookspec default, hookimpl default\n\nFix #442.",
+  "tests": [
+   "testing/test_invocations.py"
+  ],
+  "code": [
+   "src/pluggy/_callers.py"
+  ],
+  "lines": 165
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "619770bf427e47657099f1a4fdaa8777ec4c68d8",
+  "parent": "353baf280d3765b9680a49276945a0e96bc9e238",
+  "subject": "sqlite-utils query - to read SQL from stdin, closes #765",
+  "task": "sqlite-utils query - to read SQL from stdin, closes #765",
+  "tests": [
+   "tests/test_cli.py"
+  ],
+  "code": [
+   "sqlite_utils/cli.py"
+  ],
+  "lines": 48
+ },
+ {
+  "repo": "werkzeug",
+  "fix": "594452f6a4fe4de38a544962fbf04bfc9d37fbc2",
+  "parent": "f7e37f0bf510fa355fdac3e922cc2078916b021f",
+  "subject": "put sign in correct place for small negative float",
+  "task": "put sign in correct place for small negative float",
+  "tests": [
+   "tests/test_routing.py"
+  ],
+  "code": [
+   "src/werkzeug/routing/converters.py"
+  ],
+  "lines": 9
+ },
+ {
+  "repo": "llm",
+  "fix": "6b436a84a9f045d71ca7e1eb3ebbf62f4ce8913a",
+  "parent": "98d354dca396931969672e8d0da5d05c69b3e112",
+  "subject": "Fix inherited Toolbox configuration capture (#1802)",
+  "task": "Fix inherited Toolbox configuration capture (#1802)",
+  "tests": [
+   "tests/test_tools.py",
+   "tests/test_utils.py"
+  ],
+  "code": [
+   "llm/models.py"
+  ],
+  "lines": 61
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "e6be6267a4eda2d35e57a50400208fe1bb66d6d3",
+  "parent": "c5063f67b10ff194392dcbce7b64f409f866dd72",
+  "subject": "Use quote_identifier() in indexes/xindexes PRAGMA statements (#825)",
+  "task": "Use quote_identifier() in indexes/xindexes PRAGMA statements (#825)\n\nCloses #824",
+  "tests": [
+   "tests/test_introspect.py"
+  ],
+  "code": [
+   "sqlite_utils/db.py"
+  ],
+  "lines": 39
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "6b1907de293a655fb77881bf81948f95fd15bd7c",
+  "parent": "ca711220a6657a22655f6fa497524d006a735c5f",
+  "subject": "fix: seekable.peek/bool no longer drop items when maxlen is 0",
+  "task": "fix: seekable.peek/bool no longer drop items when maxlen is 0",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 19
+ },
+ {
+  "repo": "loguru",
+  "fix": "ffe1617122cc6c56f6fdfb1715a006fbf85bea1c",
+  "parent": "62952bd97465db3b35999ac89b7acfde25f0a926",
+  "subject": "Fix the \".level\" of standard \"Handler\" previously ignored (#1410)",
+  "task": "Fix the \".level\" of standard \"Handler\" previously ignored (#1410)",
+  "tests": [
+   "tests/test_standard_handler.py"
+  ],
+  "code": [
+   "loguru/_simple_sinks.py"
+  ],
+  "lines": 42
+ },
+ {
+  "repo": "llm",
+  "fix": "9b9ff80b24472bf59884df31f9cee8249e14147d",
+  "parent": "ad3d3f73dfb95ab2d852a0554d1d351bad1fe145",
+  "subject": "Preserve fragment aliases when filtering by query (#1890)",
+  "task": "Preserve fragment aliases when filtering by query (#1890)",
+  "tests": [
+   "tests/test_fragments_cli.py"
+  ],
+  "code": [
+   "llm/cli.py"
+  ],
+  "lines": 72
+ },
+ {
+  "repo": "attrs",
+  "fix": "ce89f5d11feb0805da9ed10bb165238cc959f1bb",
+  "parent": "eccd966d80aff5196efc959316961cfa780439f9",
+  "subject": "Fix message passing in frozen errors",
+  "task": "Fix message passing in frozen errors\n\nFollow common exception workflows instead of working around it.\n\nfixes #1514",
+  "tests": [
+   "tests/test_functional.py"
+  ],
+  "code": [
+   "src/attr/exceptions.py"
+  ],
+  "lines": 21
+ },
+ {
+  "repo": "jinja",
+  "fix": "065334d1ee5b7210e1a0a93c37238c86858f2af7",
+  "parent": "033c20015c7ca899ab52eb921bb0f08e6d3dd145",
+  "subject": "attr filter uses env.getattr",
+  "task": "attr filter uses env.getattr",
+  "tests": [
+   "tests/test_security.py"
+  ],
+  "code": [
+   "src/jinja2/filters.py"
+  ],
+  "lines": 51
+ },
+ {
+  "repo": "llm",
+  "fix": "6b1d1f877fd0d51c00978ff242f40e3d88a9fb44",
+  "parent": "520b21b06ca916b7eb315747b11d029392b90063",
+  "subject": "Fix crash when a legacy tool result has a stored attachment (#1775)",
+  "task": "Fix crash when a legacy tool result has a stored attachment (#1775)\n\n`LEGACY_TOOLS_SQL` built the attachment JSON with\n`json_object(..., 'content', a.content, ...)`. When the row is a legacy tool\nresult whose attachment content is stored as a BLOB, SQLite raises\n`JSON cannot hold BLOB values` and the whole `llm logs` / `llm logs --json`\ncommand fails.\n\nThe stored-attachment path already reports a marker plus a byte count\n(`log_row_extras`, `length(attachments.content) as content_length`), so use\nthe same shape here. The renderer needs `content_length`, which was missing\nfrom the legacy query as well.",
+  "tests": [
+   "tests/test_llm_logs.py"
+  ],
+  "code": [
+   "llm/logs.py"
+  ],
+  "lines": 105
+ },
+ {
+  "repo": "click",
+  "fix": "05f6fd0df4ecbd104eb7a229f9f185c2484dee69",
+  "parent": "f25f697a439acc2b0d84aa8f5413330f4e2e75cf",
+  "subject": "Always return a help record for an `Argument`",
+  "task": "Always return a help record for an `Argument`",
+  "tests": [
+   "tests/test_arguments.py"
+  ],
+  "code": [
+   "src/click/core.py"
+  ],
+  "lines": 37
+ },
+ {
+  "repo": "attrs",
+  "fix": "af9c510912ce604a94896cc35c27368d5baf6ae6",
+  "parent": "ab7f8b2f4c0f747d5b1575247ce35e5adaad182e",
+  "subject": "Fix validators.disabled() to save/restore state on nesting (#1513)",
+  "task": "Fix validators.disabled() to save/restore state on nesting (#1513)\n\n* Fix validators.disabled() to save/restore previous state on nesting\n\n* Add news fragment\n\n* Add test\n\n* Add versionchanged tag\n\n---------",
+  "tests": [
+   "tests/test_validators.py"
+  ],
+  "code": [
+   "src/attr/validators.py"
+  ],
+  "lines": 21
+ },
+ {
+  "repo": "llm",
+  "fix": "fae0583631ff0046819f9ec3f1fe352efc90b2ae",
+  "parent": "e3c6eafe9466d25c43615dc0f5c26a4b634643f1",
+  "subject": "Use the persisted model when reopening embedding collections (#1859)",
+  "task": "Use the persisted model when reopening embedding collections (#1859)",
+  "tests": [
+   "tests/test_embed.py"
+  ],
+  "code": [
+   "llm/embeddings.py"
+  ],
+  "lines": 30
+ },
+ {
+  "repo": "click",
+  "fix": "c4dd0cd968f61d0ee7a163af810bd695ed893ec3",
+  "parent": "5e7cf6b6db197de4259e91b299bd4313beb481b4",
+  "subject": "Stop passing a deprecated command's help text through `gettext`",
+  "task": "Stop passing a deprecated command's help text through `gettext`",
+  "tests": [
+   "tests/test_commands.py"
+  ],
+  "code": [
+   "src/click/core.py"
+  ],
+  "lines": 26
+ },
+ {
+  "repo": "loguru",
+  "fix": "e49d1539042e18ca17b96fd28727234a0705d22a",
+  "parent": "764cd30d4b285ca01718ab3162a9f1a022bc49c6",
+  "subject": "Fix wrong formatting of microsecond timestamp (\"x\" token for time) (#1441)",
+  "task": "Fix wrong formatting of microsecond timestamp (\"x\" token for time) (#1441)",
+  "tests": [
+   "tests/test_datetime.py"
+  ],
+  "code": [
+   "loguru/_datetime.py"
+  ],
+  "lines": 15
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "2b8d5cddce4ea01f88a973551cd50479cf5fa45f",
+  "parent": "b2f3aff7633057d234ec9186c18a53f4df306d08",
+  "subject": "Issue 1284: don't let a bucket lookup invent a key",
+  "task": "Issue 1284: don't let a bucket lookup invent a key\n\nbucket._cache was a defaultdict(deque), and _get_values opened with\n`if self._cache[value]:` \u2014 a read that inserts an empty deque on a miss.\n__iter__ reports `iter(self._cache)`, so every failed lookup left a\npermanent phantom key behind, and __contains__ routes through\n_get_values, so a plain `in` test was enough to create one.\n\nThe result was that `'c' in s` and `'c' in list(s)` disagreed for the\nsame object at the same moment, misses accumulated, and the docstring's\nown \"Get the keys\" example returned a fourth key after one membership\ntest.\n\nMake _cache a plain dict so a lookup cannot insert, and register a key\nonly where an item with that key is actually seen. A key whose items are\nproduced straight to the caller is registered at that point, so the\nexisting test_list case \u2014 a key fully consumed through s[key] is still\nlisted \u2014 keeps working.",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 44
+ },
+ {
+  "repo": "loguru",
+  "fix": "4e7762bcb44862fce877b1f90f19063834509575",
+  "parent": "874aa41019f8a9f943647a0c74445fb7844157da",
+  "subject": "Fix greedy regex causing quadratic scans and possible reDoS (#1538)",
+  "task": "Fix greedy regex causing quadratic scans and possible reDoS (#1538)",
+  "tests": [
+   "tests/test_add_option_colorize.py"
+  ],
+  "code": [
+   "loguru/_colorizer.py",
+   "loguru/_logger.py"
+  ],
+  "lines": 17
+ },
+ {
+  "repo": "loguru",
+  "fix": "f6869a784a7c8aa8e68bf10b4c1941dd95ba9a3f",
+  "parent": "f85a973c06d73e3dc9affe8a95e507c1ecf175d9",
+  "subject": "Evaluate every rotation condition so a skipped one cannot fire spuriously (#1515)",
+  "task": "Evaluate every rotation condition so a skipped one cannot fire spuriously (#1515)",
+  "tests": [
+   "tests/test_filesink_rotation.py"
+  ],
+  "code": [
+   "loguru/_file_sink.py"
+  ],
+  "lines": 26
+ },
+ {
+  "repo": "llm",
+  "fix": "52788eaa363cb4d21cd340bb8b35410eb8e23d39",
+  "parent": "59dfb3d3d520a943113789628e12f618431ba761",
+  "subject": "Handle integer locations in validation errors (#1861)",
+  "task": "Handle integer locations in validation errors (#1861)",
+  "tests": [
+   "tests/test_cli_options.py",
+   "tests/test_templates.py"
+  ],
+  "code": [
+   "llm/cli.py"
+  ],
+  "lines": 75
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "c5063f67b10ff194392dcbce7b64f409f866dd72",
+  "parent": "25c632fbbc286b6e5d622a975a2231c12ce6837c",
+  "subject": "Use quoted SQL identifiers in convert --dry-run, closes #829",
+  "task": "Use quoted SQL identifiers in convert --dry-run, closes #829",
+  "tests": [
+   "tests/test_cli_convert.py"
+  ],
+  "code": [
+   "sqlite_utils/cli.py"
+  ],
+  "lines": 38
+ },
+ {
+  "repo": "pluggy",
+  "fix": "629246ad8a650049869c942f2bbe7466dd460d8d",
+  "parent": "080b7d31074f773540c9e66f9d4c00a47159a35f",
+  "subject": "Validate all hookimpls before registering a plugin",
+  "task": "Validate all hookimpls before registering a plugin\n\nregister() stored the plugin and installed each hookimpl while walking\nthe plugin, so a PluginValidationError on a later hookimpl left the\nplugin registered with its earlier hookimpls and hook callers in place.\n\nSplit registration into two passes: collect and verify every hookimpl\nwithout touching state, then store the plugin, create missing hook\ncallers, replay history and add the impls. A validation failure now\nleaves the manager unchanged and the fixed plugin can be registered.\n\nFixes #733",
+  "tests": [
+   "testing/test_pluginmanager.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py"
+  ],
+  "lines": 53
+ }
+]

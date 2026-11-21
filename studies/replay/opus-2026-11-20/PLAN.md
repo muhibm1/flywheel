@@ -42,3 +42,23 @@ failed. No timeouts.
 
 One run per case, scored once. Pass rate with a 95% Wilson interval. Flagged runs (reached outside
 the copy) are left out as before; runs that crashed on the usage limit are re-run.
+
+## First held-out result, and what changed before the second (21 November)
+
+The first 40 scored 36 of 39 (92%; one passing run flagged and left out), under the bar, so they
+became practice data. Of the three misses, one was the harness's fault: the change added a test
+fixture file next to its tests (`tests/exceptions/source/...`), and Replay put only `test_*.py`
+files in place, so the real tests could not pass whatever the agent did. Two changes, both made
+before the second set was opened:
+
+- Replay now puts in place every file the change touched in the test folders, not only test
+  files (`test_assets`). All 85 unused kept cases still pass the fairness check with it.
+- The method asks the agent to test the cases the change implies: duplicates, empty values,
+  nesting, ordering, keyword-like names.
+
+On the 40 practice cases the revised setup passed 36 of 38 (two passing runs flagged).
+
+## Second held-out set
+
+The next 40 kept cases by SHA-256 order (`cases-heldout-2.json`), never run by any agent, scored
+once with the setup at the commit that adds this section.

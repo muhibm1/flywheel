@@ -288,3 +288,20 @@ def test_a_timed_out_run_counts_as_a_failure_and_is_not_rerun(repo, tmp_path):
     assert summary["scored"] == 1 and summary["passed"] == 0 and summary["agent_errors"] == 0
     again = replay.run_agent(repo, case, model="m", rep=0, out_dir=out, runner=fake_agent(True))
     assert not again["passed"]
+
+
+def test_a_fixture_added_next_to_the_tests_is_put_in_place(repo, tmp_path):
+    root = Path(repo.path)
+    (root / "tests" / "data.txt").write_text("6\n")
+    (root / "tests" / "test_calc.py").write_text(
+        "import sys\nfrom pathlib import Path\nsys.path.insert(0, 'src')\nfrom calc import add\n"
+        "assert add(2, 4) == int((Path(__file__).parent / 'data.txt').read_text())\n"
+    )
+    (root / "src" / "calc.py").write_text("def add(a, b):\n    return b + a\n")
+    git(root, "add", "-A")
+    git(root, "commit", "-qm", "fix: add reads a fixture")
+    case = replay.mine(repo, since="2000-01-01")[0]
+    assert "tests/data.txt" in replay.test_assets(repo, case)
+    dest = tmp_path / "w"
+    replay.materialize(repo, case, dest, at="parent", tests=True)
+    assert (dest / "tests" / "data.txt").read_text() == "6\n"

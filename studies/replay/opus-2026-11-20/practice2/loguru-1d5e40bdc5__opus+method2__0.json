@@ -1,0 +1,18 @@
+{
+ "case": "loguru-1d5e40bdc5",
+ "model": "opus+method2",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 201,
+ "turns": 12,
+ "tokens": 563790,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"cd /tmp/replay-loguru-1d5e40bdc5-d4aickp8; python - <<'EOF'\\nimport re\\np='loguru/_logger.py'; s=open(p).re"
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 7,
+ "passed": true
+}

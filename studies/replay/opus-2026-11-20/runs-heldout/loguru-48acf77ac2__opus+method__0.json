@@ -1,0 +1,19 @@
+{
+ "case": "loguru-48acf77ac2",
+ "model": "opus+method",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 121,
+ "turns": 9,
+ "tokens": 367604,
+ "agent_error": false,
+ "flags": [
+  "history or network: {\"command\": \"cd /tmp/replay-loguru-48acf77ac2-a3atbmsh; python - <<'EOF'\\np='tests/exceptions/source/modern/decorate_asy"
+ ],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": false,
+ "fail_tail": "------ Captured stderr call -----------------------------\n/home/user/replay-env/ext-loguru/bin/python: can't open file '/tmp/replay-loguru-48acf77ac2-a3atbmsh/tests/exceptions/source/modern/exception_formatting_async_generator_throw.py': [Errno 2] No such file or directory\n\n=========================== short test summary info ============================\nFAILED tests/test_exceptions_formatting.py::test_exception_modern[exception_formatting_async_generator_throw-minimum_python_version2]\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 83 passed in 8.19s\n"
+}

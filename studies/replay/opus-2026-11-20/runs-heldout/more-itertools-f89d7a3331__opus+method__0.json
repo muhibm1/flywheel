@@ -1,0 +1,16 @@
+{
+ "case": "more-itertools-f89d7a3331",
+ "model": "opus+method",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 57,
+ "turns": 5,
+ "tokens": 232147,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 2,
+ "passed": true
+}

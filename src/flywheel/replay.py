@@ -180,14 +180,33 @@ def materialize(spec: RepoSpec, case: Case, dest: Path, *, at: str, tests: bool)
         overlay_tests(spec, case, dest)
 
 
+def test_assets(spec: RepoSpec, case: Case) -> list[str]:
+    """The case's test files plus every other file the change touched in the same test folders.
+
+    A test can read a fixture the change added next to it (a sample source file, a data file);
+    without it the real tests fail whatever the agent does.
+    """
+    roots = {t.split("/")[0] for t in case.tests if "/" in t}
+    changed = _git(spec.path, "diff", "--name-only", case.parent, case.fix, check=False).split()
+    extra = [
+        f
+        for f in changed
+        if f.split("/")[0] in roots
+        and f not in case.tests
+        and f not in case.code
+        and not _matches(f, spec.code_globs)
+    ]
+    return list(case.tests) + extra
+
+
 def overlay_tests(spec: RepoSpec, case: Case, dest: Path) -> None:
-    """Copy the fix commit's version of each of the case's test files into `dest`."""
-    for rel in case.tests:
+    """Copy the fix commit's version of the case's test files and test fixtures into `dest`."""
+    for rel in test_assets(spec, case):
         shown = subprocess.run(
             ["git", "-C", spec.path, "show", f"{case.fix}:{rel}"], capture_output=True
         )
         if shown.returncode:
-            continue  # the change deleted this test file
+            continue  # the change deleted this file
         target = dest / rel
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(shown.stdout)
@@ -422,7 +441,9 @@ message or status), name it from the task's own words in the code's existing sty
 Where the task says the program refuses, rejects or fails on something, do it the way the \
 neighbouring code already refuses things: the same exception type, exit code and message style.
 4. Where the task says tests were added or changed, write those tests yourself in the existing \
-test files and style, then implement until they pass. Keep existing behaviour and tests unless \
+test files and style, then implement until they pass. Think through the cases the change implies \
+and test them too: duplicates, empty values, nesting, ordering, and names or values that look \
+like the keywords the code treats specially. Keep existing behaviour and tests unless \
 the task says they change; when it says an expectation changes, update that test.
 5. Run the test files for what you touched, as often as you need. Run the repository's whole test \
 suite once, near the end, with output trimmed (for example `-q -x` and `| tail`); if it is slow, \
