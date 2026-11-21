@@ -1,0 +1,16 @@
+{
+ "case": "erp-data-platform-bdf5de5af5",
+ "model": "opus+method",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 102,
+ "turns": 15,
+ "tokens": 762004,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 4,
+ "passed": true
+}

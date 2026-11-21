@@ -406,11 +406,43 @@ Task:
 {task}
 """
 
+METHOD_PROMPT = """You are working in a copy of a software repository. It has no history and no \
+network. Make the change described in the task below, the way the repository's own maintainer did.
+
+The task is the message of the real commit. Tests written with that commit will check your work \
+afterwards. Work like this:
+
+1. Read the repository's own instructions (CLAUDE.md, README, CONTRIBUTING) and the code and \
+existing tests around everything the task touches. Find how similar things are already done.
+2. List every concrete requirement in the task. Exact words in the task (quoted text, names, \
+flags, message wording, labels, numbers) are exact requirements: use them verbatim.
+3. Where the task describes something new without naming it (a field, key, option, function, \
+message or status), name it from the task's own words in the code's existing style, for example \
+"duplicate findings are reported" becomes a `duplicate_findings` key next to the existing keys. \
+Where the task says the program refuses, rejects or fails on something, do it the way the \
+neighbouring code already refuses things: the same exception type, exit code and message style.
+4. Where the task says tests were added or changed, write those tests yourself in the existing \
+test files and style, then implement until they pass. Keep existing behaviour and tests unless \
+the task says they change; when it says an expectation changes, update that test.
+5. Run the test files for what you touched, as often as you need. Run the repository's whole test \
+suite once, near the end, with output trimmed (for example `-q -x` and `| tail`); if it is slow, \
+run the test folders nearest your change instead of repeating it.
+6. Before finishing, reread the task line by line against `git diff`. Fix anything missing or \
+only partly done, then stop.
+
+Do not ask questions. Do not use git history commands (stash, checkout, reset, log) or the \
+network.
+
+Task:
+{task}
+"""
+
 HARNESSES = {
     # name: the prompts run one after another in the same working copy
     "plain": (PROMPT,),
     "protocol": (PROTOCOL_PROMPT,),
     "protocol-review": (PROTOCOL_PROMPT, REVIEW_PROMPT),
+    "method": (METHOD_PROMPT,),
 }
 
 EXTRA_TOOLS = (

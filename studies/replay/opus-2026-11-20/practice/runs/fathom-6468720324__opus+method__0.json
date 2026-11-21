@@ -1,0 +1,17 @@
+{
+ "case": "fathom-6468720324",
+ "model": "opus+method",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 62,
+ "turns": 17,
+ "tokens": 950934,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": false,
+ "fail_tail": "rion.yaml\")\n        res = CliRunner().invoke(app, [\"run\", \"--condition\", \"orion\", \"-c\", cfg, \"--out\", str(tmp_path)])\n>       assert res.exit_code == 2 and \"empty; run\" in \" \".join(res.output.split())\nE       assert (1 == 2)\nE        +  where 1 = <Result SystemExit(1)>.exit_code\n\ntests/test_bench.py:116: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_bench.py::test_run_refuses_an_empty_graph_for_conditions_that_read_it\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 7 passed in 12.89s\n"
+}

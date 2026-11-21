@@ -1,0 +1,16 @@
+{
+ "case": "fathom-d90125a23c",
+ "model": "opus+method",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 50,
+ "turns": 14,
+ "tokens": 602872,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "files_changed": 3,
+ "passed": true
+}

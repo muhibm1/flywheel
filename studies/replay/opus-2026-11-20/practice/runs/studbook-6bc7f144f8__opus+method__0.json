@@ -1,0 +1,16 @@
+{
+ "case": "studbook-6bc7f144f8",
+ "model": "opus+method",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 271,
+ "turns": 24,
+ "tokens": 1216895,
+ "agent_error": false,
+ "flags": [],
+ "edited_code": true,
+ "verified_finish": true,
+ "hook_blocks": 0,
+ "files_changed": 7,
+ "passed": true
+}

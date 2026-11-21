@@ -1,0 +1,353 @@
+out  attrs-f53fc5440d: the tests already pass before the change
+out  attrs-116681b67e: the tests do not pass after the real change (or they are flaky)
+out  attrs-5aa76a4450: the tests need a name or option the task does not give
+out  attrs-4b5b295bb8: the tests need a name or option the task does not give
+fair attrs-97f8d17565: ok
+out  attrs-6851ab593c: the tests already pass before the change
+fair attrs-0f758fe54a: ok
+fair attrs-48b8611c27: ok
+fair attrs-a572c3a4c5: ok
+fair attrs-af9c510912: ok
+fair attrs-ce89f5d11f: ok
+out  attrs-862696afb5: the tests need a name or option the task does not give
+out  attrs-c44b8b0052: the tests already pass before the change
+out  attrs-1315e42fe5: the tests already pass before the change
+out  attrs-7369ad9f4b: the tests already pass before the change
+out  attrs-6e3786c599: the tests need a name or option the task does not give
+out  attrs-61e8179545: the tests need a name or option the task does not give
+fair attrs-5bab46deb9: ok
+out  attrs-000c563473: the tests already pass before the change
+fair attrs-cbaef3f8f5: ok
+fair attrs-937b1e2328: ok
+fair attrs-577c782c32: ok
+fair attrs-3b0378dd66: ok
+fair attrs-1c962d15a7: ok
+out  attrs-74007f67d2: the tests need a name or option the task does not give
+out  click-34e513b402: the tests already pass before the change
+out  click-8847720881: the tests already pass before the change
+fair click-7996a89c5a: ok
+out  click-90a2973f85: the tests need a name or option the task does not give
+fair click-c4dd0cd968: ok
+fair click-c53d3732b9: ok
+fair click-f8c5a8efc1: ok
+out  click-9f0bcdf0d8: the tests need a name or option the task does not give
+fair click-f67c2bb6c2: ok
+fair click-05f6fd0df4: ok
+out  click-405a5481e4: the tests already pass before the change
+fair click-f25f697a43: ok
+fair click-22177f857a: ok
+out  click-271effb3d9: the tests need a name or option the task does not give
+fair click-fc518e4121: ok
+fair click-f58ca3e814: ok
+fair click-a1d87858ab: ok
+fair click-a6256bfb59: ok
+fair click-bc32a92cd2: ok
+fair click-1f9cd54f68: ok
+fair click-f316d5cb3a: ok
+fair click-a2ac5839f2: ok
+fair click-047adef258: ok
+fair click-3b16957cba: ok
+out  click-0585f456ba: the tests already pass before the change
+out  filelock-f09ab4d76f: the tests need a name or option the task does not give
+out  filelock-f6d1366d1c: the tests need a name or option the task does not give
+out  filelock-3b1f500149: the tests need a name or option the task does not give
+out  filelock-856b39c59e: the tests need a name or option the task does not give
+out  filelock-158c903aa4: the tests need a name or option the task does not give
+out  filelock-09b00e7868: the tests need a name or option the task does not give
+out  filelock-8f5b2459c1: the tests need a name or option the task does not give
+out  filelock-4642bbe127: the tests need a name or option the task does not give
+out  filelock-e0f11f8d56: the tests need a name or option the task does not give
+out  filelock-a9c54a13bb: the tests need a name or option the task does not give
+out  filelock-bfdf8aaa1e: the tests need a name or option the task does not give
+out  filelock-26344d38d4: the tests need a name or option the task does not give
+out  filelock-aef02bdcce: the tests need a name or option the task does not give
+out  filelock-16bac5bdb2: the tests need a name or option the task does not give
+out  filelock-4f7a3d72f7: the tests need a name or option the task does not give
+out  filelock-c427c56c6d: the tests need a name or option the task does not give
+out  filelock-57a8d6498c: the tests need a name or option the task does not give
+out  filelock-e9221a526a: the tests need a name or option the task does not give
+out  filelock-c4e27feda2: the tests need a name or option the task does not give
+out  filelock-780b93afc5: the tests need a name or option the task does not give
+out  filelock-3d721a6f04: the tests need a name or option the task does not give
+out  filelock-af9ccd69dd: the tests need a name or option the task does not give
+out  filelock-f028e2bea5: the tests need a name or option the task does not give
+out  filelock-d746e455b4: the tests need a name or option the task does not give
+out  filelock-59d46b0c2c: the tests need a name or option the task does not give
+out  humanize-318888db38: the tests need a name or option the task does not give
+out  humanize-a2006eabf8: the tests need a name or option the task does not give
+out  humanize-8bf85bbcbf: the tests need a name or option the task does not give
+out  humanize-392aef707c: the tests need a name or option the task does not give
+out  humanize-ca892b368a: the tests need a name or option the task does not give
+out  humanize-ffdf407fdf: the tests need a name or option the task does not give
+out  humanize-bada0f88b4: the tests need a name or option the task does not give
+out  humanize-e46732ed23: the tests need a name or option the task does not give
+out  humanize-984526c024: the tests need a name or option the task does not give
+out  humanize-57fbacc7c3: the tests need a name or option the task does not give
+out  humanize-b48b37b187: the tests need a name or option the task does not give
+out  humanize-08cf2c3026: the tests need a name or option the task does not give
+out  humanize-823ad6096e: the tests need a name or option the task does not give
+out  humanize-7574e0cc37: the tests need a name or option the task does not give
+out  humanize-c2c410c152: the tests need a name or option the task does not give
+out  humanize-0a06a3d4a1: the tests need a name or option the task does not give
+out  humanize-92b4117b95: the tests need a name or option the task does not give
+out  humanize-a47a89ea91: the tests need a name or option the task does not give
+out  humanize-b172d67eac: the tests need a name or option the task does not give
+out  humanize-717518400d: the tests need a name or option the task does not give
+out  humanize-ba532d9ae4: the tests need a name or option the task does not give
+out  humanize-906a38cb95: the tests need a name or option the task does not give
+out  humanize-6d89dfa967: the tests need a name or option the task does not give
+out  humanize-38c99686b9: the tests need a name or option the task does not give
+out  humanize-0f5d2948d6: the tests need a name or option the task does not give
+fair jinja-065334d1ee: ok
+fair marshmallow-5761beab39: ok
+fair marshmallow-7dff08fcb7: ok
+out  marshmallow-fcb0f9abd6: the tests already pass before the change
+fair marshmallow-902f99c415: ok
+out  marshmallow-ec2178c26b: the tests need a name or option the task does not give
+out  marshmallow-256f0aabbc: the tests need a name or option the task does not give
+fair marshmallow-f07eadc87d: ok
+fair marshmallow-c1e727e16b: ok
+out  marshmallow-3bc191ab3c: the tests already pass before the change
+fair marshmallow-72ac4a0420: ok
+fair marshmallow-024b5d09e9: ok
+fair marshmallow-252090c7c7: ok
+fair marshmallow-65374df0c3: ok
+out  marshmallow-070dde08ba: the tests need a name or option the task does not give
+fair marshmallow-fea5428567: ok
+fair marshmallow-19ca8dce2d: ok
+fair marshmallow-2bf3ae6ac6: ok
+fair marshmallow-a45329dfde: ok
+fair marshmallow-2b84b56e9a: ok
+out  marshmallow-22288b6453: the tests already pass before the change
+out  marshmallow-0c1dd99d9f: the tests already pass before the change
+out  marshmallow-2fc8207da9: the tests need a name or option the task does not give
+out  marshmallow-c836795060: the tests do not pass after the real change (or they are flaky)
+out  marshmallow-9cddff67b7: the tests already pass before the change
+fair marshmallow-76bc28ae74: ok
+out  platformdirs-44abc50a50: the tests need a name or option the task does not give
+out  platformdirs-4f1997844c: the tests need a name or option the task does not give
+out  platformdirs-0c446d75d2: the tests need a name or option the task does not give
+out  platformdirs-5b253cf703: the tests need a name or option the task does not give
+out  platformdirs-35bc503dc8: the tests need a name or option the task does not give
+out  platformdirs-5b0d5fbcae: the tests need a name or option the task does not give
+out  platformdirs-f2b34f143f: the tests need a name or option the task does not give
+out  platformdirs-67cffcc279: the tests need a name or option the task does not give
+out  platformdirs-e8fe54462c: the tests need a name or option the task does not give
+out  platformdirs-b3dd4daf56: the tests need a name or option the task does not give
+out  platformdirs-5ea9d0d375: the tests need a name or option the task does not give
+out  platformdirs-328c243285: the tests need a name or option the task does not give
+out  platformdirs-2c56683b65: the tests need a name or option the task does not give
+out  platformdirs-d542fb3c7f: the tests need a name or option the task does not give
+out  platformdirs-6b9bddf38b: the tests need a name or option the task does not give
+out  platformdirs-6e7f7e8c01: the tests need a name or option the task does not give
+out  platformdirs-56c0e310ed: the tests need a name or option the task does not give
+out  platformdirs-e8c70dddfa: the tests need a name or option the task does not give
+out  platformdirs-f444c379bc: the tests need a name or option the task does not give
+out  platformdirs-d67c5d53ce: the tests need a name or option the task does not give
+out  platformdirs-b0b5330e04: the tests need a name or option the task does not give
+out  platformdirs-a26e1f05d6: the tests need a name or option the task does not give
+out  platformdirs-f7379b15b0: the tests need a name or option the task does not give
+out  platformdirs-da92c166bf: the tests need a name or option the task does not give
+out  platformdirs-c9ad21d877: the tests need a name or option the task does not give
+fair pluggy-4d6b10d28b: ok
+fair pluggy-d57da1442a: ok
+fair pluggy-50585e0794: ok
+fair pluggy-8051a4dd76: ok
+fair pluggy-742393e78e: ok
+fair pluggy-00ae36aebb: ok
+fair pluggy-6a0532610b: ok
+fair pluggy-44474dd303: ok
+fair pluggy-ccae6b9e72: ok
+fair pluggy-e108fa4490: ok
+fair pluggy-2e3774328e: ok
+fair pluggy-6abdcf6ca1: ok
+fair pluggy-a4df832005: ok
+fair pluggy-629246ad8a: ok
+fair pluggy-d5220f7b75: ok
+fair pluggy-f75132c15d: ok
+fair pluggy-1b23f2e17e: ok
+fair pluggy-d74375236b: ok
+fair pluggy-51ec4486b9: ok
+fair pluggy-a031c1c91f: ok
+fair pluggy-3d5417a4ef: ok
+fair pluggy-aa6e1f43a2: ok
+fair pluggy-c1c39fee94: ok
+out  pluggy-09676eef59: the tests already pass before the change
+out  pluggy-b2d1c4c5ea: the tests already pass before the change
+out  structlog-19c4f21059: the tests already pass before the change
+out  structlog-0eef50d9dc: the tests need a name or option the task does not give
+out  structlog-ba1a17857a: the tests need a name or option the task does not give
+out  structlog-ba04ac2752: the tests do not pass after the real change (or they are flaky)
+out  structlog-c6e7cad18f: the tests need a name or option the task does not give
+out  structlog-3763c623c1: the tests need a name or option the task does not give
+out  structlog-2796b22ee1: the tests need a name or option the task does not give
+fair structlog-79032b3f93: ok
+out  structlog-f0b2487050: the tests already pass before the change
+out  structlog-15a4c48637: the tests already pass before the change
+out  structlog-abd263899e: the tests already pass before the change
+out  structlog-65ceffd6a2: the tests already pass before the change
+out  structlog-de1a79e045: the tests already pass before the change
+out  structlog-ecaa15ac6b: the tests need a name or option the task does not give
+out  structlog-005ce7301e: the tests need a name or option the task does not give
+out  structlog-af571c8aec: the tests do not pass after the real change (or they are flaky)
+out  structlog-ad85c52da6: the tests need a name or option the task does not give
+out  structlog-8b3b2703ed: the tests need a name or option the task does not give
+out  structlog-bac52127fd: the tests need a name or option the task does not give
+out  structlog-9ac5612725: the tests do not pass after the real change (or they are flaky)
+out  structlog-1e51f5f6a2: the tests need a name or option the task does not give
+out  structlog-bc67e8a7c1: the tests need a name or option the task does not give
+out  structlog-b0081ac705: the tests do not pass after the real change (or they are flaky)
+out  structlog-acc17edee1: the tests need a name or option the task does not give
+out  structlog-3a9d88a17f: the tests do not pass after the real change (or they are flaky)
+out  werkzeug-6950811f03: the tests already pass before the change
+out  werkzeug-e7090bf4a8: the tests already pass before the change
+out  werkzeug-c2bc20f673: the tests already pass before the change
+fair werkzeug-5cc9af729f: ok
+out  werkzeug-6c4c680f53: the tests need a name or option the task does not give
+out  werkzeug-5b68c736ff: the tests need a name or option the task does not give
+fair werkzeug-21b45dbd33: ok
+fair werkzeug-3d27209c27: ok
+fair werkzeug-e43d440cb9: ok
+fair werkzeug-2e1d359cdc: ok
+out  werkzeug-24b07cc561: the tests already pass before the change
+out  werkzeug-411ba540d7: the tests already pass before the change
+out  werkzeug-5b0e3209ad: the tests need a name or option the task does not give
+out  werkzeug-6b495d0d7e: the tests already pass before the change
+out  werkzeug-97d9f22ac3: the tests need a name or option the task does not give
+out  werkzeug-0743179b5d: the tests already pass before the change
+out  werkzeug-4576839553: the tests already pass before the change
+out  werkzeug-dc1993492e: the tests already pass before the change
+out  werkzeug-f359a67ed7: the tests need a name or option the task does not give
+out  werkzeug-4aa0024efc: the tests already pass before the change
+fair werkzeug-594452f6a4: ok
+fair werkzeug-d441b0c73b: ok
+out  werkzeug-4a7ead7be5: the tests already pass before the change
+out  werkzeug-7b3559ec20: the tests already pass before the change
+out  werkzeug-d2d09b0e66: the tests already pass before the change
+out  httpx-364697efca: the tests already pass before the change
+fair llm-f74075cd7a: ok
+fair llm-398a06547c: ok
+fair llm-2b481e7991: ok
+fair llm-9b9ff80b24: ok
+fair llm-6b436a84a9: ok
+fair llm-8c9728488e: ok
+fair llm-dd7855a2d2: ok
+fair llm-52788eaa36: ok
+fair llm-59dfb3d3d5: ok
+fair llm-1b0b36ea5a: ok
+fair llm-c969e7af00: ok
+fair llm-50faebf3df: ok
+fair llm-b699b5aaab: ok
+fair llm-8b475ffdfc: ok
+fair llm-8adb00753d: ok
+fair llm-1bf6323c23: ok
+fair llm-f4cbfe8e2d: ok
+fair llm-fae0583631: ok
+fair llm-e3c6eafe94: ok
+fair llm-39d325492b: ok
+fair llm-4c968795fd: ok
+fair llm-3f66aa6490: ok
+fair llm-067f65f887: ok
+fair llm-6b1d1f877f: ok
+out  llm-520b21b06c: the tests need a name or option the task does not give
+fair loguru-f6869a784a: ok
+fair loguru-f85a973c06: ok
+fair loguru-26fc3e4a15: ok
+fair loguru-4e7762bcb4: ok
+fair loguru-874aa41019: ok
+fair loguru-f738c2a80f: ok
+fair loguru-bce5dfd3b4: ok
+fair loguru-12b0479b86: ok
+fair loguru-48acf77ac2: ok
+fair loguru-d3c590573e: ok
+fair loguru-5672e7d0ad: ok
+fair loguru-8052eff4c1: ok
+fair loguru-1d5e40bdc5: ok
+out  loguru-d47a43cc96: the tests already pass before the change
+fair loguru-c71a057f12: ok
+out  loguru-3fb23a4f4a: the tests already pass before the change
+out  loguru-5488d7d38d: the tests need a name or option the task does not give
+fair loguru-7b30cd046a: ok
+fair loguru-5ec8d0034e: ok
+fair loguru-b782e56fcf: ok
+fair loguru-2feb854980: ok
+fair loguru-e49d153904: ok
+fair loguru-764cd30d4b: ok
+fair loguru-2a2c59e1c4: ok
+fair loguru-ffe1617122: ok
+fair more-itertools-c629214760: ok
+fair more-itertools-fbd55137fe: ok
+fair more-itertools-e6ce1b0f65: ok
+out  more-itertools-98562cab07: the tests already pass before the change
+out  more-itertools-0ab351d380: the tests already pass before the change
+out  more-itertools-172bcb3c5c: the tests already pass before the change
+fair more-itertools-71e070b35d: ok
+fair more-itertools-67fcf64047: ok
+fair more-itertools-f89d7a3331: ok
+fair more-itertools-3eb4053e1a: ok
+fair more-itertools-670b715b30: ok
+fair more-itertools-2b8d5cddce: ok
+fair more-itertools-def2dabea8: ok
+fair more-itertools-e426d256b9: ok
+fair more-itertools-752799b5c8: ok
+fair more-itertools-6b1907de29: ok
+fair more-itertools-1fd388bc23: ok
+out  more-itertools-ddd678209d: the tests already pass before the change
+out  more-itertools-b8fe92096c: the tests do not pass after the real change (or they are flaky)
+fair more-itertools-ce676d2413: ok
+fair more-itertools-7847d4324a: ok
+fair more-itertools-dc2664b4a7: ok
+fair more-itertools-0e6acdf9b6: ok
+fair more-itertools-069b30002a: ok
+fair more-itertools-d992be0de9: ok
+fair sqlite-utils-6bc1d33d58: ok
+fair sqlite-utils-e4935e0644: ok
+out  sqlite-utils-75ba588462: the tests need a name or option the task does not give
+out  sqlite-utils-2b52b5ed6f: the tests need a name or option the task does not give
+out  sqlite-utils-fcfccea813: the tests need a name or option the task does not give
+fair sqlite-utils-57192ef4e3: ok
+fair sqlite-utils-88b48fa167: ok
+fair sqlite-utils-e6be6267a4: ok
+fair sqlite-utils-c5063f67b1: ok
+fair sqlite-utils-25c632fbbc: ok
+out  sqlite-utils-ebb04a97de: the tests already pass before the change
+fair sqlite-utils-43d5d3331f: ok
+fair sqlite-utils-2d3c6b9a1e: ok
+out  sqlite-utils-b37b8cf8c8: the tests need a name or option the task does not give
+fair sqlite-utils-2303b80aef: ok
+fair sqlite-utils-f726ea4a65: ok
+fair sqlite-utils-6a456830ca: ok
+fair sqlite-utils-f66ddcb215: ok
+fair sqlite-utils-b74b727035: ok
+fair sqlite-utils-7a52214624: ok
+fair sqlite-utils-d2ac3765ed: ok
+fair sqlite-utils-569608e40f: ok
+fair sqlite-utils-ebafb84c93: ok
+fair sqlite-utils-619770bf42: ok
+fair sqlite-utils-60811e7305: ok
+fair tenacity-b6201eceed: ok
+fair tenacity-26f719dc73: ok
+out  tenacity-949dcfa6c0: the tests need a name or option the task does not give
+fair tenacity-389aab8b26: ok
+out  tenacity-a09999688c: the tests need a name or option the task does not give
+out  tenacity-7c3c45cf57: the tests already pass before the change
+out  tenacity-a2af454834: the tests already pass before the change
+out  tenacity-b3c5a9f921: the tests need a name or option the task does not give
+out  tenacity-c650fb4520: the tests need a name or option the task does not give
+out  tenacity-40fad186ba: the tests need a name or option the task does not give
+out  tenacity-29d398bd21: the tests need a name or option the task does not give
+out  tenacity-4213bad956: the tests need a name or option the task does not give
+out  tenacity-4ee186c109: the tests need a name or option the task does not give
+out  tenacity-868c60b80c: the tests need a name or option the task does not give
+out  tenacity-e5179bdab9: the tests need a name or option the task does not give
+out  tenacity-1106b9a168: the tests need a name or option the task does not give
+out  tenacity-3233040287: the tests need a name or option the task does not give
+out  tenacity-7a73c9330d: the tests need a name or option the task does not give
+out  tenacity-4c1b7bc781: the tests need a name or option the task does not give
+out  tenacity-cb320c4d80: the tests need a name or option the task does not give
+out  tenacity-44eaefbbd0: the tests need a name or option the task does not give
+out  tenacity-39eb157a68: the tests need a name or option the task does not give
+out  tenacity-124e3a67c7: the tests need a name or option the task does not give
+out  tenacity-a02b51a20f: the tests need a name or option the task does not give
+out  tenacity-42b70f9079: the tests need a name or option the task does not give
+166 of 352 cases are fair
