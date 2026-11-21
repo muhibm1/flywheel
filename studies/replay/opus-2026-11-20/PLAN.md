@@ -62,3 +62,23 @@ On the 40 practice cases the revised setup passed 36 of 38 (two passing runs fla
 
 The next 40 kept cases by SHA-256 order (`cases-heldout-2.json`), never run by any agent, scored
 once with the setup at the commit that adds this section.
+
+## Second held-out result, and the third set (21 November)
+
+The second 40 scored 36 of 40 (90%), under the bar, so they became practice data. Three of the four
+misses fail on every attempt: the commit message does not say what the tests check. Variance still
+costs a few cases, so the setup now makes independent attempts and lets them vote:
+
+- `--attempts 3`: up to three ordinary method runs, each in its own copy. Each attempt's own tests
+  count only if they pass on its own code; each attempt scores a point for every such test, from
+  any attempt, that its code passes. The highest score is chosen (ties go to the first attempt). The
+  real change's tests are never read to choose; they score only the chosen attempt.
+- When the first two attempts' code each pass every test either one wrote, the third is not run.
+
+On 16 practice cases (six earlier misses and ten passes) it turned two of the six misses into
+passes and lost no pass that finished.
+
+The third held-out set is the last 45 kept cases (`cases-heldout-3.json`, entries 40 onward of
+`remaining-fair.json`), never run by any agent, scored once with the setup at the commit that adds
+this section: `--harness method --attempts 3 --timeout 1800`, Opus, one run per case. 93% needs
+42 of 45.

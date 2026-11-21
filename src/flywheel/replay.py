@@ -682,7 +682,7 @@ def _passing_tests(spec: RepoSpec, case: Case, code: dict, tests: dict, scratch:
         shutil.rmtree(work, ignore_errors=True)
 
 
-def choose_by_tests(spec: RepoSpec, case: Case, attempts: list[dict]) -> tuple[int, list[int]]:
+def choose_by_tests(spec: RepoSpec, case: Case, attempts: list[dict]) -> tuple[int, list[int], int]:
     """Pick the attempt whose code passes the most of every attempt's own tests.
 
     Each attempt wrote tests for the task. A test counts only if it passes on its own author's
@@ -712,7 +712,7 @@ def choose_by_tests(spec: RepoSpec, case: Case, attempts: list[dict]) -> tuple[i
     finally:
         shutil.rmtree(scratch, ignore_errors=True)
     best = max(range(len(scores)), key=lambda k: (scores[k], -k))
-    return best, scores
+    return best, scores, sum(len(v) for v in valid)
 
 
 def run_ensemble(
@@ -732,6 +732,7 @@ def run_ensemble(
     the tests the attempts wrote themselves, never the real change's tests; the record's `passed`
     is the chosen attempt's result on the real tests. Attempts that crashed make the whole run a
     crash, to be re-run; attempts flagged for reaching outside their copy cannot be chosen.
+    When the first two attempts' code each pass every test either one wrote, no third is run.
     """
     label = f"{model}+{setup}" if setup else model
     out_file = out_dir / f"{case.id}__{label}__{rep}.json"
@@ -739,19 +740,25 @@ def run_ensemble(
         old = json.loads(out_file.read_text())
         if not crashed(old):
             return old
-    tries = [
-        run_agent(
-            spec,
-            case,
-            model=model,
-            rep=rep * attempts + k,
-            out_dir=out_dir / "attempts",
-            setup=f"{setup}-attempt",
-            capture=True,
-            **options,
+    tries: list[dict] = []
+    for k in range(attempts):
+        tries.append(
+            run_agent(
+                spec,
+                case,
+                model=model,
+                rep=rep * attempts + k,
+                out_dir=out_dir / "attempts",
+                setup=f"{setup}-attempt",
+                capture=True,
+                **options,
+            )
         )
-        for k in range(attempts)
-    ]
+        if k == 1 and not any(crashed(t) or real_flags(t) for t in tries):
+            # Two attempts whose code passes every test either one wrote: a third adds little.
+            _, scores, total = choose_by_tests(spec, case, tries)
+            if total and all(score == total for score in scores):
+                break
     record: dict = {
         "case": case.id,
         "model": label,
@@ -770,7 +777,7 @@ def run_ensemble(
         if not usable:
             record.update(agent_error=False, flags=real_flags(tries[0]), passed=False)
         else:
-            pick, scores = choose_by_tests(spec, case, [tries[k] for k in usable])
+            pick, scores, _ = choose_by_tests(spec, case, [tries[k] for k in usable])
             chosen = tries[usable[pick]]
             record.update(
                 agent_error=False,

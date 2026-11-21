@@ -1,0 +1,639 @@
+[
+ {
+  "repo": "werkzeug",
+  "fix": "e43d440cb9ff6e7f24246047add8d7a36e5523f8",
+  "parent": "b945e28aa80035c3c2651156f539d2e0af0fa344",
+  "subject": "deprecate `automatically_set_content_length`",
+  "task": "deprecate `automatically_set_content_length`",
+  "tests": [
+   "tests/test_wrappers.py"
+  ],
+  "code": [
+   "src/werkzeug/wrappers/response.py"
+  ],
+  "lines": 49
+ },
+ {
+  "repo": "attrs",
+  "fix": "a572c3a4c558a8b9b48cf989fcd956ab1a279439",
+  "parent": "af9c510912ce604a94896cc35c27368d5baf6ae6",
+  "subject": "Allow field(on_setattr=NO_OP) on frozen classes",
+  "task": "Allow field(on_setattr=NO_OP) on frozen classes",
+  "tests": [
+   "tests/test_setattr.py"
+  ],
+  "code": [
+   "src/attr/_make.py"
+  ],
+  "lines": 13
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "d992be0de9383ddcaae3a24866a2d96b52132b07",
+  "parent": "cb75bb9c55f7ed3e77ce599097e1ba8da411746d",
+  "subject": "Fix stability in running_min and running_max",
+  "task": "Fix stability in running_min and running_max",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/recipes.py"
+  ],
+  "lines": 66
+ },
+ {
+  "repo": "pluggy",
+  "fix": "c1c39fee9484b806271e74d7024a7ecb53c468cf",
+  "parent": "09676eef593ee970fbb11ce0e2e7c35ee9d82b88",
+  "subject": "Discover hooks via inspect.getattr_static instead of getattr",
+  "task": "Discover hooks via inspect.getattr_static instead of getattr\n\nOnly treat functions, classmethods, staticmethods, and bound methods as\nhookable, so properties and other descriptors are never executed during\nregistration. Also discovers @hookimpl applied above classmethod/staticmethod.",
+  "tests": [
+   "testing/test_pluginmanager.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py"
+  ],
+  "lines": 162
+ },
+ {
+  "repo": "loguru",
+  "fix": "8052eff4c1ba86793a6f38ee890a898e902bc1ea",
+  "parent": "54c89d609fc98a63b5bf7f801119c5bc526e2016",
+  "subject": "Fix incorrect formatting of negative timezone offsets (#1507)",
+  "task": "Fix incorrect formatting of negative timezone offsets (#1507)",
+  "tests": [
+   "tests/test_datetime.py"
+  ],
+  "code": [
+   "loguru/_datetime.py"
+  ],
+  "lines": 6
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "dc2664b4a7c66209485c9f5e359137bf4b365eb3",
+  "parent": "2fe1b2eeb9d75f994113fe3ac76d14b6bcd6fb10",
+  "subject": "Issue 1247: Keep numeric_range consistent with the items it produces",
+  "task": "Issue 1247: Keep numeric_range consistent with the items it produces\n\nnumeric_range produces its items by repeated multiplication, but derived\nlen(), __contains__ and index() from division by the step. With floats the\ntwo disagree, so a range could report a length that did not match what it\nyielded, and could deny membership to its own items.\n\nSettle all of them against the items themselves: _len trims or extends the\ndivided count until it matches the values produced, and index() confirms\nthe candidate position by comparing against the item at that position.\n__contains__ and count() now follow index(), so the four cannot drift apart\nagain.\n\nExact types are unaffected: their remainders are already zero, so they take\nthe same path and the same number of operations as before.",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 104
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "024b5d09e9f026f0f96d220e243be69346687ce0",
+  "parent": "252090c7c707166cf4fcfcdc73eb4376b7bbc4b7",
+  "subject": "Fix Enum field by-name lookup to only return actual members (#2902)",
+  "task": "Fix Enum field by-name lookup to only return actual members (#2902)\n\n* Fix Enum field by-name lookup to only return actual members\n\nUse dict-style access (self.enum[val]) instead of getattr(self.enum, val)\nfor by-name deserialization. getattr returns any attribute of the Enum\nclass, not just members. For example, passing \"mro\" or \"__class__\" would\nreturn built-in methods/attributes instead of raising a validation error.\n\nThe enum item access operator [] only looks up actual enum members,\nso non-member attribute names now correctly raise a validation error.\n\n* Add test for Enum field rejecting non-member attributes by name\n\n* Update changelog\n\n---------",
+  "tests": [
+   "tests/test_deserialization.py"
+  ],
+  "code": [
+   "src/marshmallow/fields.py"
+  ],
+  "lines": 16
+ },
+ {
+  "repo": "werkzeug",
+  "fix": "2e1d359cdc510d7103180c51fade31888e136d1c",
+  "parent": "037a232edc9c8f99f4693455f58536291b08ab43",
+  "subject": "deprecate `Response.stream`",
+  "task": "deprecate `Response.stream`",
+  "tests": [
+   "tests/test_wrappers.py"
+  ],
+  "code": [
+   "src/werkzeug/wrappers/response.py"
+  ],
+  "lines": 64
+ },
+ {
+  "repo": "pluggy",
+  "fix": "3d5417a4eff449e17e5bb3e1545b63cbf0e0c768",
+  "parent": "2e916c21f3e5b60865d3f1f2d6f0932d61c77707",
+  "subject": "Fix `subset_hook_caller` getting confused by `specname`",
+  "task": "Fix `subset_hook_caller` getting confused by `specname`\n\nPreviously, subset hook callers didn't properly exclude hookimpls which\nused `specname`. It incorrectly checked the hookimpl function name\nitself, which can be whatever when using `specname`.\n\n[ran: commit message, code tweaks, changelog]",
+  "tests": [
+   "testing/test_pluginmanager.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py"
+  ],
+  "lines": 59
+ },
+ {
+  "repo": "click",
+  "fix": "f316d5cb3aa89b57c14aee54da6ac9062ac5bec4",
+  "parent": "8b44edfff7d9a6c895fa804148c16b3a0bc9efb5",
+  "subject": "Land the progress bar on its final position",
+  "task": "Land the progress bar on its final position\n\nCloses #3571.",
+  "tests": [
+   "tests/test_termui.py"
+  ],
+  "code": [
+   "src/click/_termui_impl.py"
+  ],
+  "lines": 43
+ },
+ {
+  "repo": "pluggy",
+  "fix": "a031c1c91fdd5e4c684f97c2a0e96cbc7e18835f",
+  "parent": "9836e545d68690b30accc1eeb4af408f80efa44c",
+  "subject": "Allow hookspecs to declare default values for arguments",
+  "task": "Allow hookspecs to declare default values for arguments\n\nFix #170.",
+  "tests": [
+   "testing/test_invocations.py"
+  ],
+  "code": [
+   "src/pluggy/_hooks.py",
+   "src/pluggy/_manager.py"
+  ],
+  "lines": 247
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "e6ce1b0f65a57c459fc5004ad84158447b65b0ac",
+  "parent": "b21ec4ee8e139ebe297e2221980a694bebb69523",
+  "subject": "Fix peekable slice with negative step and omitted stop unnecessarily caching entire iterable",
+  "task": "Fix peekable slice with negative step and omitted stop unnecessarily caching entire iterable",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 30
+ },
+ {
+  "repo": "loguru",
+  "fix": "26fc3e4a15f2a24d363c62b89c4d8651e4fdfb94",
+  "parent": "d776b4233280dee54c34ff5417f79b99531e1832",
+  "subject": "Fix logger.parse() decoding paths with the locale encoding (#1540)",
+  "task": "Fix logger.parse() decoding paths with the locale encoding (#1540)",
+  "tests": [
+   "tests/test_parse.py"
+  ],
+  "code": [
+   "loguru/_logger.py"
+  ],
+  "lines": 28
+ },
+ {
+  "repo": "click",
+  "fix": "f25f697a439acc2b0d84aa8f5413330f4e2e75cf",
+  "parent": "86949d19b930ef68a45566544cb4b9508d895d0d",
+  "subject": "List every argument in the `Positional arguments` help section",
+  "task": "List every argument in the `Positional arguments` help section\n\nCloup already renders the section this way: https://github.com/janluke/cloup/issues/210",
+  "tests": [
+   "tests/test_arguments.py"
+  ],
+  "code": [
+   "src/click/core.py"
+  ],
+  "lines": 108
+ },
+ {
+  "repo": "pluggy",
+  "fix": "6abdcf6ca167f5d61297b5d86e22f3dd058031b3",
+  "parent": "54fb4ddda7d0e0dc9dde12fa5cebb9ae13d8cff9",
+  "subject": "Merge pull request #743 from feiiiiii5/fix-warn-defaulted-args",
+  "task": "Merge pull request #743 from feiiiiii5/fix-warn-defaulted-args\n\nWarn for deprecated hookimpl arguments with defaults",
+  "tests": [
+   "testing/test_details.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py"
+  ],
+  "lines": 26
+ },
+ {
+  "repo": "loguru",
+  "fix": "f738c2a80f73e39a3d6c707c2221af52c87cf98d",
+  "parent": "bce5dfd3b435b1d1658507d7e095ad7a9919bf1c",
+  "subject": "Add capture of exceptions raised during sink termination (#1533)",
+  "task": "Add capture of exceptions raised during sink termination (#1533)",
+  "tests": [
+   "tests/test_filesink_compression.py",
+   "tests/test_filesink_retention.py",
+   "tests/test_remove.py"
+  ],
+  "code": [
+   "loguru/_handler.py"
+  ],
+  "lines": 86
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "252090c7c707166cf4fcfcdc73eb4376b7bbc4b7",
+  "parent": "65374df0c31cdc45acc4435741779298201306a2",
+  "subject": "Fix nested partial to use attr_name instead of data_key for prefix (#2903)",
+  "task": "Fix nested partial to use attr_name instead of data_key for prefix (#2903)\n\n* Fix nested partial to use attr_name instead of data_key\n\nWhen building dot-delimited sub_partial for nested schemas, the prefix\nwas computed from field_name (which is data_key when set) instead of\nattr_name. Since users specify partial fields using attribute names like\npartial=(\"nested_field.child\",), the prefix needs to match attr_name.\n\nWhen data_key differs from attr_name, the prefix mismatch caused the\nnested partial list to always be empty, so the nested schema never\nreceived the partial option and required fields raised unexpected\nvalidation errors.\n\n* Add test for nested partial with data_key using attr_name prefix\n\n* Update authors and changelog\n\n---------",
+  "tests": [
+   "tests/test_deserialization.py"
+  ],
+  "code": [
+   "src/marshmallow/schema.py"
+  ],
+  "lines": 25
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "76bc28ae74e723760d54f097290ba85e717d5fe4",
+  "parent": "ea26aeb08c37c4e4c5bd323689c873d14f13d58d",
+  "subject": "fix: add `file` handling to URL fields (#2800)",
+  "task": "fix: add `file` handling to URL fields (#2800)\n\n* fix: add `file` handling to URL fields\n\nRequires a modicum of special handling due to hostnames being\noptional.\n\nFixes: Issue #2249\n\n* Add more tests cases; update changelog\n\n---------",
+  "tests": [
+   "tests/test_validate.py"
+  ],
+  "code": [
+   "src/marshmallow/validate.py"
+  ],
+  "lines": 51
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "19ca8dce2d5bde94509a4a89e495f35c695442d5",
+  "parent": "213ee3a020e24fb26ead3a2285ba0402c90080ce",
+  "subject": "Fix Constant field rejecting None values during load (#2894)",
+  "task": "Fix Constant field rejecting None values during load (#2894)\n\n* Fix Constant field rejecting None values during load\n\n\n* Update changelog and AUTHORS\n\n---------",
+  "tests": [
+   "tests/test_deserialization.py"
+  ],
+  "code": [
+   "src/marshmallow/fields.py"
+  ],
+  "lines": 22
+ },
+ {
+  "repo": "pluggy",
+  "fix": "50585e07949e7d48f89a21e8e200fdcb2cfe8617",
+  "parent": "78e3f45d6c18a6efe6c46a2a79b63073f45a44bd",
+  "subject": "Drop entry-point distribution info when unregistering a plugin",
+  "task": "Drop entry-point distribution info when unregistering a plugin\n\nKey the recorded distributions by plugin name instead of keeping a\nlist of (plugin, dist) tuples. unregister() pops the name, so the\nlisting no longer shows unloaded plugins, and reloading an entry point\noverwrites its slot instead of appending a duplicate.\n\nThe _name2plugin cleanup becomes an is_blocked() check plus a pop: the\nold truthiness guard only had to keep a blocked name's marker, and the\nassert only narrowed the type for mypy. test_unregister_blocked now\nchecks that the block survives.\n\nFixes #763.",
+  "tests": [
+   "testing/test_pluginmanager.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py"
+  ],
+  "lines": 56
+ },
+ {
+  "repo": "click",
+  "fix": "1f9cd54f686eb343cec714230ad825ce972739ab",
+  "parent": "150d1071d69c5cdad7de78590013ffe56cf9e3bb",
+  "subject": "Close the pager temp file before unlinking it",
+  "task": "Close the pager temp file before unlinking it",
+  "tests": [
+   "tests/test_termui.py"
+  ],
+  "code": [
+   "src/click/_termui_impl.py"
+  ],
+  "lines": 72
+ },
+ {
+  "repo": "loguru",
+  "fix": "5672e7d0ad610d70c5e549939b049303edefda19",
+  "parent": "8052eff4c1ba86793a6f38ee890a898e902bc1ea",
+  "subject": "Fix incorrect formatting of negative timestamps (#1508)",
+  "task": "Fix incorrect formatting of negative timestamps (#1508)",
+  "tests": [
+   "tests/test_datetime.py"
+  ],
+  "code": [
+   "loguru/_datetime.py"
+  ],
+  "lines": 36
+ },
+ {
+  "repo": "loguru",
+  "fix": "c71a057f123dcad06a369943b513c272615c53aa",
+  "parent": "2a17be730e111cf874d0bf967c4c5da15b7e4670",
+  "subject": "Fix first rotation of \"<weekday> at <time>\" ignoring the weekday",
+  "task": "Fix first rotation of \"<weekday> at <time>\" ignoring the weekday\n\nWhen a file sink uses a rotation like \"tuesday at 13:00\" and the sink is\ncreated on a different weekday at a time earlier than the target time of\nday, the first rotation fired on the creation day instead of the requested\nweekday. The initial limit was set to the creation date at the target time\nand only stepped forward when it was already in the past, so the weekday\nwas never enforced for the first rotation.\n\nTrack the requested weekday and also step forward when the initial limit\nfalls on the wrong weekday. Daily and interval rotations are unaffected.",
+  "tests": [
+   "tests/test_filesink_rotation.py"
+  ],
+  "code": [
+   "loguru/_file_sink.py"
+  ],
+  "lines": 49
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "65374df0c31cdc45acc4435741779298201306a2",
+  "parent": "070dde08bad456e743a0d2e1842c142a799a9568",
+  "subject": "Fix OneOf.options() emitting phantom entries when labels outnumber choices (#2909)",
+  "task": "Fix OneOf.options() emitting phantom entries when labels outnumber choices (#2909)\n\n* fix(validate): truncate OneOf.options() to choices length\n\n* style(validate): add strict=True to zip call for ruff B905\n\n* Update authors and changelog\n\n---------",
+  "tests": [
+   "tests/test_validate.py"
+  ],
+  "code": [
+   "src/marshmallow/validate.py"
+  ],
+  "lines": 27
+ },
+ {
+  "repo": "pluggy",
+  "fix": "00ae36aebba6ac22386fa202df7987575eaa2332",
+  "parent": "6a0532610b5909d761e349eb28e37631e7f73173",
+  "subject": "Show the member name of a traced StrEnum",
+  "task": "Show the member name of a traced StrEnum\n\nA StrEnum member is a str whose str() is the bare value, so it took\nthe plain-token path and lost its name. Check for enums and paths\nbefore strings.",
+  "tests": [
+   "testing/test_tracer.py"
+  ],
+  "code": [
+   "src/pluggy/_tracing.py"
+  ],
+  "lines": 16
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "d2ac3765ed9f0516bb0cbc2508a5c3907fb6a71a",
+  "parent": "092f0919c3c254de0801dda60e7bbf8b73818c6c",
+  "subject": "sqlite-utils insert/upsert --type colunm-name type option, closes #131",
+  "task": "sqlite-utils insert/upsert --type colunm-name type option, closes #131",
+  "tests": [
+   "tests/test_cli_insert.py"
+  ],
+  "code": [
+   "sqlite_utils/cli.py"
+  ],
+  "lines": 103
+ },
+ {
+  "repo": "llm",
+  "fix": "4c968795fd63a57c5e30a0a585368148c18c3949",
+  "parent": "3f66aa64900be7c25ab1233029093fd0a36e960f",
+  "subject": "Order legacy tool result attachments by their order column",
+  "task": "Order legacy tool result attachments by their order column\n\nLEGACY_TOOLS_SQL gathered a tool result's attachments with\njson_group_array and never sorted them, so llm logs listed them in\nwhatever order SQLite happened to read the rows. They are now read\nfrom a subquery ordered by tool_results_attachments.\"order\".\n\nThe #1775 test now gives its attachments order values that differ from\nboth insertion and id order, so it checks this, and its no_content and\nempty_content names now match the attachments they hold.",
+  "tests": [
+   "tests/test_llm_logs.py"
+  ],
+  "code": [
+   "llm/logs.py"
+  ],
+  "lines": 37
+ },
+ {
+  "repo": "loguru",
+  "fix": "bce5dfd3b435b1d1658507d7e095ad7a9919bf1c",
+  "parent": "12b0479b86630d38a3fc42586a545c4e75e00b84",
+  "subject": "Fix thread/process info in standard handlers with `enqueue=True` (#1529)",
+  "task": "Fix thread/process info in standard handlers with `enqueue=True` (#1529)",
+  "tests": [
+   "tests/test_standard_handler.py"
+  ],
+  "code": [
+   "loguru/_simple_sinks.py"
+  ],
+  "lines": 66
+ },
+ {
+  "repo": "pluggy",
+  "fix": "e108fa4490564b9f252fe7a8a4d1969f6f996641",
+  "parent": "60b15251ee18560f781c557b6b9ef3de4d786bee",
+  "subject": "fix: skip registered entrypoint plugins without checking truthiness",
+  "task": "fix: skip registered entrypoint plugins without checking truthiness",
+  "tests": [
+   "testing/test_pluginmanager.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py"
+  ],
+  "lines": 19
+ },
+ {
+  "repo": "loguru",
+  "fix": "7b30cd046a593f34696f6c574813b9727ae5c35e",
+  "parent": "97a50cf75faff7c141ffc93095ab905b4ef051b6",
+  "subject": "Fix parsing of 12-hour rotation times without seconds (#1474)",
+  "task": "Fix parsing of 12-hour rotation times without seconds (#1474)",
+  "tests": [
+   "tests/test_filesink_rotation.py"
+  ],
+  "code": [
+   "loguru/_string_parsers.py"
+  ],
+  "lines": 3
+ },
+ {
+  "repo": "structlog",
+  "fix": "79032b3f93740e1e2430f9fe3937f2f3810d0975",
+  "parent": "92fd882817a8e6aae192cfe6266fded2d597f522",
+  "subject": "Use WeakKeyDictionary for WRITE_LOCKS to prevent file object leaks (#807)",
+  "task": "Use WeakKeyDictionary for WRITE_LOCKS to prevent file object leaks (#807)\n\n* Use WeakKeyDictionary for WRITE_LOCKS to prevent file object leaks\n\nFile objects registered in WRITE_LOCKS were never released, causing a\nmemory leak in long-running processes that open many log files (e.g.,\ntask executors creating a per-task BytesLogger or WriteLogger).\n\nWeakKeyDictionary stores keys as weak references, so entries expire\nautomatically when the last strong reference to a file object is\ndropped \u2014 no manual cleanup needed.\n\nCloses #806 (no need to expose it, we tidy it up correctly ourselves)\n\n* docs: rewrite changelog from user's perspective\n\n* tests: adapt style\n\n---------",
+  "tests": [
+   "tests/test_output.py"
+  ],
+  "code": [
+   "src/structlog/_output.py"
+  ],
+  "lines": 42
+ },
+ {
+  "repo": "llm",
+  "fix": "c969e7af00bc96c0ec335e4c837267d90918c838",
+  "parent": "50faebf3df185b78e98e9064a93525813670654d",
+  "subject": "Fix async tools in sync chains inside running event loops (#1733)",
+  "task": "Fix async tools in sync chains inside running event loops (#1733)\n\n* fix: support async tools in running event loops\n* fix: preserve context in async tool threads\n* test: async tools run on the calling thread when no loop is running\n* fix: only use a worker thread for async tools when a loop is running\n\n\n* Document how async tools run inside a running event loop\n\n\nCloses #1728",
+  "tests": [
+   "tests/test_tools.py"
+  ],
+  "code": [
+   "llm/models.py"
+  ],
+  "lines": 69
+ },
+ {
+  "repo": "llm",
+  "fix": "8c9728488e861c92b26274352cb15f8300e27b1a",
+  "parent": "dd7855a2d24a0e3b3397e9262034bf794097675a",
+  "subject": "Report unknown embedding models instead of a missing default (#1882)",
+  "task": "Report unknown embedding models instead of a missing default (#1882)\n\n* Report unknown embedding models instead of a missing default\n* Report an existing collection's unknown embedding model instead of a traceback\n\n---------",
+  "tests": [
+   "tests/test_embed_cli.py"
+  ],
+  "code": [
+   "llm/cli.py"
+  ],
+  "lines": 83
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "fea5428567960f15be0c9a3a4b99c0d9bb63848c",
+  "parent": "546be2f728faca68a88130a6406c20994355c853",
+  "subject": "Make Number and Mapping abstract base classes (#2925)",
+  "task": "Make Number and Mapping abstract base classes (#2925)\n\n* Make Number and Mapping abstract base classes\n\n* fix type issues",
+  "tests": [
+   "tests/test_fields.py",
+   "tests/test_serialization.py"
+  ],
+  "code": [
+   "src/marshmallow/fields.py"
+  ],
+  "lines": 61
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "c629214760c78c0a2235e896d335cccfb3a64466",
+  "parent": "08dca284ba5446a026afdc34067b658f9da989eb",
+  "subject": "Fix numeric_range equality and hashing above sys.maxsize",
+  "task": "Fix numeric_range equality and hashing above sys.maxsize",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 34
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "752799b5c88e0823f1bd93e073edab0a6a7e5648",
+  "parent": "9ed3dbb0ae527230cd156d91d0af305478558fba",
+  "subject": "Preserve numeric_range values during reverse iteration",
+  "task": "Preserve numeric_range values during reverse iteration",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 30
+ },
+ {
+  "repo": "llm",
+  "fix": "2b481e7991786a16a6a02a690c5c077c96618821",
+  "parent": "9b9ff80b24472bf59884df31f9cee8249e14147d",
+  "subject": "Read templates, fragments and --functions files as UTF-8 with locale fallback (#1893)",
+  "task": "Read templates, fragments and --functions files as UTF-8 with locale fallback (#1893)",
+  "tests": [
+   "tests/test_text_file_encodings.py"
+  ],
+  "code": [
+   "llm/cli.py"
+  ],
+  "lines": 84
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "3eb4053e1aacac53853f6e0abae556f280726f01",
+  "parent": "b5e3886a37209bb880f17d82fbf4ba00ece0e41e",
+  "subject": "Bound zero-cache seekable lookahead storage",
+  "task": "Bound zero-cache seekable lookahead storage",
+  "tests": [
+   "tests/test_seekable_memory.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 40
+ },
+ {
+  "repo": "pluggy",
+  "fix": "6a0532610b5909d761e349eb28e37631e7f73173",
+  "parent": "2143bb658d8dd6d2900e90737e8271ce54a7320f",
+  "subject": "Address review: indent blocks, trim changelog and docs",
+  "task": "Address review: indent blocks, trim changelog and docs\n\nDraw a multi-line value indented under its key without a box edge,\ndrop the docs paragraph the example already shows, and shorten the\nchangelog and the _render_value docstring.",
+  "tests": [
+   "testing/test_tracer.py"
+  ],
+  "code": [
+   "src/pluggy/_tracing.py"
+  ],
+  "lines": 45
+ },
+ {
+  "repo": "llm",
+  "fix": "dd7855a2d24a0e3b3397e9262034bf794097675a",
+  "parent": "52788eaa363cb4d21cd340bb8b35410eb8e23d39",
+  "subject": "Read extra model configuration using UTF-8 (#1889)",
+  "task": "Read extra model configuration using UTF-8 (#1889)",
+  "tests": [
+   "tests/test_openai_endpoint_add.py"
+  ],
+  "code": [
+   "llm/default_plugins/openai_models.py"
+  ],
+  "lines": 32
+ },
+ {
+  "repo": "pluggy",
+  "fix": "2e3774328e26287780f0ae849e3cb5db2ba4e78b",
+  "parent": "012fd24a1f2fba6dba63641097e9f489f132bee7",
+  "subject": "manager: ignore `register(None)` instead of raising `TypeError`",
+  "task": "manager: ignore `register(None)` instead of raising `TypeError`\n\nFix #749",
+  "tests": [
+   "testing/test_pluginmanager.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py"
+  ],
+  "lines": 14
+ },
+ {
+  "repo": "werkzeug",
+  "fix": "d441b0c73b4baad5a07e9d1c564beaf54e2a2753",
+  "parent": "34e4c1c3cc6732dee9e04f46a0eca9ac006e49b0",
+  "subject": "improve `send_file`",
+  "task": "improve `send_file`\n\n- get name, size, mtime from file\n- seek to 0\n- no path in etag\n- default application/octet-stream",
+  "tests": [
+   "tests/test_send_file.py"
+  ],
+  "code": [
+   "src/werkzeug/utils.py"
+  ],
+  "lines": 310
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "43d5d3331f5bd056d20ee61903142b86a2ee0efb",
+  "parent": "2d3c6b9a1e5068fcee6923c9ed74cbd158ee9db4",
+  "subject": "Emit LIMIT -1 when offset is used without limit (#821)",
+  "task": "Emit LIMIT -1 when offset is used without limit (#821)\n\n* Emit LIMIT -1 when offset is used without limit, closes #816\n\nSQLite requires a LIMIT clause to appear before OFFSET, so passing offset\nwithout limit generated invalid SQL such as:\n\n    select * from \"t\" offset 2\n\nwhich raised OperationalError: near \"2\": syntax error.\n\nA negative limit means \"no upper bound\" in SQLite, so \"limit -1 offset N\"\nreturns all rows from position N onwards.\n\nFixed in three places that build LIMIT/OFFSET SQL:\n\n- Queryable.rows_where() - also covers pks_and_rows_where()\n- Table.search_sql() - also covers search()\n- the \"sqlite-utils rows\" CLI command\n\n* Remove duplicate comments\n\n---------",
+  "tests": [
+   "tests/test_cli.py",
+   "tests/test_fts.py",
+   "tests/test_rows.py"
+  ],
+  "code": [
+   "sqlite_utils/cli.py",
+   "sqlite_utils/db.py"
+  ],
+  "lines": 33
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "ce676d24136e6efa932df8a4f3bf4801b89e1dd0",
+  "parent": "d92f081a089714e0aa92434c797fdd1a06da1290",
+  "subject": "Do not yield an empty list for an empty iterable when maxsplit is 0",
+  "task": "Do not yield an empty list for an empty iterable when maxsplit is 0\n\nsplit_before, split_after and split_when share a maxsplit == 0 fast path\nthat yields list(iterable) unconditionally, so an empty iterable produced\n[[]] while every other maxsplit produced []. Their slow paths return\nnothing for an empty iterable - split_before and split_after via 'if buf',\nsplit_when via its StopIteration early return - and test_empty_collection\nand test_empty_iterable already pin that, but neither passed maxsplit, so\nneither reached the fast path.\n\nsplit_at is left alone: its slow path yields the trailing empty list, which\nmatches ''.split(',', 0) == [''].",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 58
+ },
+ {
+  "repo": "llm",
+  "fix": "39d325492b6d0939d9bcb1cd1c9d81e260154ab4",
+  "parent": "b9786a2daa44a995ff7719c655c5338bf685d551",
+  "subject": "Read pipe attachments into memory before detecting their type (#1857)",
+  "task": "Read pipe attachments into memory before detecting their type (#1857)\n\nThis did not work:\n\n    llm \"Describe this image\" -a <(cat image.png)\n\nNow it does.",
+  "tests": [
+   "tests/test_attachments.py"
+  ],
+  "code": [
+   "llm/cli.py"
+  ],
+  "lines": 58
+ }
+]
