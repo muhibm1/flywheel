@@ -1,0 +1,228 @@
+[
+ {
+  "repo": "llm",
+  "fix": "398a06547cb9d9aef77a158af7e8e56048bb2a18",
+  "parent": "2b481e7991786a16a6a02a690c5c077c96618821",
+  "subject": "Preserve title keys inside literal JSON values in tool schemas (#1886)",
+  "task": "Preserve title keys inside literal JSON values in tool schemas (#1886)\n\n_remove_titles_recursively descended into default, const, enum and\nexamples, deleting title keys from literal data. Skip those keywords and\nwalk named child schemas explicitly, so keyword-shaped property names\nstill get annotation cleanup.\n\nRefs #1885",
+  "tests": [
+   "tests/test_tools.py"
+  ],
+  "code": [
+   "llm/models.py"
+  ],
+  "lines": 77
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "f07eadc87dfac25ed505d5cd9d186920f2682733",
+  "parent": "4acb783c73130f762aa5b0df6b65ff7685d5ff2c",
+  "subject": "Fix validate.Email to accept IDNs (#2937)",
+  "task": "Fix validate.Email to accept IDNs (#2937)\n\n* Fix validate.Email to accept IDNs\n\n* Fix typo",
+  "tests": [
+   "tests/test_validate.py"
+  ],
+  "code": [
+   "src/marshmallow/validate.py"
+  ],
+  "lines": 68
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "6bc1d33d583c54bd69fbdd2071117e2d38c354a1",
+  "parent": "85b1be10c81d9dd3567e36faf8dd411e4a8789bd",
+  "subject": "Fix resource leaks caused by buffered readers",
+  "task": "Fix resource leaks caused by buffered readers\n\nSpotted running 'just test -Wall' on the LLM project.",
+  "tests": [
+   "tests/test_rows_from_file.py"
+  ],
+  "code": [
+   "sqlite_utils/utils.py"
+  ],
+  "lines": 76
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "60811e730509667f702bc08f9bf5fc3fe13b7f45",
+  "parent": "d314d04215f7337d42c847214861ec7ffe0bf757",
+  "subject": "Fix rowid pk and last_rowid regressions in insert/upsert",
+  "task": "Fix rowid pk and last_rowid regressions in insert/upsert\n\nCloses #781, #783\n\nRefs https://github.com/simonw/sqlite-utils/issues/769#issuecomment-4900618685\n\n* Fix rowid pk and last_rowid regressions in insert/upsert\n\nTwo behaviour regressions in the 4.0 insert/upsert rewrite broke callers\n(notably Datasette's write API) that operate on tables without an explicit\nprimary key. Both are fixed here with regression tests.\n\n1. rowid (and its aliases _rowid_/oid) were rejected as a primary key.\n   Table.pks already reports [\"rowid\"] for a rowid table, but the new pk\n   validation raised InvalidColumns because rowid is not listed among the\n   table's columns, and the insert success path then raised KeyError when\n   looking up the pk value. rowid aliases are now accepted for rowid tables\n   and resolve directly to the rowid.\n\n2. An ignored insert (INSERT OR IGNORE that matched an existing row) no\n   longer populated last_rowid, and only set last_pk when an explicit pk=\n   was passed. It now locates the existing conflicting row by its primary\n   key values and reports that row's rowid and pk, rather than relying on\n   the connection's last inserted rowid.\n\nAdd a shared ROWID_ALIASES constant for the rowid alias names.",
+  "tests": [
+   "tests/test_create.py"
+  ],
+  "code": [
+   "sqlite_utils/db.py"
+  ],
+  "lines": 187
+ },
+ {
+  "repo": "marshmallow",
+  "fix": "2b84b56e9a80d07b65d74811673e8e5cf46cd0f1",
+  "parent": "fc8726244820b9f08fb7d02e007ed8d378a46c7b",
+  "subject": "(fix) missing constant with len validation (#2861)",
+  "task": "(fix) missing constant with len validation (#2861)\n\n* (fix) missing constant with len validation\n\n* [pre-commit.ci] auto fixes from pre-commit.com hooks\n\nfor more information, see https://pre-commit.ci\n\n* Add test case\n\n* Update authors and changelog\n\n---------",
+  "tests": [
+   "tests/test_deserialization.py"
+  ],
+  "code": [
+   "src/marshmallow/constants.py"
+  ],
+  "lines": 15
+ },
+ {
+  "repo": "llm",
+  "fix": "6b1d1f877fd0d51c00978ff242f40e3d88a9fb44",
+  "parent": "520b21b06ca916b7eb315747b11d029392b90063",
+  "subject": "Fix crash when a legacy tool result has a stored attachment (#1775)",
+  "task": "Fix crash when a legacy tool result has a stored attachment (#1775)\n\n`LEGACY_TOOLS_SQL` built the attachment JSON with\n`json_object(..., 'content', a.content, ...)`. When the row is a legacy tool\nresult whose attachment content is stored as a BLOB, SQLite raises\n`JSON cannot hold BLOB values` and the whole `llm logs` / `llm logs --json`\ncommand fails.\n\nThe stored-attachment path already reports a marker plus a byte count\n(`log_row_extras`, `length(attachments.content) as content_length`), so use\nthe same shape here. The renderer needs `content_length`, which was missing\nfrom the legacy query as well.",
+  "tests": [
+   "tests/test_llm_logs.py"
+  ],
+  "code": [
+   "llm/logs.py"
+  ],
+  "lines": 105
+ },
+ {
+  "repo": "werkzeug",
+  "fix": "21b45dbd33501e9dc576292f7ff1afe3e1559a97",
+  "parent": "665e760ca6325a348ce03e5cf780b17e4be01848",
+  "subject": "deprecate `Response.freeze`",
+  "task": "deprecate `Response.freeze`",
+  "tests": [
+   "tests/test_wrappers.py"
+  ],
+  "code": [
+   "src/werkzeug/wrappers/response.py"
+  ],
+  "lines": 78
+ },
+ {
+  "repo": "click",
+  "fix": "f58ca3e81424a35626c8a475eb59ab95589008ce",
+  "parent": "420c8fb44eeadb537cae69d2fee3796e808558dd",
+  "subject": "Fix `copy`, `deepcopy` and `pickle` of `Sentinel` members",
+  "task": "Fix `copy`, `deepcopy` and `pickle` of `Sentinel` members",
+  "tests": [
+   "tests/test_utils/test_sentinel.py"
+  ],
+  "code": [
+   "src/click/_utils.py"
+  ],
+  "lines": 60
+ },
+ {
+  "repo": "sqlite-utils",
+  "fix": "6a456830ca33eb5edaa634a9b0febe5d71bea2be",
+  "parent": "a7b734946f95341f52d866321c183e3532ac0aad",
+  "subject": "Fix _decode_default_value to unescape doubled single quotes in string defaults (#811)",
+  "task": "Fix _decode_default_value to unescape doubled single quotes in string defaults (#811)\n\n* Fix _decode_default_value to unescape doubled single quotes in string defaults\n\nSQLite stores string defaults with single quotes doubled (e.g. DEFAULT 'O''Brien'\nis stored as the literal \"'O''Brien'\" in sqlite_master). The previous code\nstripped the outer quotes with value[1:-1] but never converted '' back to ',\nso default_values returned the raw escaped form instead of the true string value.\n\n* Test for doubled single quotes in string defaults",
+  "tests": [
+   "tests/test_introspect.py"
+  ],
+  "code": [
+   "sqlite_utils/db.py"
+  ],
+  "lines": 15
+ },
+ {
+  "repo": "llm",
+  "fix": "3f66aa64900be7c25ab1233029093fd0a36e960f",
+  "parent": "067f65f8873aa90dc45f014d2c4226e803fdf31d",
+  "subject": "Rewrite an empty extra-openai-models.yaml list in block style",
+  "task": "Rewrite an empty extra-openai-models.yaml list in block style\n\nRemoving the last saved endpoint leaves \"[]\" in\nextra-openai-models.yaml. Since #1845 the next llm openai endpoint add\ninserts into that flow-style list, so the file and every later addition\nended up on one long line. A file containing exactly \"[]\" is now\nreplaced with a block style list instead. Bracketed lists with any\nother content, such as comments, still use the flow-style insertion\nthat preserves them.",
+  "tests": [
+   "tests/test_openai_endpoint_add.py"
+  ],
+  "code": [
+   "llm/default_plugins/openai_models.py"
+  ],
+  "lines": 19
+ },
+ {
+  "repo": "pluggy",
+  "fix": "f75132c15dc7106e5f82a9b5bc2c3f3d90238e6c",
+  "parent": "1b23f2e17e84177909a20145c8811cc31b779634",
+  "subject": "Keep trace output str-based",
+  "task": "Keep trace output str-based\n\nThe previous commit also switched traced values from str() to repr(),\nfollowing the design distilled in #681. That is a user visible change to\npytest's --debug output, and it makes that output worse to read.\n\nThe worst case is a value that is meant to be read as a block. With\nenable_assertion_pass_hook, pytest passes the assertion explanation to\npytest_assertion_pass as a multi line string. Under str() the trace\nshows it as written:\n\n    expl: {'x': [0, 1, ...} == {'x': [0, 1, ...}\n\n      Omitting 2 identical items, use -vv to show\n      Use -v to get more diff\n\nUnder repr() the same value becomes one escaped line:\n\n    expl: \"{'x': [0, 1, ...} == {'x': [0, 1, ...}\\n  \\n  Omitting 2 identical items, use -vv to show\\n  Use -v to get more diff\"\n\nThe rest is quieter but hits every run: of 439 traced kwarg values in a\nreal pytest --debug run, 123 render differently, and 115 of those are\nnothing but quotes added around strings that were already readable --\nevery plugin registration line turns plugin_name: lfplugin into a\nquoted string. 105 of the 674 lines in the sampled trace change, so\nanything parsing that output breaks as well.\n\nThe trace is pytest UX. A fix for a crash that nobody hits in normal use\nmust not degrade the daily reading experience of everyone who does not\nhit it. The cases where repr() genuinely helps are real -- PosixPath vs\npy.path.local for two arguments that print the same path, ExitCode vs a\nbare int -- but they are 15 lines out of 674, and they do not pay for\nthe other 115 plus the escaped blocks.\n\nThe crash fixes never depended on repr(): _safe_str() guards the\nconversion and escapes lone surrogates just as well, so #424 and #681\nstay fixed while pytest --debug output is byte for byte what it was\nbefore (verified: 674 trace lines, 0 differences). The type visibility\nidea is not rejected, only unbundled -- it can be argued on its own in",
+  "tests": [
+   "testing/test_pluginmanager.py",
+   "testing/test_tracer.py"
+  ],
+  "code": [
+   "src/pluggy/_manager.py",
+   "src/pluggy/_tracing.py"
+  ],
+  "lines": 70
+ },
+ {
+  "repo": "more-itertools",
+  "fix": "71e070b35d8c136484e91189719c2a4eccd36fc3",
+  "parent": "81c21a8db1c922260cd673841257fb9b112c1318",
+  "subject": "fix: honour a falsey key in all_unique",
+  "task": "fix: honour a falsey key in all_unique\n\nall_unique applied the key with `map(key, iterable) if key else iterable`, so a falsey callable was silently ignored. it now checks `key is not None` like the other key functions, same fix as #1309.",
+  "tests": [
+   "tests/test_more.py"
+  ],
+  "code": [
+   "more_itertools/more.py"
+  ],
+  "lines": 16
+ },
+ {
+  "repo": "attrs",
+  "fix": "937b1e232803cc4ec9b9375ef525fc57c24ec498",
+  "parent": "94caa57142c057ce52504cdf239ae0ed3168f9b5",
+  "subject": "Fixes issue #1427 (#1428)",
+  "task": "Fixes issue #1427 (#1428)\n\n* fixes #1427\n\nValues given to `__init__` should now always be propogated to `__attrs_pre_init__`, regardless of default configuration.\n\n* [pre-commit.ci] auto fixes from pre-commit.com hooks\n\nfor more information, see https://pre-commit.ci\n\n---------",
+  "tests": [
+   "tests/test_make.py"
+  ],
+  "code": [
+   "src/attr/_make.py"
+  ],
+  "lines": 56
+ },
+ {
+  "repo": "attrs",
+  "fix": "3b0378dd66d33ebddb52be85b8c4aac6a914b1a2",
+  "parent": "19943b775d40c018e844f2cb1728442f58112a3b",
+  "subject": "Cope with `field_transformer` being a generator (#1417)",
+  "task": "Cope with `field_transformer` being a generator (#1417)\n\n* Cope with `field_transformer` being a generator\n\nThis worked on 25.1.0 but was inadvertently broken by #1401\n\n* Update src/attr/_make.py\n\n\n---------",
+  "tests": [
+   "tests/test_hooks.py"
+  ],
+  "code": [
+   "src/attr/_make.py"
+  ],
+  "lines": 18
+ },
+ {
+  "repo": "llm",
+  "fix": "1bf6323c2304b139c8f67e081045ad7cb68d7383",
+  "parent": "786f8db946c400cb0b71a9691db78cd5e34c27cd",
+  "subject": "Empty attachments are a usage error, not a traceback (#1854)",
+  "task": "Empty attachments are a usage error, not a traceback (#1854)\n\n`llm -a -` with empty stdin, or `-a` with an empty file, crashed with\npuremagic's \"Input was empty\": for empty input puremagic raises a\nValueError subclass, not PureError, so it got past both mimetype\nhelpers. They now return None for it, and the CLI reports \"Could not\ndetermine mimetype of ...\" as it does for any unrecognised content.\n\nFixes #1853",
+  "tests": [
+   "tests/test_attachments.py"
+  ],
+  "code": [
+   "llm/utils.py"
+  ],
+  "lines": 33
+ },
+ {
+  "repo": "attrs",
+  "fix": "0f758fe54a8742110f730ebbaf146e79f3937c8d",
+  "parent": "57b314c0dc8e0b80c0ed8f61c0be81965137ea41",
+  "subject": "Expose converter as a decorator (#1541)",
+  "task": "Expose converter as a decorator (#1541)\n\n* Expose converter as a decorator\n\n* Update docs/init.md\n\n* Update docs/init.md\n\n* Update src/attr/_make.py\n\n* Update src/attr/_make.py\n\n* Update src/attr/_make.py\n\n* Add missing import\n\n---------",
+  "tests": [
+   "tests/test_make.py"
+  ],
+  "code": [
+   "src/attr/_make.py"
+  ],
+  "lines": 108
+ }
+]

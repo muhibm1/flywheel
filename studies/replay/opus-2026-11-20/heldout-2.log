@@ -1,0 +1,7 @@
+sqlite-utils-6a456830ca opus+method2 #0: fail 2s
+| Model | Scored runs | Passed | Pass rate (95% interval) | Mean tokens | Mean seconds | Flagged and left out | Agent errors, left out | Finished with code checked |
+| --- | ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| opus+method2 | 0 | 0 | n/a | 0 | 0 | 0 | 1 | not measured |
+
+| Case | opus+method2 |
+| --- | --- |

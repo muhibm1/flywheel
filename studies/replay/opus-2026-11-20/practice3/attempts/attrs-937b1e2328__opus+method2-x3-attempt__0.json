@@ -1,0 +1,19 @@
+{
+ "case": "attrs-937b1e2328",
+ "model": "opus+method2-x3-attempt",
+ "rep": 0,
+ "harness": "method",
+ "seconds": 2,
+ "turns": 1,
+ "tokens": 0,
+ "agent_error": true,
+ "flags": [],
+ "edited_code": false,
+ "verified_finish": false,
+ "hook_blocks": 0,
+ "error_text": "You've hit your 5-hour limit \u00b7 resets 2pm (UTC)",
+ "files_changed": 0,
+ "files": {},
+ "passed": false,
+ "fail_tail": "        assert 200 == g_val1 == inst.val1\n>       assert 200 == g_val2 == inst.val2\nE       assert 200 == 100\nFAILED tests/test_make.py::TestAttributes::test_pre_init_with_mixture_of_defaults_and_kw_only[True]"
+}

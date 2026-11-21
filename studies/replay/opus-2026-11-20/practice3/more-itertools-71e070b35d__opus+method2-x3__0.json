@@ -1,0 +1,17 @@
+{
+ "case": "more-itertools-71e070b35d",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 3,
+ "seconds": 115,
+ "tokens": 500280,
+ "attempt_passed": [
+  true,
+  true,
+  false
+ ],
+ "agent_error": true,
+ "error_text": "You've hit your 5-hour limit \u00b7 resets 2pm (UTC)",
+ "flags": [],
+ "passed": false
+}

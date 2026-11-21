@@ -1,0 +1,24 @@
+{
+ "case": "sqlite-utils-60811e7305",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 3,
+ "seconds": 353,
+ "tokens": 3354849,
+ "attempt_passed": [
+  false,
+  false,
+  false
+ ],
+ "agent_error": false,
+ "flags": [],
+ "chosen": 1,
+ "vote_scores": [
+  196
+ ],
+ "timed_out": false,
+ "passed": false,
+ "edited_code": true,
+ "verified_finish": false,
+ "fail_tail": "        assert table.last_pk == first.last_pk\n>       assert table.last_rowid is None\nE       assert 1 is None\nE        +  where 1 = <Table dogs (id, name)>.last_rowid\nFAILED tests/test_create.py::test_insert_ignore_hash_id_reports_pk - assert 1..."
+}

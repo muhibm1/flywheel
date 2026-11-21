@@ -1,0 +1,25 @@
+marshmallow-f07eadc87d opus+method2-x3 #0: pass 161s
+sqlite-utils-60811e7305 opus+method2-x3 #0: fail 353s
+sqlite-utils-6bc1d33d58 opus+method2-x3 #0: fail 547s
+marshmallow-2b84b56e9a opus+method2-x3 #0: pass 128s
+llm-398a06547c opus+method2-x3 #0: fail 669s
+werkzeug-21b45dbd33 opus+method2-x3 #0: pass 108s
+click-f58ca3e814 opus+method2-x3 #0: pass 129s
+sqlite-utils-6a456830ca opus+method2-x3 #0: pass 138s
+pluggy-f75132c15d opus+method2-x3 #0: pass 200s
+more-itertools-71e070b35d opus+method2-x3 #0: fail 115s
+| Model | Scored runs | Passed | Pass rate (95% interval) | Mean tokens | Mean seconds | Flagged and left out | Agent errors, left out | Finished with code checked |
+| --- | ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| opus+method2-x3 | 9 | 6 | 67% (35% to 88%) | 2,039,309 | 270 | 0 | 1 | 6 of 8 edited runs |
+
+| Case | opus+method2-x3 |
+| --- | --- |
+| click-f58ca3e814 | 1/1 |
+| llm-398a06547c | 0/1 |
+| marshmallow-2b84b56e9a | 1/1 |
+| marshmallow-f07eadc87d | 1/1 |
+| pluggy-f75132c15d | 1/1 |
+| sqlite-utils-60811e7305 | 0/1 |
+| sqlite-utils-6a456830ca | 1/1 |
+| sqlite-utils-6bc1d33d58 | 0/1 |
+| werkzeug-21b45dbd33 | 1/1 |

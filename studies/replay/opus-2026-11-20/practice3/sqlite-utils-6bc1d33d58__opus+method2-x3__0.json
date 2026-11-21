@@ -1,0 +1,26 @@
+{
+ "case": "sqlite-utils-6bc1d33d58",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 3,
+ "seconds": 547,
+ "tokens": 4515588,
+ "attempt_passed": [
+  false,
+  false,
+  false
+ ],
+ "agent_error": false,
+ "flags": [],
+ "chosen": 0,
+ "vote_scores": [
+  41,
+  41,
+  41
+ ],
+ "timed_out": false,
+ "passed": false,
+ "edited_code": true,
+ "verified_finish": true,
+ "fail_tail": "E           ValueError: raw stream has been detached\n            assert detected == expected_format\n            assert list(rows) == expected_rows\n            assert len(buffered_readers) == 1\n>           assert buffered_readers[0].closed\nE           ValueError: raw stream has been detached\nFAILED tests/test_rows_from_file.py::test_detect_format_closes_eager_reader[[{\"id\": 1}]-Format.JSON-expected_rows0]\nERROR tests/test_rows_from_file.py::test_detect_format_closes_eager_reader[[{\"id\": 1}]-Format.JSON-expected_rows0]"
+}

@@ -305,3 +305,66 @@ def test_a_fixture_added_next_to_the_tests_is_put_in_place(repo, tmp_path):
     dest = tmp_path / "w"
     replay.materialize(repo, case, dest, at="parent", tests=True)
     assert (dest / "tests" / "data.txt").read_text() == "6\n"
+
+
+def test_the_ensemble_picks_the_attempt_the_agents_own_tests_agree_on(tmp_path):
+    """Three attempts: one wrong with a test that blesses its bug, two right; the vote picks right.
+
+    The hidden test is never used to choose: the wrong attempt comes first, so a tie or a vote
+    that read nothing would pick it and fail.
+    """
+    import sys
+
+    root = tmp_path / "repo"
+    root.mkdir()
+    git(root, "init", "-q")
+    git(root, "config", "user.email", "a@b.c")
+    git(root, "config", "user.name", "t")
+    (root / "src").mkdir()
+    (root / "tests").mkdir()
+    (root / "src" / "calc.py").write_text("def add(a, b):\n    return a - b\n")
+    (root / "tests" / "test_calc.py").write_text("def test_placeholder():\n    pass\n")
+    git(root, "add", "-A")
+    git(root, "commit", "-qm", "start")
+    (root / "src" / "calc.py").write_text("def add(a, b):\n    return a + b\n")
+    (root / "tests" / "test_calc.py").write_text(
+        "import sys\nsys.path.insert(0, 'src')\nfrom calc import add\n\n"
+        "def test_add():\n    assert add(2, 3) == 5\n"
+    )
+    git(root, "add", "-A")
+    git(root, "commit", "-qm", "fix: add subtracted instead of adding\n\nadd(2, 3) gave -1.")
+    spec = replay.RepoSpec(
+        "toy",
+        str(root),
+        f"{sys.executable} -m pytest -q -x -p no:cacheprovider {{tests}}",
+        ("src/**/*.py",),
+        ("tests/**/test_*.py",),
+        {},
+    )
+    case = replay.mine(spec, since="2000-01-01")[0]
+    calls = []
+
+    def runner(cmd, cwd, **_):
+        k = len(calls)
+        calls.append(k)
+        work = Path(cwd)
+        right = k > 0
+        if right:
+            path = work / "src" / "calc.py"
+            path.write_text(path.read_text().replace("a - b", "a + b"))
+        want = 5 if right else -1
+        (work / "tests" / f"test_mine_{k}.py").write_text(
+            "import sys\nsys.path.insert(0, 'src')\nfrom calc import add\n\n"
+            f"def test_add_{k}():\n    assert add(2, 3) == {want}\n"
+        )
+        out = stream({"num_turns": 3, "usage": {"input_tokens": 10, "output_tokens": 5}})
+        return subprocess.CompletedProcess(cmd, 0, out, "")
+
+    rec = replay.run_ensemble(
+        spec, case, model="m", rep=0, out_dir=tmp_path / "o", attempts=3, runner=runner
+    )
+    assert rec["attempt_passed"] == [False, True, True]
+    assert rec["chosen"] == 1
+    assert rec["vote_scores"][0] < rec["vote_scores"][1]
+    assert rec["passed"] is True
+    assert rec["tokens"] == 3 * 15

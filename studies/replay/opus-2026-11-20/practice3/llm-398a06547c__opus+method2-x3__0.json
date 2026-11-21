@@ -1,0 +1,26 @@
+{
+ "case": "llm-398a06547c",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 3,
+ "seconds": 669,
+ "tokens": 1639884,
+ "attempt_passed": [
+  false,
+  false,
+  false
+ ],
+ "agent_error": false,
+ "flags": [],
+ "chosen": 0,
+ "vote_scores": [
+  192,
+  192,
+  192
+ ],
+ "timed_out": false,
+ "passed": false,
+ "edited_code": true,
+ "verified_finish": true,
+ "fail_tail": ">       assert schema[schema_map][field_name] == {\"default\": literal}\nE       AssertionError: assert {'title': 'An...'A document'}} == {'default': {...'A document'}}\nE         \nE         Omitting 1 identical items, use -vv to show\nE         Left contains 1 more item:\nE         {'title': 'Annotation'}\nE         Use -v to get more diff\nFAILED tests/test_tools.py::test_schema_title_removal_walks_keyword_named_schemas[default-dependencies]"
+}
