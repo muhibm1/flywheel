@@ -1,0 +1,23 @@
+{
+ "case": "click-1f9cd54f68",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 2,
+ "seconds": 103,
+ "tokens": 1523639,
+ "attempt_passed": [
+  true,
+  true
+ ],
+ "agent_error": false,
+ "flags": [],
+ "chosen": 0,
+ "vote_scores": [
+  456,
+  456
+ ],
+ "timed_out": false,
+ "passed": true,
+ "edited_code": true,
+ "verified_finish": true
+}

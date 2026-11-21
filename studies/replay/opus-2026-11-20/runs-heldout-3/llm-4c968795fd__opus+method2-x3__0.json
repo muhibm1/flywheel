@@ -1,0 +1,23 @@
+{
+ "case": "llm-4c968795fd",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 2,
+ "seconds": 346,
+ "tokens": 219604,
+ "attempt_passed": [
+  true,
+  true
+ ],
+ "agent_error": false,
+ "flags": [],
+ "chosen": 0,
+ "vote_scores": [
+  200,
+  200
+ ],
+ "timed_out": false,
+ "passed": true,
+ "edited_code": true,
+ "verified_finish": true
+}

@@ -1,0 +1,23 @@
+{
+ "case": "marshmallow-fea5428567",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 2,
+ "seconds": 97,
+ "tokens": 1322507,
+ "attempt_passed": [
+  true,
+  true
+ ],
+ "agent_error": false,
+ "flags": [],
+ "chosen": 0,
+ "vote_scores": [
+  317,
+  317
+ ],
+ "timed_out": false,
+ "passed": true,
+ "edited_code": true,
+ "verified_finish": true
+}

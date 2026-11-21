@@ -1,0 +1,23 @@
+{
+ "case": "pluggy-00ae36aebb",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 2,
+ "seconds": 81,
+ "tokens": 1264501,
+ "attempt_passed": [
+  true,
+  true
+ ],
+ "agent_error": false,
+ "flags": [],
+ "chosen": 0,
+ "vote_scores": [
+  51,
+  51
+ ],
+ "timed_out": false,
+ "passed": true,
+ "edited_code": true,
+ "verified_finish": true
+}

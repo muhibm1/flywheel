@@ -1,0 +1,24 @@
+{
+ "case": "loguru-7b30cd046a",
+ "model": "opus+method2-x3",
+ "rep": 0,
+ "attempts": 3,
+ "seconds": 590,
+ "tokens": 1285078,
+ "attempt_passed": [
+  true,
+  true,
+  true
+ ],
+ "agent_error": false,
+ "flags": [],
+ "chosen": 1,
+ "vote_scores": [
+  278,
+  278
+ ],
+ "timed_out": false,
+ "passed": true,
+ "edited_code": false,
+ "verified_finish": false
+}
