@@ -56,7 +56,7 @@ Reports and raw results:
 
 ## A second agent: the same result, a different kind of agent
 
-The [Studbook agent](https://github.com/muhibm1/studbook-agent) answers questions about my
+A [cited question-answering agent](https://github.com/muhibm1/studbook-agent) answers questions about my
 projects' design records, with citations, and refuses when the records do not say. It shares no
 code with AgentOps. Flywheel ran it unchanged, with three new checks: did it cite the right
 section, did it refuse exactly when it should, and did a model judge the answer correct.
@@ -73,18 +73,22 @@ unanswerable question the agent started answering with an invented fact. Flywhee
 `flywheel replay` is a second mode. It takes changes that really shipped in a repository, rewinds
 the code to just before each one with no history to peek at, gives an agent the task, and lets the
 real change's own tests decide. A change is used only if its tests fail before and pass after,
-twice, and a blind review keeps only cases whose task text says enough to pass. On 20 held-out
-real changes from seven repositories, scored once with three runs each, Opus passed 85%, Sonnet 78%
-and Haiku 76%, with Sonnet using about half of Opus's tokens
-([report](docs/results/replay-full-2026-11-14.md); the first 20-case pilot is
-[here](docs/results/replay-pilot-2026-11-12.md)). On 30 fresh changes from five repositories no
-agent had seen, scored once, Sonnet passed 93% and Opus 87%. A working method plus a
-review-and-repair pass (`--harness protocol-review`) made no measurable difference; the task text
-did: these commit messages say what to build
-([report](docs/results/replay-fresh-2026-11-17.md)). On 45 real changes from ten public
-open-source Python projects (click, attrs, pluggy, werkzeug and others) that no agent had seen,
-scored once with a frozen setup, Opus passed 98% (44 of 45)
-([report](docs/results/replay-opus-oss-2026-11-21.md)).
+twice, and a blind review keeps only cases whose task text says enough to pass.
+
+**Headline:** on 45 real changes from ten public open-source Python projects (click, attrs, pluggy,
+werkzeug and others) that no agent had seen, scored once with a frozen setup, Opus passed **98%
+(44 of 45)** ([report](docs/results/replay-opus-oss-2026-11-21.md)).
+
+Earlier sets, kept for the record:
+
+| Set | Result | Report |
+|---|---|---|
+| 30 fresh changes from five of my own repositories, scored once | Sonnet 93%, Opus 87% | [replay-fresh](docs/results/replay-fresh-2026-11-17.md) |
+| 20 held-out changes from seven of my own repositories, scored once, three runs each | Opus 85%, Sonnet 78%, Haiku 76%; Sonnet used about half of Opus's tokens | [replay-full](docs/results/replay-full-2026-11-14.md) |
+| First pilot, 20 changes, one run each | Opus 80%, Sonnet 80%, Haiku 70% | [replay-pilot](docs/results/replay-pilot-2026-11-12.md) |
+
+On the 30-change set, a working method plus a review-and-repair pass (`--harness protocol-review`)
+made no measurable difference; the task text did: those commit messages say what to build.
 
 `flywheel finish-check` is a Claude Code hook that will not let a turn end on code that was edited
 and never checked. Replay measured it: it made no measurable difference to Sonnet's pass rate, so it is offered as a
