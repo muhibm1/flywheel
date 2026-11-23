@@ -1,0 +1,50 @@
+{
+ "gate": "deepagents-g1",
+ "blocked": true,
+ "broken": [
+  "d-g1-effort-medium-sum",
+  "g1-no-effort-arith"
+ ],
+ "arms": {
+  "arm2": {
+   "broken": [],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm3": {
+   "broken": [
+    "g1-no-effort-arith"
+   ],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm4": {
+   "broken": [
+    "d-g1-effort-medium-sum",
+    "g1-no-effort-arith"
+   ],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm5": {
+   "broken": [
+    "d-g1-effort-medium-sum",
+    "g1-no-effort-arith"
+   ],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm6": {
+   "broken": [
+    "g1-no-effort-arith"
+   ],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  }
+ }
+}

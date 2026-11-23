@@ -1,0 +1,18 @@
+[flywheel]
+target = "adapter:target"
+evaluators = [
+    "adapter:check_report_produced",
+    "adapter:check_facts",
+    "adapter:check_no_forbidden",
+    "adapter:check_tools",
+    "adapter:check_cites",
+    "adapter:check_clarification",
+    "adapter:check_headings",
+]
+dataset = "dataset.jsonl"
+repetitions = 3
+
+[gate]
+max_broken = 0
+close_call_repetitions = 3
+min_new_error_runs = 2

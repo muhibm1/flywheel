@@ -1,0 +1,4 @@
+[
+{"id": "d-g1-effort-medium-sum", "decision": "KEEP", "reason": "A headless run with a documented reasoning_effort parameter must complete and give the correct sum."},
+{"id": "d-g1-effort-xhigh-word", "decision": "KEEP", "reason": "Checks only exit code 0 and the correct answer (Jupiter), which any correct agent must produce."}
+]

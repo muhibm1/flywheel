@@ -1,0 +1,6 @@
+[
+{"id": "d6-structured-report-file", "decision": "KEEP", "reason": "The user asks for totals.md and a summary naming West, and the checks only look for the region names."},
+{"id": "d6-structured-after-download-amount", "decision": "DROP", "reason": "It requires the literal string 1,284,300, but a correct summary could write 1284300 or $1.28M, so the check depends on number formatting."},
+{"id": "d6-structured-people-list", "decision": "KEEP", "reason": "Returning all four listed people with emails is exactly what the task asks."},
+{"id": "d6-structured-given-file", "decision": "DROP", "reason": "Excluding the word 'resolved' can fail a correct summary that says 'not yet resolved', so the check depends on incidental wording."}
+]

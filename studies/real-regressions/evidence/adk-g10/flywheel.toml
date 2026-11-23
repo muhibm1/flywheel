@@ -1,0 +1,10 @@
+[flywheel]
+target = "adapter:target"
+evaluators = ["adapter:check_no_error", "adapter:check_answer_contains", "adapter:check_answer_excludes", "adapter:check_finals_contain", "adapter:check_tools_called", "adapter:check_tool_args", "adapter:check_structured", "adapter:check_files", "adapter:check_state", "adapter:check_authors", "adapter:check_streamed", "adapter:check_tool_results", "adapter:check_workflow", "adapter:check_http", "adapter:check_service", "adapter:check_run_metadata"]
+dataset = "dataset.jsonl"
+repetitions = 3
+
+[gate]
+max_broken = 0
+close_call_repetitions = 3
+min_new_error_runs = 2

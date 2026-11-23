@@ -1,0 +1,6 @@
+[
+{"id": "g6_dotted_and_spaced_names_roundtrip", "decision": "KEEP", "reason": "Ordinary names with dots or spaces are plain file names under the cited docstring and must be created, read and listed."},
+{"id": "g6_hidden_and_colon_names", "decision": "DROP", "reason": "Rejecting a leading-dot or colon name is a reasonable stricter validation choice that the cited docstring does not forbid."},
+{"id": "g6_delete_twice_second_is_404", "decision": "KEEP", "reason": "The base source cited returns 404 for a missing test file and delete must remove the file."},
+{"id": "g6_many_tests_listed_and_one_removed", "decision": "DROP", "reason": "The read check matches the exact compact JSON text \"n\":3, so it depends on response whitespace rather than on required behaviour."}
+]

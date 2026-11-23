@@ -1,0 +1,6 @@
+[
+{"id": "d-g6-write-large-file", "decision": "KEEP", "reason": "A large write must succeed with correct contents and not crash."},
+{"id": "d-g6-write-existing-refused", "decision": "KEEP", "reason": "The task itself says to leave an existing file alone, and write_file refusing to overwrite is documented behaviour."},
+{"id": "d-g6-read-paged", "decision": "KEEP", "reason": "A paged read with offset and limit must return the requested window; only the correct answer is checked."},
+{"id": "d-g6-edit-multiline-large", "decision": "KEEP", "reason": "Exact multi-line string replacement is documented edit_file behaviour and only the resulting file is checked."}
+]

@@ -10,6 +10,7 @@ agent are removed and run again (transport.py), on whichever side they happened.
 """
 
 import hashlib
+import os
 import json
 import shutil
 import subprocess
@@ -20,7 +21,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from transport import clean  # noqa: E402
 
 BLIND = Path("/tmp/rr/blind")
-RUNS = Path(__file__).resolve().parent / "runs"
+RUNS = Path(__file__).resolve().parent / os.environ.get("RR_RUNS", "runs")
 CONCURRENCY = "2"
 
 
@@ -75,6 +76,40 @@ def top_up(g: Path, side: str, env: str, files: list[str]) -> list[str]:
     return files
 
 
+def timeout_pass(g: Path, side: str, env: str, files: list[str]) -> list[str]:
+    """Rerun each TimeoutError run once; a second timeout stands and is scored (Amendment 3)."""
+    if (g / f"timeout-{side}.json").exists():
+        return files
+    tos = [(r["example_id"], r["repetition"]) for f in files if (g / f).exists()
+           for r in json.loads((g / f).read_text())["runs"] if "timeout" in str(r.get("error") or "").lower()]
+    if tos:
+        owed: dict[str, int] = {}
+        for cid, _ in tos:
+            owed[cid] = owed.get(cid, 0) + 1
+        kept = []
+        for f in files:  # the same files without the timed-out runs
+            e = json.loads((g / f).read_text())
+            e["runs"] = [r for r in e["runs"] if (r["example_id"], r["repetition"]) not in tos]
+            (g / f.replace(".json", ".nt.json")).write_text(json.dumps(e))
+            kept.append(f.replace(".json", ".nt.json"))
+        out = f"{side}-to.json"
+        run_sides(g, [(env, out, ["--only", ",".join(owed), "--repetitions", str(max(owed.values())),
+                                   "--first-repetition", str(next_rep(g, files))])])
+        e = json.loads((g / out).read_text())
+        seen: dict[str, int] = {}
+        runs = []
+        for r in e["runs"]:  # keep exactly as many reruns as there were timeouts per case
+            if seen.get(r["example_id"], 0) < owed[r["example_id"]]:
+                seen[r["example_id"]] = seen.get(r["example_id"], 0) + 1
+                runs.append(r)
+        e["runs"] = runs
+        (g / f"{side}-to.trim.json").write_text(json.dumps(e))
+        files = [*kept, f"{side}-to.trim.json"]
+        clean([g / f for f in files], g / f"{side}.clean.json")
+    (g / f"timeout-{side}.json").write_text(json.dumps({"rerun": [list(t) for t in tos]}))
+    return files
+
+
 def main() -> None:
     """Copy, freeze, run both sides, replace transport failures, rerun close calls, gate."""
     project, gid, base_env, head_env = sys.argv[1:5]
@@ -95,6 +130,9 @@ def main() -> None:
                       (head_env, "head-extra.json", [*args, "--first-repetition", str(next_rep(g, heads))])])
         bases = top_up(g, "base", base_env, [*bases, "base-extra.json"])
         heads = top_up(g, "head", head_env, [*heads, "head-extra.json"])
+    if os.environ.get("RR_TIMEOUT_RERUN", "1") == "1":
+        bases = timeout_pass(g, "base", base_env, bases)
+        heads = timeout_pass(g, "head", head_env, heads)
     with (g / "run.log").open("a") as f:
         code = subprocess.run([f"{base_env}/bin/flywheel", "gate", "--base", "base.clean.json", "--head",
                                "head.clean.json", "--report", "gate.md"], cwd=g, stdout=f,

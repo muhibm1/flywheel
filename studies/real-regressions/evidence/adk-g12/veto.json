@@ -1,0 +1,22 @@
+[
+ {
+  "id": "g12_x_a2a_confirmation_tool_waits",
+  "decision": "KEEP",
+  "reason": "A tool requiring confirmation must not run without it over A2A, which is the security property the PR protects."
+ },
+ {
+  "id": "g12_x_a2a_denial_keeps_tool_blocked",
+  "decision": "KEEP",
+  "reason": "A denied confirmation must never run the tool whether honoured or ignored, directly supported by the cited security text."
+ },
+ {
+  "id": "g12_x_a2a_free_tool_runs_beside_confirm_tool",
+  "decision": "KEEP",
+  "reason": "An ordinary A2A request needing no confirmation must still be answered with its normal tool call."
+ },
+ {
+  "id": "g12_x_local_lookalike_metadata_confirms",
+  "decision": "KEEP",
+  "reason": "A local run is not an A2A channel, so a human's approval must still run the tool despite lookalike metadata."
+ }
+]

@@ -1,0 +1,6 @@
+[
+{"id": "g5_sse_full_stream_shows_tool_events", "decision": "KEEP", "reason": "A client that stays connected must get partial chunks and the full answer; the event minimum is the floor for a tool-using turn."},
+{"id": "g5_three_sessions_back_to_back", "decision": "KEEP", "reason": "Consecutive /run_sse and /run requests must each be answered correctly."},
+{"id": "g5_disconnect_then_session_readable", "decision": "KEEP", "reason": "After a dropped SSE client the session must stay readable and the server must serve a new session, with the user message guaranteeing the text match."},
+{"id": "g5_run_endpoint_matches_sse_answer", "decision": "KEEP", "reason": "A session used via /run then /run_sse must keep its history so the second answer builds on the first."}
+]

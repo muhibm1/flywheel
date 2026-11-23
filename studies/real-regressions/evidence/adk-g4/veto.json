@@ -1,0 +1,6 @@
+[
+{"id": "g4_same_tool_each_turn_recall", "decision": "KEEP", "reason": "Answering a comparison from earlier tool results is a basic requirement of replayed history."},
+{"id": "g4_two_tools_one_turn_then_followup", "decision": "KEEP", "reason": "Both results from a single step must still be available to restate on the next turn."},
+{"id": "g4_sub_agent_tool_then_back", "decision": "KEEP", "reason": "A result computed by a sub-agent tool must still be visible in history on the next user turn."},
+{"id": "g4_streaming_tool_history", "decision": "KEEP", "reason": "Streaming is a documented option and a follow-up building on a prior tool result must be answered correctly."}
+]

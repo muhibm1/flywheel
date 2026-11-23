@@ -1,0 +1,4 @@
+[
+{"id": "g3-diff-config-two-servers", "decision": "KEEP", "reason": "load_mcp_servers is documented to load servers from a config file, so a two-server config yielding two usable servers is required."},
+{"id": "g3-diff-cerebras-model-tools", "decision": "KEEP", "reason": "An agent on CerebrasModel must call its tool and answer from the result; only a minimum of one call is required."}
+]

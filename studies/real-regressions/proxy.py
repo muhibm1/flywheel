@@ -15,6 +15,7 @@ Run: python proxy.py --port 8765 --model claude-haiku-4-5
 
 import argparse
 import json
+import re
 import os
 import shutil
 import subprocess
@@ -27,12 +28,21 @@ from pathlib import Path
 from typing import Any
 
 KEY_VARIABLES = ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "AGENTOPS_TEST_ANTHROPIC_API_KEY")
+# Host-session context that must not reach the model under test (memory, extra CLAUDE.md files).
+CONTEXT_VARIABLES = ("CLAUDE_MEMORY_STORES", "CLAUDE_COWORK_MEMORY_PATH_OVERRIDE", "CLAUDE_ADDITIONAL_DIRECTORIES",
+                     "CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD", "CLAUDE_CODE_PROJECTS_SESSION",
+                     "CLAUDE_CODE_SKILL_PROPOSALS", "CLAUDE_CODE_COORDINATOR_EXTRA_TOOLS", "CLAUDE_CODE_CHILD_NOTES_DIR",
+                     "CLAUDE_CODE_SILENT_TURN_REMINDER", "CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION",
+                     "CLAUDE_CODE_USER_EMAIL")
 TIMEOUT = 600
 ATTEMPTS = 3
 LIMIT_WAIT = 600
 MAX_PARALLEL = int(os.environ.get("PROXY_PARALLEL", "4"))
 USAGE_LOG = Path(os.environ.get("PROXY_USAGE_LOG", "proxy-usage.jsonl"))
 LOOSE = os.environ.get("PROXY_LOOSE", "1") == "1"  # version 2 default; 0 restores version 1
+REFUSAL_RETRIES = int(os.environ.get("PROXY_REFUSAL_RETRIES", "2"))
+REFUSAL = re.compile(r"(not|n't|no longer|un)\s*(currently\s*)?(available|accessible|access to)|no such tool"
+                     r"|(don't|do not|cannot|can't) (have|use|call|access)\b[^.]{0,40}\btool", re.I)
 _slots = threading.BoundedSemaphore(MAX_PARALLEL)
 _log_lock = threading.Lock()
 
@@ -46,7 +56,8 @@ def _run(args: list[str], prompt: str) -> dict:
     exe = shutil.which("claude")
     if not exe:
         raise CallFailed("the claude command is not installed")
-    env = {k: v for k, v in os.environ.items() if k not in KEY_VARIABLES}
+    env = {k: v for k, v in os.environ.items() if k not in KEY_VARIABLES and k not in CONTEXT_VARIABLES}
+    env["CLAUDE_CODE_DISABLE_AUTO_MEMORY"] = "1"  # v2.3: the model under test sees no host memory
     with _slots, tempfile.TemporaryDirectory(prefix="rr-cc-") as cwd:
         done = subprocess.run(
             [exe, "-p", *args],
@@ -67,7 +78,7 @@ def _run(args: list[str], prompt: str) -> dict:
 def _args(model: str, system: str, schema: dict | None) -> list[str]:
     """Flags for a lean call: no tools, settings, MCP servers or saved session."""
     args = ["--output-format", "json", "--model", model, "--tools", "", "--strict-mcp-config",
-            "--setting-sources", "", "--no-session-persistence", "--system-prompt", system or " "]
+            "--setting-sources", "", "--no-session-persistence", "--system-prompt", system if (system or "").strip() else "You are Claude, an AI assistant."]
     if schema is not None:
         args += ["--json-schema", json.dumps(schema)]
     return args
@@ -175,11 +186,19 @@ def tool_schema(tools: list[dict], required: bool, only: str | None) -> tuple[di
                        "properties": {"tool": {"const": name}, "args": inline(fn.get("parameters"))},
                        "required": ["tool", "args"]})
     if LOOSE:
-        # Like a real API: the reply must be JSON, but the tool name and its arguments are not
-        # checked against the tool's schema, so a model can call a tool wrongly, as it can live.
-        item = {"type": "object", "properties": {"tool": {"type": "string"}, "args": {"type": "object"}},
-                "required": ["tool", "args"]}
-        calls: dict = {"type": "array", "items": item}
+        # Closer to a real API: each tool keeps its name and argument names, but required
+        # arguments and argument types are not enforced, so a model can call a tool wrongly.
+        loose = []
+        for sh in shapes:
+            args = json.loads(json.dumps(sh["properties"]["args"]))
+            args.pop("required", None)
+            args.pop("additionalProperties", None)
+            for v in (args.get("properties") or {}).values():
+                if isinstance(v, dict):
+                    for k in ("type", "enum", "format", "minimum", "maximum", "pattern"):
+                        v.pop(k, None)
+            loose.append({**sh, "properties": {**sh["properties"], "args": args}})
+        calls: dict = {"type": "array", "items": {"anyOf": loose}}
     else:
         calls = {"type": "array", "items": {"anyOf": shapes}}
     if required or only:
@@ -196,7 +215,8 @@ def tool_schema(tools: list[dict], required: bool, only: str | None) -> tuple[di
            " When you are finished, reply with an empty list of calls and your final answer in text.")
     )
     if LOOSE:
-        guide += "\n\nTOOLS (name, description, JSON schema of args):\n" + json.dumps(specs, indent=1)
+        guide += ("\n\nTool reference (arguments and their meaning):\n" + json.dumps(specs, indent=1)
+                  + "\nDo not try to call these tools any other way: list them in `calls`.")
     return schema, guide
 
 
@@ -239,6 +259,19 @@ def complete(body: dict, default_model: str) -> dict:
         schema, guide = tool_schema(tools, choice in ("required", "any"), only)
         result = _call(model, system + guide, schema, (transcript or "Begin.") + "\n\nChoose your next tool calls.", tag)
         out = result["structured_output"]
+        # The headless model sometimes answers "that tool is not available" because its own
+        # session has no tools; a real API never does this, so ask again (version 2.1).
+        for _ in range(REFUSAL_RETRIES):
+            if out.get("calls") or not REFUSAL.search(str(out.get("text") or "")):
+                break
+            with _log_lock, USAGE_LOG.open("a") as f:
+                f.write(json.dumps({"t": time.time(), "tag": tag, "refusal_retry": True}) + "\n")
+            result = _call(model, system + guide, schema,
+                           (transcript or "Begin.") + "\n\nChoose your next tool calls.", tag)
+            out = result["structured_output"]
+        if not out.get("calls"):
+            with _log_lock, Path(os.environ.get("PROXY_NOCALL_LOG", "/tmp/rr-nocall.jsonl")).open("a") as f:
+                f.write(json.dumps({"t": time.time(), "choice": str(choice), "text": str(out.get("text"))[:400]}) + "\n")
         calls = [{"id": f"call_{uuid.uuid4().hex[:20]}", "type": "function",
                   "function": {"name": c["tool"], "arguments": json.dumps(c.get("args") or {})}}
                  for c in out.get("calls") or []]
@@ -276,6 +309,50 @@ def complete(body: dict, default_model: str) -> dict:
             "choices": [{"index": 0, "message": msg, "finish_reason": finish}],
             "usage": {"prompt_tokens": prompt_tokens, "completion_tokens": u.get("output_tokens") or 0,
                       "total_tokens": prompt_tokens + (u.get("output_tokens") or 0)}}
+
+
+FAULTS = ("bad_json_args", "unknown_tool", "missing_arg", "truncated", "empty", "call_as_text")
+
+
+def fault_reply(name: str, body: dict, model: str) -> dict | None:
+    """Arm 5: one scripted bad reply on a run's first tool turn, or None to answer normally.
+
+    Reached through base_url http://127.0.0.1:8765/fault/<name>/v1. The fault fires only while
+    the conversation has no assistant or tool message yet, so it happens exactly once per run
+    and identically on base and head; every later turn is answered by the model as usual.
+    """
+    msgs = body.get("messages") or []
+    if name not in FAULTS or any(m.get("role") in ("assistant", "tool", "function") for m in msgs):
+        return None
+    tools = body.get("tools") or [{"type": "function", "function": f} for f in body.get("functions") or []]
+    if not tools:
+        return None
+    fn = tools[0].get("function") or tools[0]
+    props = list(((fn.get("parameters") or {}).get("properties") or {}).keys())
+    call = {"id": f"call_{uuid.uuid4().hex[:20]}", "type": "function",
+            "function": {"name": fn["name"], "arguments": json.dumps({p: "x" for p in props})}}
+    msg: dict = {"role": "assistant", "content": ""}
+    finish = "tool_calls"
+    if name == "bad_json_args":
+        call["function"]["arguments"] = '{"' + (props[0] if props else "arg") + '": "x",'
+        msg["tool_calls"] = [call]
+    elif name == "unknown_tool":
+        call["function"]["name"] = "no_such_tool_xyz"
+        msg["tool_calls"] = [call]
+    elif name == "missing_arg":
+        call["function"]["arguments"] = "{}"
+        msg["tool_calls"] = [call]
+    elif name == "truncated":
+        msg["content"], finish = "I will start by calling the", "length"
+    elif name == "empty":
+        msg["content"], finish = "", "stop"
+    elif name == "call_as_text":
+        msg["content"], finish = json.dumps({"name": fn["name"], "arguments": json.loads(call["function"]["arguments"])}), "stop"
+    with _log_lock, USAGE_LOG.open("a") as f:
+        f.write(json.dumps({"t": time.time(), "fault": name}) + "\n")
+    return {"id": f"chatcmpl-{uuid.uuid4().hex}", "object": "chat.completion", "created": int(time.time()),
+            "model": body.get("model") or model, "choices": [{"index": 0, "message": msg, "finish_reason": finish}],
+            "usage": {"prompt_tokens": 1, "completion_tokens": 1, "total_tokens": 2}}
 
 
 def stream_chunks(resp: dict) -> list[dict]:
@@ -320,8 +397,10 @@ class Handler(BaseHTTPRequestHandler):
             self._send(404, {"error": {"message": f"unsupported path {self.path}"}})
             return
         body = json.loads(self.rfile.read(int(self.headers.get("Content-Length") or 0)) or b"{}")
+        parts = self.path.strip("/").split("/")
+        fault = parts[1] if len(parts) > 2 and parts[0] == "fault" else None
         try:
-            resp = complete(body, self.model)
+            resp = (fault and fault_reply(fault, body, self.model)) or complete(body, self.model)
         except Exception as error:  # surfaced to the agent as an API error, as a real outage would be
             self._send(500, {"error": {"message": str(error)[:500], "type": "proxy_error"}})
             return

@@ -1,0 +1,118 @@
+{
+ "regressions": [
+  {
+   "gate": "agno-g1",
+   "case": "agno-mcp-init-headers",
+   "stated_reason": "yes",
+   "cases": [
+    "diff-g1-multi-server-params-no-headers",
+    "chg-g1-multi-mcp-provider"
+   ],
+   "source": "diff (diff-g1-multi-server-params-no-headers, server params with default headers=None plus a header_provider) and change (chg-g1-multi-mcp-provider)",
+   "evidence": "Both broken cases combine MultiMCPTools with a header_provider returning a non-empty dict; head.log shows 'Failed to connect to MultiMCPTools' with no such line in base.log, and check_tools fell 3/3 to 0/3 (tools never offered). change.diff's init_headers merge on an unset headers value matches the stated NoneType-is-not-a-mapping crash; the exact TypeError text is not in the log, so this is inferred from the diff plus the connect failure."
+  },
+  {
+   "gate": "browseruse-g4",
+   "case": "bu-openai-structured-indent",
+   "stated_reason": "yes",
+   "cases": [
+    "c4-default-openai-agent",
+    "d4-plain-lookup",
+    "c4-output-schema-default",
+    "d4-structured-product-list"
+   ],
+   "source": "change (c4-default-openai-agent, c4-output-schema-default) and diff (d4-plain-lookup, d4-structured-product-list)",
+   "evidence": "14 cases fail; head.log repeats 'LLM error (ModelProviderError: cannot access local variable response where it is not associated with a value)', which is exactly what change.diff's re-indented request block (now inside the add_schema_to_system_prompt branch) produces when that flag is false (the default); c4-default-openai-agent is the default-config case."
+  },
+  {
+   "gate": "deepagents-g2",
+   "case": "deepagents-code-server-hooks",
+   "stated_reason": "no",
+   "cases": [
+    "d-g2-posttool-hook-shell"
+   ],
+   "source": "diff",
+   "evidence": "The only broken case runs one headless shell tool call with PostToolUse and Stop command hooks and no subagent or parallel task (dataset.jsonl), failing check_answer and check_exit 3/3 to 0/3; there is no InvalidUpdateError, no error text and no transcript in head.json or head.log. It may relate to the second fix (hook resumes, 08e6e8ba) but nothing readable shows the two-parallel-task channel conflict, so it does not match the stated reason."
+  },
+  {
+   "gate": "deepagents-g4",
+   "case": "deepagents-sandbox-heredoc-format",
+   "stated_reason": "yes",
+   "cases": [
+    "g4-sandbox-write-special-chars",
+    "g4-sandbox-edit-special-chars",
+    "g4-sandbox-write-many-lines",
+    "g4-sandbox-edit-replace-all",
+    "d-g4-edit-quotes-and-dollars",
+    "d-g4-write-heredoc-marker-text",
+    "d-g4-write-large-file"
+   ],
+   "source": "change (g4-sandbox-*) and diff (d-g4-*)",
+   "evidence": "gate.md lists 'new error: KeyError: e' on all 8 broken sandbox write/edit cases, the exact str.format KeyError on the unescaped {e} placeholder in the new heredoc templates."
+  },
+  {
+   "gate": "gptr-g2",
+   "case": "gptr-query-processing-import",
+   "stated_reason": "yes",
+   "cases": [
+    "custom-report-json",
+    "g2-diff-custom-report-web"
+   ],
+   "source": "standing (custom-report-json) and diff (g2-diff-custom-report-web); all 15 cases broke, including change cases",
+   "evidence": "Every case fails all checks 3/3 to 0/3 with 'research run failed (exit 1)'; change.diff defines _normalize_sub_queries annotated with Any and List above the 'from typing import Any, List, Dict' line, which raises NameError at import. The recorded traceback is cut off before the exception name, so the NameError itself is inferred from the diff and the uniform crash."
+  },
+  {
+   "gate": "odr-g2",
+   "case": "odr-get-today-str",
+   "stated_reason": "yes",
+   "cases": [
+    "g2-chg-clarify-node",
+    "g2-chg-clear-with-clarify-on"
+   ],
+   "source": "change (also fault-bad-json-args and fault-unknown-tool, which are fault cases)",
+   "evidence": "gate.md records 'AttributeError: type object datetime.datetime has no attribute datetime' as the new error on g2-chg-clarify-node and g2-chg-clear-with-clarify-on (all checks 3/3 or 6/6 to 0), the same message as the fix commit subject."
+  },
+  {
+   "gate": "pydanticai-g4",
+   "case": "pydanticai-mcp-sampling-contextvar",
+   "stated_reason": "yes",
+   "cases": [
+    "g4-diff-server-already-running"
+   ],
+   "source": "diff",
+   "evidence": "The case starts the MCP server first and then enters run_mcp_servers (mode already_running), the stated 'override already inside the async with' situation; change.diff moves the override to a ContextVar the server's sampling callback does not see, check_tool_returns (sampled_model claude-haiku-4-5) failed 3/3 to 0/3 and the agent ran into UsageLimitExceeded. No transcript is stored, so the wrong-model mechanism is inferred from the diff."
+  },
+  {
+   "gate": "strands-g2",
+   "case": "strands-session-concurrent-read",
+   "stated_reason": "yes",
+   "cases": [
+    "g2-session-resume-async",
+    "g2-session-resume-async-tools",
+    "g2-diff-session-subagent-async-tool"
+   ],
+   "source": "change (g2-session-resume-async, g2-session-resume-async-tools) and diff (g2-diff-session-subagent-async-tool)",
+   "evidence": "gate.md gives 'RuntimeError: asyncio.run() cannot be called from a running event loop' as the new error on both async session-resume change cases, the same message the revert PR quotes."
+  }
+ ],
+ "controls": [
+  {
+   "gate": "odr-g1",
+   "case": "odr-get-today-str--control1",
+   "a": false,
+   "b": true,
+   "c": false,
+   "label": "false block",
+   "evidence": "(a) failed: base against base did not pass (adjud/result.json), and base pass rates were already low on the broken cases (e.g. 3/6, 4/6, 5/6). (b) Weakly yes: the failed checks (search tools called, correct facts in the report) are plain base behaviour, and the PR text is only a list of commit titles ('update prompts, add think tool, update defaults') that does not state fewer searches or missing facts as intended; no transcripts are stored, so the cause in the large diff is not isolated. (c) No: the only later commits found for the touched files are 0c9b239cb6 (strftime on Windows) and 7bbed5e4c5 (datetime AttributeError), both small utils.py get_today_str fixes unrelated to the search or facts behaviour. One of three, so a false block."
+  },
+  {
+   "gate": "deepagents-g1",
+   "case": "deepagents-code-server-hooks--control1",
+   "a": false,
+   "b": true,
+   "c": false,
+   "label": "false block",
+   "evidence": "(a) failed: the head result did not reproduce (adjud/result.json reproduces=false) and the case failed 2 of 3 on head after passing 3 of 3 on base, with one head run passing. (b) Yes: a headless run with reasoning_effort medium answering correctly with exit 0 is base behaviour, and the PR states only a refactor onto langchain's reasoning_effort with no behaviour change. (c) No: the later commits on reasoning_effort.py (17eea22b96 constrains the /effort picker for between_tools thinking, ed715eeba6 and 5ee1073e9a unknown effort display, cacd50adc3 and f3b126a13d cache identity) touch the interactive effort UI and cache warnings, not the --model-params effort path the case runs. One of three, so a false block."
+  }
+ ]
+}

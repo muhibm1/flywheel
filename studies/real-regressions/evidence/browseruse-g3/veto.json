@@ -1,0 +1,6 @@
+[
+{"id": "d3-judge-text-only-lookup", "decision": "KEEP", "reason": "The README documents use_vision=False and a judge verdict, and a correct completed lookup should be judged successful."},
+{"id": "d3-judge-vision-default", "decision": "KEEP", "reason": "The README says each run is judged and result.judgement carries success, so a correct run is expected to be judged successful."},
+{"id": "d3-judge-form-submitted", "decision": "KEEP", "reason": "Submitting the form with the given values and reporting FB-3842 is the task, and a completed run should be judged successful."},
+{"id": "d3-judge-context-hint", "decision": "KEEP", "reason": "judge_context is a documented option, and answering T-501 from the Open section is correct and should be judged successful."}
+]

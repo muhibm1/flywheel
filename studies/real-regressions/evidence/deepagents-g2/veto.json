@@ -1,0 +1,5 @@
+[
+{"id": "d-g2-allevents-hooks-arith", "decision": "KEEP", "reason": "Configured hooks must not stop a run from finishing with the right answer; checks only exit code and result."},
+{"id": "d-g2-stop-hook-planet", "decision": "KEEP", "reason": "A Stop hook that exits 0 permits completion, so the run must succeed with the correct answer."},
+{"id": "d-g2-posttool-hook-shell", "decision": "KEEP", "reason": "A tool-using task with allowing hooks must finish and report the file contents; no internal format is checked."}
+]

@@ -1,0 +1,5 @@
+[
+{"id": "d2-notes-file-attached", "decision": "KEEP", "reason": "The user explicitly asks for highlights.md with the three highlights, and the check only looks for key phrases in the file."},
+{"id": "d2-json-file-attached", "decision": "KEEP", "reason": "The user explicitly asks for products.json with sku and qty, and the check only looks for the SKUs and quantities."},
+{"id": "d2-long-table-lookup", "decision": "KEEP", "reason": "The page does list 14.75 for 2026-03-17, so reporting it is a plain correct-answer requirement."}
+]

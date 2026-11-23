@@ -1,0 +1,6 @@
+[
+{"id": "g1_cap_boundary_three_lookups", "decision": "KEEP", "reason": "Three lookups under a cap of four is a normal task that must still return the right structured answer."},
+{"id": "g1_cap_disabled_zero", "decision": "KEEP", "reason": "The cited PR text says <= 0 disables the cap, so a multi-lookup task must complete."},
+{"id": "g1_cap_invalid_env_ignored", "decision": "KEEP", "reason": "A malformed cap value must not break an ordinary one-lookup task; the cited helper falls back to a default."},
+{"id": "g1_two_turns_cap_resets", "decision": "KEEP", "reason": "The cap is per agent turn per the PR, so three single-lookup turns under a cap of three must each answer correctly."}
+]

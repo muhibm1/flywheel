@@ -1,0 +1,940 @@
+{
+ "case": "deepagents-code-server-hooks--control1",
+ "repo": "langchain-ai_deepagents",
+ "files": [
+  "libs/code/deepagents_code/app.py",
+  "libs/code/deepagents_code/command_registry.py",
+  "libs/code/deepagents_code/config.py",
+  "libs/code/deepagents_code/reasoning_effort.py",
+  "libs/code/deepagents_code/tui/widgets/chat_input.py",
+  "libs/code/pyproject.toml",
+  "libs/code/uv.lock"
+ ],
+ "candidates": [
+  {
+   "sha": "bf3dac2aaa",
+   "days_after": 122,
+   "subject": "fix(code): attribute side-request spend in `/cost` breakdown (#7912)"
+  },
+  {
+   "sha": "edda7d3626",
+   "days_after": 122,
+   "subject": "fix(code): report project MCP servers skipped for missing approval (#7904)"
+  },
+  {
+   "sha": "c8451ab2a7",
+   "days_after": 121,
+   "subject": "fix(sdk): use LangGraph's `_messages_delta_reducer` for the messages channel (#7819)"
+  },
+  {
+   "sha": "3eae64b57f",
+   "days_after": 120,
+   "subject": "fix(code): share OpenAI `prompt_cache_key` across threads of an install (#7839)"
+  },
+  {
+   "sha": "c9732c8f18",
+   "days_after": 120,
+   "subject": "fix(sdk): avoid warning-filter races in `warn_deprecated` (#7749)"
+  },
+  {
+   "sha": "c81b7a8bc2",
+   "days_after": 119,
+   "subject": "fix(code): await background worker cleanup on shutdown (#7810)"
+  },
+  {
+   "sha": "a9ccfb7788",
+   "days_after": 115,
+   "subject": "fix(code): replace unencodable characters in redirected output (#7717)"
+  },
+  {
+   "sha": "93e10b3c5f",
+   "days_after": 111,
+   "subject": "fix(code): resolve summarization cutoff by message id (#7570)"
+  },
+  {
+   "sha": "46b040ade4",
+   "days_after": 111,
+   "subject": "fix(code): bypass proxies for local server traffic (#7613)"
+  },
+  {
+   "sha": "e3a789816e",
+   "days_after": 110,
+   "subject": "fix(code): offer recovery for server startup timeouts (#7610)"
+  },
+  {
+   "sha": "f95c06f4f2",
+   "days_after": 106,
+   "subject": "chore(deps): bump `filelock` to 4.2.x and `zod` to 4.6.x for security fixes (#7559)"
+  },
+  {
+   "sha": "c4e2811312",
+   "days_after": 105,
+   "subject": "fix(code): defer in-app uv installs on Windows (#7518)"
+  },
+  {
+   "sha": "a783c149c7",
+   "days_after": 104,
+   "subject": "fix(code): explain workspace conflicts and MCP login failures (#7499)"
+  },
+  {
+   "sha": "d29e85f5d2",
+   "days_after": 104,
+   "subject": "fix(code): clarify MCP configuration refresh in `/reload` (#7497)"
+  },
+  {
+   "sha": "aabaf9509a",
+   "days_after": 103,
+   "subject": "fix(code): reconcile coding-agent git trace attribution (#7117)"
+  },
+  {
+   "sha": "d23799b052",
+   "days_after": 103,
+   "subject": "fix(code): open the token and cost modal with `/cost` (#7363)"
+  },
+  {
+   "sha": "1e178f1b05",
+   "days_after": 103,
+   "subject": "fix(code): clarify credential setup recovery (#7347)"
+  },
+  {
+   "sha": "9a6bc92312",
+   "days_after": 103,
+   "subject": "fix(code): end typing deferral when submitting a prompt (#7335)"
+  },
+  {
+   "sha": "3c7cd4bc4e",
+   "days_after": 103,
+   "subject": "fix(code): disclose inherited classifier model switches (#7351)"
+  },
+  {
+   "sha": "6b317a4a8e",
+   "days_after": 103,
+   "subject": "fix(code): block auto mode when its classifier cannot resolve (#7346)"
+  },
+  {
+   "sha": "c3d00807e7",
+   "days_after": 103,
+   "subject": "fix(code): refresh subscription model lineup (#7340)"
+  },
+  {
+   "sha": "417af26f69",
+   "days_after": 98,
+   "subject": "fix(code): enable Claude prompt caching on OpenRouter (#7358)"
+  },
+  {
+   "sha": "47cf0fb888",
+   "days_after": 97,
+   "subject": "fix(code): explain repeated skill-trust denials and clear them on `/reload` (#7291)"
+  },
+  {
+   "sha": "89efee335d",
+   "days_after": 97,
+   "subject": "fix(code): flag and repair enabled plugins with missing installed files (#7278)"
+  },
+  {
+   "sha": "ebdee3ef5b",
+   "days_after": 96,
+   "subject": "fix(code): stop project `.env` from setting extension, shell, plugin, and skill trust (#7275)"
+  },
+  {
+   "sha": "793ac5af08",
+   "days_after": 95,
+   "subject": "fix(code): give transcript spacers their real height so scrolling reaches the newest message (#7253)"
+  },
+  {
+   "sha": "1a1d4840da",
+   "days_after": 95,
+   "subject": "fix(code): correct transcript height hints for folded tool rows (#7251)"
+  },
+  {
+   "sha": "56971e2631",
+   "days_after": 94,
+   "subject": "perf(code): restore the terminal before the server finishes stopping (#7192)"
+  },
+  {
+   "sha": "914de8be68",
+   "days_after": 92,
+   "subject": "fix(code): bridge upgrades to Python 3.14 (#7081)"
+  },
+  {
+   "sha": "6c1d6c620a",
+   "days_after": 92,
+   "subject": "chore(deps): bump pillow to 13.0.0 for security fixes (#7125)"
+  },
+  {
+   "sha": "215392aa3d",
+   "days_after": 91,
+   "subject": "fix(code): silence no-op automatic cache offloads (#7078)"
+  },
+  {
+   "sha": "b6504f6654",
+   "days_after": 90,
+   "subject": "fix(code): avoid misleading `/reload` change summary (#7063)"
+  },
+  {
+   "sha": "ba72013ff0",
+   "days_after": 87,
+   "subject": "fix(code): replace chat input when recalling a prompt (#6994)"
+  },
+  {
+   "sha": "fd3e64ab6b",
+   "days_after": 87,
+   "subject": "fix(code): replace repeated thread resume errors (#6990)"
+  },
+  {
+   "sha": "0dfa1f6047",
+   "days_after": 87,
+   "subject": "fix(code): report workspace refusals accurately during resume (#6992)"
+  },
+  {
+   "sha": "964ec92aee",
+   "days_after": 86,
+   "subject": "fix(code): add `/resume` alias and rank alias matches (#6988)"
+  },
+  {
+   "sha": "db05dc178f",
+   "days_after": 86,
+   "subject": "hotfix(code): hide expired cache banner during reconciliation (#6975)"
+  },
+  {
+   "sha": "50452a3af8",
+   "days_after": 82,
+   "subject": "chore(deps): restore code SDK pin to 0.7.24 (#6896)"
+  },
+  {
+   "sha": "f7762288bc",
+   "days_after": 82,
+   "subject": "fix(code): preserve fork goal visibility without grading (#6893)"
+  },
+  {
+   "sha": "d9594dae24",
+   "days_after": 82,
+   "subject": "fix(code): refresh the agent skill catalog on `/reload` (#6843)"
+  },
+  {
+   "sha": "bbae958439",
+   "days_after": 77,
+   "subject": "fix(code): keep thread picker open on ownership conflicts (#6824)"
+  },
+  {
+   "sha": "26918db779",
+   "days_after": 77,
+   "subject": "fix(code): recommend GPT-6 Luna for auto review (#6821)"
+  },
+  {
+   "sha": "cc1be0d17d",
+   "days_after": 76,
+   "subject": "fix(code): show editable install status in debug version (#6797)"
+  },
+  {
+   "sha": "2fd66863c2",
+   "days_after": 76,
+   "subject": "fix(code): highlight the first line of multiline chat input (#6781)"
+  },
+  {
+   "sha": "a282003b50",
+   "days_after": 76,
+   "subject": "fix(code): reconcile cache expiry during model requests (#6763)"
+  },
+  {
+   "sha": "4b9410272a",
+   "days_after": 76,
+   "subject": "fix(code): unify model catalogs and selection on the server (#6773)"
+  },
+  {
+   "sha": "1d468d9f3d",
+   "days_after": 76,
+   "subject": "fix(code): use `ChatBedrockConverse` for non-Anthropic Bedrock models (#6718)"
+  },
+  {
+   "sha": "3d16423afb",
+   "days_after": 76,
+   "subject": "fix(code): resolve interactive model metadata on the server (#6772)"
+  },
+  {
+   "sha": "78031730db",
+   "days_after": 76,
+   "subject": "fix(code): isolate stored provider endpoints in workspace models (#6771)"
+  },
+  {
+   "sha": "40df83ff74",
+   "days_after": 76,
+   "subject": "fix(code): move debug MCP server details into a modal (#6720)"
+  },
+  {
+   "sha": "b0f9b41cad",
+   "days_after": 75,
+   "subject": "fix(code): prevent concurrent local thread writers (#6717)"
+  },
+  {
+   "sha": "e1940f5f86",
+   "days_after": 70,
+   "subject": "fix(code): share cache-expiring notifications with the TUI (#6639)"
+  },
+  {
+   "sha": "8508cb9329",
+   "days_after": 70,
+   "subject": "fix(code): preserve transcript position when opening pickers (#6635)"
+  },
+  {
+   "sha": "17eea22b96",
+   "days_after": 69,
+   "subject": "fix(code): constrain `/effort` for between-tools thinking (#6630)"
+  },
+  {
+   "sha": "a99ab3e999",
+   "days_after": 69,
+   "subject": "fix(code): show incognito label on chat input border (#6627)"
+  },
+  {
+   "sha": "d1c5a8ef6a",
+   "days_after": 69,
+   "subject": "fix(code): bound MCP tool calls with configurable timeouts (#6625)"
+  },
+  {
+   "sha": "ded8cbfd90",
+   "days_after": 69,
+   "subject": "fix(code): speed up thread-switch preflight and show progress early (#6607)"
+  },
+  {
+   "sha": "8ea734a809",
+   "days_after": 69,
+   "subject": "fix(code): hydrate resumed history on demand (#6342)"
+  },
+  {
+   "sha": "86b7f85af7",
+   "days_after": 63,
+   "subject": "fix(code): keep prompt recall out of file picker (#6494)"
+  },
+  {
+   "sha": "6a41c537fb",
+   "days_after": 62,
+   "subject": "fix(code): keep thread picker resume failures recoverable (#6476)"
+  },
+  {
+   "sha": "f9ffd51154",
+   "days_after": 62,
+   "subject": "fix(code): diagnose workspace binding and runtime refusals (#6384)"
+  },
+  {
+   "sha": "8feaa0fcce",
+   "days_after": 62,
+   "subject": "fix(code): use UTF-8 for prompts and skill files (#6474)"
+  },
+  {
+   "sha": "13170ea5b0",
+   "days_after": 62,
+   "subject": "fix(code): suppress historical cost warnings on resume (#6471)"
+  },
+  {
+   "sha": "c9817483ee",
+   "days_after": 62,
+   "subject": "feat(code): add durable Debug Console cost breakdown (#6246)"
+  },
+  {
+   "sha": "c1395dab00",
+   "days_after": 62,
+   "subject": "fix(code): show session cost warnings in a modal (#6393)"
+  },
+  {
+   "sha": "3693e9d01a",
+   "days_after": 59,
+   "subject": "fix(code): silence non-media path decoder traces (#6427)"
+  },
+  {
+   "sha": "a52ecea1f4",
+   "days_after": 58,
+   "subject": "fix(code): replace composer with prompt search and prevent query feedback (#6346)"
+  },
+  {
+   "sha": "9b5ca384ff",
+   "days_after": 58,
+   "subject": "fix(code): pin resumed history to newest message (#6225)"
+  },
+  {
+   "sha": "b522fd4a74",
+   "days_after": 58,
+   "subject": "fix(code): scroll overflowing chat input pastes (#6382)"
+  },
+  {
+   "sha": "71132c1cea",
+   "days_after": 58,
+   "subject": "style(code): show whole seconds in Debug Console session length (#6380)"
+  },
+  {
+   "sha": "141ce9851b",
+   "days_after": 58,
+   "subject": "fix(code): keep absolute paths in normal input mode (#6379)"
+  },
+  {
+   "sha": "811e92738f",
+   "days_after": 57,
+   "subject": "fix(code): deduplicate footer picker clicks (#6344)"
+  },
+  {
+   "sha": "5ee1073e9a",
+   "days_after": 57,
+   "subject": "fix(code): clarify unknown effort default (#6337)"
+  },
+  {
+   "sha": "7f9e8ed3a5",
+   "days_after": 56,
+   "subject": "fix(code): delay hook status in footer (#6322)"
+  },
+  {
+   "sha": "fe01fac1fa",
+   "days_after": 55,
+   "subject": "fix(code): drop stale Anthropic thinking blocks (#6300)"
+  },
+  {
+   "sha": "f413a40f7e",
+   "days_after": 55,
+   "subject": "fix(code): price nested usage with its own model and honor completions (#6251)"
+  },
+  {
+   "sha": "6f1ac85c46",
+   "days_after": 55,
+   "subject": "fix(code): attribute dotenv config sources (#6222)"
+  },
+  {
+   "sha": "fa609c23ba",
+   "days_after": 55,
+   "subject": "fix(code): show the spinner during pre-stream turn setup (#6253)"
+  },
+  {
+   "sha": "05edbb14d0",
+   "days_after": 55,
+   "subject": "feat(code): show session length in Debug Console (#6224)"
+  },
+  {
+   "sha": "ed715eeba6",
+   "days_after": 54,
+   "subject": "fix(code): expose unknown reasoning effort (#6241)"
+  },
+  {
+   "sha": "35c21faafe",
+   "days_after": 54,
+   "subject": "fix(code): isolate user shell tracing credentials (#6242)"
+  },
+  {
+   "sha": "d93ab3351b",
+   "days_after": 51,
+   "subject": "fix(code): demote no-output hint suppression to debug (#6245)"
+  },
+  {
+   "sha": "f3b126a13d",
+   "days_after": 50,
+   "subject": "hotfix(code): honor effective reasoning effort in cache warnings (#6203)"
+  },
+  {
+   "sha": "7997203245",
+   "days_after": 50,
+   "subject": "fix(code): confirm server restart for workspace switch (#6178)"
+  },
+  {
+   "sha": "cacd50adc3",
+   "days_after": 50,
+   "subject": "fix(code): treat effort changes as cache identity for OpenAI and Anthropic (#6196)"
+  },
+  {
+   "sha": "56e4ef1a5f",
+   "days_after": 49,
+   "subject": "fix(code): parse extra skill dirs with platform separator (#6151)"
+  },
+  {
+   "sha": "5fb8b69984",
+   "days_after": 48,
+   "subject": "fix(code): serialize transcript tail reconciliation (#6143)"
+  },
+  {
+   "sha": "a1a0887f7e",
+   "days_after": 48,
+   "subject": "fix(code): surface the LangSmith credential in `dcode config` (#6083)"
+  },
+  {
+   "sha": "ea1f253653",
+   "days_after": 48,
+   "subject": "fix(code): resolve project policy per workspace (#6064)"
+  },
+  {
+   "sha": "794eda83b7",
+   "days_after": 48,
+   "subject": "fix(code): isolate LangSmith auth and workspace tracing (#6061)"
+  },
+  {
+   "sha": "cdb9d4c30f",
+   "days_after": 45,
+   "subject": "fix(code): surface stale updates in-session (#6063)"
+  },
+  {
+   "sha": "678c11559d",
+   "days_after": 44,
+   "subject": "fix(code): scope project dotenv to workspaces (#5980)"
+  },
+  {
+   "sha": "8da32644dc",
+   "days_after": 44,
+   "subject": "fix(code): bound transcript tail reconciliation (#6057)"
+  },
+  {
+   "sha": "358bc33471",
+   "days_after": 38,
+   "subject": "fix(code): wait for graph readiness after server restart (#5947)"
+  },
+  {
+   "sha": "e9a16234f1",
+   "days_after": 37,
+   "subject": "fix(code): complete ASCII UI fallbacks (#5930)"
+  },
+  {
+   "sha": "213f0c8a7d",
+   "days_after": 37,
+   "subject": "fix(code): recover stale pending work before compaction (#5909)"
+  },
+  {
+   "sha": "4358ccee79",
+   "days_after": 37,
+   "subject": "fix(code): isolate debug logs by thread (#5921)"
+  },
+  {
+   "sha": "428e760668",
+   "days_after": 37,
+   "subject": "fix(code): update rubric grader model without restart (#5885)"
+  },
+  {
+   "sha": "4379a463a1",
+   "days_after": 37,
+   "subject": "fix(code): defer the recursion limit to the LangGraph server (#5882)"
+  },
+  {
+   "sha": "e85f4b7bd0",
+   "days_after": 36,
+   "subject": "fix(code): move editable path to debug console (#5850)"
+  },
+  {
+   "sha": "1fc7d1e26d",
+   "days_after": 36,
+   "subject": "fix(code): make debug log path click-to-copy (#5845)"
+  },
+  {
+   "sha": "a6b069db38",
+   "days_after": 36,
+   "subject": "fix(code): clarify clear command descriptions (#5841)"
+  },
+  {
+   "sha": "37d7777195",
+   "days_after": 35,
+   "subject": "fix(code): track live dynamic subagent cost (#5833)"
+  },
+  {
+   "sha": "8e03e9c37f",
+   "days_after": 35,
+   "subject": "fix(code): make prompt clipboard Tab insert (#5820)"
+  },
+  {
+   "sha": "299ee3283e",
+   "days_after": 35,
+   "subject": "hotfix(code): keep Textual output visible with stderr guard (#5814)"
+  },
+  {
+   "sha": "a4d9b8aa7d",
+   "days_after": 35,
+   "subject": "fix(code): protect TUI from native stderr writes (#5813)"
+  },
+  {
+   "sha": "85e1e5b130",
+   "days_after": 34,
+   "subject": "fix(code): keep long thread resumes responsive (#5772)"
+  },
+  {
+   "sha": "d9dc96ed55",
+   "days_after": 34,
+   "subject": "fix(code): sweep expired history archives at startup (#5751)"
+  },
+  {
+   "sha": "9bef676fe6",
+   "days_after": 33,
+   "subject": "fix(code): show incognito shell command widget (#5768)"
+  },
+  {
+   "sha": "f1d1f63281",
+   "days_after": 33,
+   "subject": "fix(code): recognize in-flight trace messages (#5738)"
+  },
+  {
+   "sha": "85c6833734",
+   "days_after": 31,
+   "subject": "fix(code): standardize modal navigation hints (#5699)"
+  },
+  {
+   "sha": "3ac059e157",
+   "days_after": 31,
+   "subject": "fix(code): persist Auto approval mode between sessions (#5665)"
+  },
+  {
+   "sha": "42afcded97",
+   "days_after": 31,
+   "subject": "fix(code): simplify Auto fallback copy (#5670)"
+  },
+  {
+   "sha": "328f9160e0",
+   "days_after": 30,
+   "subject": "fix(code): block dotenv git config injection keys (#5723)"
+  },
+  {
+   "sha": "a2782ff36e",
+   "days_after": 30,
+   "subject": "fix(code): skip background sync in Apple Terminal (#5666)"
+  },
+  {
+   "sha": "32f565f465",
+   "days_after": 30,
+   "subject": "fix(code): show Auto first-enable notice as pre-confirmation (#5686)"
+  },
+  {
+   "sha": "1680237e69",
+   "days_after": 30,
+   "subject": "fix(code): hide thread IDs when tracing is disabled (#5692)"
+  },
+  {
+   "sha": "b91da61716",
+   "days_after": 29,
+   "subject": "fix(code): hide onboarding Tavily cancel hint (#5684)"
+  },
+  {
+   "sha": "8a4fc3a310",
+   "days_after": 29,
+   "subject": "fix(code): simplify empty `/tokens` message (#5693)"
+  },
+  {
+   "sha": "bb75e96192",
+   "days_after": 29,
+   "subject": "fix(code): clarify line number toggle message (#5694)"
+  },
+  {
+   "sha": "16d766576a",
+   "days_after": 29,
+   "subject": "style(code): prefix interruptions with square glyph (#5671)"
+  },
+  {
+   "sha": "ab82d48cc0",
+   "days_after": 28,
+   "subject": "fix(code): make `/offload` interruptible (#5590)"
+  },
+  {
+   "sha": "6a7c7d6575",
+   "days_after": 28,
+   "subject": "fix(code): keep rapid typing visible (#5424)"
+  },
+  {
+   "sha": "84eb09d8ed",
+   "days_after": 28,
+   "subject": "fix(code): complete the `dcode config` surface (#5581)"
+  },
+  {
+   "sha": "345859e8e1",
+   "days_after": 28,
+   "subject": "fix(code): group resume trace rounds (#5593)"
+  },
+  {
+   "sha": "fdde617eb5",
+   "days_after": 27,
+   "subject": "fix(code): collapse resized chat input on double-click (#5578)"
+  },
+  {
+   "sha": "5d806c88cf",
+   "days_after": 27,
+   "subject": "fix(code): report total context after `/offload` (#5488)"
+  },
+  {
+   "sha": "41395c586d",
+   "days_after": 27,
+   "subject": "fix(code): avoid duplicate Auto denial notices (#5501)"
+  },
+  {
+   "sha": "3c8cae6fa4",
+   "days_after": 27,
+   "subject": "fix(code): avoid transcript hydration lag (#5479)"
+  },
+  {
+   "sha": "dc029ef507",
+   "days_after": 27,
+   "subject": "fix(code): defer plugin reload hint during startup (#5502)"
+  },
+  {
+   "sha": "e03f030269",
+   "days_after": 27,
+   "subject": "fix(code): avoid plugin reload prompt flash (#5500)"
+  },
+  {
+   "sha": "c66d9b8500",
+   "days_after": 27,
+   "subject": "fix(code): hide chat input cursor while unfocused (#5258)"
+  },
+  {
+   "sha": "0f5bd4f335",
+   "days_after": 27,
+   "subject": "fix(code): hide empty previous-thread hints (#5552)"
+  },
+  {
+   "sha": "1c6d358c60",
+   "days_after": 27,
+   "subject": "fix(code): scroll resumed threads to the bottom (#5543)"
+  },
+  {
+   "sha": "b16a74085a",
+   "days_after": 27,
+   "subject": "fix(code): report MCP server changes on reload (#5504)"
+  },
+  {
+   "sha": "5aa266eab5",
+   "days_after": 27,
+   "subject": "fix(code): keep chat input responsive during `/reload` (#5529)"
+  },
+  {
+   "sha": "cf7578d1c3",
+   "days_after": 27,
+   "subject": "fix(code): hide dependency details after updates (#5519)"
+  },
+  {
+   "sha": "c2ec5e6d9f",
+   "days_after": 26,
+   "subject": "fix(code): refresh splash version after update (#5520)"
+  },
+  {
+   "sha": "a38dc4297b",
+   "days_after": 24,
+   "subject": "fix(code): avoid detached spacer mount anchors (#5516)"
+  },
+  {
+   "sha": "33a57cbe68",
+   "days_after": 23,
+   "subject": "fix(code): hide invalid cache metrics (#5475)"
+  },
+  {
+   "sha": "217b9eb372",
+   "days_after": 22,
+   "subject": "fix(code): simplify paste expansion toast (#5443)"
+  },
+  {
+   "sha": "c43919c5c0",
+   "days_after": 22,
+   "subject": "fix(code): shorten Auto classifier selection message (#5446)"
+  },
+  {
+   "sha": "8dfe282006",
+   "days_after": 22,
+   "subject": "fix(code): queue `/copy` during active generation (#5447)"
+  },
+  {
+   "sha": "9a37479f86",
+   "days_after": 22,
+   "subject": "fix(code): clear dynamic subagents on next turn (#5437)"
+  },
+  {
+   "sha": "015a0197f5",
+   "days_after": 21,
+   "subject": "fix(code): show resume hint after crashes (#5412)"
+  },
+  {
+   "sha": "e12acbac89",
+   "days_after": 20,
+   "subject": "fix(code): serialize dcode self-upgrades across processes (#5252)"
+  },
+  {
+   "sha": "c206eb450d",
+   "days_after": 20,
+   "subject": "fix(code): drop the \"Message restored to input\" toast (#5253)"
+  },
+  {
+   "sha": "6a5d93f9ba",
+   "days_after": 18,
+   "subject": "fix(code): restore edit diffs in resumed threads (#5391)"
+  },
+  {
+   "sha": "ff421f2f31",
+   "days_after": 15,
+   "subject": "fix(code): hide startup tips when resuming threads (#5349)"
+  },
+  {
+   "sha": "72bfc1e685",
+   "days_after": 15,
+   "subject": "fix(code): open `/auto model` selector immediately while connecting (#5341)"
+  },
+  {
+   "sha": "7d9709700d",
+   "days_after": 15,
+   "subject": "fix(code): keep MCP shutdown-race traceback off the terminal (#5325)"
+  },
+  {
+   "sha": "c1f4ac3d53",
+   "days_after": 14,
+   "subject": "fix(code): route failures to `PostToolUseFailure` (#5315)"
+  },
+  {
+   "sha": "994799b2f2",
+   "days_after": 14,
+   "subject": "fix(code): stop leaking turn coroutines and sqlite handles (#5218)"
+  },
+  {
+   "sha": "28a7d5bdd3",
+   "days_after": 14,
+   "subject": "fix(code): bound Hooks v2 session-end teardown (#5248)"
+  },
+  {
+   "sha": "6f48dd59ef",
+   "days_after": 14,
+   "subject": "fix(code): refresh hooks after cwd switches (#5249)"
+  },
+  {
+   "sha": "ed0e3e236e",
+   "days_after": 13,
+   "subject": "fix(code): surface hook stops without agent errors (#5276)"
+  },
+  {
+   "sha": "b1e3240387",
+   "days_after": 13,
+   "subject": "fix(code): make reject-with-feedback discoverable in approval menu (#5260)"
+  },
+  {
+   "sha": "50d7d10291",
+   "days_after": 9,
+   "subject": "hotfix(code): mark editable SDK installs in `dcode_client_deepagents_version` (#5214)"
+  },
+  {
+   "sha": "a3e3798599",
+   "days_after": 9,
+   "subject": "fix(code): hide timestamp footers with the rows they belong to (#5167)"
+  },
+  {
+   "sha": "42e01a9585",
+   "days_after": 9,
+   "subject": "fix(code): release the turn when an interrupted worker never starts (#5196)"
+  },
+  {
+   "sha": "6f9ea6a943",
+   "days_after": 9,
+   "subject": "fix(code): keep the `/goal` criteria prompt responsive (#5142)"
+  },
+  {
+   "sha": "4c393eaaa8",
+   "days_after": 9,
+   "subject": "chore(deps): declare `packaging` in sdk and align editable suffix (#5165)"
+  },
+  {
+   "sha": "5726872cd5",
+   "days_after": 8,
+   "subject": "fix(code): keep `/update` and `/install --package` prompts responsive (#5127)"
+  },
+  {
+   "sha": "991b7e769d",
+   "days_after": 8,
+   "subject": "fix(code): resume hints echo the launched command name (#5119)"
+  },
+  {
+   "sha": "9ad8dded08",
+   "days_after": 8,
+   "subject": "fix(code): consistent styling and links for thread status messages (#5118)"
+  },
+  {
+   "sha": "4de6037cbe",
+   "days_after": 8,
+   "subject": "fix(code): scope selection copy to the clicked screen (#5140)"
+  },
+  {
+   "sha": "da8d4c3ccc",
+   "days_after": 7,
+   "subject": "fix(code): toast when media is dropped into a free-text question (#5099)"
+  },
+  {
+   "sha": "04cf25d270",
+   "days_after": 7,
+   "subject": "feat(code): show thread message count in the Debug Console (#5117)"
+  },
+  {
+   "sha": "f1727c785c",
+   "days_after": 6,
+   "subject": "fix(code): anchor toasts above the chat input (#5101)"
+  },
+  {
+   "sha": "c4e24804eb",
+   "days_after": 6,
+   "subject": "fix(code): keep post-install restart modal responsive (#5086)"
+  },
+  {
+   "sha": "a34713b122",
+   "days_after": 6,
+   "subject": "fix(code): toast and expand long transcript user messages (#5073)"
+  },
+  {
+   "sha": "92b519391f",
+   "days_after": 6,
+   "subject": "fix(code): toast model no-op notice instead of inline message (#5074)"
+  },
+  {
+   "sha": "ffb7aabe25",
+   "days_after": 2,
+   "subject": "fix(code): ignore LangSmith default US endpoint as custom target (#5022)"
+  },
+  {
+   "sha": "c2dbd176f0",
+   "days_after": 2,
+   "subject": "fix(code): show Auto enable notice modal only on first global enable (#5012)"
+  },
+  {
+   "sha": "1a3f46b858",
+   "days_after": 2,
+   "subject": "fix(code): improve `/rubric` help and empty-state messaging (#5015)"
+  },
+  {
+   "sha": "6d6632fa39",
+   "days_after": 2,
+   "subject": "fix(code): inject OpenAI `prompt_cache_key` for any OpenAI-provider endpoint (#4995)"
+  },
+  {
+   "sha": "1709dbf9b2",
+   "days_after": 2,
+   "subject": "fix(code): make Auto mode generally available (#4957)"
+  },
+  {
+   "sha": "313f9520ce",
+   "days_after": 2,
+   "subject": "fix(code): flag empty env override shadowing LangSmith key in `/trace` (#4996)"
+  },
+  {
+   "sha": "52b8993489",
+   "days_after": 2,
+   "subject": "feat(code): make Version, Model, CWD copyable in Debug Console (#4975)"
+  },
+  {
+   "sha": "5bc7714fe5",
+   "days_after": 2,
+   "subject": "fix(code): restore `\"Server log preserved at:\"` notice on exit (#4999)"
+  },
+  {
+   "sha": "0c4016e3c8",
+   "days_after": 1,
+   "subject": "fix(code,evals): unify goal activation signaling (#4980)"
+  },
+  {
+   "sha": "465b9de17f",
+   "days_after": 1,
+   "subject": "fix(code): show rubric grader defaults (#4966)"
+  },
+  {
+   "sha": "1b270c86fe",
+   "days_after": 1,
+   "subject": "fix(code): use SDK pin as effective editable version (#4949)"
+  },
+  {
+   "sha": "d029585ab7",
+   "days_after": 1,
+   "subject": "fix(code): disable LangSmith secret redaction by default (#4970)"
+  },
+  {
+   "sha": "812bae4afa",
+   "days_after": 0,
+   "subject": "fix(code): keep harness-profile diagnostics out of terminal output (#4943)"
+  }
+ ]
+}

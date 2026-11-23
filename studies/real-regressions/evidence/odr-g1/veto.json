@@ -1,0 +1,4 @@
+[
+  {"id": "g1-diff-one-iteration-report", "decision": "KEEP", "reason": "A documented iteration limit of 1 must still finish and produce a written report, which is basic task completion."},
+  {"id": "g1-diff-one-unit-report", "decision": "KEEP", "reason": "A documented concurrency limit of 1 must still finish with a report; the check only requires a non-error report, not any particular call pattern."}
+]

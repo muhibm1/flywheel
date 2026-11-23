@@ -1,0 +1,894 @@
+{
+ "summary": {
+  "arm2": {
+   "caught": 3,
+   "regressions": 18,
+   "catch_ci": [
+    0.058,
+    0.392
+   ],
+   "false_blocks": 1,
+   "controls_run": 12,
+   "false_block_ci": [
+    0.015,
+    0.354
+   ],
+   "stratum_B": "0/4",
+   "stratum_C": "3/14"
+  },
+  "arm3": {
+   "caught": 6,
+   "regressions": 18,
+   "catch_ci": [
+    0.163,
+    0.563
+   ],
+   "false_blocks": 1,
+   "controls_run": 12,
+   "false_block_ci": [
+    0.015,
+    0.354
+   ],
+   "stratum_B": "0/4",
+   "stratum_C": "6/14"
+  },
+  "arm4": {
+   "caught": 8,
+   "regressions": 18,
+   "catch_ci": [
+    0.246,
+    0.663
+   ],
+   "false_blocks": 2,
+   "controls_run": 12,
+   "false_block_ci": [
+    0.047,
+    0.448
+   ],
+   "stratum_B": "0/4",
+   "stratum_C": "8/14"
+  },
+  "arm5": {
+   "caught": 8,
+   "regressions": 18,
+   "catch_ci": [
+    0.246,
+    0.663
+   ],
+   "false_blocks": 2,
+   "controls_run": 12,
+   "false_block_ci": [
+    0.047,
+    0.448
+   ],
+   "stratum_B": "0/4",
+   "stratum_C": "8/14"
+  },
+  "arm2c": {
+   "caught": 3,
+   "regressions": 18,
+   "catch_ci": [
+    0.058,
+    0.392
+   ],
+   "false_blocks": 0,
+   "controls_run": 12,
+   "false_block_ci": [
+    0.0,
+    0.243
+   ],
+   "stratum_B": "0/4",
+   "stratum_C": "3/14"
+  },
+  "arm3c": {
+   "caught": 6,
+   "regressions": 18,
+   "catch_ci": [
+    0.163,
+    0.563
+   ],
+   "false_blocks": 1,
+   "controls_run": 12,
+   "false_block_ci": [
+    0.015,
+    0.354
+   ],
+   "stratum_B": "0/4",
+   "stratum_C": "6/14"
+  },
+  "arm4c": {
+   "caught": 8,
+   "regressions": 18,
+   "catch_ci": [
+    0.246,
+    0.663
+   ],
+   "false_blocks": 1,
+   "controls_run": 12,
+   "false_block_ci": [
+    0.015,
+    0.354
+   ],
+   "stratum_B": "0/4",
+   "stratum_C": "8/14"
+  },
+  "arm5c": {
+   "caught": 8,
+   "regressions": 18,
+   "catch_ci": [
+    0.246,
+    0.663
+   ],
+   "false_blocks": 1,
+   "controls_run": 12,
+   "false_block_ci": [
+    0.015,
+    0.354
+   ],
+   "stratum_B": "0/4",
+   "stratum_C": "8/14"
+  },
+  "avg": {
+   "caught": 6,
+   "regressions": 18,
+   "catch_ci": [
+    0.163,
+    0.563
+   ],
+   "false_blocks": 1,
+   "controls_run": 12,
+   "false_block_ci": [
+    0.015,
+    0.354
+   ],
+   "stratum_B": "0/4",
+   "stratum_C": "6/14"
+  }
+ },
+ "gates": [
+  {
+   "gate": "adk-g1",
+   "case": "adk-tool-round-cap",
+   "kind": "regression",
+   "stratum": "B",
+   "title": "fix: harden SetModelResponseTool fallback to prevent infinite loops",
+   "ran": false
+  },
+  {
+   "gate": "adk-g10",
+   "case": "adk-clone-subagent-tools",
+   "kind": "regression",
+   "stratum": "B",
+   "title": "fix: give a cloned LlmAgent tools for its own sub-agents",
+   "ran": false
+  },
+  {
+   "gate": "adk-g11",
+   "case": "adk-a2a-hitl-confirm--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "fix: prevent transfer_to_agent loop on resumable invocation replay",
+   "ran": false
+  },
+  {
+   "gate": "adk-g12",
+   "case": "adk-a2a-hitl-confirm",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "fix: reject tool confirmations arriving over A2A",
+   "ran": false
+  },
+  {
+   "gate": "adk-g2",
+   "case": "adk-instruction-nested-state",
+   "kind": "regression",
+   "stratum": "B",
+   "title": "feat(utils): Add support for nested state access in template injection",
+   "ran": false
+  },
+  {
+   "gate": "adk-g3",
+   "case": "adk-instruction-nested-state--control1",
+   "kind": "control",
+   "stratum": "B",
+   "title": "fix(workflow): fix task agent resumption in nested workflows",
+   "ran": false
+  },
+  {
+   "gate": "adk-g4",
+   "case": "adk-tool-round-cap--control1",
+   "kind": "control",
+   "stratum": "B",
+   "title": "perf: resolve the optional id-pairing providers once, not per request",
+   "ran": false
+  },
+  {
+   "gate": "adk-g5",
+   "case": "adk-clone-subagent-tools--control1",
+   "kind": "control",
+   "stratum": "B",
+   "title": "fix(cli): monitor ASGI receive channel for client disconnect in /run_sse",
+   "ran": false
+  },
+  {
+   "gate": "adk-g6",
+   "case": "adk-workflow-rerun-on-resume--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "fix(cli): validate the test name on every dev server test endpoint",
+   "ran": false
+  },
+  {
+   "gate": "adk-g7",
+   "case": "adk-openapi-httpx--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "fix: Invoke on_tool_error_callback for missing tools in live mode",
+   "ran": false
+  },
+  {
+   "gate": "adk-g8",
+   "case": "adk-openapi-httpx",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "feat: Make OpenAPI tool async",
+   "ran": false
+  },
+  {
+   "gate": "adk-g9",
+   "case": "adk-workflow-rerun-on-resume",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "fix(workflow): wait for all direct interrupts before rerunning rerun_on_resume nodes",
+   "ran": false
+  },
+  {
+   "gate": "agno-g1",
+   "case": "agno-mcp-init-headers",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "fix: apply header_provider headers during MCP initialization (#7507)",
+   "ran": true,
+   "full": true,
+   "arm2": false,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": true,
+   "arm4c": true,
+   "arm5c": true,
+   "avg": true,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 3,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "agno-g2",
+   "case": "agno-mcp-init-headers--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "feat: add run-level params to Workflow.run() and arun() (#6927)",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 3,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "browseruse-g1",
+   "case": "bu-loop-empty-result-repair",
+   "kind": "regression",
+   "stratum": "B",
+   "title": "fix(loop): never deliver a stub finish sent beside the real delivery or an empty structured result",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 4,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "browseruse-g2",
+   "case": "bu-browsererror-reraise--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "Reconstruct Rust terminal text artifact attachments",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 3,
+    "diff": 3,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "browseruse-g3",
+   "case": "bu-loop-empty-result-repair--control1",
+   "kind": "control",
+   "stratum": "B",
+   "title": "Address review: doc conditions, probe timeout, log the text-only retry",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 4,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "browseruse-g4",
+   "case": "bu-openai-structured-indent",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "fix(openai): handle proxy responses with missing/null choices; undo test change Avoid indexing response.choices[0] when proxies return choices=null/empty; raise a clear ModelProviderError (with base_url hint) and use the validated first choice for content/finish_reason",
+   "ran": true,
+   "full": true,
+   "arm2": true,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "arm6": null,
+   "arm2c": true,
+   "arm3c": true,
+   "arm4c": true,
+   "arm5c": true,
+   "avg": true,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 2,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 2
+  },
+  {
+   "gate": "browseruse-g5",
+   "case": "bu-browsererror-reraise",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "Preserve BrowserError's structured memory through execute_action",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 2,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "browseruse-g6",
+   "case": "bu-openai-structured-indent--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "add file atttachments to structured output.",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 2,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "deepagents-g1",
+   "case": "deepagents-code-server-hooks--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "refactor(code): use `reasoning_effort` from `langchain` (#4795)",
+   "ran": true,
+   "full": true,
+   "arm2": false,
+   "arm3": false,
+   "arm4": true,
+   "arm5": true,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 2,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "deepagents-g2",
+   "case": "deepagents-code-server-hooks",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "feat(code): integrate Hooks v2 server lifecycle events (#4997)",
+   "ran": true,
+   "full": true,
+   "arm2": false,
+   "arm3": false,
+   "arm4": true,
+   "arm5": true,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": true,
+   "arm5c": true,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 3,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 1
+  },
+  {
+   "gate": "deepagents-g3",
+   "case": "deepagents-sandbox-crlf-edit--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "fix(sdk,cli): align error messages and clean up recent refactors (#2171)",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 3,
+    "fault": 1,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "deepagents-g4",
+   "case": "deepagents-sandbox-heredoc-format",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "fix(sdk): handle large payloads and headless container execution (#872)",
+   "ran": true,
+   "full": true,
+   "arm2": false,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": true,
+   "arm4c": true,
+   "arm5c": true,
+   "avg": true,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 3,
+    "fault": 1,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 3
+  },
+  {
+   "gate": "deepagents-g5",
+   "case": "deepagents-sandbox-heredoc-format--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "fix: no f string needed (#750)",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 3,
+    "diff": 2,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "deepagents-g6",
+   "case": "deepagents-sandbox-crlf-edit",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "fix(sdk): use file transfer instead of command strings for sandbox write/edit (#2117)",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 4,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "gptr-g1",
+   "case": "gptr-query-processing-import--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "fix(retriever): guard Searx against malformed/missing result fields",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 7,
+    "change": 4,
+    "diff": 3,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "gptr-g2",
+   "case": "gptr-query-processing-import",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "fix(query): always return list[str] from generate_sub_queries",
+   "ran": true,
+   "full": true,
+   "arm2": true,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "arm6": null,
+   "arm2c": true,
+   "arm3c": true,
+   "arm4c": true,
+   "arm5c": true,
+   "avg": true,
+   "n_cases": {
+    "standing": 7,
+    "change": 4,
+    "diff": 2,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 2
+  },
+  {
+   "gate": "odr-g1",
+   "case": "odr-get-today-str--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "Ruff, update prompts, add think tool, update defaults (#163)",
+   "ran": true,
+   "full": true,
+   "arm2": true,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": true,
+   "arm4c": true,
+   "arm5c": true,
+   "avg": true,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 2,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "odr-g2",
+   "case": "odr-get-today-str",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "Fix: Resolve strftime ValueError on Windows (#126)",
+   "ran": true,
+   "full": true,
+   "arm2": true,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "arm6": null,
+   "arm2c": true,
+   "arm3c": true,
+   "arm4c": true,
+   "arm5c": true,
+   "avg": true,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 2,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 2
+  },
+  {
+   "gate": "pydanticai-g1",
+   "case": "pydanticai-mcp-sampling-contextvar--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "\u26a1\ufe0f Speed up method `AgentRunResult._set_output_tool_return` by 18798% (#2196)",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 2,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "pydanticai-g2",
+   "case": "pydanticai-history-user-first",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "feat: enforce message history starts with user message (#3440)",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 5,
+    "diff": 4,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "pydanticai-g3",
+   "case": "pydanticai-history-user-first--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "Remove deno dependency in CI (#3779)",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 2,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "pydanticai-g4",
+   "case": "pydanticai-mcp-sampling-contextvar",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "Use contextvars for tracking the MCP sampling model (#2117)",
+   "ran": true,
+   "full": true,
+   "arm2": false,
+   "arm3": false,
+   "arm4": true,
+   "arm5": true,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": true,
+   "arm5c": true,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 5,
+    "diff": 3,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "strands-g1",
+   "case": "strands-session-concurrent-read--control1",
+   "kind": "control",
+   "stratum": "C",
+   "title": "fix: Remove status field from toolResult for non-claude 3 models in Bedrock model provider (#686)",
+   "ran": true,
+   "full": false,
+   "arm2": false,
+   "arm3": false,
+   "arm4": false,
+   "arm5": false,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": false,
+   "arm4c": false,
+   "arm5c": false,
+   "avg": false,
+   "n_cases": {
+    "standing": 8,
+    "change": 4,
+    "diff": 4,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 0
+  },
+  {
+   "gate": "strands-g2",
+   "case": "strands-session-concurrent-read",
+   "kind": "regression",
+   "stratum": "C",
+   "title": "feat: implement concurrent message reading for session managers (#897)",
+   "ran": true,
+   "full": true,
+   "arm2": false,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "arm6": null,
+   "arm2c": false,
+   "arm3c": true,
+   "arm4c": true,
+   "arm5c": true,
+   "avg": true,
+   "n_cases": {
+    "standing": 8,
+    "change": 5,
+    "diff": 3,
+    "fault": 2,
+    "sweep": 0
+   },
+   "diff_seen_fail_on_head": 1
+  }
+ ]
+}

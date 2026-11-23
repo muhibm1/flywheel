@@ -1,0 +1,46 @@
+{
+ "gate": "adk-g10",
+ "blocked": true,
+ "broken": [
+  "g10_sweep_clone_streaming_with_new_tools",
+  "g10_x_clone_task_sub_agent_instruction_update"
+ ],
+ "arms": {
+  "arm2": {
+   "broken": [],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm3": {
+   "broken": [],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm4": {
+   "broken": [
+    "g10_x_clone_task_sub_agent_instruction_update"
+   ],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm5": {
+   "broken": [
+    "g10_x_clone_task_sub_agent_instruction_update"
+   ],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm6": {
+   "broken": [
+    "g10_sweep_clone_streaming_with_new_tools"
+   ],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  }
+ }
+}

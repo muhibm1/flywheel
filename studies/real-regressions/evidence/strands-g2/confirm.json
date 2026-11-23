@@ -1,0 +1,55 @@
+{
+ "gate": "strands-g2",
+ "blocked": true,
+ "broken": [
+  "g2-diff-session-subagent-async-tool",
+  "g2-session-resume-async",
+  "g2-session-resume-async-tools"
+ ],
+ "arms": {
+  "arm2": {
+   "broken": [],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm3": {
+   "broken": [
+    "g2-session-resume-async",
+    "g2-session-resume-async-tools"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm4": {
+   "broken": [
+    "g2-diff-session-subagent-async-tool",
+    "g2-session-resume-async",
+    "g2-session-resume-async-tools"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm5": {
+   "broken": [
+    "g2-diff-session-subagent-async-tool",
+    "g2-session-resume-async",
+    "g2-session-resume-async-tools"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm6": {
+   "broken": [
+    "g2-session-resume-async",
+    "g2-session-resume-async-tools"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  }
+ }
+}

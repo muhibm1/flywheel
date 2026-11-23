@@ -1,0 +1,111 @@
+{
+ "gate": "browseruse-g4",
+ "blocked": true,
+ "broken": [
+  "c4-default-openai-agent",
+  "c4-output-schema-default",
+  "d4-plain-lookup",
+  "d4-structured-product-list",
+  "f4-empty-reply",
+  "f4-truncated-reply",
+  "s-custom-tool",
+  "s-extract-price",
+  "s-follow-up",
+  "s-form-submit",
+  "s-multi-page-nav",
+  "s-search-filter",
+  "s-sensitive-login",
+  "s-structured-product"
+ ],
+ "arms": {
+  "arm2": {
+   "broken": [
+    "s-custom-tool",
+    "s-extract-price",
+    "s-follow-up",
+    "s-form-submit",
+    "s-multi-page-nav",
+    "s-search-filter",
+    "s-sensitive-login",
+    "s-structured-product"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm3": {
+   "broken": [
+    "c4-default-openai-agent",
+    "c4-output-schema-default",
+    "s-custom-tool",
+    "s-extract-price",
+    "s-follow-up",
+    "s-form-submit",
+    "s-multi-page-nav",
+    "s-search-filter",
+    "s-sensitive-login",
+    "s-structured-product"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm4": {
+   "broken": [
+    "c4-default-openai-agent",
+    "c4-output-schema-default",
+    "d4-plain-lookup",
+    "d4-structured-product-list",
+    "s-custom-tool",
+    "s-extract-price",
+    "s-follow-up",
+    "s-form-submit",
+    "s-multi-page-nav",
+    "s-search-filter",
+    "s-sensitive-login",
+    "s-structured-product"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm5": {
+   "broken": [
+    "c4-default-openai-agent",
+    "c4-output-schema-default",
+    "d4-plain-lookup",
+    "d4-structured-product-list",
+    "f4-empty-reply",
+    "f4-truncated-reply",
+    "s-custom-tool",
+    "s-extract-price",
+    "s-follow-up",
+    "s-form-submit",
+    "s-multi-page-nav",
+    "s-search-filter",
+    "s-sensitive-login",
+    "s-structured-product"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm6": {
+   "broken": [
+    "c4-default-openai-agent",
+    "c4-output-schema-default",
+    "s-custom-tool",
+    "s-extract-price",
+    "s-follow-up",
+    "s-form-submit",
+    "s-multi-page-nav",
+    "s-search-filter",
+    "s-sensitive-login",
+    "s-structured-product"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  }
+ }
+}

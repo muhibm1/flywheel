@@ -1,0 +1,22 @@
+[
+ {
+  "id": "g8_x_redirect_followed",
+  "decision": "KEEP",
+  "reason": "A tool call to a redirecting address should return the item as before the client port; the check is on the returned data, not on internals."
+ },
+ {
+  "id": "g8_x_search_typed_query_params",
+  "decision": "KEEP",
+  "reason": "String, integer and boolean query parameters reaching the service so the filtered result is correct is required OpenAPI tool behaviour."
+ },
+ {
+  "id": "g8_x_search_text_with_special_characters",
+  "decision": "KEEP",
+  "reason": "A query value must arrive at the service unchanged, which any correct HTTP client must guarantee."
+ },
+ {
+  "id": "g8_x_bearer_auth_sent",
+  "decision": "KEEP",
+  "reason": "A toolset configured with a bearer credential must send it as an Authorization header; the Bearer form is the standard scheme."
+ }
+]

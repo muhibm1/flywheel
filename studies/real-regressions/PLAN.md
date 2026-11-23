@@ -141,3 +141,97 @@ Reviewed before adoption by an independent design review. Changes, all fixed bef
   (48 controls), and development projects get base-against-base noise gates.
 - Behaviour and run-path regressions are reported as separate rows. A regression that cannot be
   run stays in the denominator as a miss.
+
+## Amendment 3 (2026-11-23, after development results only; before any held-out gate ran)
+
+Why: the owner's weekly compute limit (the case-writing model ran out at 02:30 UTC) and four
+development findings. Direction set by an independent design review; details in `DEV_NOTES.md`.
+
+- **Scope, decided before any held-out gate ran.** Tier 1 = 24 held-out gates, 12 regressions and
+  their first controls: agno, browser-use (3+3), deepagents (3+3), gpt-researcher,
+  open_deep_research, pydantic-ai (2+2), strands. Tier 2 = adk (6+6), run only if Tier 1 finishes
+  by 2026-11-25 12:00 UTC, and then as a whole project or not at all. Dropped for budget:
+  OpenHands (6+6, docker runtime, never written), every second control, held-out noise gates. The
+  write-up lists each dropped gate, and gives a second catch line over the original 24 held-out
+  regressions with every dropped one counted as a miss.
+- **Writers.** gpt-researcher, open_deep_research and agno were written by the larger model; the
+  rest, and every fault case, by a smaller one. Results are split by writer model.
+- **Endpoint version 2.3** (sha256 in Frozen set 2): re-asks up to twice when a tool turn comes back
+  with no call and text saying a tool is unavailable (an artefact of the headless model, never
+  seen from a real API); strips host-session context (memory, user details) from the model under
+  test; adds the fault path below. Development runs before 2.3 had the context leak on both sides.
+- **Arm 5, fault injection.** Base URL `/fault/<name>/v1` returns one scripted bad reply on a
+  run's first tool turn (invalid JSON arguments, unknown tool, missing argument, truncation with
+  `finish_reason: length`, empty reply, tool call written as text), identical on both sides. At most
+  2 per gate, every Tier 1 gate, chosen from the diff, passing on base 2 of 2 (`FAULT_NOTE.md`).
+  Reported as its own arm on top of arm 4, never folded into arms 2 to 4.
+- **Timeouts.** At most 3 gates run at once. Every run that ends in a timeout is run once more on
+  the same side; a second timeout stands and is scored (`run_gate.timeout_pass`). The counts are
+  published. Under this rule the development noise gate that had blocked on two overload
+  timeouts passes.
+- **Gate settings unchanged:** 3 repetitions, `max_broken = 0`, close-call reruns 3,
+  `min_new_error_runs = 2`.
+- **Headline arm: arm 3** (standing plus change-aware, never saw the pull request run). Arms 2, 4
+  and 5 and the averages-only baseline are reported beside it. Arm 1, the project's own tests: every
+  regression in the set merged, so the project's own checks let all of them through.
+- **Averages-only baseline:** block when the head's share of fully passing runs over all cases is
+  lower than the base's, one-sided Fisher p < 0.05 (`score.py`).
+- **Controls.** The headline false-block rate counts every blocked control. An adjudicated rate is
+  reported beside it: a blocked control counts as a real behaviour change only if (a) the blocking
+  cases reproduce on a fresh 3-against-3 rerun and pass base against base, (b) an adjudicator given
+  the base docs, diff, pull request text and transcripts finds the failed check documented at base
+  and the change not stated as intended, and (c) a later upstream issue, fix or rework of the same
+  behaviour exists, found by a fixed search of the project's later history for the touched file and
+  linked. Two of three is listed as "unconfirmed" and stays a false block. The same adjudicator
+  checks every caught regression for whether a failing case matches the team's stated reason
+  ("caught for the stated reason").
+- **Veto check.** The veto reviewer dropped 5 of 5 planted non-required checks and kept 3 of 3
+  required ones (development probe), so arm 4 is reported as vetoed.
+- **Reporting.** Counts with Wilson 95% intervals; with 12 regressions no rate near 93% can be
+  established, and the write-up says so. Behaviour (B) and run-path (C) regressions are separate
+  rows. A regression whose gate cannot run is a miss.
+- **Scoring is `score.py`, run once,** over the frozen case files hashed in Frozen set 2.
+
+## Frozen set 2 (held-out, before any held-out gate ran)
+
+Frozen in batches so the endpoint runs while the last writers finish. Writers of a later batch get
+no held-out result, and every brief they follow was frozen with batch 1. Each batch's file of
+sha256 sums is `freeze-<batch>.json`; its own digest is listed here. `proxy_check.py` passed on the
+endpoint (version 2.3) before batch 1 ran.
+- batch b1: `freeze-b1.json` sha256 8cbf06179281eaa4279e425333d64c67c0214a64a110e63f701235c0bde1f303
+- batch b2: `freeze-b2.json` sha256 c572bcb8972e71882d505c3d9e8b2d393e1c0f8b8f2239468335f769b282b548
+- batch b3: `freeze-b3.json` sha256 5b0db1cfb09c78db0c3688a7259b02d65042f4cb71360ee97cafe9b2051e7007
+- batch b4: `freeze-b4.json` sha256 9ff3fb2ab355f5f45d0fc3fe3b0b3b577005a5192996d028d010a16ae8f91b62
+
+## Amendment 4 (2026-11-23, after Tier 1 was scored once, before any ADK case was written)
+
+Tier 1 was scored once (`results-heldout.json`): arm 3 blocked 6 of 12 regressions and 1 of 12
+controls; arm 4 blocked 8 of 12 and 2 of 12. Those numbers stand as the Tier 1 result and are not
+re-scored. All four misses were input-condition bugs that no case fed (a CRLF file, a history
+seeded with a model message, a failing upload, the final delivery turn of a structured run), and
+neither blocked control reproduced on the step (a) rerun. Tier 1 is development data from here on.
+Two changes, frozen before any ADK case is written, are tested on Tier 2 (adk-g1 to adk-g12,
+6 regressions and 6 first controls), which nobody has run or written cases for:
+
+- **Input-condition sweep (arm 6 = standing + change + sweep).** Writers follow
+  `/tmp/rr/blind/SWEEP_NOTE.md` after `change.jsonl` and before running head: for each changed
+  path, one case per input class that reaches it (content form, pre-seeded state, dependency or
+  tool failure, output mode and final turn), at most 8 per gate, each passing on base 2 of 2.
+  Arm 6 is the ADK primary. Arms 3 and 4 run unchanged as replication. Arm 5 (faults) is not run
+  on ADK, to fit the usage budget.
+- **Reproduction in the gate (`confirm.py`).** A blocked gate reruns only its broken cases, 3 runs
+  each, on base twice and head once. An arm's block stands (`<arm>c`) only if its own broken cases
+  block head against base and pass base against base. Both the plain and confirmed counts are
+  reported. The confirmed rule is also applied to Tier 1 afterwards and labelled post hoc.
+- ADK cases are frozen with `freeze_batch.py adk` before the first ADK gate runs; scoring is
+  `score.py`, run once on ADK. Tier 1 and ADK are reported side by side, never pooled. Deadline
+  2026-11-25 12:00 UTC; if ADK is not finished by then the write-up says it was not run.
+- With 6 regressions, even 6 of 6 has a Wilson lower bound near 61%; no rate near 93% can be
+  established, and the write-up says so.
+
+## Frozen set 3 (ADK, Amendment 4)
+
+- method: `freeze-adk-method.json` sha256 29b1fd4a0f497e1e8b43f561532fe2c427888024ff32452fd6f56d52867eb09d (before any ADK case)
+- cases before any head run: `freeze-adk-pre-explore.json` sha256 331bdd283c0f6bc99a865b16e7ed8540bb9ca9830ce453d1d5b35eb6b53ea38f
+- batch adk-a (g1 to g6), before any ADK gate ran: `freeze-adk-a.json` sha256 9eef884792be78ca52aa1b2419673e931c8b42ea5d78a201402cab05f0986153
+- batch adk-b (g7 to g12), before any of them ran: `freeze-adk-b.json` sha256 121d14d858ff0113ceffe7d7c821d1c277f2cf21196a083c4060a0ea01adf45d. g7 and g12 add one gate-local check each to flywheel.toml (check_live_direct, check_confirmations); both return True for every case that does not set their input, so standing, change and sweep cases are unaffected.

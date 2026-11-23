@@ -1,0 +1,52 @@
+{
+ "gate": "deepagents-g2",
+ "blocked": true,
+ "broken": [
+  "d-g2-posttool-hook-shell",
+  "std-subagent-currency"
+ ],
+ "arms": {
+  "arm2": {
+   "broken": [
+    "std-subagent-currency"
+   ],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm3": {
+   "broken": [
+    "std-subagent-currency"
+   ],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm4": {
+   "broken": [
+    "d-g2-posttool-hook-shell",
+    "std-subagent-currency"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm5": {
+   "broken": [
+    "d-g2-posttool-hook-shell",
+    "std-subagent-currency"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm6": {
+   "broken": [
+    "std-subagent-currency"
+   ],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  }
+ }
+}

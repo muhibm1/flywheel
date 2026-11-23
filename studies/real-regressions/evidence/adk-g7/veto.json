@@ -1,0 +1,22 @@
+[
+ {
+  "id": "g7_x_live_missing_tool_no_callback_raises",
+  "decision": "KEEP",
+  "reason": "The PR message states the old ValueError is kept when no callback handles a missing tool, so the raise naming the tool is the documented fallback."
+ },
+ {
+  "id": "g7_x_live_missing_tool_callback_declines_raises",
+  "decision": "KEEP",
+  "reason": "The cited PR text says a callback that returns nothing leaves the old ValueError, which is exactly what is checked."
+ },
+ {
+  "id": "g7_x_live_registered_tool_with_error_callback_runs",
+  "decision": "KEEP",
+  "reason": "A registered tool must still run and return its result when an error callback is attached; the result is the tool's own output."
+ },
+ {
+  "id": "g7_x_live_parallel_calls_registered",
+  "decision": "KEEP",
+  "reason": "The cited docstring says the live executor calls the functions and returns the response, so both calls must run and return results."
+ }
+]

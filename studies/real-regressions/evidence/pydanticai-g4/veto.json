@@ -1,0 +1,5 @@
+[
+{"id": "g4-diff-server-already-running", "decision": "KEEP", "reason": "A server started by the caller before entering run_mcp_servers must still complete a sampling tool call; hanging is a real failure, not a style difference."},
+{"id": "g4-diff-manual-sampling-model", "decision": "KEEP", "reason": "sampling_model is a public MCPServer attribute, so setting it directly must make sampling requests use that model."},
+{"id": "g4-diff-nested-shared-server", "decision": "KEEP", "reason": "Two agents sharing one server in nested run_mcp_servers blocks must each complete their sampling tool call and return the right label."}
+]

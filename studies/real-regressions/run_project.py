@@ -1,6 +1,7 @@
 """Run every gate of one project in turn: python run_project.py <project> [heads_dir]."""
 
 import glob
+import os
 import json
 import subprocess
 import sys
@@ -12,7 +13,7 @@ here = Path(__file__).resolve().parent
 for gate_json in sorted(glob.glob(f"/tmp/rr/blind/{project}/{project}-g*/gate.json")):
     g = json.loads(Path(gate_json).read_text())
     gid = g["gate"]
-    if (here / "runs" / project / gid / "verdict.json").exists():
+    if (here / os.environ.get("RR_RUNS", "runs") / project / gid / "verdict.json").exists():
         continue
     head = glob.glob(f"{heads}/{gid}-*")
     if not head or not Path(head[0], ".ok").exists():

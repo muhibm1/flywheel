@@ -1,0 +1,46 @@
+{
+ "gate": "adk-g8",
+ "blocked": true,
+ "broken": [
+  "g8_sweep_server_error_500",
+  "g8_x_redirect_followed"
+ ],
+ "arms": {
+  "arm2": {
+   "broken": [],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm3": {
+   "broken": [],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm4": {
+   "broken": [
+    "g8_x_redirect_followed"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm5": {
+   "broken": [
+    "g8_x_redirect_followed"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm6": {
+   "broken": [
+    "g8_sweep_server_error_500"
+   ],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  }
+ }
+}

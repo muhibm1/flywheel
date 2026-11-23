@@ -1,0 +1,5 @@
+[
+  {"id": "diff-g2-run-workflow-name", "decision": "KEEP", "reason": "A step agent's tool seeing the workflow name on RunContext is the cited documented behaviour and the answer must be right."},
+  {"id": "diff-g2-arun-deps-agent-context", "decision": "KEEP", "reason": "An agent that opts in to add_dependencies_to_context must see run dependencies, which the cited None semantics support."},
+  {"id": "diff-g2-arun-session-state-agent-context", "decision": "KEEP", "reason": "An agent opting in to add_session_state_to_context must see workflow session state in an async run, an existing-behaviour regression check on the answer content."}
+]

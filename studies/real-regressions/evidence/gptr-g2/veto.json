@@ -1,0 +1,5 @@
+[
+  {"id": "g2-diff-two-subqueries", "decision": "DROP", "reason": "Requiring at least 3 search queries is an incidental count; a correct agent could answer the question from fewer queries."},
+  {"id": "g2-diff-outline-local-docs", "decision": "KEEP", "reason": "An outline report over local documents must complete and return a structured, headed outline mentioning the subject, as the docs describe."},
+  {"id": "g2-diff-custom-report-web", "decision": "KEEP", "reason": "The custom_report docs say the prompt is passed as the query, and returning the requested JSON fields with the right values is the task itself."}
+]

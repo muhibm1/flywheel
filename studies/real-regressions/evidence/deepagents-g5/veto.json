@@ -1,0 +1,4 @@
+[
+{"id": "d-g5-delegate-by-name", "decision": "KEEP", "reason": "The user explicitly requests the named subagent and the right answer; the subagent's tool execution is what the task requires."},
+{"id": "d-g5-currency-yen", "decision": "KEEP", "reason": "Delegation to the currency subagent must yield the correct converted value (40 EUR) using its tool."}
+]

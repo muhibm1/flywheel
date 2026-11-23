@@ -29,6 +29,9 @@ where = ["src"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+# The regression study's scripts are hashed in its frozen sets, and its adapters were written by the
+# study's blind writers; reformatting either would break the published digests.
+extend-exclude = ["studies/real-regressions"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
