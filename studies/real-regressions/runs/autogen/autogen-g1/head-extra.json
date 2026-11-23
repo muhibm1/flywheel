@@ -1,0 +1,157 @@
+{
+  "backend": "local",
+  "created_at": "2026-11-22T22:44:02+00:00",
+  "dataset_version": "e073ca6bec6a",
+  "examples": {
+    "g1-tool-then-handoff": "{\"scenario\":\"swarm_tool_handoff\",\"task\":\"Hello, what is the amount due on invoice INV-7731?\"}",
+    "s-swarm-handoff": "{\"scenario\":\"swarm\",\"task\":\"Hi, how much do I owe on invoice INV-7731?\"}",
+    "s-weather-tool": "{\"scenario\":\"weather\",\"task\":\"What is the weather in Paris right now?\"}"
+  },
+  "git_sha": "08e64303a209fe612a471285014f25b0bd24f6e6",
+  "graders": {
+    "adapter:check_answer": "3a06843909de",
+    "adapter:check_files": "3a06843909de",
+    "adapter:check_flow": "3a06843909de",
+    "adapter:check_json": "3a06843909de",
+    "adapter:check_tools": "3a06843909de"
+  },
+  "label": "head",
+  "name": null,
+  "repetitions": 3,
+  "runs": [
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-weather-tool",
+      "latency_ms": 28613.8,
+      "repetition": 4,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-weather-tool",
+      "latency_ms": 21188.3,
+      "repetition": 5,
+      "scores": {
+        "check_answer": 0.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 0.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-weather-tool",
+      "latency_ms": 33203.7,
+      "repetition": 6,
+      "scores": {
+        "check_answer": 0.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-swarm-handoff",
+      "latency_ms": 69839.4,
+      "repetition": 4,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-swarm-handoff",
+      "latency_ms": 48437.7,
+      "repetition": 5,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": "TimeoutError: ",
+      "evaluator_errors": {},
+      "example_id": "s-swarm-handoff",
+      "latency_ms": 506020.4,
+      "repetition": 6,
+      "scores": {},
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": "TimeoutError: ",
+      "evaluator_errors": {},
+      "example_id": "g1-tool-then-handoff",
+      "latency_ms": 438411.1,
+      "repetition": 4,
+      "scores": {},
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-tool-then-handoff",
+      "latency_ms": 30080.2,
+      "repetition": 5,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-tool-then-handoff",
+      "latency_ms": 27305.5,
+      "repetition": 6,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    }
+  ],
+  "schema": 1,
+  "url": null
+}

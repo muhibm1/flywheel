@@ -1,0 +1,8 @@
+Enh: Expose finish_reason to format_error_template (#862)
+
+Thread the response finish_reason into format_error_template via a generic template_kwargs
+dict (toolcall path), and add a finish_reason-aware conditional to mini.yaml so a max_tokens
+truncation -- finish_reason 'length', or 'tool_calls' with an empty payload -- is reported to
+the model as 'your response was cut off, be concise' instead of the misleading 'no tool call
+found'. The Pydantic default template stays '{{ error }}'; the mini.yaml conditional guards
+with 'is defined' so it is safe for wrappers that don't supply finish_reason.

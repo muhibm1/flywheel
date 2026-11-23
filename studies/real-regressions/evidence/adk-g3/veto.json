@@ -1,0 +1,6 @@
+[
+{"id": "g3_nested_two_levels_code", "decision": "KEEP", "reason": "A nested workflow run with raise_on_wait must pass its child's output up to the parent, which is the fixed area."},
+{"id": "g3_nested_hitl_resumes", "decision": "KEEP", "reason": "A nested workflow waiting on user input must resume and deliver the decision, which is core resume behaviour."},
+{"id": "g3_hitl_multi_resumes", "decision": "KEEP", "reason": "A rerun_on_resume node that asks two questions must finish with both answers once supplied."},
+{"id": "g3_node_tool_twice", "decision": "KEEP", "reason": "The agent is told to call the node tool per temperature and must report both correct values."}
+]

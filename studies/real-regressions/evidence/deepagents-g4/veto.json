@@ -1,0 +1,5 @@
+[
+{"id": "d-g4-write-heredoc-marker-text", "decision": "KEEP", "reason": "The written file must contain the requested content intact, regardless of heredoc-like text inside it."},
+{"id": "d-g4-write-large-file", "decision": "KEEP", "reason": "Writing a 300-line file and reporting the last line is a plain task-completion requirement."},
+{"id": "d-g4-edit-quotes-and-dollars", "decision": "KEEP", "reason": "edit_file does exact string replacement per the README, so quotes and dollar signs must survive unmangled."}
+]

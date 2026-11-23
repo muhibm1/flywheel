@@ -1,0 +1,6 @@
+[
+{"id": "g1-diff-bedrock-claude4-agent-tool-status", "decision": "KEEP", "reason": "A Claude model id keeping toolResult status and finishing a two-call tool loop is the PR's own tested default and a correct answer is required."},
+{"id": "g1-diff-bedrock-claude3-agent-tool-status", "decision": "KEEP", "reason": "The PR message says status is removed only for non-Claude 3 models, so a Claude 3 id must keep it and answer from the tool result."},
+{"id": "g1-diff-bedrock-nova-agent-tool-loop", "decision": "KEEP", "reason": "It checks only that a two-turn tool conversation on a non-Claude model completes with the right total, which any correct agent must do."},
+{"id": "g1-diff-bedrock-explicit-status-true-agent", "decision": "KEEP", "reason": "The BedrockConfig docstring documents include_tool_result_status=True as including status, and the check verifies that option plus a sensible answer."}
+]

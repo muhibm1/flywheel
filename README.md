@@ -68,6 +68,22 @@ did not: the paragraph fixed 3 questions and broke 5, and one of the broken ones
 unanswerable question the agent started answering with an invented fact. Flywheel blocked it.
 [Report](https://github.com/muhibm1/studbook-agent/blob/main/docs/results/comparison-prompt-2026-10-13.md).
 
+## Regressions that real teams shipped
+
+Open-source agent teams sometimes merge a change that breaks their agent and fix it later; the
+later fix proves the break was real. I replayed 12 such changes from 7 agent projects through
+Flywheel as new pull requests, with 12 harmless changes from the same projects as controls. The
+method was frozen in advance and each set was scored once. Every regression shipped with the
+project's own tests green. Flywheel blocked 6 with cases written from the diff alone, the
+pre-registered primary, and 8 with cases written after running both versions. 7 of those 8 failed
+for the reason the team itself gave. It blocked 1 or 2 of the 12 controls.
+
+A fix for the four misses, frozen in advance, was tested on Google ADK, a fresh project. It added
+a sweep of unusual inputs and caught none of 6. Cases from running both versions caught 2 there,
+and no control was blocked. The lesson is in the cases, not the statistic: a gate catches what its
+cases exercise. With 18 regressions, no rate near 93% is established.
+[Report](docs/results/real-regressions-2026-11-23.md).
+
 ## Replay: test an agent on your own past changes
 
 `flywheel replay` is a second mode. It takes changes that really shipped in a repository, rewinds

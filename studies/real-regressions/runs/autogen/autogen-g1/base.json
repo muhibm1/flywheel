@@ -1,0 +1,647 @@
+{
+  "backend": "local",
+  "created_at": "2026-11-22T22:28:18+00:00",
+  "dataset_version": "e073ca6bec6a",
+  "examples": {
+    "g1-context-across-runs": "{\"scenario\":\"two_turn\",\"task\":\"Please save a note that the team offsite is in Lisbon on 14 March.\\n---\\nWhere is the team offsite, and on what date?\"}",
+    "g1-memory-stream": "{\"scenario\":\"memory_stream\",\"task\":\"Which city do I live in? Answer in one word.\"}",
+    "g1-reflect-system-format": "{\"scenario\":\"weather_styled\",\"task\":\"What is the weather in Paris right now?\"}",
+    "g1-summary-format": "{\"scenario\":\"weather_summary\",\"task\":\"Get the current weather for Paris.\"}",
+    "g1-tool-then-handoff": "{\"scenario\":\"swarm_tool_handoff\",\"task\":\"Hello, what is the amount due on invoice INV-7731?\"}",
+    "s-hello": "{\"scenario\":\"hello\",\"task\":\"Say 'Hello World!'\"}",
+    "s-json-extract": "{\"scenario\":\"json\",\"task\":\"Extract name, age, city and occupation from this text as JSON with exactly those keys: 'Maria Gonzalez, 34, moved to Lisbon last yea\u2026",
+    "s-math-multistep": "{\"scenario\":\"math_team\",\"task\":\"Compute (17 + 25) * 3 using your tools.\"}",
+    "s-memory-recall": "{\"scenario\":\"memory\",\"task\":\"What is my favourite colour? Answer in one word.\"}",
+    "s-sql-total": "{\"scenario\":\"sql\",\"task\":\"What is the total amount of all shipped orders for customer 'alice'? Give the number.\"}",
+    "s-swarm-handoff": "{\"scenario\":\"swarm\",\"task\":\"Hi, how much do I owe on invoice INV-7731?\"}",
+    "s-weather-tool": "{\"scenario\":\"weather\",\"task\":\"What is the weather in Paris right now?\"}",
+    "s-write-file": "{\"scenario\":\"files\",\"task\":\"Create a file named shopping.txt containing a shopping list with three lines: apples, bread, milk (one item per line).\"}"
+  },
+  "git_sha": "5ae8178d256df74b57dc3ab0b5dca7d7c57e029f",
+  "graders": {
+    "adapter:check_answer": "3a06843909de",
+    "adapter:check_files": "3a06843909de",
+    "adapter:check_flow": "3a06843909de",
+    "adapter:check_json": "3a06843909de",
+    "adapter:check_tools": "3a06843909de"
+  },
+  "label": "base",
+  "name": null,
+  "repetitions": 3,
+  "runs": [
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-hello",
+      "latency_ms": 10266.8,
+      "repetition": 1,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-hello",
+      "latency_ms": 12371.8,
+      "repetition": 2,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-hello",
+      "latency_ms": 11048.0,
+      "repetition": 3,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-weather-tool",
+      "latency_ms": 22276.4,
+      "repetition": 1,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-weather-tool",
+      "latency_ms": 35502.7,
+      "repetition": 2,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-weather-tool",
+      "latency_ms": 30747.4,
+      "repetition": 3,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-math-multistep",
+      "latency_ms": 56954.1,
+      "repetition": 1,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-math-multistep",
+      "latency_ms": 76714.6,
+      "repetition": 2,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-math-multistep",
+      "latency_ms": 66854.7,
+      "repetition": 3,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-write-file",
+      "latency_ms": 29862.4,
+      "repetition": 1,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-write-file",
+      "latency_ms": 27798.9,
+      "repetition": 2,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-write-file",
+      "latency_ms": 33101.7,
+      "repetition": 3,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": "TimeoutError: ",
+      "evaluator_errors": {},
+      "example_id": "s-sql-total",
+      "latency_ms": 399929.2,
+      "repetition": 1,
+      "scores": {},
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-sql-total",
+      "latency_ms": 242331.3,
+      "repetition": 2,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": "TimeoutError: ",
+      "evaluator_errors": {},
+      "example_id": "s-sql-total",
+      "latency_ms": 428171.3,
+      "repetition": 3,
+      "scores": {},
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-json-extract",
+      "latency_ms": 20015.7,
+      "repetition": 1,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-json-extract",
+      "latency_ms": 18948.5,
+      "repetition": 2,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-json-extract",
+      "latency_ms": 23103.3,
+      "repetition": 3,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-memory-recall",
+      "latency_ms": 21309.8,
+      "repetition": 1,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-memory-recall",
+      "latency_ms": 20882.2,
+      "repetition": 2,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-memory-recall",
+      "latency_ms": 18747.2,
+      "repetition": 3,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-swarm-handoff",
+      "latency_ms": 64543.7,
+      "repetition": 1,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-swarm-handoff",
+      "latency_ms": 56814.3,
+      "repetition": 2,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-swarm-handoff",
+      "latency_ms": 55676.0,
+      "repetition": 3,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-reflect-system-format",
+      "latency_ms": 38781.2,
+      "repetition": 1,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-reflect-system-format",
+      "latency_ms": 36951.6,
+      "repetition": 2,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-reflect-system-format",
+      "latency_ms": 41183.7,
+      "repetition": 3,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-context-across-runs",
+      "latency_ms": 62697.7,
+      "repetition": 1,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-context-across-runs",
+      "latency_ms": 62145.3,
+      "repetition": 2,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-context-across-runs",
+      "latency_ms": 68116.8,
+      "repetition": 3,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-summary-format",
+      "latency_ms": 21211.8,
+      "repetition": 1,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-summary-format",
+      "latency_ms": 16943.1,
+      "repetition": 2,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-summary-format",
+      "latency_ms": 17264.9,
+      "repetition": 3,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-tool-then-handoff",
+      "latency_ms": 56426.5,
+      "repetition": 1,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-tool-then-handoff",
+      "latency_ms": 54903.9,
+      "repetition": 2,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-tool-then-handoff",
+      "latency_ms": 70022.7,
+      "repetition": 3,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-memory-stream",
+      "latency_ms": 18244.0,
+      "repetition": 1,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-memory-stream",
+      "latency_ms": 22018.8,
+      "repetition": 2,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "g1-memory-stream",
+      "latency_ms": 27417.1,
+      "repetition": 3,
+      "scores": {
+        "check_answer": 1.0,
+        "check_files": 1.0,
+        "check_flow": 1.0,
+        "check_json": 1.0,
+        "check_tools": 1.0
+      },
+      "url": null,
+      "usage": null
+    }
+  ],
+  "schema": 1,
+  "url": null
+}

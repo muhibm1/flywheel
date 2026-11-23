@@ -1,0 +1,5 @@
+[
+{"id": "g2-diff-session-subagent-async-tool", "decision": "KEEP", "reason": "Restoring a file-session agent inside an async tool and answering from its saved notes is plain use of supported features and the task must succeed."},
+{"id": "g2-diff-session-subagent-sync-tool", "decision": "KEEP", "reason": "A file-session agent restored inside a sync tool must load its earlier messages and answer correctly."},
+{"id": "g2-diff-session-eight-turn-order", "decision": "KEEP", "reason": "The PR states messages must be read with proper ordering, so a resumed session must restore all prior messages intact and the agent must recall them."}
+]

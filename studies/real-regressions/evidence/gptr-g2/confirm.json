@@ -1,0 +1,115 @@
+{
+ "gate": "gptr-g2",
+ "blocked": true,
+ "broken": [
+  "custom-report-json",
+  "g2-diff-custom-report-web",
+  "g2-diff-outline-local-docs",
+  "g2-fault-call-as-text",
+  "g2-fault-empty",
+  "g2-local-docs-planning",
+  "g2-query-with-json-characters",
+  "g2-single-iteration",
+  "g2-subqueries-web-research",
+  "langchain-documents",
+  "local-docs-company-history",
+  "outline-report-vorna",
+  "resource-report-kestrel",
+  "source-urls-only",
+  "web-research-lake-vorna"
+ ],
+ "arms": {
+  "arm2": {
+   "broken": [
+    "custom-report-json",
+    "langchain-documents",
+    "local-docs-company-history",
+    "outline-report-vorna",
+    "resource-report-kestrel",
+    "source-urls-only",
+    "web-research-lake-vorna"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm3": {
+   "broken": [
+    "custom-report-json",
+    "g2-local-docs-planning",
+    "g2-query-with-json-characters",
+    "g2-single-iteration",
+    "g2-subqueries-web-research",
+    "langchain-documents",
+    "local-docs-company-history",
+    "outline-report-vorna",
+    "resource-report-kestrel",
+    "source-urls-only",
+    "web-research-lake-vorna"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm4": {
+   "broken": [
+    "custom-report-json",
+    "g2-diff-custom-report-web",
+    "g2-diff-outline-local-docs",
+    "g2-local-docs-planning",
+    "g2-query-with-json-characters",
+    "g2-single-iteration",
+    "g2-subqueries-web-research",
+    "langchain-documents",
+    "local-docs-company-history",
+    "outline-report-vorna",
+    "resource-report-kestrel",
+    "source-urls-only",
+    "web-research-lake-vorna"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm5": {
+   "broken": [
+    "custom-report-json",
+    "g2-diff-custom-report-web",
+    "g2-diff-outline-local-docs",
+    "g2-fault-call-as-text",
+    "g2-fault-empty",
+    "g2-local-docs-planning",
+    "g2-query-with-json-characters",
+    "g2-single-iteration",
+    "g2-subqueries-web-research",
+    "langchain-documents",
+    "local-docs-company-history",
+    "outline-report-vorna",
+    "resource-report-kestrel",
+    "source-urls-only",
+    "web-research-lake-vorna"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm6": {
+   "broken": [
+    "custom-report-json",
+    "g2-local-docs-planning",
+    "g2-query-with-json-characters",
+    "g2-single-iteration",
+    "g2-subqueries-web-research",
+    "langchain-documents",
+    "local-docs-company-history",
+    "outline-report-vorna",
+    "resource-report-kestrel",
+    "source-urls-only",
+    "web-research-lake-vorna"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  }
+ }
+}

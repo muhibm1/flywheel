@@ -1,0 +1,19 @@
+{
+ "case": "autogen-reflection-system-msg--control1",
+ "repo": "microsoft_autogen",
+ "files": [
+  "python/packages/autogen-agentchat/src/autogen_agentchat/agents/_society_of_mind_agent.py"
+ ],
+ "candidates": [
+  {
+   "sha": "f650d35faa",
+   "days_after": 87,
+   "subject": "Fix output task messages 6150 (#6678)"
+  },
+  {
+   "sha": "b3f37319e3",
+   "days_after": 17,
+   "subject": "Fix: deserialize model_context in AssistantAgent and SocietyOfMindAgent and CodeExecutorAgent (#6337)"
+  }
+ ]
+}

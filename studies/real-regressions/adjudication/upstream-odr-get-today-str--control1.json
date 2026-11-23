@@ -1,0 +1,26 @@
+{
+ "case": "odr-get-today-str--control1",
+ "repo": "open_deep_research",
+ "files": [
+  "pyproject.toml",
+  "src/legacy/configuration.py",
+  "src/open_deep_research/configuration.py",
+  "src/open_deep_research/deep_researcher.py",
+  "src/open_deep_research/prompts.py",
+  "src/open_deep_research/state.py",
+  "src/open_deep_research/utils.py",
+  "uv.lock"
+ ],
+ "candidates": [
+  {
+   "sha": "7bbed5e4c5",
+   "days_after": 12,
+   "subject": "fix: AttributeError: type object 'datetime.datetime' has no attribute 'datetime' (#178)"
+  },
+  {
+   "sha": "0c9b239cb6",
+   "days_after": 4,
+   "subject": "Fix: Resolve strftime ValueError on Windows (#126)"
+  }
+ ]
+}

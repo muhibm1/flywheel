@@ -1,0 +1,6 @@
+[
+{"id": "d1-directory-twelve", "decision": "KEEP", "reason": "The task asks for every listed person, so the complete 12-row structured list is required."},
+{"id": "d1-filtered-subset", "decision": "KEEP", "reason": "The task explicitly asks for only 2024 papers' authors, so the filtered list is the correct answer."},
+{"id": "d1-sum-table", "decision": "KEEP", "reason": "The total of the five amounts is 620.00, a correct sum the task asks for, checked only by the number 620."},
+{"id": "d1-empty-cart-zeros", "decision": "KEEP", "reason": "The page states id CART-0, 0 items and $0.00, so returning those values is simply the right answer."}
+]

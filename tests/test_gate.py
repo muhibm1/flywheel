@@ -79,6 +79,18 @@ def test_metric_a_case_never_scores_is_left_out():
     assert (reply_total.base_passed, reply_total.base_runs) == (3, 3)
 
 
+def test_new_error_can_be_asked_to_repeat():
+    """With `min_new_error_runs = 2`, one stray error in three runs does not block; two do."""
+    settings = GateSettings(metrics=("ok",), min_new_error_runs=2)
+    base = experiment("base", {"a": [PASS] * 3})
+    once = experiment("head", {"a": [PASS, PASS, "ConnectionError: reset"]})
+    twice = experiment("head", {"a": [PASS, "ConnectionError: reset", "ConnectionError: reset"]})
+    assert compare(base, once, settings).passed
+    assert compare(base, once, settings).cases[0].new_error is None
+    assert compare(base, twice, settings).cases[0].new_error == "ConnectionError: reset"
+    assert not compare(base, twice, settings).passed
+
+
 def test_errors_on_both_sides_are_not_new():
     """A case that already raised on the base branch is not a new error."""
     base = experiment("base", {"a": ["ValueError: x"]})

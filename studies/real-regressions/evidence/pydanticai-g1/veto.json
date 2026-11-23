@@ -1,0 +1,4 @@
+[
+{"id": "g1-diff-rewrite-chain", "decision": "KEEP", "reason": "output_tool_return_content is a documented option that rewrites the last message's output-tool return in the returned copy, and leaving stored history unchanged is the expected non-mutating behaviour."},
+{"id": "g1-diff-rewrite-chain-b", "decision": "KEEP", "reason": "Same documented contract with different markers and prices; the total is a plain correct-answer check."}
+]

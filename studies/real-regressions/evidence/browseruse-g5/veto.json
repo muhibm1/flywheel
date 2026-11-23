@@ -1,0 +1,4 @@
+[
+{"id": "d5-dropdown-country", "decision": "KEEP", "reason": "Choosing Norway, entering the name, submitting and reporting RG-2087 is exactly what the user asks and the POST fields prove it."},
+{"id": "d5-dropdown-missing-option", "decision": "KEEP", "reason": "The task itself says to submit nothing and list the available colours when Purple is absent, so both checks follow the instructions."}
+]

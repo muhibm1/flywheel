@@ -1,0 +1,23 @@
+$ /tmp/rr/envs/mini-swe-agent-3df30a4bb5/bin/flywheel gate --base base.json --head head.json --report gate.md
+<!-- flywheel-report -->
+## ✅ Flywheel: no regressions
+
+Flywheel ran the agent on 12 test cases, 3 times each, before and after this change, and compared the results case by case. Nothing changed.
+
+### Totals
+
+| Metric | Before | After |
+|---|---|---|
+| `check_exit_status` | 36/36 | 36/36 |
+| `check_files` | 36/36 | 36/36 |
+| `check_limits` | 36/36 | 36/36 |
+| `check_trajectory` | 36/36 | 36/36 |
+| `check_verify` | 36/36 | 36/36 |
+
+<details><summary>Provenance</summary>
+
+- Before: `base` at `5ae8178`, local backend, dataset `9d2b295bd86b`, 36 run(s)
+- After: `head` at `5ae8178`, local backend, dataset `9d2b295bd86b`, 36 run(s)
+
+</details>
+

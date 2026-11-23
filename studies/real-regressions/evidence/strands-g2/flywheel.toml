@@ -1,0 +1,22 @@
+[flywheel]
+target = "adapter:target"
+evaluators = [
+  "adapter:check_answer",
+  "adapter:check_tools",
+  "adapter:check_files",
+  "adapter:check_structured",
+  "adapter:check_state",
+  "adapter:check_graph",
+  "adapter:check_bedrock",
+  "adapter:check_session",
+  "adapter:check_turns",
+  "adapter:check_sent_status",
+  "adapter:check_no_subagent_error",
+]
+dataset = "dataset.jsonl"
+repetitions = 3
+
+[gate]
+max_broken = 0
+close_call_repetitions = 3
+min_new_error_runs = 2

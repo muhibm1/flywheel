@@ -1,0 +1,5 @@
+[
+  {"id": "g1-diff-searx-research-small-max-results", "decision": "KEEP", "reason": "The report must still carry facts from the provided pages when results per query are capped, which is the task being done correctly."},
+  {"id": "g1-diff-searx-url-preferred-over-href", "decision": "KEEP", "reason": "SearxNG's own url and content fields mapping to href and body is the basic documented result shape, so primary fields winning over aliases is required."},
+  {"id": "g1-diff-searx-full-envelope", "decision": "KEEP", "reason": "A normal complete SearxNG answer must yield its results as href/body entries, which is the search method's documented return."}
+]

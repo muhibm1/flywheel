@@ -1,0 +1,2 @@
+24 agno-g1 agno-g2 browseruse-g1 browseruse-g2 browseruse-g3 browseruse-g4 browseruse-g5 browseruse-g6 deepagents-g1 deepagents-g2 deepagents-g3 deepagents-g4 deepagents-g5 deepagents-g6 gptr-g1 gptr-g2 odr-g1 odr-g2 pydanticai-g1 pydanticai-g2 pydanticai-g3 pydanticai-g4 strands-g1 strands-g2
+adk tier2 adk-g1 adk-g10 adk-g11 adk-g12 adk-g2 adk-g3 adk-g4 adk-g5 adk-g6 adk-g7 adk-g8 adk-g9

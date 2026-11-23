@@ -1,0 +1,5 @@
+[
+{"id": "d-g3-read-missing-file", "decision": "KEEP", "reason": "The user asked to be told why a missing file cannot be read and not to create it; the accepted phrases are broad and the no-creation check is behavioural."},
+{"id": "d-g3-edit-missing-file-report", "decision": "KEEP", "reason": "Reporting a missing file without creating anything is required by the task, and the accepted phrases are broad."},
+{"id": "d-g3-edit-multi-line-ok", "decision": "KEEP", "reason": "A plain exact-string edit is documented behaviour and the file outcome is checked."}
+]

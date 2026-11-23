@@ -1,0 +1,89 @@
+{
+ "gate": "odr-g1",
+ "blocked": true,
+ "broken": [
+  "g1-chg-one-unit-two-topics",
+  "g1-chg-three-way-timeline",
+  "std-compare-phones",
+  "std-fact-bridge",
+  "std-mcp-prompt",
+  "std-no-clarify-when-off",
+  "std-sum-offices",
+  "std-two-topic-report"
+ ],
+ "arms": {
+  "arm2": {
+   "broken": [
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off",
+    "std-sum-offices",
+    "std-two-topic-report"
+   ],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm3": {
+   "broken": [
+    "g1-chg-one-unit-two-topics",
+    "g1-chg-three-way-timeline",
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off",
+    "std-sum-offices",
+    "std-two-topic-report"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm4": {
+   "broken": [
+    "g1-chg-one-unit-two-topics",
+    "g1-chg-three-way-timeline",
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off",
+    "std-sum-offices",
+    "std-two-topic-report"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm5": {
+   "broken": [
+    "g1-chg-one-unit-two-topics",
+    "g1-chg-three-way-timeline",
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off",
+    "std-sum-offices",
+    "std-two-topic-report"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm6": {
+   "broken": [
+    "g1-chg-one-unit-two-topics",
+    "g1-chg-three-way-timeline",
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off",
+    "std-sum-offices",
+    "std-two-topic-report"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  }
+ }
+}

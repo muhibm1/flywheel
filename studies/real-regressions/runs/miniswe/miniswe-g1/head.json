@@ -1,0 +1,561 @@
+{
+  "backend": "local",
+  "created_at": "2026-11-22T22:01:06+00:00",
+  "dataset_version": "901ed98fd6d8",
+  "examples": {
+    "c1-default-yaml-toolcall": "{\"config\":\"default\",\"task\":\"Create greet.sh, an executable bash script that prints `Hi, $1!` for its first argument.\",\"verify\":\"bash greet.sh Bo\"}",
+    "c1-textbased-backticks-content": "{\"config\":\"mini_textbased\",\"files\":{\"tool.py\":\"import sys\\nprint('tool', sys.argv[1:])\\n\"},\"task\":\"Write README.md for this folder. It must contain a level-1 h\u2026",
+    "c1-textbased-multistep-fix": "{\"config\":\"mini_textbased\",\"files\":{\"check.py\":\"from inventory import restock\\n\\nassert restock({'a': 1}, 'a', 2) == {'a': 3}\\nassert restock({}, 'b', 5) == {'\u2026",
+    "c1-toolcall-backticks-content": "{\"task\":\"Create notes.md containing a Python fenced code block (```python ... ```) with exactly one line inside it: print(42). Then also create run.py with tha\u2026",
+    "s-data-summary": "{\"files\":{\"sales.csv\":\"region,amount\\nnorth,120\\nsouth,75\\nnorth,30\\neast,200\\nsouth,25\\neast,5\\nnorth,50\\n\"},\"task\":\"sales.csv lists sales with columns region\u2026",
+    "s-fix-bug": "{\"files\":{\"stats.py\":\"def average(values):\\n    \\\"\\\"\\\"Arithmetic mean of a non-empty list of numbers.\\\"\\\"\\\"\\n    total = 0\\n    for v in values:\\n        total\u2026",
+    "s-hello-world": "{\"task\":\"Write a hello world program: create hello.py in the current directory that prints exactly `Hello, World!`.\",\"verify\":\"python3 hello.py\"}",
+    "s-interactive-yolo": "{\"agent_class\":\"interactive\",\"files\":{\"main.py\":\"from shapes import calc_area\\n\\nprint(calc_area(3, 4))\\n\",\"shapes.py\":\"def calc_area(w, h):\\n    return w * h\\\u2026",
+    "s-multifile-feature": "{\"files\":{\"cli.py\":\"import argparse\\n\\nfrom greet import greeting\\n\\n\\ndef main():\\n    parser = argparse.ArgumentParser()\\n    parser.add_argument(\\\"name\\\")\\n\u2026",
+    "s-step-limit": "{\"step_limit\":1,\"task\":\"Create a file notes.txt containing the word hi, then check its contents with cat before finishing.\"}",
+    "s-textbased-config": "{\"config\":\"mini_textbased\",\"task\":\"Create fib.py that prints the first 10 Fibonacci numbers starting 0 1, space-separated on one line.\",\"verify\":\"python3 fib.p\u2026"
+  },
+  "git_sha": "5ae8178d256df74b57dc3ab0b5dca7d7c57e029f",
+  "graders": {
+    "adapter:check_exit_status": "80094b9119d6",
+    "adapter:check_files": "80094b9119d6",
+    "adapter:check_limits": "80094b9119d6",
+    "adapter:check_trajectory": "80094b9119d6",
+    "adapter:check_verify": "80094b9119d6"
+  },
+  "label": "head",
+  "name": null,
+  "repetitions": 3,
+  "runs": [
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-hello-world",
+      "latency_ms": 44678.7,
+      "repetition": 1,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-hello-world",
+      "latency_ms": 32090.3,
+      "repetition": 2,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-hello-world",
+      "latency_ms": 32710.5,
+      "repetition": 3,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-fix-bug",
+      "latency_ms": 93196.3,
+      "repetition": 1,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-fix-bug",
+      "latency_ms": 114116.5,
+      "repetition": 2,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-fix-bug",
+      "latency_ms": 82572.0,
+      "repetition": 3,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-data-summary",
+      "latency_ms": 66089.4,
+      "repetition": 1,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-data-summary",
+      "latency_ms": 79958.4,
+      "repetition": 2,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-data-summary",
+      "latency_ms": 75732.5,
+      "repetition": 3,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-multifile-feature",
+      "latency_ms": 122181.6,
+      "repetition": 1,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-multifile-feature",
+      "latency_ms": 130666.5,
+      "repetition": 2,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-multifile-feature",
+      "latency_ms": 132952.0,
+      "repetition": 3,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-textbased-config",
+      "latency_ms": 40453.3,
+      "repetition": 1,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-textbased-config",
+      "latency_ms": 71846.3,
+      "repetition": 2,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-textbased-config",
+      "latency_ms": 69899.9,
+      "repetition": 3,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-interactive-yolo",
+      "latency_ms": 57232.1,
+      "repetition": 1,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-interactive-yolo",
+      "latency_ms": 73156.7,
+      "repetition": 2,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-interactive-yolo",
+      "latency_ms": 76616.7,
+      "repetition": 3,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-step-limit",
+      "latency_ms": 12344.0,
+      "repetition": 1,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-step-limit",
+      "latency_ms": 11047.7,
+      "repetition": 2,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "s-step-limit",
+      "latency_ms": 15137.7,
+      "repetition": 3,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c1-default-yaml-toolcall",
+      "latency_ms": 86728.0,
+      "repetition": 1,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c1-default-yaml-toolcall",
+      "latency_ms": 80539.8,
+      "repetition": 2,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c1-default-yaml-toolcall",
+      "latency_ms": 64920.7,
+      "repetition": 3,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c1-textbased-backticks-content",
+      "latency_ms": 54296.2,
+      "repetition": 1,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c1-textbased-backticks-content",
+      "latency_ms": 80325.9,
+      "repetition": 2,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c1-textbased-backticks-content",
+      "latency_ms": 79882.8,
+      "repetition": 3,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c1-toolcall-backticks-content",
+      "latency_ms": 86653.2,
+      "repetition": 1,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c1-toolcall-backticks-content",
+      "latency_ms": 46645.8,
+      "repetition": 2,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c1-toolcall-backticks-content",
+      "latency_ms": 61770.1,
+      "repetition": 3,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c1-textbased-multistep-fix",
+      "latency_ms": 65382.9,
+      "repetition": 1,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c1-textbased-multistep-fix",
+      "latency_ms": 77780.8,
+      "repetition": 2,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    },
+    {
+      "error": null,
+      "evaluator_errors": {},
+      "example_id": "c1-textbased-multistep-fix",
+      "latency_ms": 66473.7,
+      "repetition": 3,
+      "scores": {
+        "check_exit_status": 1.0,
+        "check_files": 1.0,
+        "check_limits": 1.0,
+        "check_trajectory": 1.0,
+        "check_verify": 1.0
+      },
+      "url": null,
+      "usage": null
+    }
+  ],
+  "schema": 1,
+  "url": null
+}

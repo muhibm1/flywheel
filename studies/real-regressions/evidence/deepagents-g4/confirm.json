@@ -1,0 +1,73 @@
+{
+ "gate": "deepagents-g4",
+ "blocked": true,
+ "broken": [
+  "d-g4-edit-quotes-and-dollars",
+  "d-g4-write-heredoc-marker-text",
+  "d-g4-write-large-file",
+  "f-g4-unknown-tool",
+  "g4-sandbox-edit-replace-all",
+  "g4-sandbox-edit-special-chars",
+  "g4-sandbox-write-many-lines",
+  "g4-sandbox-write-special-chars"
+ ],
+ "arms": {
+  "arm2": {
+   "broken": [],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm3": {
+   "broken": [
+    "g4-sandbox-edit-replace-all",
+    "g4-sandbox-edit-special-chars",
+    "g4-sandbox-write-many-lines",
+    "g4-sandbox-write-special-chars"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm4": {
+   "broken": [
+    "d-g4-edit-quotes-and-dollars",
+    "d-g4-write-heredoc-marker-text",
+    "d-g4-write-large-file",
+    "g4-sandbox-edit-replace-all",
+    "g4-sandbox-edit-special-chars",
+    "g4-sandbox-write-many-lines",
+    "g4-sandbox-write-special-chars"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm5": {
+   "broken": [
+    "d-g4-edit-quotes-and-dollars",
+    "d-g4-write-heredoc-marker-text",
+    "d-g4-write-large-file",
+    "f-g4-unknown-tool",
+    "g4-sandbox-edit-replace-all",
+    "g4-sandbox-edit-special-chars",
+    "g4-sandbox-write-many-lines",
+    "g4-sandbox-write-special-chars"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm6": {
+   "broken": [
+    "g4-sandbox-edit-replace-all",
+    "g4-sandbox-edit-special-chars",
+    "g4-sandbox-write-many-lines",
+    "g4-sandbox-write-special-chars"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  }
+ }
+}

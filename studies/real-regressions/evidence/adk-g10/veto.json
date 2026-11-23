@@ -1,0 +1,22 @@
+[
+ {
+  "id": "g10_x_clone_replace_transfer_sub_agent",
+  "decision": "KEEP",
+  "reason": "A clone given replacement sub-agents must delegate to them and get the right sum, as the cited PR text requires."
+ },
+ {
+  "id": "g10_x_clone_two_level_single_turn",
+  "decision": "KEEP",
+  "reason": "A cloned multi-level agent must still delegate through both levels and return the correct sum."
+ },
+ {
+  "id": "g10_x_clone_task_sub_agent_instruction_update",
+  "decision": "KEEP",
+  "reason": "The updated instruction must be honoured and the task sub-agent must still run; the check only needs the number and the word total."
+ },
+ {
+  "id": "g10_x_clone_with_own_tools_and_single_turn_sub",
+  "decision": "KEEP",
+  "reason": "A clone must keep its own tool and its sub-agent tool and answer both parts correctly."
+ }
+]

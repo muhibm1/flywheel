@@ -1,0 +1,186 @@
+[
+ {
+  "gate": "agno-g1",
+  "kind": "regression",
+  "case": "agno-mcp-init-headers",
+  "title": "fix: apply header_provider headers during MCP initialization (#7507)",
+  "what_broke": "MCPTools/MultiMCPTools with a header_provider crashed at initialization with a TypeError when the SSE/streamable-HTTP params had no headers.",
+  "team_evidence": {
+   "quote": "When `header_provider` returns a non-empty dict, initialization crashes before the first network call with `TypeError: 'NoneType' object is not a mapping`.",
+   "source": "fix commit a72674fc message (PR #7548, \"Fixes the init-time header_provider merge regression introduced in #7507\")"
+  },
+  "run_dir": "runs-heldout/agno/agno-g1",
+  "arms": {
+   "arm2": false,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "avg": true
+  }
+ },
+ {
+  "gate": "browseruse-g4",
+  "kind": "regression",
+  "case": "bu-openai-structured-indent",
+  "title": "fix(openai): handle proxy responses with missing/null choices; undo test change Avoid indexing response.choices[0] when proxies return choices=null/empty; raise a clear ModelProviderError (with base_url hint) and use the validated first choice for content/finish_reason",
+  "what_broke": "A mis-indented block in ChatOpenAI skipped the structured-output request whenever add_schema_to_system_prompt was false (the default), so agent steps through ChatOpenAI failed.",
+  "team_evidence": {
+   "quote": "Fix indentation so structured-output request executes even when add_schema_to_system_prompt is false",
+   "source": "fix commit 1629799d message (\"fix(openai): structured output call shouldn't depend on schema injection\")"
+  },
+  "run_dir": "runs-heldout/browseruse/browseruse-g4",
+  "arms": {
+   "arm2": true,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "avg": true
+  }
+ },
+ {
+  "gate": "deepagents-g1",
+  "kind": "control",
+  "case": "deepagents-code-server-hooks--control1",
+  "title": "refactor(code): use `reasoning_effort` from `langchain` (#4795)",
+  "what_broke": null,
+  "team_evidence": null,
+  "run_dir": "runs-heldout/deepagents/deepagents-g1",
+  "arms": {
+   "arm2": false,
+   "arm3": false,
+   "arm4": true,
+   "arm5": true,
+   "avg": false
+  }
+ },
+ {
+  "gate": "deepagents-g2",
+  "kind": "regression",
+  "case": "deepagents-code-server-hooks",
+  "title": "feat(code): integrate Hooks v2 server lifecycle events (#4997)",
+  "what_broke": "The Hooks v2 middleware, installed on every agent and subagent, leaked its state into subagent results, so two parallel task completions crashed the parent turn.",
+  "team_evidence": {
+   "quote": "When two `task` calls completed in the same graph step, LangGraph received two writes for one single-value channel and raised `InvalidUpdateError`, failing the parent turn.",
+   "source": "fix commit 88ea7da1 message (PR #5164); second fix 08e6e8ba (PR #5176) for hook resumes"
+  },
+  "run_dir": "runs-heldout/deepagents/deepagents-g2",
+  "arms": {
+   "arm2": false,
+   "arm3": false,
+   "arm4": true,
+   "arm5": true,
+   "avg": false
+  }
+ },
+ {
+  "gate": "deepagents-g4",
+  "kind": "regression",
+  "case": "deepagents-sandbox-heredoc-format",
+  "title": "fix(sdk): handle large payloads and headless container execution (#872)",
+  "what_broke": "BaseSandbox write/edit templates contained unescaped {e}/{file_path}, so str.format() raised KeyError and every sandbox write/edit failed.",
+  "team_evidence": {
+   "quote": "The heredoc-based templates introduced in #872 contain f-string placeholders like {e} and {file_path} that are incorrectly processed by Python's str.format() method, causing KeyError exceptions.",
+   "source": "fix commit dc770827 message (\"Fixes regression introduced in: .../pull/872\")"
+  },
+  "run_dir": "runs-heldout/deepagents/deepagents-g4",
+  "arms": {
+   "arm2": false,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "avg": true
+  }
+ },
+ {
+  "gate": "gptr-g2",
+  "kind": "regression",
+  "case": "gptr-query-processing-import",
+  "title": "fix(query): always return list[str] from generate_sub_queries",
+  "what_broke": "An annotation used names before typing was imported, so gpt_researcher failed to import on Python 3.13 and below.",
+  "team_evidence": {
+   "quote": "query_processing.py annotated _normalize_sub_queries with Any/List before importing typing, raising NameError at import on Python <=3.13 (eager annotations). Broke the PyPI wheel, both Dockerfiles and runtime.txt.",
+   "source": "fix commit bea0ad07 message"
+  },
+  "run_dir": "runs-heldout/gptr/gptr-g2",
+  "arms": {
+   "arm2": true,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "avg": true
+  }
+ },
+ {
+  "gate": "odr-g1",
+  "kind": "control",
+  "case": "odr-get-today-str--control1",
+  "title": "Ruff, update prompts, add think tool, update defaults (#163)",
+  "what_broke": null,
+  "team_evidence": null,
+  "run_dir": "runs-heldout/odr/odr-g1",
+  "arms": {
+   "arm2": true,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "avg": true
+  }
+ },
+ {
+  "gate": "odr-g2",
+  "kind": "regression",
+  "case": "odr-get-today-str",
+  "title": "Fix: Resolve strftime ValueError on Windows (#126)",
+  "what_broke": "A Windows strftime fix called datetime.datetime.now() where datetime was the class, so get_today_str raised AttributeError in every run.",
+  "team_evidence": {
+   "quote": "fix: AttributeError: type object 'datetime.datetime' has no attribute 'datetime' (#178)",
+   "source": "fix commit 7bbed5e4 subject"
+  },
+  "run_dir": "runs-heldout/odr/odr-g2",
+  "arms": {
+   "arm2": true,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "avg": true
+  }
+ },
+ {
+  "gate": "pydanticai-g4",
+  "kind": "regression",
+  "case": "pydanticai-mcp-sampling-contextvar",
+  "title": "Use contextvars for tracking the MCP sampling model (#2117)",
+  "what_broke": "Tracking the MCP sampling model in a contextvar meant the sampling model override did not take effect inside agent.run_mcp_servers(), so MCP sampling requests went to the wrong model.",
+  "team_evidence": {
+   "quote": "The `override_sampling_model` context manager didn't work when already the `async with agent.run_mcp_servers()` context",
+   "source": "PR #2132 description (fix d10f036d), fetched from github.com"
+  },
+  "run_dir": "runs-heldout/pydanticai/pydanticai-g4",
+  "arms": {
+   "arm2": false,
+   "arm3": false,
+   "arm4": true,
+   "arm5": true,
+   "avg": false
+  }
+ },
+ {
+  "gate": "strands-g2",
+  "kind": "regression",
+  "case": "strands-session-concurrent-read",
+  "title": "feat: implement concurrent message reading for session managers (#897)",
+  "what_broke": "Concurrent message loading used asyncio.run inside the session managers, so agents with a File/S3 session manager failed in async code.",
+  "team_evidence": {
+   "quote": "since this is a breaking change, we are going to revert the change and work on the fix separately",
+   "source": "revert PR #1013 description (fix 92da5445), fetched from github.com; it quotes the error \"cannot be called from a running event loop\""
+  },
+  "run_dir": "runs-heldout/strands/strands-g2",
+  "arms": {
+   "arm2": false,
+   "arm3": true,
+   "arm4": true,
+   "arm5": true,
+   "avg": true
+  }
+ }
+]

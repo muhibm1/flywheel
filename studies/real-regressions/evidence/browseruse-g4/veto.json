@@ -1,0 +1,4 @@
+[
+{"id": "d4-plain-lookup", "decision": "KEEP", "reason": "Answering the Saturday closing time (16:00) from the page is basic task completion."},
+{"id": "d4-structured-product-list", "decision": "KEEP", "reason": "The requested schema fields for the first product are unambiguous on the page, so the parsed object must match."}
+]

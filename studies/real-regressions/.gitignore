@@ -1,0 +1,7 @@
+# Full run output (transcripts and logs, tens of MB). The per-gate reports, verdicts, frozen cases
+# and reproduction results that the write-up cites are copied to evidence/.
+runs-heldout/
+runs-r2/
+runs-r2-noise/
+*.log
+__pycache__/

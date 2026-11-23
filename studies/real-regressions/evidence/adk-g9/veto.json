@@ -1,0 +1,22 @@
+[
+ {
+  "id": "g9_x_dyn_sequential_children",
+  "decision": "KEEP",
+  "reason": "The cited PR text says a parent must advance unblocked children after an answer, and the check is that the run finishes with both answers."
+ },
+ {
+  "id": "g9_x_dyn_parallel_children_one_by_one",
+  "decision": "KEEP",
+  "reason": "A parent with two interrupting parallel children must complete once both are answered, which is the task getting done."
+ },
+ {
+  "id": "g9_x_multi_then_next_downstream_not_early",
+  "decision": "KEEP",
+  "reason": "Running the downstream step exactly once after the last answer is the required meaning of waiting for all interrupts, not an incidental call count."
+ },
+ {
+  "id": "g9_x_own_interrupt_then_child",
+  "decision": "KEEP",
+  "reason": "A node that asks its own question then a child's must carry both answers to its output, as the PR title says."
+ }
+]

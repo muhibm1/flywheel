@@ -1,0 +1,50 @@
+{
+ "gate": "agno-g1",
+ "blocked": true,
+ "broken": [
+  "chg-g1-multi-mcp-provider",
+  "diff-g1-multi-server-params-no-headers"
+ ],
+ "arms": {
+  "arm2": {
+   "broken": [],
+   "noisy": [],
+   "reproduces": false,
+   "confirmed": false
+  },
+  "arm3": {
+   "broken": [
+    "chg-g1-multi-mcp-provider"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm4": {
+   "broken": [
+    "chg-g1-multi-mcp-provider",
+    "diff-g1-multi-server-params-no-headers"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm5": {
+   "broken": [
+    "chg-g1-multi-mcp-provider",
+    "diff-g1-multi-server-params-no-headers"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm6": {
+   "broken": [
+    "chg-g1-multi-mcp-provider"
+   ],
+   "noisy": [],
+   "reproduces": true,
+   "confirmed": true
+  }
+ }
+}

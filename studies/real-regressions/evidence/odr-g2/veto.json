@@ -1,0 +1,4 @@
+[
+  {"id": "g2-diff-clarify-topicless", "decision": "KEEP", "reason": "With clarification enabled and no topic given, asking a question rather than crashing or writing a report is what the documented option requires."},
+  {"id": "g2-diff-clarify-need-report", "decision": "KEEP", "reason": "A request with no subject must reach the documented clarifying question instead of erroring or inventing a report."}
+]

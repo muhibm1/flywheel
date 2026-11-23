@@ -1,0 +1,6 @@
+[
+{"id": "g2-diff-stream-with-history", "decision": "KEEP", "reason": "Continuing run_stream from a valid user-first message_history and answering from it is required documented behaviour."},
+{"id": "g2-diff-iter-with-history", "decision": "KEEP", "reason": "iter() with a message_history must complete and answer from it; the count of 4 messages is deterministic for a tool-less agent (2 history + request + response)."},
+{"id": "g2-diff-json-roundtrip-history", "decision": "KEEP", "reason": "Histories serialised with all_messages_json and restored via ModelMessagesTypeAdapter must be usable as message_history, and the answer must come from them."},
+{"id": "g2-diff-tool-call-history", "decision": "KEEP", "reason": "A history holding tool calls and returns from an earlier run must be continuable, answering carrier and tracking number from it."}
+]

@@ -1,0 +1,22 @@
+[
+ {
+  "id": "g11_x_resumable_stream_transfer_two_turns",
+  "decision": "KEEP",
+  "reason": "Transfers on a resumable streamed run must work and give correct answers in both turns."
+ },
+ {
+  "id": "g11_x_resumable_transfer_chain",
+  "decision": "KEEP",
+  "reason": "The cited fix is about a looping transfer, so a chain ending at the calculator with the right sum is required."
+ },
+ {
+  "id": "g11_x_resumable_transfer_to_peer",
+  "decision": "KEEP",
+  "reason": "Each question must reach the right specialist and be answered correctly within one resumable session."
+ },
+ {
+  "id": "g11_x_resumable_stream_transfer_with_state_output",
+  "decision": "KEEP",
+  "reason": "A transfer on a resumable streamed run with session state must still reach the target agent and use its tool."
+ }
+]

@@ -1,0 +1,5 @@
+[
+  {"id": "diff-g1-agent-name-provider", "decision": "KEEP", "reason": "A header_provider that takes the agent is a documented option and the tool call must still carry the agent's tenant, which is a correct-result check."},
+  {"id": "diff-g1-strict-run-context-provider", "decision": "KEEP", "reason": "A provider that needs run context must still get run-time headers so the profile lookup succeeds, as the cited PR note states."},
+  {"id": "diff-g1-multi-server-params-no-headers", "decision": "KEEP", "reason": "server_params_list combined with header_provider is documented, and the shipping tool being unusable is a real task failure."}
+]

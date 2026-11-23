@@ -1,0 +1,6 @@
+[
+{"id": "g2_provider_flat_and_optional", "decision": "KEEP", "reason": "inject_session_state is documented to fill state values into the instruction, and the answer must show them."},
+{"id": "g2_dict_value_flat_ref", "decision": "KEEP", "reason": "Flat state access must keep working per the PR; only the name and role appearing in the answer is required."},
+{"id": "g2_zero_and_spaced_var", "decision": "KEEP", "reason": "Falsy values and padded placeholders are existing flat-state behaviour the PR says stays compatible."},
+{"id": "g2_missing_prefixed_required_raises", "decision": "KEEP", "reason": "The PR says missing required variables raise KeyError, and the check only needs an exception naming the variable."}
+]

@@ -1,0 +1,161 @@
+{
+ "gate": "odr-g2",
+ "blocked": true,
+ "broken": [
+  "fault-bad-json-args",
+  "fault-unknown-tool",
+  "g2-chg-clarify-node",
+  "g2-chg-clear-with-clarify-on",
+  "g2-chg-launch-age",
+  "g2-chg-years-since",
+  "g2-diff-clarify-need-report",
+  "g2-diff-clarify-topicless",
+  "std-clarify-vague",
+  "std-compare-phones",
+  "std-fact-bridge",
+  "std-followup-turn",
+  "std-mcp-prompt",
+  "std-no-clarify-when-off",
+  "std-sum-offices",
+  "std-two-topic-report"
+ ],
+ "arms": {
+  "arm2": {
+   "broken": [
+    "std-clarify-vague",
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-followup-turn",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off",
+    "std-sum-offices",
+    "std-two-topic-report"
+   ],
+   "noisy": [
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-followup-turn",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off"
+   ],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm3": {
+   "broken": [
+    "g2-chg-clarify-node",
+    "g2-chg-clear-with-clarify-on",
+    "g2-chg-launch-age",
+    "g2-chg-years-since",
+    "std-clarify-vague",
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-followup-turn",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off",
+    "std-sum-offices",
+    "std-two-topic-report"
+   ],
+   "noisy": [
+    "g2-chg-launch-age",
+    "g2-chg-years-since",
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-followup-turn",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off"
+   ],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm4": {
+   "broken": [
+    "g2-chg-clarify-node",
+    "g2-chg-clear-with-clarify-on",
+    "g2-chg-launch-age",
+    "g2-chg-years-since",
+    "g2-diff-clarify-need-report",
+    "g2-diff-clarify-topicless",
+    "std-clarify-vague",
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-followup-turn",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off",
+    "std-sum-offices",
+    "std-two-topic-report"
+   ],
+   "noisy": [
+    "g2-chg-launch-age",
+    "g2-chg-years-since",
+    "g2-diff-clarify-topicless",
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-followup-turn",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off"
+   ],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm5": {
+   "broken": [
+    "fault-bad-json-args",
+    "fault-unknown-tool",
+    "g2-chg-clarify-node",
+    "g2-chg-clear-with-clarify-on",
+    "g2-chg-launch-age",
+    "g2-chg-years-since",
+    "g2-diff-clarify-need-report",
+    "g2-diff-clarify-topicless",
+    "std-clarify-vague",
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-followup-turn",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off",
+    "std-sum-offices",
+    "std-two-topic-report"
+   ],
+   "noisy": [
+    "g2-chg-launch-age",
+    "g2-chg-years-since",
+    "g2-diff-clarify-topicless",
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-followup-turn",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off"
+   ],
+   "reproduces": true,
+   "confirmed": true
+  },
+  "arm6": {
+   "broken": [
+    "g2-chg-clarify-node",
+    "g2-chg-clear-with-clarify-on",
+    "g2-chg-launch-age",
+    "g2-chg-years-since",
+    "std-clarify-vague",
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-followup-turn",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off",
+    "std-sum-offices",
+    "std-two-topic-report"
+   ],
+   "noisy": [
+    "g2-chg-launch-age",
+    "g2-chg-years-since",
+    "std-compare-phones",
+    "std-fact-bridge",
+    "std-followup-turn",
+    "std-mcp-prompt",
+    "std-no-clarify-when-off"
+   ],
+   "reproduces": true,
+   "confirmed": true
+  }
+ }
+}

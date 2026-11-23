@@ -1,0 +1,578 @@
+diff --git a/src/minisweagent/config/benchmarks/programbench.yaml b/src/minisweagent/config/benchmarks/programbench.yaml
+index 61689e1..90e4ddd 100644
+--- a/src/minisweagent/config/benchmarks/programbench.yaml
++++ b/src/minisweagent/config/benchmarks/programbench.yaml
+@@ -257,6 +257,9 @@ model:
+     </IMPORTANT>
+     {%- endif %}
+   format_error_template: |
++    {% if finish_reason is defined and finish_reason in ["length", "tool_calls"] -%}
++    Your previous response reached the output token limit (finish_reason={{ finish_reason }}) before you produced a tool call, so it was cut off. Respond more concisely and finish with exactly one bash tool call. If you need to think more, do so briefly.
++    {%- else -%}
+     Tool call error:
+ 
+     <error>
+@@ -273,3 +276,4 @@ model:
+ 
+     If you have completed your assignment, please consult the first message about how to
+     submit your solution (you will not be able to continue working on this task after that).
++    {%- endif %}
+diff --git a/src/minisweagent/config/benchmarks/swebench.yaml b/src/minisweagent/config/benchmarks/swebench.yaml
+index 36be28d..0e3e579 100644
+--- a/src/minisweagent/config/benchmarks/swebench.yaml
++++ b/src/minisweagent/config/benchmarks/swebench.yaml
+@@ -157,6 +157,9 @@ model:
+     </output_tail>
+     {%- endif -%}
+   format_error_template: |
++    {% if finish_reason is defined and finish_reason in ["length", "tool_calls"] -%}
++    Your previous response reached the output token limit (finish_reason={{ finish_reason }}) before you produced a tool call, so it was cut off. Respond more concisely and finish with exactly one bash tool call. If you need to think more, do so briefly.
++    {%- else -%}
+     Tool call error:
+ 
+     <error>
+@@ -173,6 +176,7 @@ model:
+ 
+     If you have completed your assignment, please consult the first message about how to
+     submit your solution (you will not be able to continue working on this task after that).
++    {%- endif %}
+   model_name: "anthropic/claude-sonnet-4-5-20250929"
+   model_kwargs:
+     drop_params: true
+diff --git a/src/minisweagent/config/benchmarks/swebench_backticks.yaml b/src/minisweagent/config/benchmarks/swebench_backticks.yaml
+index 1f1acb3..601a7e0 100644
+--- a/src/minisweagent/config/benchmarks/swebench_backticks.yaml
++++ b/src/minisweagent/config/benchmarks/swebench_backticks.yaml
+@@ -216,6 +216,9 @@ model:
+     </output_tail>
+     {%- endif -%}
+   format_error_template: |
++    {% if finish_reason is defined and finish_reason in ["length", "tool_calls"] -%}
++    Your previous response reached the output token limit (finish_reason={{ finish_reason }}) before you produced a complete action, so it was cut off. Respond more concisely and provide exactly one action in the required format. If you need to think more, do so briefly.
++    {%- else -%}
+     Format error:
+ 
+     <error>
+@@ -238,6 +241,7 @@ model:
+ 
+     If you have completed your assignment, please consult the first message about how to
+     submit your solution (you will not be able to continue working on this task after that).
++    {%- endif %}
+   model_name: "anthropic/claude-sonnet-4-5-20250929"
+   model_kwargs:
+     drop_params: true
+diff --git a/src/minisweagent/config/benchmarks/swebench_xml.yaml b/src/minisweagent/config/benchmarks/swebench_xml.yaml
+index fd67197..1af3ede 100644
+--- a/src/minisweagent/config/benchmarks/swebench_xml.yaml
++++ b/src/minisweagent/config/benchmarks/swebench_xml.yaml
+@@ -201,6 +201,9 @@ model:
+     {%- endif -%}
+   action_regex: <mswea_bash_command>(.*?)</mswea_bash_command>
+   format_error_template: |
++    {% if finish_reason is defined and finish_reason in ["length", "tool_calls"] -%}
++    Your previous response reached the output token limit (finish_reason={{ finish_reason }}) before you produced a complete action, so it was cut off. Respond more concisely and provide exactly one action in the required format. If you need to think more, do so briefly.
++    {%- else -%}
+     Format error:
+ 
+     <error>
+@@ -221,5 +224,6 @@ model:
+ 
+     If you have completed your assignment, please consult the first message about how to
+     submit your solution (you will not be able to continue working on this task after that).
++    {%- endif %}
+   model_name: "minimax/minimax-m2"
+   model_class: openrouter
+diff --git a/src/minisweagent/config/default.yaml b/src/minisweagent/config/default.yaml
+index 8f5ebb1..7753df3 100644
+--- a/src/minisweagent/config/default.yaml
++++ b/src/minisweagent/config/default.yaml
+@@ -142,6 +142,9 @@ model:
+   model_kwargs:
+     drop_params: true
+   format_error_template: |
++    {% if finish_reason is defined and finish_reason in ["length", "tool_calls"] -%}
++    Your previous response reached the output token limit (finish_reason={{ finish_reason }}) before you produced a complete action, so it was cut off. Respond more concisely and provide exactly one action in the required format. If you need to think more, do so briefly.
++    {%- else -%}
+     Format error:
+ 
+     <error>
+@@ -164,4 +167,5 @@ model:
+     </response_example>
+ 
+     Note: In rare cases, if you need to reference a similar format in your command, you might have
+-    to proceed in two steps, first writing TRIPLEBACKTICKSBASH, then replacing them with ```mswea_bash_command.
+\ No newline at end of file
++    to proceed in two steps, first writing TRIPLEBACKTICKSBASH, then replacing them with ```mswea_bash_command.
++    {%- endif %}
+\ No newline at end of file
+diff --git a/src/minisweagent/config/mini.yaml b/src/minisweagent/config/mini.yaml
+index 1b802d1..61c816d 100644
+--- a/src/minisweagent/config/mini.yaml
++++ b/src/minisweagent/config/mini.yaml
+@@ -127,6 +127,9 @@ model:
+     }
+     {%- endif -%}
+   format_error_template: |
++    {% if finish_reason is defined and finish_reason in ["length", "tool_calls"] -%}
++    Your previous response reached the output token limit (finish_reason={{ finish_reason }}) before you produced a tool call, so it was cut off. Respond more concisely and finish with exactly one bash tool call. If you need to think more, do so briefly.
++    {%- else -%}
+     Tool call error:
+ 
+     <error>
+@@ -143,5 +146,6 @@ model:
+ 
+     If you want to end the task, please issue the following command: `echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT`
+     without any other command.
++    {%- endif %}
+   model_kwargs:
+     drop_params: true
+diff --git a/src/minisweagent/config/mini_textbased.yaml b/src/minisweagent/config/mini_textbased.yaml
+index 7bdc89a..f4e5acb 100644
+--- a/src/minisweagent/config/mini_textbased.yaml
++++ b/src/minisweagent/config/mini_textbased.yaml
+@@ -143,6 +143,9 @@ model:
+   model_kwargs:
+     drop_params: true
+   format_error_template: |
++    {% if finish_reason is defined and finish_reason in ["length", "tool_calls"] -%}
++    Your previous response reached the output token limit (finish_reason={{ finish_reason }}) before you produced a complete action, so it was cut off. Respond more concisely and provide exactly one action in the required format. If you need to think more, do so briefly.
++    {%- else -%}
+     Format error:
+ 
+     <error>
+@@ -164,4 +167,5 @@ model:
+     </response_example>
+ 
+     If you have completed your assignment, please consult the first message about how to
+-    submit your solution (you will not be able to continue working on this task after that).
+\ No newline at end of file
++    submit your solution (you will not be able to continue working on this task after that).
++    {%- endif %}
+\ No newline at end of file
+diff --git a/src/minisweagent/models/litellm_model.py b/src/minisweagent/models/litellm_model.py
+index ed2e636..32bdbc7 100644
+--- a/src/minisweagent/models/litellm_model.py
++++ b/src/minisweagent/models/litellm_model.py
+@@ -127,7 +127,11 @@ class LitellmModel:
+     def _parse_actions(self, response) -> list[dict]:
+         """Parse tool calls from the response. Raises FormatError if unknown tool."""
+         tool_calls = response.choices[0].message.tool_calls or []
+-        return parse_toolcall_actions(tool_calls, format_error_template=self.config.format_error_template)
++        return parse_toolcall_actions(
++            tool_calls,
++            format_error_template=self.config.format_error_template,
++            template_kwargs={"finish_reason": response.choices[0].finish_reason},
++        )
+ 
+     def format_message(self, **kwargs) -> dict:
+         return expand_multimodal_content(kwargs, pattern=self.config.multimodal_regex)
+diff --git a/src/minisweagent/models/litellm_response_model.py b/src/minisweagent/models/litellm_response_model.py
+index d4531da..e3d9593 100644
+--- a/src/minisweagent/models/litellm_response_model.py
++++ b/src/minisweagent/models/litellm_response_model.py
+@@ -9,6 +9,7 @@ from minisweagent.models import GLOBAL_MODEL_STATS
+ from minisweagent.models.litellm_model import LitellmModel, LitellmModelConfig
+ from minisweagent.models.utils.actions_toolcall_response import (
+     BASH_TOOL_RESPONSE_API,
++    finish_reason_from_responses_api,
+     format_toolcall_observation_messages,
+     parse_toolcall_actions_response,
+ )
+@@ -77,7 +78,9 @@ class LitellmResponseModel(LitellmModel):
+ 
+     def _parse_actions(self, response) -> list[dict]:
+         return parse_toolcall_actions_response(
+-            getattr(response, "output", []), format_error_template=self.config.format_error_template
++            getattr(response, "output", []),
++            format_error_template=self.config.format_error_template,
++            template_kwargs={"finish_reason": finish_reason_from_responses_api(response)},
+         )
+ 
+     def format_observation_messages(
+diff --git a/src/minisweagent/models/litellm_textbased_model.py b/src/minisweagent/models/litellm_textbased_model.py
+index c0bdfa6..db7e042 100644
+--- a/src/minisweagent/models/litellm_textbased_model.py
++++ b/src/minisweagent/models/litellm_textbased_model.py
+@@ -30,7 +30,10 @@ class LitellmTextbasedModel(LitellmModel):
+         """Parse actions from the model response. Raises FormatError if not exactly one action."""
+         content = response.choices[0].message.content or ""
+         return parse_regex_actions(
+-            content, action_regex=self.config.action_regex, format_error_template=self.config.format_error_template
++            content,
++            action_regex=self.config.action_regex,
++            format_error_template=self.config.format_error_template,
++            template_kwargs={"finish_reason": response.choices[0].finish_reason},
+         )
+ 
+     def format_observation_messages(
+diff --git a/src/minisweagent/models/openrouter_model.py b/src/minisweagent/models/openrouter_model.py
+index 5c97aa1..35ded61 100644
+--- a/src/minisweagent/models/openrouter_model.py
++++ b/src/minisweagent/models/openrouter_model.py
+@@ -132,7 +132,11 @@ class OpenRouterModel:
+         """Parse tool calls from the response. Raises FormatError if unknown tool."""
+         tool_calls = response["choices"][0]["message"].get("tool_calls") or []
+         tool_calls = [_DictToObj(tc) for tc in tool_calls]
+-        return parse_toolcall_actions(tool_calls, format_error_template=self.config.format_error_template)
++        return parse_toolcall_actions(
++            tool_calls,
++            format_error_template=self.config.format_error_template,
++            template_kwargs={"finish_reason": response["choices"][0].get("finish_reason")},
++        )
+ 
+     def format_message(self, **kwargs) -> dict:
+         return expand_multimodal_content(kwargs, pattern=self.config.multimodal_regex)
+diff --git a/src/minisweagent/models/openrouter_response_model.py b/src/minisweagent/models/openrouter_response_model.py
+index 85db137..2e2c254 100644
+--- a/src/minisweagent/models/openrouter_response_model.py
++++ b/src/minisweagent/models/openrouter_response_model.py
+@@ -15,6 +15,7 @@ from minisweagent.models.openrouter_model import (
+ )
+ from minisweagent.models.utils.actions_toolcall_response import (
+     BASH_TOOL_RESPONSE_API,
++    finish_reason_from_responses_api,
+     format_toolcall_observation_messages,
+     parse_toolcall_actions_response,
+ )
+@@ -102,7 +103,9 @@ class OpenRouterResponseModel(OpenRouterModel):
+ 
+     def _parse_actions(self, response: dict) -> list[dict]:
+         return parse_toolcall_actions_response(
+-            response.get("output", []), format_error_template=self.config.format_error_template
++            response.get("output", []),
++            format_error_template=self.config.format_error_template,
++            template_kwargs={"finish_reason": finish_reason_from_responses_api(response)},
+         )
+ 
+     def format_message(self, **kwargs) -> dict:
+diff --git a/src/minisweagent/models/openrouter_textbased_model.py b/src/minisweagent/models/openrouter_textbased_model.py
+index 0f3148b..a8fb87f 100644
+--- a/src/minisweagent/models/openrouter_textbased_model.py
++++ b/src/minisweagent/models/openrouter_textbased_model.py
+@@ -61,7 +61,10 @@ class OpenRouterTextbasedModel(OpenRouterModel):
+         """Parse actions from the model response. Raises FormatError if not exactly one action."""
+         content = response["choices"][0]["message"]["content"] or ""
+         return parse_regex_actions(
+-            content, action_regex=self.config.action_regex, format_error_template=self.config.format_error_template
++            content,
++            action_regex=self.config.action_regex,
++            format_error_template=self.config.format_error_template,
++            template_kwargs={"finish_reason": response["choices"][0].get("finish_reason")},
+         )
+ 
+     def format_observation_messages(
+diff --git a/src/minisweagent/models/portkey_model.py b/src/minisweagent/models/portkey_model.py
+index 823650c..ceeb6be 100644
+--- a/src/minisweagent/models/portkey_model.py
++++ b/src/minisweagent/models/portkey_model.py
+@@ -129,7 +129,11 @@ class PortkeyModel:
+     def _parse_actions(self, response) -> list[dict]:
+         """Parse tool calls from the response. Raises FormatError if unknown tool."""
+         tool_calls = response.choices[0].message.tool_calls or []
+-        return parse_toolcall_actions(tool_calls, format_error_template=self.config.format_error_template)
++        return parse_toolcall_actions(
++            tool_calls,
++            format_error_template=self.config.format_error_template,
++            template_kwargs={"finish_reason": response.choices[0].finish_reason},
++        )
+ 
+     def format_message(self, **kwargs) -> dict:
+         return expand_multimodal_content(kwargs, pattern=self.config.multimodal_regex)
+diff --git a/src/minisweagent/models/portkey_response_model.py b/src/minisweagent/models/portkey_response_model.py
+index c8c45b4..f8de8a6 100644
+--- a/src/minisweagent/models/portkey_response_model.py
++++ b/src/minisweagent/models/portkey_response_model.py
+@@ -12,6 +12,7 @@ from minisweagent.exceptions import FormatError
+ from minisweagent.models import GLOBAL_MODEL_STATS
+ from minisweagent.models.utils.actions_toolcall_response import (
+     BASH_TOOL_RESPONSE_API,
++    finish_reason_from_responses_api,
+     format_toolcall_observation_messages,
+     parse_toolcall_actions_response,
+ )
+@@ -121,7 +122,11 @@ class PortkeyResponseAPIModel:
+     def _parse_actions(self, response) -> list[dict]:
+         """Parse tool calls from the response API response."""
+         output = response.output if hasattr(response, "output") else response.get("output", [])
+-        return parse_toolcall_actions_response(output, format_error_template=self.config.format_error_template)
++        return parse_toolcall_actions_response(
++            output,
++            format_error_template=self.config.format_error_template,
++            template_kwargs={"finish_reason": finish_reason_from_responses_api(response)},
++        )
+ 
+     def _calculate_cost(self, response) -> dict[str, float]:
+         try:
+diff --git a/src/minisweagent/models/requesty_model.py b/src/minisweagent/models/requesty_model.py
+index 7bfa968..915e802 100644
+--- a/src/minisweagent/models/requesty_model.py
++++ b/src/minisweagent/models/requesty_model.py
+@@ -134,7 +134,11 @@ class RequestyModel:
+         """Parse tool calls from the response. Raises FormatError if unknown tool."""
+         tool_calls = response["choices"][0]["message"].get("tool_calls") or []
+         tool_calls = [_DictToObj(tc) for tc in tool_calls]
+-        return parse_toolcall_actions(tool_calls, format_error_template=self.config.format_error_template)
++        return parse_toolcall_actions(
++            tool_calls,
++            format_error_template=self.config.format_error_template,
++            template_kwargs={"finish_reason": response["choices"][0].get("finish_reason")},
++        )
+ 
+     def format_message(self, **kwargs) -> dict:
+         return expand_multimodal_content(kwargs, pattern=self.config.multimodal_regex)
+diff --git a/src/minisweagent/models/utils/actions_text.py b/src/minisweagent/models/utils/actions_text.py
+index cd96b5e..3129a1d 100644
+--- a/src/minisweagent/models/utils/actions_text.py
++++ b/src/minisweagent/models/utils/actions_text.py
+@@ -12,8 +12,15 @@ from minisweagent.exceptions import FormatError
+ from minisweagent.models.utils.openai_multimodal import expand_multimodal_content
+ 
+ 
+-def parse_regex_actions(content: str, *, action_regex: str, format_error_template: str) -> list[dict]:
+-    """Parse actions from text content using regex. Raises FormatError if not exactly one action."""
++def parse_regex_actions(
++    content: str, *, action_regex: str, format_error_template: str, template_kwargs: dict | None = None
++) -> list[dict]:
++    """Parse actions from text content using regex. Raises FormatError if not exactly one action.
++
++    ``template_kwargs`` are extra variables exposed to ``format_error_template`` (e.g.
++    ``{"finish_reason": ...}`` so a template can report a ``max_tokens`` truncation -- which shows
++    up here as zero parsed actions -- instead of a generic format error).
++    """
+     actions = [a.strip() for a in re.findall(action_regex, content, re.DOTALL)]
+     if len(actions) != 1:
+         error_msg = f"Expected exactly 1 action, found {len(actions)}."
+@@ -21,7 +28,7 @@ def parse_regex_actions(content: str, *, action_regex: str, format_error_templat
+             {
+                 "role": "user",
+                 "content": Template(format_error_template, undefined=StrictUndefined).render(
+-                    actions=actions, error=error_msg
++                    actions=actions, error=error_msg, **(template_kwargs or {})
+                 ),
+                 "extra": {
+                     "interrupt_type": "FormatError",
+diff --git a/src/minisweagent/models/utils/actions_toolcall.py b/src/minisweagent/models/utils/actions_toolcall.py
+index c0f29f1..98812e9 100644
+--- a/src/minisweagent/models/utils/actions_toolcall.py
++++ b/src/minisweagent/models/utils/actions_toolcall.py
+@@ -27,8 +27,16 @@ BASH_TOOL = {
+ }
+ 
+ 
+-def parse_toolcall_actions(tool_calls: list, *, format_error_template: str) -> list[dict]:
+-    """Parse tool calls from the response. Raises FormatError if unknown tool or invalid args."""
++def parse_toolcall_actions(
++    tool_calls: list, *, format_error_template: str, template_kwargs: dict | None = None
++) -> list[dict]:
++    """Parse tool calls from the response. Raises FormatError if unknown tool or invalid args.
++
++    ``template_kwargs`` are extra variables exposed to ``format_error_template`` (e.g.
++    ``{"finish_reason": ...}`` so a template can distinguish a real format mistake from a
++    ``max_tokens`` truncation).
++    """
++    template_kwargs = template_kwargs or {}
+     if not tool_calls:
+         raise FormatError(
+             {
+@@ -36,6 +44,7 @@ def parse_toolcall_actions(tool_calls: list, *, format_error_template: str) -> l
+                 "content": Template(format_error_template, undefined=StrictUndefined).render(
+                     error="No tool calls found in the response. Every response MUST include at least one tool call.",
+                     actions=[],
++                    **template_kwargs,
+                 ),
+                 "extra": {"interrupt_type": "FormatError"},
+             }
+@@ -57,7 +66,7 @@ def parse_toolcall_actions(tool_calls: list, *, format_error_template: str) -> l
+                 {
+                     "role": "user",
+                     "content": Template(format_error_template, undefined=StrictUndefined).render(
+-                        actions=[], error=error_msg.strip()
++                        actions=[], error=error_msg.strip(), **template_kwargs
+                     ),
+                     "extra": {"interrupt_type": "FormatError"},
+                 }
+diff --git a/src/minisweagent/models/utils/actions_toolcall_response.py b/src/minisweagent/models/utils/actions_toolcall_response.py
+index 066c142..79e52c9 100644
+--- a/src/minisweagent/models/utils/actions_toolcall_response.py
++++ b/src/minisweagent/models/utils/actions_toolcall_response.py
+@@ -35,13 +35,39 @@ def _format_error_message(error_text: str) -> dict:
+     }
+ 
+ 
+-def parse_toolcall_actions_response(output: list, *, format_error_template: str) -> list[dict]:
++def _get(obj, key):
++    """Read ``key`` from an object or dict (Responses API responses come as either)."""
++    if obj is None:
++        return None
++    return obj.get(key) if isinstance(obj, dict) else getattr(obj, key, None)
++
++
++def finish_reason_from_responses_api(response) -> str | None:
++    """Map a Responses API response to a ``finish_reason``-like string for ``format_error_template``.
++
++    The Responses API reports a ``max_tokens`` truncation as ``status="incomplete"`` with
++    ``incomplete_details.reason="max_output_tokens"``; map that to ``"length"`` so the same
++    ``finish_reason``-based templates work as for chat completions. Otherwise returns the raw status.
++    """
++    status = _get(response, "status")
++    if status != "incomplete":
++        return status
++    return "length" if _get(_get(response, "incomplete_details"), "reason") == "max_output_tokens" else status
++
++
++def parse_toolcall_actions_response(
++    output: list, *, format_error_template: str, template_kwargs: dict | None = None
++) -> list[dict]:
+     """Parse tool calls from a Responses API response output.
+ 
+     Filters for function_call items and parses them.
+     Response API format has name/arguments at top level with call_id:
+     {"type": "function_call", "call_id": "...", "name": "bash", "arguments": "..."}
++
++    ``template_kwargs`` are extra variables exposed to ``format_error_template`` (e.g.
++    ``{"finish_reason": ...}``), matching ``parse_toolcall_actions``.
+     """
++    template_kwargs = template_kwargs or {}
+     tool_calls = []
+     for item in output:
+         item_type = item.get("type") if isinstance(item, dict) else getattr(item, "type", None)
+@@ -53,6 +79,7 @@ def parse_toolcall_actions_response(output: list, *, format_error_template: str)
+         error_text = Template(format_error_template, undefined=StrictUndefined).render(
+             error="No tool calls found in the response. Every response MUST include at least one tool call.",
+             actions=[],
++            **template_kwargs,
+         )
+         raise FormatError(_format_error_message(error_text))
+     actions = []
+@@ -69,7 +96,7 @@ def parse_toolcall_actions_response(output: list, *, format_error_template: str)
+             error_msg += "Missing 'command' argument in bash tool call."
+         if error_msg:
+             error_text = Template(format_error_template, undefined=StrictUndefined).render(
+-                error=error_msg.strip(), actions=[]
++                error=error_msg.strip(), actions=[], **template_kwargs
+             )
+             raise FormatError(_format_error_message(error_text))
+         actions.append({"command": args["command"], "tool_call_id": tool_call.get("call_id") or tool_call.get("id")})
+diff --git a/tests/models/test_actions_toolcall.py b/tests/models/test_actions_toolcall.py
+index 3c23ff7..9cf9629 100644
+--- a/tests/models/test_actions_toolcall.py
++++ b/tests/models/test_actions_toolcall.py
+@@ -21,6 +21,21 @@ class TestParseToolcallActions:
+             parse_toolcall_actions(None, format_error_template="{{ error }}")
+         assert "No tool calls found" in exc_info.value.messages[0]["content"]
+ 
++    def test_template_kwargs_exposed_to_format_error_template(self):
++        template = "{% if finish_reason == 'length' %}cut off{% else %}{{ error }}{% endif %}"
++        # no-tool-call path
++        with pytest.raises(FormatError) as exc:
++            parse_toolcall_actions([], format_error_template=template, template_kwargs={"finish_reason": "length"})
++        assert exc.value.messages[0]["content"] == "cut off"
++        # bad-arguments path
++        bad = MagicMock()
++        bad.function.name = "bash"
++        bad.function.arguments = "{not json"
++        bad.id = "call_1"
++        with pytest.raises(FormatError) as exc:
++            parse_toolcall_actions([bad], format_error_template=template, template_kwargs={"finish_reason": "length"})
++        assert exc.value.messages[0]["content"] == "cut off"
++
+     def test_valid_bash_tool_call(self):
+         tool_call = MagicMock()
+         tool_call.function.name = "bash"
+diff --git a/tests/models/test_litellm_model.py b/tests/models/test_litellm_model.py
+index cb4084d..d4426a7 100644
+--- a/tests/models/test_litellm_model.py
++++ b/tests/models/test_litellm_model.py
+@@ -62,6 +62,24 @@ class TestLitellmModel:
+         with pytest.raises(FormatError):
+             model.query([{"role": "user", "content": "test"}])
+ 
++    @patch("minisweagent.models.litellm_model.litellm.completion")
++    @patch("minisweagent.models.litellm_model.litellm.cost_calculator.completion_cost")
++    def test_finish_reason_threaded_into_format_error_template(self, mock_cost, mock_completion):
++        """The response finish_reason is exposed to format_error_template via template_kwargs, so a
++        config can report a max_tokens truncation instead of the misleading "no tool call" error."""
++        response = _mock_litellm_response(None)
++        response.choices[0].finish_reason = "length"
++        mock_completion.return_value = response
++        mock_cost.return_value = 0.001
++
++        model = LitellmModel(
++            model_name="gpt-4",
++            format_error_template="{% if finish_reason == 'length' %}cut off{% else %}{{ error }}{% endif %}",
++        )
++        with pytest.raises(FormatError) as exc:
++            model.query([{"role": "user", "content": "test"}])
++        assert exc.value.messages[0]["content"] == "cut off"
++
+     def test_format_observation_messages(self):
+         model = LitellmModel(model_name="gpt-4", observation_template="{{ output.output }}")
+         message = {"extra": {"actions": [{"command": "echo test", "tool_call_id": "call_1"}]}}
+diff --git a/tests/models/test_truncation_finish_reason.py b/tests/models/test_truncation_finish_reason.py
+new file mode 100644
+index 0000000..b745540
+--- /dev/null
++++ b/tests/models/test_truncation_finish_reason.py
+@@ -0,0 +1,62 @@
++"""finish_reason is threaded into format_error_template across the parse utilities, so a config can
++report a max_tokens truncation as "cut off" instead of a misleading format error."""
++
++import pytest
++
++from minisweagent.exceptions import FormatError
++from minisweagent.models.utils.actions_text import parse_regex_actions
++from minisweagent.models.utils.actions_toolcall_response import (
++    finish_reason_from_responses_api,
++    parse_toolcall_actions_response,
++)
++
++_TEMPLATE = "{% if finish_reason == 'length' %}cut off{% else %}{{ error }}{% endif %}"
++
++
++class TestFinishReasonFromResponsesApi:
++    @pytest.mark.parametrize("response", [{}, {"status": "completed"}, None])
++    def test_non_truncation_returns_status(self, response):
++        # completed / unknown -> not "length", so templates keep the normal error
++        assert finish_reason_from_responses_api(response) != "length"
++
++    def test_incomplete_max_output_tokens_maps_to_length_dict(self):
++        response = {"status": "incomplete", "incomplete_details": {"reason": "max_output_tokens"}}
++        assert finish_reason_from_responses_api(response) == "length"
++
++    def test_incomplete_max_output_tokens_maps_to_length_obj(self):
++        class _Resp:
++            status = "incomplete"
++            incomplete_details = {"reason": "max_output_tokens"}
++
++        assert finish_reason_from_responses_api(_Resp()) == "length"
++
++    def test_incomplete_other_reason_is_not_length(self):
++        response = {"status": "incomplete", "incomplete_details": {"reason": "content_filter"}}
++        assert finish_reason_from_responses_api(response) != "length"
++
++
++class TestRegexActionsTemplateKwargs:
++    def test_finish_reason_reported_on_zero_actions(self):
++        # a truncated text response yields zero parsed actions
++        with pytest.raises(FormatError) as exc:
++            parse_regex_actions(
++                "no action here",
++                action_regex=r"```bash\n(.*?)\n```",
++                format_error_template=_TEMPLATE,
++                template_kwargs={"finish_reason": "length"},
++            )
++        assert exc.value.messages[0]["content"] == "cut off"
++
++    def test_without_template_kwargs_still_works(self):
++        with pytest.raises(FormatError) as exc:
++            parse_regex_actions("nope", action_regex=r"```bash\n(.*?)\n```", format_error_template="{{ error }}")
++        assert "found 0" in exc.value.messages[0]["content"]
++
++
++class TestResponseActionsTemplateKwargs:
++    def test_finish_reason_reported_on_no_tool_calls(self):
++        with pytest.raises(FormatError) as exc:
++            parse_toolcall_actions_response(
++                [], format_error_template=_TEMPLATE, template_kwargs={"finish_reason": "length"}
++            )
++        assert exc.value.messages[0]["content"][0]["text"] == "cut off"
