@@ -32,6 +32,7 @@ ATTEMPTS = 3
 LIMIT_WAIT = 600
 MAX_PARALLEL = int(os.environ.get("PROXY_PARALLEL", "4"))
 USAGE_LOG = Path(os.environ.get("PROXY_USAGE_LOG", "proxy-usage.jsonl"))
+LOOSE = os.environ.get("PROXY_LOOSE", "1") == "1"  # version 2 default; 0 restores version 1
 _slots = threading.BoundedSemaphore(MAX_PARALLEL)
 _log_lock = threading.Lock()
 
@@ -161,17 +162,26 @@ def inline(schema: dict | None) -> dict:
 
 def tool_schema(tools: list[dict], required: bool, only: str | None) -> tuple[dict, str]:
     """The reply shape for a turn with tools offered, and the guide appended to the system prompt."""
-    shapes, names = [], []
+    shapes, names, specs = [], [], []
     for t in tools:
         fn = t.get("function") or t
         name = fn["name"]
         if only and name != only:
             continue
         names.append(name)
+        specs.append({"name": name, "description": fn.get("description", ""),
+                      "parameters": inline(fn.get("parameters"))})
         shapes.append({"type": "object",
                        "properties": {"tool": {"const": name}, "args": inline(fn.get("parameters"))},
                        "required": ["tool", "args"]})
-    calls: dict = {"type": "array", "items": {"anyOf": shapes}}
+    if LOOSE:
+        # Like a real API: the reply must be JSON, but the tool name and its arguments are not
+        # checked against the tool's schema, so a model can call a tool wrongly, as it can live.
+        item = {"type": "object", "properties": {"tool": {"type": "string"}, "args": {"type": "object"}},
+                "required": ["tool", "args"]}
+        calls: dict = {"type": "array", "items": item}
+    else:
+        calls = {"type": "array", "items": {"anyOf": shapes}}
     if required or only:
         calls["minItems"] = 1
     schema = {"type": "object", "properties": {"text": {"type": "string"}, "calls": calls},
@@ -185,7 +195,33 @@ def tool_schema(tools: list[dict], required: bool, only: str | None) -> tuple[di
         + (" You must request at least one tool." if (required or only) else
            " When you are finished, reply with an empty list of calls and your final answer in text.")
     )
+    if LOOSE:
+        guide += "\n\nTOOLS (name, description, JSON schema of args):\n" + json.dumps(specs, indent=1)
     return schema, guide
+
+
+def _limit(body: dict) -> int | None:
+    """The request's output-token limit, if any."""
+    for k in ("max_completion_tokens", "max_tokens"):
+        if isinstance(body.get(k), int) and body[k] > 0:
+            return body[k]
+    return None
+
+
+def _truncate(msg: dict, limit: int, used: int) -> bool:
+    """Cut an over-long answer to about `limit` tokens, as a real API does; True when cut."""
+    if used <= limit:
+        return False
+    keep = max(1, limit * 4)  # about four characters per token
+    if msg.get("tool_calls"):
+        budget = keep - len(msg.get("content") or "")
+        for c in msg["tool_calls"]:
+            args = c["function"]["arguments"]
+            c["function"]["arguments"] = args[: max(0, budget)]
+            budget -= len(args)
+    if msg.get("content"):
+        msg["content"] = msg["content"][:keep]
+    return True
 
 
 def complete(body: dict, default_model: str) -> dict:
@@ -221,6 +257,19 @@ def complete(body: dict, default_model: str) -> dict:
         result = _call(model, system, None, transcript or "Answer now.", tag)
         msg["content"] = str(result["result"])
     u = result.get("usage") or {}
+    stops = body.get("stop")
+    stops = [stops] if isinstance(stops, str) else [s for s in stops or [] if s]
+    if LOOSE and stops and isinstance(msg.get("content"), str):
+        # A real API stops generating at the first stop sequence and leaves it out.
+        cut = min((msg["content"].find(s) for s in stops if s in msg["content"]), default=-1)
+        if cut >= 0:
+            msg["content"] = msg["content"][:cut]
+    limit = _limit(body)
+    if LOOSE and limit:
+        # Thinking tokens are not part of the visible answer; estimate the answer's own size.
+        visible = len(json.dumps(msg.get("tool_calls") or "")) + len(msg.get("content") or "")
+        if _truncate(msg, limit, visible // 4):
+            finish = "length"
     prompt_tokens = sum(u.get(k) or 0 for k in ("input_tokens", "cache_read_input_tokens", "cache_creation_input_tokens"))
     return {"id": f"chatcmpl-{uuid.uuid4().hex}", "object": "chat.completion", "created": int(time.time()),
             "model": body.get("model") or model,
@@ -233,10 +282,13 @@ def stream_chunks(resp: dict) -> list[dict]:
     """The same answer as a short stream of chat.completion.chunk objects."""
     msg = resp["choices"][0]["message"]
     base = {"id": resp["id"], "object": "chat.completion.chunk", "created": resp["created"], "model": resp["model"]}
-    delta: dict = {"role": "assistant", "content": msg.get("content") or ""}
-    if msg.get("tool_calls"):
-        delta["tool_calls"] = [{"index": i, **c} for i, c in enumerate(msg["tool_calls"])]
-    return [{**base, "choices": [{"index": 0, "delta": delta, "finish_reason": None}]},
+    chunks = [{**base, "choices": [{"index": 0, "delta": {"role": "assistant", "content": msg.get("content") or ""},
+                                    "finish_reason": None}]}]
+    # Text first, then each tool call in its own chunk, the order a real API streams them in.
+    for i, c in enumerate(msg.get("tool_calls") or []):
+        chunks.append({**base, "choices": [{"index": 0, "delta": {"tool_calls": [{"index": i, **c}]},
+                                            "finish_reason": None}]})
+    return chunks + [
             {**base, "choices": [{"index": 0, "delta": {}, "finish_reason": resp["choices"][0]["finish_reason"]}],
              "usage": resp["usage"]}]
 

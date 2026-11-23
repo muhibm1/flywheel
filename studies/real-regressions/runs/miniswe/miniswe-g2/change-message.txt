@@ -1,0 +1,20 @@
+Fix: Stop cleanly on limit breach when stdin is non-interactive (#850)
+
+InteractiveAgent.query() handles LimitsExceeded by prompting for new step
+and cost limits via input(). In an unattended run -- `--yolo` in CI, or any
+invocation with stdin redirected from /dev/null (e.g. a sandboxed harness) --
+there is no terminal to read from, so input() raises EOFError. That turns
+what should be a clean, trajectory-preserving budget stop into an uncaught
+exception that crashes the whole run.
+
+Only prompt for new limits when an interactive terminal is actually available
+(sys.stdin.isatty()); otherwise re-raise so DefaultAgent.run() records a normal
+LimitsExceeded exit and saves the trajectory.
+
+Also always re-raise TimeExceeded: a wall-clock limit can't be lifted by raising
+the step/cost limits (the next query re-checks the clock and raises again), so
+the old handler would loop forever prompting on every interactive call.
+
+Tests: add coverage for the non-interactive clean stop and the TimeExceeded
+path; mark the existing interactive limit-continuation tests as running under a
+simulated TTY (they mock input(), which implies a terminal).

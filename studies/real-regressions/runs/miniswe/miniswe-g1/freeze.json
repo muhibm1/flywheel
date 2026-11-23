@@ -1,0 +1,13 @@
+{
+ "miniswe-g1/adapter.py": "80094b9119d641382f98b478e6251922c36e6f4d217b760f4e18389b879a0473",
+ "miniswe-g1/change-message.txt": "ed3cfdaf1c62210a916d111793d034b861780b97c5b5c0c55ac49eed9f466fb4",
+ "miniswe-g1/change.diff": "3bc7f8d59a02a2ce645a72d882835efd265ee21568bf9b7cf1d8ce6b90ea6b58",
+ "miniswe-g1/change.jsonl": "40e0145ff1e8ed7e5e81d9caea03ad7ea76f95c5d381d37a46c3fffa70c3a3b3",
+ "miniswe-g1/dataset.jsonl": "ae23127e86d05412048a0c6a049b05f5fa507b934a9e28f526ae5db3f5468518",
+ "miniswe-g1/flywheel.toml": "45355f31ec5f3adf6917225bb5cacff78223fdfec54b0056b85f9916ff4e0da4",
+ "miniswe-g1/gate.json": "09b9f868569a71f3bbb5dab186e6e19adea06b11ebb77489fa9cca36aa221dc6",
+ "suite/adapter.py": "80094b9119d641382f98b478e6251922c36e6f4d217b760f4e18389b879a0473",
+ "suite/assemble.py": "bc57ca9da89c9642eebb541e7f7bbe756b253ecd31b79bc20bc26434dac57dbd",
+ "suite/one_case.py": "8e25f432e97f73631b7733e798fa319dba27d8218890ee19d6ddd3af5e3ca8c7",
+ "suite/standing.jsonl": "c2b436f68eec0703b7a88ddc911bae1005192aab4e1d8fc08e51eded12f2d49a"
+}

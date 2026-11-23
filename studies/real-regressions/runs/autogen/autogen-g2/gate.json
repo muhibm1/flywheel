@@ -1,0 +1,10 @@
+{
+ "gate": "autogen-g2",
+ "repo": "microsoft/autogen",
+ "base_sha": "687946258f9d1c5b27bb3fc4321e25ee167e8135",
+ "head_sha": "39321266f9597db0913798ee6f749ebd0a4a06fb",
+ "base_src": "/tmp/rr/src/autogen-687946258f",
+ "base_env": "/tmp/rr/envs/autogen-687946258f",
+ "head_env": "/root/rr-heads/envs/autogen-g2-39321266f9",
+ "head_src": "/root/rr-heads/src/autogen-g2-39321266f9"
+}

@@ -1,0 +1,76 @@
+Improve SocietyOfMindAgent message handling (#6142)
+
+Please refer to #6123  for full context.
+
+That issue outlines several design and behavioral problems with
+`SocietyOfMindAgent`.
+This DRAFT PR focuses on resolving the most critical and broken
+behaviors first.
+
+Here is the error list
+🔍 SocietyOfMindAgent: Design Issues and Historical Comparison (v0.2 vs
+v0.4+)
+
+### ✅ P1–P4 Regression Issue Table (Updated with Fixes in PR #6142)
+
+| ID | Description | Current v0.4+ Issue | Resolution in PR #6142 | Was
+it a problem in v0.2? | Notes |
+
+|-----|-------------|----------------------|--------------------------|----------------------------|-------|
+| **P1** | `inner_messages` leaks into outer team termination evaluation
+| `Response.inner_messages` is appended to the outer team's
+`_message_thread`, affecting termination conditions. Violates
+encapsulation. | ✅ `inner_messages` is excluded from `_message_thread`,
+avoiding contamination of outer termination logic. | ❌ No | Structural
+boundary is now enforced |
+| **P2** | Inner team does not execute when outer message history is
+empty | In chained executions, if no new outer message exists, no task
+is created and the inner team is skipped entirely | ✅ Detects absence of
+new outer message and reuses the previous task, passing it via a handoff
+message. This ensures the inner team always receives a valid task to
+execute | ❌ No | The issue was silent task omission, not summary
+failure. Summary succeeds as a downstream effect |
+| **P3** | Summary LLM prompt is built from external input only | Prompt
+is constructed using external message history, ignoring internal
+reasoning | ✅ Prompt construction now uses
+`final_response.inner_messages`, restoring internal reasoning as the
+source of summarization | ❌ No | Matches v0.2 internal monologue
+behavior |
+| **P4** | External input is included in summary prompt (possibly
+incorrectly) | Outer messages are used in the final LLM summarization
+prompt | ✅ Resolved via the same fix as P3; outer messages are no longer
+used for summary | ❌ No | Redundant with P3, now fully addressed |
+
+
+<!-- Thank you for your contribution! Please review
+https://microsoft.github.io/autogen/docs/Contribute before opening a
+pull request. -->
+
+<!-- Please add a reviewer to the assignee section when you create a PR.
+If you don't have the access to it, we will shortly find a reviewer and
+assign them to your PR. -->
+
+## Why are these changes needed?
+
+<!-- Please give a short summary of the change and the problem this
+solves. -->
+
+## Related issue number
+resolve #6123 
+Blocked #6168 (Sometimes SoMA send last whitespace message)
+related #6187
+<!-- For example: "Closes #1234" -->
+
+## Checks
+
+- [ ] I've included any doc changes needed for
+<https://microsoft.github.io/autogen/>. See
+<https://github.com/microsoft/autogen/blob/main/CONTRIBUTING.md> to
+build and test documentation locally.
+- [ ] I've added tests (if relevant) corresponding to the changes
+introduced in this PR.
+- [ ] I've made sure all auto checks have passed.
+
+---------
+
+Co-authored-by: Eric Zhu <ekzhu@users.noreply.github.com>

@@ -120,3 +120,24 @@ projects are split now, before any other gate result is seen:
 Seen so far: mini-swe-agent only (regression not blocked, control passed). The miss is a
 transport gap: the endpoint forces every tool call to be well-formed and ignores `max_tokens`, so
 the malformed-call and truncation paths that change edited can never occur.
+
+## Amendment 2 (2026-11-22, after development results for mini-swe-agent and AutoGen only)
+
+Reviewed before adoption by an independent design review. Changes, all fixed before held-out:
+- **Endpoint version 2.** Tool calls are no longer forced into the tool's schema (a model can call
+  a tool wrongly, as it can live); `max_tokens` is honoured with `finish_reason: length`; `stop`
+  sequences are applied; text and tool calls stream in separate chunks.
+- **Transport failures are not scored.** A run that failed inside the endpoint is removed and run
+  again on the same side (`transport.py`), and Flywheel's new `min_new_error_runs = 2` setting
+  makes a new error count only when it repeats.
+- **A ladder of arms, all reported on the same gates:** (1) the project's own tests at the change;
+  (2) standing suite only; (3) plus change-aware cases written from the diff without running the
+  pull request; (4) plus explored cases, where the writer may run both versions
+  (`WRITER_BRIEF_v2.md`), every check citing the documented or stated behaviour it tests, and a
+  separate reviewer vetoing checks that are not required behaviour (`VETO_BRIEF.md`). Arm 4 is
+  reported as "Flywheel plus an automated reviewer that tries the pull request", with arm 3 beside
+  it, and with how many arm 4 catches the writer had already seen fail on the pull request.
+- **More controls:** the reserve second control for every held-out regression is now run too
+  (48 controls), and development projects get base-against-base noise gates.
+- Behaviour and run-path regressions are reported as separate rows. A regression that cannot be
+  run stays in the denominator as a miss.

@@ -1,0 +1,8 @@
+{
+ "gate": "miniswe-g2",
+ "repo": "SWE-agent/mini-swe-agent",
+ "base_sha": "3df30a4bb564add41470c768559481e135607761",
+ "head_sha": "2afd0fb81bacbf0aacfac9ded6f093c5acd0bf7c",
+ "base_src": "/tmp/rr/src/mini-swe-agent-3df30a4bb5",
+ "base_env": "/tmp/rr/envs/mini-swe-agent-3df30a4bb5"
+}

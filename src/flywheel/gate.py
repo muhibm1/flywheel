@@ -329,7 +329,8 @@ def compare(
         ]
         verdict = min((r.verdict for r in results), key=SEVERITY.index, default="steady_pass")
         base_errored = any(run.error for run in base_runs)
-        head_error = next((run.error for run in head_runs if run.error), None)
+        head_errors = [run.error for run in head_runs if run.error]
+        head_error = head_errors[0] if len(head_errors) >= settings.min_new_error_runs else None
         cases.append(
             CaseResult(
                 example_id=example_id,
