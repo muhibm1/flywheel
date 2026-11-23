@@ -65,6 +65,19 @@ For every hunk, walk this checklist and write a hypothesis, or a short reason it
 12. Feature combinations: the changed feature used together with each neighbouring feature
     (for example an output schema together with tools, or a hook together with sub-agents).
 
+Two more sources of hypotheses, both mandatory:
+
+- **Every sentence of CHANGE.md.** Each sentence that describes a behaviour ("a removed tool
+  comes back, and a replaced or subclassed one is swapped") names cases. Probe each named case on
+  its own (removed, replaced, subclassed are three probes), and ask of each: who was doing this at
+  base, and what happens to them now?
+- **Every new rule against every special moment.** When the change adds a rule (refuse, repair,
+  retry, cap, wait, raise, strip), list the special moments of the surrounding loop: the first
+  step, the last allowed step, a turn after which no further request can follow (a final or
+  delivery-only turn), limits already reached, retries already used, a resumed or second run, a
+  hand-off and return. Probe the new rule firing at each of those moments. A rule that is harmless
+  mid-run often breaks at the end of one.
+
 Also run the base version of the tests that cover the changed files against head
 (`venv-head/bin/python -m pytest <path under base/>` with the rootdir set so it imports head's
 code, or copy the base test file into a scratch folder). Each base test that fails on head is a
@@ -109,17 +122,40 @@ Write `findings.json`: one entry per probe whose status in `results.json` is
 ```json
 {"probe": "p_07_crlf_edit.py",
  "what_a_user_sees": "plain words: what worked before and what happens now",
- "worked_at_base": true,
- "stated_or_implied_intent": "quote showing the change meant this, or null",
- "harm": "crash | wrong_or_lost_result | broken_documented_promise | hang | silent_default_change | none",
- "realistic": "why a real user would hit this, or why it is contrived",
- "my_call": "regression | intended_change | new_feature_bug | not_harmful"}
+ "effect": "loss | gain_or_repair | reshape",
+ "loss_kind": "raises_where_it_returned | action_no_longer_happens | result_missing_or_wrong | run_cut_short | user_customisation_discarded | hang | null",
+ "reach": "mainstream | legitimate_edge | contrived",
+ "reach_reason": "who meets this and how, through which public entry point",
+ "declared": "quote from CHANGE.md or the diff that announces this behaviour, or null"}
 ```
 
-Be honest in `my_call`. A difference the change clearly meant to make is an `intended_change`.
-A bug in something the change adds is a `new_feature_bug`. Only a loss of working behaviour that
-the change did not announce is a `regression`. If you found none, write an empty list: that is the
-most common right answer.
+How to classify. This is the part reviewers get wrong, so follow it literally.
+
+- **effect** describes what happens to a user who was relying on base, nothing else.
+  - `loss`: something that worked at base no longer achieves its outcome at head. A call that
+    returned a result now raises. An approval, tool call or hand-off that happened no longer
+    happens. A run that finished with an answer is now cut short or ends empty. Text that passed
+    through unchanged now makes the run fail. Something the user set up is thrown away.
+  - `gain_or_repair`: head does more or better and nobody loses. A crash became a clean error. New
+    data is added. A wrong result became right.
+  - `reshape`: same outcome in a different form. Reworded messages, reordered lists, extra
+    metadata, log lines.
+- **A loss stays a loss when the change announces it.** "This change ignores X", "X is no longer
+  carried over", "now raises on Y", "capped at N" describe a loss if someone legitimately used X,
+  Y or more than N. Authors announce trade-offs they believe are safe; teams revert them when
+  users turn out to depend on the old behaviour. Record the announcement under `declared` and
+  still write `effect: loss`. Do not call a loss "intended".
+- **A loss stays a loss when the change calls the old behaviour a bug or a risk**, as long as a
+  legitimate user could have depended on it.
+- **reach**: `mainstream` means a user following the documented public interface in normal
+  operation meets it. `legitimate_edge` means an unusual but valid use of the public interface.
+  `contrived` means it needs invalid input the project already rejected elsewhere, a private
+  interface, a tampered environment (reloading modules, installing packages mid-run), or a model
+  or server behaving in a way no real one does.
+- A bug in a feature that did not exist at base is not a loss. List it with `effect:
+  gain_or_repair` and say so in `what_a_user_sees`.
+
+If you found no confirmed difference, write an empty list.
 
 Finish with `HUNT_NOTES.md`: ten lines at most on what you covered, what you could not reach and
-why. Your final message: the count of probes, confirmed differences, and findings per `my_call`.
+why. Your final message: the count of probes, confirmed differences, and findings per `effect`.

@@ -89,6 +89,13 @@ def main() -> int:
             env["PROBE_SIDE"] = side
             env["PROBE_TREE"] = str(gate / side)
             env.pop("PYTHONPATH", None)
+            # Probes never talk to a real model or tracing service: drop every credential.
+            for name in list(env):
+                up = name.upper()
+                if any(t in up for t in ("API_KEY", "TOKEN", "SECRET", "LANGSMITH", "LANGCHAIN_", "ANTHROPIC", "OPENAI")):
+                    env.pop(name)
+            env["LANGSMITH_TRACING"] = "false"
+            env["LANGCHAIN_TRACING_V2"] = "false"
             runs = []
             for i in range(a.reps):
                 if side == "head" and i == 0:
@@ -99,7 +106,7 @@ def main() -> int:
                         "import runpy, sys\n"
                         "try:\n    import coverage\n    c = coverage.Coverage(config_file=%r)\n    c.start()\n"
                         "except Exception:\n    c = None\n"
-                        "try:\n    sys.argv = [sys.argv[1]]\n    runpy.run_path(sys.argv[0], run_name='__main__')\n"
+                        "try:\n    sys.argv = [sys.argv[1]]\n    import os\n    sys.path[0] = os.path.dirname(os.path.abspath(sys.argv[0]))\n    runpy.run_path(sys.argv[0], run_name='__main__')\n"
                         "finally:\n    if c:\n        c.stop(); c.save()\n" % str(rc)
                     )
                     try:
