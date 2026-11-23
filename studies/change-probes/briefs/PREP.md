@@ -35,6 +35,35 @@ Build `<root>/gates/<gate-id>/` with:
    test model, a mock client or a recorded-response helper, and name it with a five-line example.
    Facts only. Nothing about the change's quality or history.
 
+## Shared environment mode (used when the task says so)
+
+Disk is limited, so gates of one project share one environment where they can.
+
+- Trees: export from the existing clone named in the task (do not clone again).
+- `CHANGE.md`: `gh api repos/...` is blocked on this machine. Use the head commit's message only.
+  If head is a merge commit, add the titles and bodies of the commits it merged
+  (`git -C <clone> log --format=%s%n%b <base>..<head>`). Nothing else.
+- Environment: `<root>/envs/<project>/` built once per project with the install commands given for
+  the gate (they were recorded by someone who got the project's tests running), plus
+  `coverage pytest pytest-asyncio`. Do not install the project itself into it. If it already
+  exists, reuse it.
+- Write `<gate>/gate.json`:
+  `{"python": {"base": "<env>/bin/python", "head": "<env>/bin/python"},
+    "pythonpath": {"base": ["<gate>/base/<source root>"], "head": ["<gate>/head/<source root>"]}}`
+  (source root `.` means the tree itself). `run_probes.py` reads it.
+- Smoke check: a script that imports the modules the diff touches and prints one module's file
+  path (and exits 1 if that path is not under the folder named by the `PROBE_TREE` environment
+  variable). Save it as `<gate>/probes/p_00_smoke.py`, run
+  `python3 /home/user/flywheel/studies/change-probes/run_probes.py <gate> --reps 1`, and read
+  `results.json`: the status must be `same` (passes on both sides, each from its own tree). Then
+  delete the probe, `results.json` and `coverage.json`.
+- If a side cannot import with the shared environment (dependencies changed between commits, or
+  the project needs to be installed to work), build `venv-base/` and `venv-head/` for that gate
+  as in steps 4 and 5 instead, and write no `gate.json`.
+- `SETUP.md` lists the install commands and how probes reach the code (what is on the import
+  path), and the model stand-in. Copy no remark from the install hints that mentions a test, a
+  witness or what the change breaks.
+
 Rules:
 
 - The gate folder must contain no `.git`, no fix, no later commit, and no text from after the

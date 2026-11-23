@@ -71,6 +71,13 @@ def main() -> int:
     a = ap.parse_args()
 
     gate = Path(a.gate).resolve()
+    # Optional gate.json: {"python": {"base": path, "head": path}, "pythonpath": {"base": [dirs], "head": [dirs]}}
+    # lets one shared environment serve both sides, with each side's tree put on the import path.
+    gj = json.loads((gate / "gate.json").read_text()) if (gate / "gate.json").exists() else {}
+
+    def side_python(side: str) -> Path:
+        return Path(gj.get("python", {}).get(side) or gate / f"venv-{side}" / "bin" / "python")
+
     probes = sorted((gate / "probes").glob("[pg]_*.py"))
     if a.only:
         probes = [p for p in probes if p.name in a.only]
@@ -84,11 +91,15 @@ def main() -> int:
     for probe in probes:
         entry = {}
         for side in ("base", "head"):
-            python = gate / f"venv-{side}" / "bin" / "python"
+            python = side_python(side)
             env = dict(os.environ)
             env["PROBE_SIDE"] = side
             env["PROBE_TREE"] = str(gate / side)
             env.pop("PYTHONPATH", None)
+            extra = gj.get("pythonpath", {}).get(side)
+            if extra:
+                env["PYTHONPATH"] = os.pathsep.join(extra)
+                env["PYTHONDONTWRITEBYTECODE"] = "1"
             # Probes never talk to a real model or tracing service: drop every credential.
             for name in list(env):
                 up = name.upper()
@@ -141,7 +152,7 @@ def main() -> int:
 
     # Changed-line coverage on head.
     cov_json = gate / ".cov.json"
-    py = gate / "venv-head" / "bin" / "python"
+    py = side_python("head")
     subprocess.run([str(py), "-m", "coverage", "combine", f"--rcfile={rc}"], cwd=str(gate), capture_output=True)
     subprocess.run([str(py), "-m", "coverage", "json", f"--rcfile={rc}", "-o", str(cov_json)], cwd=str(gate), capture_output=True)
     changed = changed_lines((gate / "change.diff").read_text(errors="replace"))

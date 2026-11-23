@@ -263,3 +263,32 @@ changes. It changed three things. Nothing above is edited; where this section di
 
 These rules were tuned on 13 already-scored changes, which are development data. They are
 checked on the rest of the old set and on a fresh development set before the freeze.
+
+## Amendment 2 (2026-11-24, while building the fresh data, before any fresh change was gated)
+
+Building the answer key taught five things. Nothing above is edited; where this section differs,
+it wins.
+
+1. **Ground truth is the witness, not the team's wording.** A regression is in the key when a test
+   passes on the commit before the change, fails on the change and passes on the fix, twice in a
+   row, and an independent auditor who did not write the witness agrees that it runs the
+   project's code, fails for a behaviour reason, follows from the change, and checks something a
+   caller could rely on (`briefs/AUDITOR.md`). Whether the team named the cause is recorded per
+   row (`team_named_cause`) and reported, not required. Witnesses that depend on timing or a
+   thread race, or that are not Python tests, are rejected.
+2. **Two sources of proposals.** Rows where the team names the introducing change (150 projects
+   read) and rows paired mechanically from the lines a fix replaced (`find_candidates.py`). Both
+   pass through the same witness and audit. The source is recorded per row.
+3. **A pull request merged with a merge commit is one change.** Head is the merge commit, base is
+   its first parent. A fix inside the same pull request as the breakage is not a regression that
+   reached the main line and is dropped.
+4. **Controls are picked by code** (`pick_controls.py`): same project, within 75 days, similar
+   size, at least 30 days old, never named by a later commit, never part of any proposal. A
+   control that is blocked counts as a false block; no after-the-fact excuse is accepted.
+5. **Sets are split by code** (`assign_sets.py`) with a fixed seed: whole projects go to one set,
+   at most 8 regressions per project, H1 (60 regressions) filled first, then D2 (20), the rest
+   is the spare held-out set H2.
+
+Operational rules learnt: gates of one project share one environment where they can
+(`briefs/PREP.md`, shared environment mode); no environment variable is ever set on a command
+line (helpers set them inside Python).
