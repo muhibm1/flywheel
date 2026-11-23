@@ -112,11 +112,10 @@ on 2026-11-22). API credit: $0 planned. If the route changes, the cost is restat
 Muhammad's bar is 93% and he asked for the best honest number, with reworks allowed. So the
 projects are split now, before any other gate result is seen:
 
-- **Development projects:** mini-swe-agent, AutoGen, crewAI, smolagents (8 gates). Their results
+- **Development projects:** mini-swe-agent, AutoGen, crewAI, smolagents (10 gates: 5 regressions, 5 controls). Their results
   are used to improve the method (the model endpoint's fidelity and the case-writing brief).
   They are reported as development numbers, never as the headline.
-- **Held-out projects:** the other nine (50 gates: 21 regressions, 21 controls... exact counts in
-  the final report). They run once, with the method frozen after development.
+- **Held-out projects:** the other nine (48 gates: 24 regressions, 24 controls). They run once, with the method frozen after development.
 
 Seen so far: mini-swe-agent only (regression not blocked, control passed). The miss is a
 transport gap: the endpoint forces every tool call to be well-formed and ignores `max_tokens`, so
