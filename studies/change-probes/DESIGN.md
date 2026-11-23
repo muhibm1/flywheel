@@ -238,3 +238,28 @@ Read every miss, find the class of cause, rework the method, test the rework on 
 | The cloud machine is reclaimed mid-run | Every gate writes its state to the project's shared folder; runs resume from saved files. |
 | A hunter looks something up | Forbidden in the brief; pinned installs; post-cutoff data makes recall useless; trees carry no history. |
 | Strict scoring depends on a model adjudicator | The probe-on-fix result is mechanical evidence; the adjudicator sees no gate ids or arm names; a sample is re-adjudicated to measure agreement. |
+
+## Amendment 1 (2026-11-23, after the acid test, before any fresh data was mined)
+
+The acid test ran the method blind on the 9 regressions the old gate missed and on 4 harmless
+changes. It changed three things. Nothing above is edited; where this section differs, it wins.
+
+1. **An announced loss still blocks.** The first pass reproduced all 9 regressions but waved 3
+   through because the change description announced the new behaviour. Findings no longer carry
+   an "intended" label. Each confirmed difference gets an `effect` (`loss`, `gain_or_repair`,
+   `reshape`), a `reach` (`mainstream`, `legitimate_edge`, `contrived`) and the announcement, if
+   any, under `declared`. The announcement is recorded and never excuses a loss.
+2. **One hunter, then a gap pass, then a verifier.** The second hunter is replaced by a gap pass
+   (`briefs/GAP.md`) that reads the first pass's work and tests what it did not: combinations,
+   every case the description names, every caller, and who relied on the old behaviour. The gap
+   pass found the team's own bug in 2 of the 9 where the first pass had not.
+3. **The verdict rule is code** (`verdict.py`). A finding blocks only when the runner confirms it
+   (passes every base run, fails every head run), the verifier reproduced it for the stated
+   reason through a public entry point, the feature existed at base, the effect is a loss, the
+   base behaviour was not a defect, and either ordinary use meets it, or an unusual but valid
+   use loses something that succeeded at base. A change in how an existing failure is reported
+   blocks only when ordinary use meets it (`base_outcome`). This last clause was added after one
+   harmless change blocked on a relabelled error.
+
+These rules were tuned on 13 already-scored changes, which are development data. They are
+checked on the rest of the old set and on a fresh development set before the freeze.
