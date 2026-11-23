@@ -38,14 +38,35 @@ fixed seed from that filtered list, not by hand.
 ## What the gate runs on (written blind)
 
 The weak point of any replay like this is test cases written by someone who knows what broke.
-So, for each project:
+No case writer ever sees the fix, the revert, later history, or whether the change was undone.
+Two kinds of cases are scored side by side, because they answer different questions:
 
-- A separate agent is given the repository at the commit **before** the change, the project's
-  README and docs, and nothing about the change, the fix or this study. It writes 6 to 10 test
-  cases the way a team adopting Flywheel would: typical tasks for this agent, each with a check.
-- Where the project already ships its own evals or example tasks at that commit, those are used
-  first, and the blind agent only fills gaps.
-- Cases and checks are frozen, hashed, and committed before either side runs.
+- **Standing suite.** What a team that adopted Flywheel would already have. A separate agent gets
+  the repository at the commit **before** the change, its README, docs, examples and its own
+  evals if it has any, and writes 6 to 10 typical tasks for this agent, each with a check. Where
+  the project ships its own eval tasks, those come first.
+- **Change-aware cases.** What Flywheel can add per pull request. A separate agent gets the same
+  repository plus the change's diff and title, exactly as a reviewer sees a new PR, and writes 4
+  to 6 tasks that exercise the code the diff touches. It is told nothing about the outcome, and
+  harmless controls get exactly the same treatment, so this arm pays for any extra catches in
+  false blocks.
+
+Cases and checks are frozen, hashed and committed before either side of any scored gate runs.
+Neither arm is tuned after scoring.
+
+## Model and transport
+
+Every project's own agent code runs unchanged at both commits. Model calls go to `proxy.py`, an
+OpenAI-compatible endpoint answered by `claude -p` on the Max subscription, model
+**claude-haiku-4-5** for every run (chosen before any run, for throughput under the subscription's
+usage windows). The transport is identical on both sides of every gate.
+
+## Two strata
+
+- **Behaviour** (class B): the change altered prompts, tool text, history, limits or loop rules.
+  This is the headline.
+- **Run-path breaks** (class C): the change broke code an ordinary run executes, with the team's
+  stated reason. Reported separately, because a smoke test can also catch these.
 
 ## How each gate runs
 
@@ -72,5 +93,16 @@ on. No rule is tuned on these cases. The model is chosen once up front for the w
 
 ## Cost
 
-Model calls run on the Max subscription through `claude -p`, if Muhammad allows that command for
-this study. API credit: $0 planned. If the route changes, the cost is restated and waits for his go.
+Model calls run on the Max subscription through `claude -p` (Muhammad allowed this for the study
+on 2026-11-22). API credit: $0 planned. If the route changes, the cost is restated and waits for his go.
+
+## Frozen set (2026-11-22, before any case was written)
+
+- 29 regressions kept after re-checking every survey row against the team's own words and
+  installing each old version (12 behaviour, 17 run-path breaks); 90 rows excluded with reasons.
+- One harmless control per regression, the first pick of `pick_controls.py` (seed 20261122):
+  58 gates in all. The second pick of each is kept in reserve and is not run.
+- Case writers see neutral gate ids (`adk-g3`) shuffled per project, never the ids, the fixes
+  or which gates are regressions. The set and the id key are sealed until the cases are frozen.
+- sha256 of cases.json: `2dc77eadf8214f41aba393e237dd0a50122ddcb9a95bb161bb2ae3ad482eb7c3`
+- sha256 of gate-key.json: `ef99363bbf71644a3ac7012d71bca061778d97c0d82e35662753d10baeb811c7`
