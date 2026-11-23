@@ -71,7 +71,7 @@ def main() -> int:
     a = ap.parse_args()
 
     gate = Path(a.gate).resolve()
-    probes = sorted((gate / "probes").glob("p_*.py"))
+    probes = sorted((gate / "probes").glob("[pg]_*.py"))
     if a.only:
         probes = [p for p in probes if p.name in a.only]
     cov_dir = Path(tempfile.mkdtemp(prefix="cov-", dir=str(gate)))

@@ -6,7 +6,9 @@ A finding blocks only when every one of these holds:
   - the runner shows it passes every run on base and fails every run on head (results.json);
   - the verifier reproduced it and found it fails for the stated reason;
   - it goes through a public entry point and existed at base;
-  - the effect is a loss, the reach is not contrived, and the base behaviour was not a defect.
+  - the effect is a loss and the base behaviour was not a defect;
+  - ordinary use meets it, or an unusual but valid use loses something that succeeded at base
+    (a change in how a failure is reported blocks only when ordinary use meets it).
 The model fills in the fields; this file makes the decision.
 """
 
@@ -20,6 +22,14 @@ from pathlib import Path
 def decide(gate: Path) -> dict:
     results = json.loads((gate / "results.json").read_text()) if (gate / "results.json").exists() else {}
     vfile = gate / "verdicts.json"
+    ffile = gate / "findings_final.json"
+    if not vfile.exists() and ffile.exists():
+        # Nothing was claimed as a loss, so there is nothing for a verifier to check.
+        if not [f for f in json.loads(ffile.read_text()) if f.get("effect") == "loss"]:
+            out = {"gate": gate.name, "verdict": "pass", "blocking": [], "dropped": [],
+                   "reason": "no loss findings"}
+            (gate / "verdict.json").write_text(json.dumps(out, indent=1))
+            return out
     if not vfile.exists():
         return {"gate": gate.name, "verdict": "incomplete", "blocking": [], "reason": "no verdicts.json"}
     blocking, dropped = [], []
@@ -32,7 +42,10 @@ def decide(gate: Path) -> dict:
             "public_entry_point": v.get("public_entry_point") is True,
             "existed_at_base": v.get("existed_at_base") is True,
             "effect_is_loss": v.get("effect") == "loss",
-            "reach_not_contrived": v.get("reach") in ("mainstream", "legitimate_edge"),
+            # A lost success blocks at any legitimate reach. A change in how a failure is
+            # reported blocks only when ordinary use meets it.
+            "reach_sufficient": v.get("reach") == "mainstream"
+            or (v.get("reach") == "legitimate_edge" and v.get("base_outcome") == "success"),
             "base_not_defect": v.get("base_was_defect") is False,
         }
         failed = [k for k, ok in checks.items() if not ok]

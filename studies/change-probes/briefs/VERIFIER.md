@@ -33,6 +33,11 @@ reviewers' reasoning.
    answer and head does better, it is `gain_or_repair`. If the outcome is the same in another
    form (wording, order, extra fields, logs, an extra internal step that still ends in the same
    result), it is `reshape`.
+4b. **What base delivered.** `success`: at base the user got what they asked for (a result, an
+   action carried out, a finished run, input accepted). `failure_signal`: at base the user was
+   already being told something had gone wrong (an error result, an error code, None, an
+   exception, a refusal), and what changed is how that failure is reported or labelled. A change
+   from a returned error to a raised exception has `failure_signal` at base.
 5. **Reach.** `mainstream`: normal use of the documented interface. `legitimate_edge`: unusual
    but valid use. `contrived`: invalid input the project rejects elsewhere, private interfaces,
    a tampered environment, or a model or server behaving as no real one does.
@@ -48,6 +53,7 @@ Write `verdicts.json`, one entry per `loss` finding:
 ```json
 {"probe": "p_07_x.py", "reproduced": true, "fails_for_stated_reason": true,
  "public_entry_point": true, "effect": "loss | gain_or_repair | reshape",
+ "base_outcome": "success | failure_signal",
  "reach": "mainstream | legitimate_edge | contrived", "base_was_defect": false,
  "existed_at_base": true, "declared": "quote or null",
  "summary": "one plain sentence: what worked before and what happens now",
