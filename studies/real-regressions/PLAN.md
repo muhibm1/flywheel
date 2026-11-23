@@ -106,3 +106,18 @@ on 2026-11-22). API credit: $0 planned. If the route changes, the cost is restat
   or which gates are regressions. The set and the id key are sealed until the cases are frozen.
 - sha256 of cases.json: `2dc77eadf8214f41aba393e237dd0a50122ddcb9a95bb161bb2ae3ad482eb7c3`
 - sha256 of gate-key.json: `ef99363bbf71644a3ac7012d71bca061778d97c0d82e35662753d10baeb811c7`
+
+## Amendment 1 (2026-11-22 22:40Z, after the first project's result, before any other)
+
+Muhammad's bar is 93% and he asked for the best honest number, with reworks allowed. So the
+projects are split now, before any other gate result is seen:
+
+- **Development projects:** mini-swe-agent, AutoGen, crewAI, smolagents (8 gates). Their results
+  are used to improve the method (the model endpoint's fidelity and the case-writing brief).
+  They are reported as development numbers, never as the headline.
+- **Held-out projects:** the other nine (50 gates: 21 regressions, 21 controls... exact counts in
+  the final report). They run once, with the method frozen after development.
+
+Seen so far: mini-swe-agent only (regression not blocked, control passed). The miss is a
+transport gap: the endpoint forces every tool call to be well-formed and ignores `max_tokens`, so
+the malformed-call and truncation paths that change edited can never occur.
