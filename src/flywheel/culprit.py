@@ -137,13 +137,21 @@ class Tracer:
         tree = self.case / "trees" / sha[:12]
         export_tree(self.cfg["repo"], sha, tree)
         env = probe_env(tree, self.cfg.get("source_roots") or ["."])
-        runs = [
-            run_cmd([self.cfg["python"], str(self.probe)], tree, self.timeout, env)
-            for _ in range(reps or self.reps)
-        ]
+        # A project's dependencies drift over a long window. `python_fallbacks` lists further
+        # interpreters; a version that cannot be judged under one is tried under the next, and the
+        # first clear verdict stands.
+        for python in [self.cfg["python"], *(self.cfg.get("python_fallbacks") or [])]:
+            runs = [
+                run_cmd([python, str(self.probe)], tree, self.timeout, env)
+                for _ in range(reps or self.reps)
+            ]
+            exits = [r["exit"] for r in runs]
+            state = (
+                GOOD if all(e == 0 for e in exits) else BAD if all(e == 1 for e in exits) else SKIP
+            )
+            if state != SKIP:
+                break
         shutil.rmtree(tree, ignore_errors=True)
-        exits = [r["exit"] for r in runs]
-        state = GOOD if all(e == 0 for e in exits) else BAD if all(e == 1 for e in exits) else SKIP
         self.tested[sha] = {"state": state, "exits": exits, "tail": runs[-1]["tail"][-600:]}
         return state
 

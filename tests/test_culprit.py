@@ -267,3 +267,20 @@ def test_score_counts_ambiguous_and_missing_answers_as_wrong(tmp_path, capsys):
     answers.write_text(json.dumps({"c-1": commits["intro"]}))
     culprit.score(str(key), "S", str(cases), str(answers))
     assert "correct culprit 1/1" in capsys.readouterr().out
+
+
+def test_a_version_one_interpreter_cannot_judge_is_tried_under_the_next(tmp_path):
+    """With a fallback interpreter listed, a skip under the first is retried under the second."""
+    repo, shas = make_repo(tmp_path, history(bug_at=7))
+    case = make_case(tmp_path, repo, shas)
+    useless = tmp_path / "useless-python"
+    useless.write_text("#!/bin/sh\nexit 125\n")
+    useless.chmod(0o755)
+    config = json.loads((case / "case.json").read_text())
+    config["python"] = str(useless)
+    (case / "case.json").write_text(json.dumps(config))
+    assert run_tracer(case)["status"] == "invalid_probe"
+    config["python_fallbacks"] = [sys.executable]
+    (case / "case.json").write_text(json.dumps(config))
+    result = run_tracer(case)
+    assert result["status"] == "found" and result["culprit"] == shas[7]

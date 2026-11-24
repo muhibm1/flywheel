@@ -38,11 +38,15 @@ def main() -> int:
         tree = case / "trees" / f"envcheck-{end}"
         export_tree(cfg["repo"], cfg[end], tree)
         roots = "|".join(str(tree / r) if r not in ("", ".") else str(tree) for r in cfg.get("source_roots") or ["."])
-        try:
-            p = subprocess.run([cfg["python"], "-c", SNIPPET, roots, *mods], cwd=tree, capture_output=True, text=True, timeout=300)
-            ok, tail = p.returncode == 0, (p.stdout + p.stderr).strip()[-700:]
-        except (OSError, subprocess.TimeoutExpired) as e:
-            ok, tail = False, str(e)[-700:]
+        ok, tail = False, ""
+        for python in [cfg["python"], *(cfg.get("python_fallbacks") or [])]:
+            try:
+                p = subprocess.run([python, "-c", SNIPPET, roots, *mods], cwd=tree, capture_output=True, text=True, timeout=300)
+                ok, tail = p.returncode == 0, f"[{python}] " + (p.stdout + p.stderr).strip()[-700:]
+            except (OSError, subprocess.TimeoutExpired) as e:
+                ok, tail = False, f"[{python}] " + str(e)[-700:]
+            if ok:
+                break
         shutil.rmtree(tree, ignore_errors=True)
         failed += not ok
         print(f"{end}: {'OK' if ok else 'FAIL'}\n{tail}")

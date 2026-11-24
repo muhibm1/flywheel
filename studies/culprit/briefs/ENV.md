@@ -31,7 +31,10 @@ is the environment those runs use: an interpreter with the project's dependencie
    `source_roots` in that case's `case.json` (the only field you may edit) if the tree lays its
    packages out differently, and check again. An old version that needs a package the new one
    dropped needs that package installed too. If two versions need conflicting pins of one
-   package, choose the pin the newest tree needs and say so in the notes.
+   package, keep the pin the newest tree needs in `<env>`, build a second environment at
+   `<env>-old` with the older pin, and add `"python_fallbacks": ["<env>-old/bin/python"]` to the
+   `case.json` of each case that needs it (the second field you may edit). A version that cannot
+   be judged under the first interpreter is tried under the fallback. Say so in the notes.
 4. Write `notes.txt` in your prep folder for the people who will write the test programs. At most
    25 lines: which top-level packages import, anything that must be set up before importing
    (settings objects, environment variables read at import time, folders that must exist), and

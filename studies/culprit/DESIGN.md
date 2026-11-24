@@ -68,8 +68,10 @@ probe set up. This is reported as a separate number and never hidden inside the 
   same window of history, one commit diff at a time, without running code. (b) Writing a probe
   from the same report without running anything, then handing it to the same tracer; it scores
   under the same headline rule.
-- **Once.** The code and briefs are frozen at a commit before any H1 report exists. H1 is scored
-  one time. If the target is missed, H1 becomes practice data, the design is reworked, and the
+- **Once.** The code and briefs are frozen at a commit before the tool or any baseline runs on an
+  H1 case. One change was made after the first freeze, while environments were being built and
+  before any H1 case was run: a case may list fallback interpreters, because one project's
+  dependencies changed incompatibly inside its window. H1 is scored one time. If the target is missed, H1 becomes practice data, the design is reworked, and the
   rework is scored on H2 (43 regressions, 23 other projects).
 
 ## Disclosed limits
