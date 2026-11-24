@@ -19,7 +19,10 @@ for r in sorted(key, key=lambda x: x["gate_id"]):
     w = (row.get("witness") or {}).get("path")
     if w and not Path(w).is_absolute():
         w = "/mnt/project-files/flywheel/change-probes/sealed/" + w
-    if w and Path(w).exists():
+    if w and Path(w).is_dir():
+        files = sorted(Path(w).rglob("*.py"))
+        (c / "witness_test.py").write_text("\n\n".join(f"# ---- {f.name}\n" + f.read_text() for f in files))
+    elif w and Path(w).exists():
         shutil.copy(w, c / "witness_test.py")
     (c / "failure.txt").write_text((row.get("witness") or {}).get("head_failure") or "")
     print(r["gate_id"], "witness" if (c / "witness_test.py").exists() else "NO WITNESS FILE")
