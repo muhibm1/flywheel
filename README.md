@@ -110,6 +110,34 @@ made no measurable difference; the task text did: those commit messages say what
 and never checked. Replay measured it: it made no measurable difference to Sonnet's pass rate, so it is offered as a
 tool, not a recommendation.
 
+## Find the change that broke it
+
+`flywheel culprit trace` finds the commit that introduced a bug, by proof. No model takes part.
+You give it a case folder. The folder holds `case.json` (the repository, a `good` commit where it
+worked, a `bad` commit where the bug shows, the Python to run, and the source roots) and
+`probe.py`, a script that reproduces the bug.
+
+    flywheel culprit trace <case> [--reps 3] [--timeout 180] [--at good|bad|<sha>]
+    flywheel culprit score <key.json> <SET> <cases_dir> [--answers file] [--out file]
+
+The probe tells the tool what it saw through its exit code:
+
+- `0`: the behaviour works.
+- `1`: the reported bug shows.
+- `125` (or anything else): this commit cannot be judged, for example because it does not import.
+
+A commit counts as good only if every run exits 0, and as bad only if every run exits 1. A flaky
+probe is treated as "cannot judge". The tool first checks that the probe passes at `good` and fails
+at `bad`. Then it bisects the first-parent history between them and writes `result.json` in the
+case folder. The status is `found` (one culprit), `ambiguous` (commits that could not be judged sit
+next to the culprit, so several candidates remain) or `invalid_probe` (the probe does not pass at
+`good` and fail at `bad`). `--at` runs the probe once at one commit and prints what happened.
+
+`flywheel culprit score` checks the answers against a sealed key. An answer is correct when the
+introducing commit is an ancestor of the answer and not of the answer's first parent. So the
+introducing commit and the merge commit that brought it in both count. An ambiguous or invalid
+result is wrong.
+
 ## How it decides
 
 The question a reviewer asks is "which cases did this break?", not "did the average move?". An

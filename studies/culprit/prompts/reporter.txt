@@ -1,0 +1,7 @@
+Read /home/user/flywheel/studies/culprit/briefs/REPORTER.md and follow it exactly, with one
+change: write the report to `report.txt` in your case folder instead of `REPORT.md` (same
+content). If your case folder has no `witness_test.py`, work from `symptom.json` and
+`failure.txt` alone. Read nothing outside your case folder and the brief. Run nothing. Write the
+file with the Write tool.
+
+Your case folder:
