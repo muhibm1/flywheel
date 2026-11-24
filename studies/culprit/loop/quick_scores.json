@@ -1,0 +1,242 @@
+{
+ "totals": {
+  "fw_proven": 9,
+  "fw_false": 0,
+  "loop_named": 10,
+  "loop_proven": 10,
+  "loop_false": 0,
+  "loop_proof_holds": 10
+ },
+ "cases": {
+  "h2-015": {
+   "flywheel": {
+    "status": "found",
+    "correct": true
+   },
+   "loop": {
+    "named_correct": true,
+    "proof_holds": true,
+    "codes": {
+     "culprit": [
+      1,
+      1,
+      1
+     ],
+     "parent": [
+      0,
+      0,
+      0
+     ]
+    },
+    "confidence": "high"
+   }
+  },
+  "h2-055": {
+   "flywheel": {
+    "status": "found",
+    "correct": true
+   },
+   "loop": {
+    "named_correct": true,
+    "proof_holds": true,
+    "codes": {
+     "culprit": [
+      1,
+      1,
+      1
+     ],
+     "parent": [
+      0,
+      0,
+      0
+     ]
+    },
+    "confidence": "high"
+   }
+  },
+  "h2-049": {
+   "flywheel": {
+    "status": "found",
+    "correct": true
+   },
+   "loop": {
+    "named_correct": true,
+    "proof_holds": true,
+    "codes": {
+     "culprit": [
+      1,
+      1,
+      1
+     ],
+     "parent": [
+      0,
+      0,
+      0
+     ]
+    },
+    "confidence": "high"
+   }
+  },
+  "h2-052": {
+   "flywheel": {
+    "status": "found",
+    "correct": true
+   },
+   "loop": {
+    "named_correct": true,
+    "proof_holds": true,
+    "codes": {
+     "culprit": [
+      1,
+      1,
+      1
+     ],
+     "parent": [
+      0,
+      0,
+      0
+     ]
+    },
+    "confidence": "high"
+   }
+  },
+  "h2-080": {
+   "flywheel": {
+    "status": "found",
+    "correct": true
+   },
+   "loop": {
+    "named_correct": true,
+    "proof_holds": true,
+    "codes": {
+     "culprit": [
+      1,
+      1,
+      1
+     ],
+     "parent": [
+      0,
+      0,
+      0
+     ]
+    },
+    "confidence": "high"
+   }
+  },
+  "h2-057": {
+   "flywheel": {
+    "status": "invalid_probe",
+    "correct": false
+   },
+   "loop": {
+    "named_correct": true,
+    "proof_holds": true,
+    "codes": {
+     "culprit": [
+      1,
+      1,
+      1
+     ],
+     "parent": [
+      0,
+      0,
+      0
+     ]
+    },
+    "confidence": "high"
+   }
+  },
+  "h2-033": {
+   "flywheel": {
+    "status": "found",
+    "correct": true
+   },
+   "loop": {
+    "named_correct": true,
+    "proof_holds": true,
+    "codes": {
+     "culprit": [
+      1,
+      1,
+      1
+     ],
+     "parent": [
+      0,
+      0,
+      0
+     ]
+    },
+    "confidence": "medium"
+   }
+  },
+  "h2-044": {
+   "flywheel": {
+    "status": "found",
+    "correct": true
+   },
+   "loop": {
+    "named_correct": true,
+    "proof_holds": true,
+    "codes": {
+     "culprit": [
+      1,
+      1,
+      1
+     ],
+     "parent": [
+      0,
+      0,
+      0
+     ]
+    },
+    "confidence": "high"
+   }
+  },
+  "h2-086": {
+   "flywheel": {
+    "status": "found",
+    "correct": true
+   },
+   "loop": {
+    "named_correct": true,
+    "proof_holds": true,
+    "codes": {
+     "culprit": [
+      1,
+      1,
+      1
+     ],
+     "parent": [
+      0,
+      0,
+      0
+     ]
+    },
+    "confidence": "high"
+   }
+  },
+  "h2-034": {
+   "flywheel": {
+    "status": "found",
+    "correct": true
+   },
+   "loop": {
+    "named_correct": true,
+    "proof_holds": true,
+    "codes": {
+     "culprit": [
+      1,
+      1,
+      1
+     ],
+     "parent": [
+      0,
+      0,
+      0
+     ]
+    },
+    "confidence": "high"
+   }
+  }
+ }
+}

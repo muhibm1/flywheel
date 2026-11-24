@@ -120,6 +120,12 @@ but with no proof, and writing the proof without running code worked in 37 of 60
 point: every Flywheel answer is a script anyone can rerun at the culprit and at its parent.
 [Report](docs/results/culprit-h1-2026-11-24.md).
 
+**Caveat from a fairer follow-up check:** when the plain model is allowed to run code and use
+`git bisect`, it does this too. On 10 fresh bugs introduced after its training cutoff it named and
+proved the culprit in 10 of 10, against Flywheel's 9 of 10. Flywheel's fixed procedure does not add
+accuracy over a strong model with the same tools.
+[Report](docs/results/culprit-vs-opus-loop-2026-11-24.md).
+
 `flywheel culprit trace` finds the commit that introduced a bug, by proof. No model takes part.
 You give it a case folder. The folder holds `case.json` (the repository, a `good` commit where it
 worked, a `bad` commit where the bug shows, the Python to run, and the source roots) and

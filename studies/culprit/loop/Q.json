@@ -1,0 +1,42 @@
+[
+ {
+  "gate_id": "h2-015",
+  "project": "stanfordnlp__dspy"
+ },
+ {
+  "gate_id": "h2-055",
+  "project": "Q00__ouroboros"
+ },
+ {
+  "gate_id": "h2-049",
+  "project": "vectorize-io__hindsight"
+ },
+ {
+  "gate_id": "h2-052",
+  "project": "openai__openai-agents-python"
+ },
+ {
+  "gate_id": "h2-080",
+  "project": "TracecatHQ__tracecat"
+ },
+ {
+  "gate_id": "h2-057",
+  "project": "zhayujie__CowAgent"
+ },
+ {
+  "gate_id": "h2-033",
+  "project": "omnigent-ai__omnigent"
+ },
+ {
+  "gate_id": "h2-044",
+  "project": "MemPalace__mempalace"
+ },
+ {
+  "gate_id": "h2-086",
+  "project": "VRSEN__agency-swarm"
+ },
+ {
+  "gate_id": "h2-034",
+  "project": "topoteretes__cognee"
+ }
+]
