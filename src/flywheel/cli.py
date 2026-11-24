@@ -8,6 +8,7 @@
     flywheel sync    mirror the dataset file into a LangSmith dataset
     flywheel score   attach the evaluators' scores to existing traces as feedback
     flywheel spend   total the paid-call ledgers: calls, tokens, cache reads and dollars
+    flywheel culprit find the change that broke it (trace), and score the answers (score)
 
 Exit codes: 0 done (and, for `gate`, not blocked); 1 `gate` blocked or a run could not
 complete; 2 a usage or configuration error.
@@ -24,6 +25,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from flywheel import config as config_module
+from flywheel import culprit as culprit_module
 from flywheel import dataset, gate, grading, mine, report, spend
 from flywheel.config import Config, ConfigError, resolve
 from flywheel.experiment import Experiment, pool, run_local
@@ -441,6 +443,15 @@ def cmd_finish_check(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_culprit(args: argparse.Namespace) -> int:
+    """`flywheel culprit trace|score`: no `flywheel.toml` needed."""
+    from flywheel import culprit
+
+    if args.culprit_command == "trace":
+        return culprit.trace(args.case, args.reps, args.timeout, args.at)
+    return culprit.score(args.key, args.set_name, args.cases, args.answers, args.out)
+
+
 def parser() -> argparse.ArgumentParser:
     """The argument parser."""
     root = argparse.ArgumentParser(prog="flywheel", description=__doc__.split("\n\n")[0])
@@ -554,6 +565,13 @@ def parser() -> argparse.ArgumentParser:
     rp_report = rsub.add_parser("report", help="print the pass-rate table")
     rp_report.add_argument("results", help="results folder")
 
+    cp = sub.add_parser("culprit", help="find the change that broke it, and score the answers")
+    csub = cp.add_subparsers(dest="culprit_command", required=True)
+    ct = csub.add_parser("trace", help="bisect a case folder to the commit that introduced the bug")
+    culprit_module.add_trace_args(ct)
+    cs = csub.add_parser("score", help="score the cases of one set against the sealed key")
+    culprit_module.add_score_args(cs)
+
     fc = sub.add_parser("finish-check", help="hook: do not end a turn on unchecked code")
     fc.add_argument("--settings", action="store_true", help="print the hooks block to install")
     fc.add_argument("--hook-command", default="flywheel finish-check", help="command the hooks run")
@@ -584,6 +602,8 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_spend(args)
     if args.command == "replay":
         return cmd_replay(args)
+    if args.command == "culprit":
+        return cmd_culprit(args)
     if args.command == "finish-check":
         return cmd_finish_check(args)
     try:

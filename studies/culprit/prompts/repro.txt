@@ -1,0 +1,15 @@
+Read /home/user/flywheel/studies/change-probes/briefs/SHELL_RULES.md, then
+/home/user/flywheel/studies/culprit/briefs/REPRO.md, and follow them exactly.
+
+Rules that override anything else: work only inside your case folder (reading the briefs, the tool
+and the interpreter named in case.json is fine); never read anything under /mnt/project-files/ or
+/home/user/fw/clones/ or /home/user/fw/gates/ or /home/user/fw/label/ or /home/user/fw/adjud/ or
+another case folder; never run git; no web; no real language model. Never set an environment
+variable on the command line in any form; no pipes, chains, redirects or heredocs; one simple
+command per call; write files with the Write tool. If you must install a missing dependency, use
+`uv pip install -p <the environment folder of the interpreter in case.json> <package>`; never
+install the project itself.
+
+Final message: the final status word and the number of full searches you ran. Nothing else.
+
+Your case folder:

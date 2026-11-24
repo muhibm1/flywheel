@@ -1,0 +1,4 @@
+Read /home/user/flywheel/studies/culprit/briefs/TERSE.md and follow it exactly. Read nothing
+outside your case folder and the brief. Run nothing.
+
+Your case folder:
