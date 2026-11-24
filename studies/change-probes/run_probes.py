@@ -51,15 +51,48 @@ def changed_lines(diff_text: str) -> dict[str, list[int]]:
     return out
 
 
-def run_once(python: Path, probe: Path, cwd: Path, timeout: int, env: dict[str, str]) -> dict:
+MEM_LIMIT_GB = 6
+
+
+def _limits() -> None:
+    """Cap a probe's memory so a runaway probe fails alone instead of taking the machine down."""
+    import resource
+
+    cap = MEM_LIMIT_GB * 1024 ** 3
     try:
-        p = subprocess.run(
-            [str(python), str(probe)], cwd=str(cwd), env=env, timeout=timeout,
-            capture_output=True, text=True, errors="replace",
-        )
-        return {"exit": p.returncode, "tail": (p.stdout + "\n" + p.stderr)[-1500:]}
-    except subprocess.TimeoutExpired:
-        return {"exit": "timeout", "tail": f"timed out after {timeout}s"}
+        resource.setrlimit(resource.RLIMIT_DATA, (cap, cap))
+    except (ValueError, OSError):
+        pass
+
+
+def run_cmd(cmd: list[str], cwd: Path, timeout: int, env: dict[str, str]) -> dict:
+    """Run one probe process: output goes to a file (never held in memory), the whole process
+    group is killed on timeout, and memory is capped."""
+    import signal
+
+    with tempfile.TemporaryFile() as out:
+        proc = subprocess.Popen(cmd, cwd=str(cwd), env=env, stdout=out, stderr=subprocess.STDOUT,
+                                stdin=subprocess.DEVNULL, start_new_session=True, preexec_fn=_limits)
+        try:
+            code = proc.wait(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            proc.wait()
+            return {"exit": "timeout", "tail": f"timed out after {timeout}s"}
+        try:
+            os.killpg(proc.pid, signal.SIGKILL)  # stray children of a finished probe
+        except (ProcessLookupError, PermissionError):
+            pass
+        size = out.seek(0, 2)
+        out.seek(max(0, size - 6000))
+        return {"exit": code, "tail": out.read().decode("utf-8", "replace")[-1500:]}
+
+
+def run_once(python: Path, probe: Path, cwd: Path, timeout: int, env: dict[str, str]) -> dict:
+    return run_cmd([str(python), str(probe)], cwd, timeout, env)
 
 
 def main() -> int:
@@ -78,7 +111,7 @@ def main() -> int:
     def side_python(side: str) -> Path:
         return Path(gj.get("python", {}).get(side) or gate / f"venv-{side}" / "bin" / "python")
 
-    probes = sorted((gate / "probes").glob("[pg]_*.py"))
+    probes = sorted((gate / "probes").glob("[pgx]_*.py"))
     if a.only:
         probes = [p for p in probes if p.name in a.only]
     cov_dir = Path(tempfile.mkdtemp(prefix="cov-", dir=str(gate)))
@@ -120,14 +153,7 @@ def main() -> int:
                         "try:\n    sys.argv = [sys.argv[1]]\n    import os\n    sys.path[0] = os.path.dirname(os.path.abspath(sys.argv[0]))\n    runpy.run_path(sys.argv[0], run_name='__main__')\n"
                         "finally:\n    if c:\n        c.stop(); c.save()\n" % str(rc)
                     )
-                    try:
-                        p = subprocess.run(
-                            [str(python), str(wrapper), str(probe)], cwd=str(gate), env=cmd_env,
-                            timeout=a.timeout, capture_output=True, text=True, errors="replace",
-                        )
-                        runs.append({"exit": p.returncode, "tail": (p.stdout + "\n" + p.stderr)[-1500:]})
-                    except subprocess.TimeoutExpired:
-                        runs.append({"exit": "timeout", "tail": f"timed out after {a.timeout}s"})
+                    runs.append(run_cmd([str(python), str(wrapper), str(probe)], gate, a.timeout, cmd_env))
                 else:
                     runs.append(run_once(python, probe, gate, a.timeout, env))
             entry[side] = runs
