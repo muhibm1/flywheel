@@ -74,6 +74,19 @@ probe set up. This is reported as a separate number and never hidden inside the 
   dependencies changed incompatibly inside its window. H1 is scored one time. If the target is missed, H1 becomes practice data, the design is reworked, and the
   rework is scored on H2 (43 regressions, 23 other projects).
 
+## Held-out result (scored once, 2026-11-24)
+
+| Arm | H1, 60 regressions |
+|---|---|
+| Tool: proven culprit (headline) | 58 of 60 = 96.7% (95% interval 88.6 to 99.1) |
+| Tool: wrong answers given as `found` | 0 |
+| Tool: probe also passes at the team's real fix | 51 of 60 |
+| Plain model naming the culprit, no proof | 60 of 60 |
+| Plain model writing a probe without running it, same tracer | 37 of 60 = 61.7% |
+
+The target of 56 of 60 was met. Full report and disclosures:
+[docs/results/culprit-h1-2026-11-24.md](../../docs/results/culprit-h1-2026-11-24.md).
+
 ## Disclosed limits
 
 - The reports are written by a model, in two steps. A first writer sees the failing test that

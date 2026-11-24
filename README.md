@@ -112,6 +112,14 @@ tool, not a recommendation.
 
 ## Find the change that broke it
 
+**Headline:** given a short, vague bug report and two versions, Flywheel named and proved the change
+that caused the bug in **58 of 60 (96.7%)** real regressions from 27 open-source agent projects it
+had never seen, scored once with frozen code. It never gave a wrong answer as proven; its two misses
+ended with no answer. A plain model (Opus) reading the history named the right change in 60 of 60
+but with no proof, and writing the proof without running code worked in 37 of 60. The proof is the
+point: every Flywheel answer is a script anyone can rerun at the culprit and at its parent.
+[Report](docs/results/culprit-h1-2026-11-24.md).
+
 `flywheel culprit trace` finds the commit that introduced a bug, by proof. No model takes part.
 You give it a case folder. The folder holds `case.json` (the repository, a `good` commit where it
 worked, a `bad` commit where the bug shows, the Python to run, and the source roots) and
